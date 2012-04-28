@@ -1,42 +1,41 @@
 .. index::
-   single: Requirements
+   single: Gereksinimler
    
-Requirements for running Symfony2
-=================================
+Symfony2'nin Çalışması için Gereksinimler
+=========================================
 
-To run Symfony2, your system needs to adhere to a list of requirements. You can
-easily see if your system passes all requirements by running the ``web/config.php``
-in your Symfony distribution. Since the CLI often uses a different ``php.ini``
-configuration file, it's also a good idea to check your requirements from
-the command line via:
+Symfony2'nin çalışabilmesi için yapmanız gereken bazı ayarlar ve yüklemeler bulunmaktadır. 
+Kolaylıkla görebileceğiniz gibi sistemin ihtiyacı olan tüm gereksinimler ``web/config.php``
+betiği ile Symfony dağıtımında saptanabilir.PHP CLI sıklıkla farklı ``php.ini`` dosyası kullanmasından dolayı
+komut satırınında gereksinimlerini şu şekilde belirlenebilir:
 
 .. code-block:: bash
 
     php app/check.php
 
-Below is the list of required and optional requirements.
+Aşağıda gerekli ve opsiyonel olarak gereken ihtiyaçlar sıralanmıştır.
 
-Required
+Gerekli
 --------
 
-* PHP needs to be a minimum version of PHP 5.3.2
-* Sqlite3 needs to be enabled
-* JSON needs to be enabled
-* ctype needs to be enabled
-* Your PHP.ini needs to have the date.timezone setting
+* PHP en az PHP 5.3.2 sürümünde olmalıdır.
+* Sqlite3 aktif edilmelidir.
+* JSON aktif edilmelidir.
+* ctype aktif edilmelidir.
+* PHP.ini dosyanızda date.timezone ayarı yapılmış olmalıdır.
 
-Optional
+Opsiyonel
 --------
 
-* You need to have the PHP-XML module installed
-* You need to have at least version 2.6.21 of libxml
-* PHP tokenizer needs to be enabled
-* mbstring functions need to be enabled
-* iconv needs to be enabled
-* POSIX needs to be enabled (only on \*nix)
-* Intl needs to be installed with ICU 4+
-* APC 3.0.17+ (or another opcode cache needs to be installed)
-* PHP.ini recommended settings
+* PHP-XML modülüne ihtiyacınız olabilir.
+* En az libxml 2.6.21 sürümünde olmalıdır.
+* PHP tokenizer açık olmalıdır.
+* mbstring fonksiyonları açık olmalıdır.
+* iconv açık olmalıdır.
+* POSIX açık olmalıdır (sadece \*nix lerde)
+* Intl ,ICU 4+ ile birlikte kurulmalıdır.
+* APC 3.0.17 ve üzeri (yada başka bir önbellekleme sistemi)
+* PHP.ini tavsiye edilen ayarları
 
   * ``short_open_tag = Off``
   * ``magic_quotes_gpc = Off``
@@ -46,6 +45,5 @@ Optional
 Doctrine
 --------
 
-If you want to use Doctrine, you will need to have PDO installed. Additionally,
-you need to have the PDO driver installed for the database server you want
-to use.
+Eğer Doctrine kullanmak isterseniz PDO kurulu olmalıdır.Ek olarak, PDO
+sürücüsü de kullanmak istediğiniz veritabanı sunucusu üzerinde de kurulu olmalıdır.
