@@ -46,7 +46,7 @@ Bileşen(Component) ler
 
     components/index
 
-doc:`Bileşenler </components/index>` belgesini okuyun.
+:doc:`Bileşenler </components/index>` belgesini okuyun.
 
 Referans Belgeleri
 -------------------

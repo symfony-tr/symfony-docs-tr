@@ -1,4 +1,4 @@
-The Components
+Bileşenler
 ==============
 
 .. toctree::
