@@ -1,4 +1,4 @@
-The Quick Tour
+Hızlı Başlangıç
 ==============
 
 .. toctree::

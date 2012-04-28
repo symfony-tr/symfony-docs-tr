@@ -1,12 +1,12 @@
-* **The Class Loader Component**
+* **Class Loader Bileşeni**
 
   * :doc:`/components/class_loader`
 
-* **The Console Component**
+* **Console Bileşeni**
 
   * :doc:`/components/console`
 
-* **The CSS Selector Component**
+* **CSS Seçici Bileşeni**
 
   * :doc:`/components/css_selector`
 
@@ -19,11 +19,11 @@
 
   * :doc:`/components/event_dispatcher/introduction`
 
-* **The DOM Crawler Component**
+* **DOM Crawler Bileşeni**
 
   * :doc:`/components/dom_crawler`
 
-* **The Finder Component**
+* **Finder Bileşeni**
 
   * :doc:`/components/finder`
 
@@ -31,22 +31,22 @@
 
   * :doc:`/components/http_foundation/introduction`
 
-* **The Locale Component**
+* **Locale Bileşeni**
 
   * :doc:`/components/locale`
 
-* **The Process Component**
+* **Process Bileşeni**
 
   * :doc:`/components/process`
 
-* **The Routing Component**
+* **Routing Bileşeni**
 
   * :doc:`/components/routing`
 
-* **The Templating Component**
+* **Templating Bileşeni**
 
   * :doc:`/components/templating`
 
-* **The YAML Component**
+* **YAML Bileşeni**
 
   * :doc:`/components/yaml`
