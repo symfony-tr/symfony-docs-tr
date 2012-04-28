@@ -1,14 +1,17 @@
-Symfony Documentation
+Symfony Belgesi
 =====================
 
-This documentation is rendered online at http://symfony.com/doc/current/
+Bu belge internet ortamında http://symfony.com/doc/current/ 
+yayınlanmaktadır
 
-Contributing
+Desteklemek
 ------------
 
 >**Note** 
->Unless you're documenting a feature that's new to Symfony 2.1, all pull
->requests must be based off of the **2.0** branch, **not** the master branch.
+>Belge yazımınız yeni Symfony 2.1 olmadıkça tüm gönderileriniz **2.0** branch 
+>üzerine olmalıdır. **master branch** üzerine olmamalıdır.
 
-We love contributors! For more information on how you can contribute to the
-Symfony documentation, please read [Contributing to the Documentation](http://symfony.com/doc/current/contributing/documentation/overview.html) 
+
+Destekçileri seviyoruz! Symfony belgelerine nasıl destek vereceğinizi 
+öğrenmek için lütfen [Contributing to the Documentation](http://symfony.com/doc/current/contributing/documentation/overview.html) 
+başlıklı kısmı okuyunuz.

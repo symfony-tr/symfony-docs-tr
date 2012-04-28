@@ -76,7 +76,7 @@ Bunlar hakkında daha fazla şey öğrenin:
 Destek vermek
 ------------
 
-Symfony2'ye destek veri:
+Symfony2'ye destek verin:
 
 .. toctree::
     :hidden:
