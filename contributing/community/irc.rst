@@ -39,8 +39,6 @@ Katılım için bazı basit kılavuzlar ve noktalar:
   net bir şekilde anlaşılmasından sorumludur.
 * Genellikle moderatör sonuç metnini ve trac üzerindeki biletlerin oluştur
   masından sorumlu olacaktır.
-* Usually the moderator will also handle writing the summary and creating trac
-  tickets unless someone else steps up;
 * Herkez toplantıya açıkça ve sorunsuzca katılabilir;
 * İdeal olanı bir konu tartışılacaksa toplantı başında o konu hakkında bil
   gilendirme yapmaktır. 
