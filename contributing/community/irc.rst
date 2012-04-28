@@ -1,60 +1,60 @@
-IRC Meetings
+IRC Toplantıları
 ============
 
-The purpose of this meeting is to discuss topics in real time with many of the
-Symfony2 devs.
+Bu toplantıların amacı pek çok Symfony2 geliştiricisi ile konuları tartış
+maktır.
 
-Anyone may propose topics on the `symfony-dev`_ mailing-list until 24 hours
-before the meeting, ideally including well prepared relevant information via
-some URL. 24 hours before the meeting a link to a `doodle`_ will be posted
-including a list of all proposed topics. Anyone can vote on the topics until
-the beginning of the meeting to define the order in the agenda. Each topic
-will be timeboxed to 15mins and the meeting lasts one hour, leaving enough
-time for at least 4 topics.
+Herkez konu başlıklarını  `symfony-dev`_ mailing-listesine toplantı 
+başlamdan 24 saat önce sunabilir. İdeal olanı düzgün hazırlanmış ilgili 
+bilgileri bazı URL'ler ile gösterilen şeklidir. Toplantı başlamadan 24
+saat önce tüm sunulan konu başlıkları ilgili içeriği ile birlikte linklen
+dirilecektir. `doodle`_ 
+
+Herkez toplantının başlamasından önce bu konu başlıklarını oylayarak 
+gündeme alınıp alınmayacağını belirleyebilir. Her konu başlığı toplantının
+son 1 saatinde en fazla 15 dakika olacak şekilde gündeme alınacaktır. 
+En fazla gündeme alınacak 4 konu başlığı olacaktır.
 
 .. caution::
 
-    Note that its not the expected goal of them meeting to find final
-    solutions, but more to ensure that there is a common understanding of the
-    issue at hand and move the discussion forward in ways which are hard to
-    achieve with less real time communication tools.
+    Bu toplantının amacı ortadaki sorunlara direkt çozum bulmak değildir.
+    Ancak iletişim kurarak ortadaki sorunlar hakkında herkezin anlaşması
+    nı sağlamaktır.
 
-Meetings will happen each Thursday at 17:00 CET (+01:00) on the #symfony-dev
-channel on the Freenode IRC server.
+Toplantılar her Perşembe saat 17:00 CET (+01:00) 'de FreeNode IRC sunucu
+sunda #symfony-dev kanalında yapılacaktır.
 
-The IRC `logs`_ will later be published on the trac wiki, which will include a
-short summary for each of the topics. Tickets will be created for any tasks or
-issues identified during the meeting and referenced in the summary.
+IRC `loglari`_  daha sonra trac wiki üzerinde kısa bir sonuç yazısı ile 
+birlikte yayınlanacaktır. Biletler toplantı sonunda belirlenen sonuc 
+kısmındaki hususlara göre açılacaktır.
 
-Some simple guidelines and pointers for participation:
-
-* It's possible to change votes until the beginning of the meeting by clicking
-  on "Edit an entry";
-* The doodle will be closed for voting at the beginning of the meeting;
-* Agenda is defined by which topics got the most votes in the doodle, or
-  whichever was proposed first in case of a tie;
-* At the beginning of the meeting one person will identify him/herself as the
-  moderator;
-* The moderator is essentially responsible for ensuring the 15min timebox and
-  ensuring that tasks are clearly identified;
+Katılım için bazı basit kılavuzlar ve noktalar:
+* Oylamalar toplantının başlangıcına kadar "Edit an entry" 'ye tıklayarak
+  değiştirilebilir.
+* Karalamalar (doodle) oylamanın başlangıcında kapanacaktır
+* Konu listesi (Agenda) en çok oylanan konular ya da karalaması en fazla
+  yapılan konulardan seçilecektir.
+* Toplantının başında bir kişi moderatör olur.
+* Moderatör konuların tartışmasının 15 dakikayı aşmamasından ve konuların
+  net bir şekilde anlaşılmasından sorumludur.
+* Genellikle moderatör sonuç metnini ve trac üzerindeki biletlerin oluştur
+  masından sorumlu olacaktır.
 * Usually the moderator will also handle writing the summary and creating trac
   tickets unless someone else steps up;
-* Anyone can join and is explicitly invited to participate;
-* Ideally one should familiarize oneself with the proposed topic before the
-  meeting;
-* When starting on a new topic the proposer is invited to start things off
-  with a few words;
-* Anyone can then comment as they see fit;
-* Depending on how many people participate one should potentially retrain
-  oneself from pushing a specific argument too hard;
-* Remember the IRC `logs`_ will be published later on, so people have the
-  chance to review comments later on once more;
-* People are encouraged to raise their hand to take on tasks defined during
-  the meeting.
+* Herkez toplantıya açıkça ve sorunsuzca katılabilir;
+* İdeal olanı bir konu tartışılacaksa toplantı başında o konu hakkında bil
+  gilendirme yapmaktır. 
+* Yeni bir konuya başlandığında sunumu yapan kişi durumu bir kaç kelimeyle
+  özetlemelidir.
+* Daha sonra herkez durum hakkında uygun yorum yapabilir.
+* Kaç kişin katıldığına bağlı olarak eğer durum karışık ise yeniden durum
+  özetlenmelidir.
+* IRC `loglari`_ nin gözden geçirildikten sonra yayınlanacağını unutmayın.
+* Toplantıda kişiler görev alması için teşvik edilir..
 
-Here is an `example`_ doodle.
+Burada `örnek`_ doodle bulunmaktadır.
 
 .. _symfony-dev: http://groups.google.com/group/symfony-devs
 .. _doodle:      http://doodle.com
-.. _logs:        http://trac.symfony-project.org/wiki/Symfony2IRCMeetingLogs
+.. _loglari:        http://trac.symfony-project.org/wiki/Symfony2IRCMeetingLogs
 .. _example:     http://doodle.com/4cnzme7xys3ay53w

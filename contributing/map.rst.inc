@@ -1,4 +1,4 @@
-* **Code**
+* **Kod**
 
   * :doc:`Hatalar </contributing/code/bugs>`
   * :doc:`Yamalar </contributing/code/patches>`
@@ -8,14 +8,14 @@
   * :doc:`Kodlama Düzeleri</contributing/code/conventions>`
   * :doc:`Lisans </contributing/code/license>`
 
-* **Documentation**
+* **Belgeleme**
 
   * :doc:`Genel Bakış </contributing/documentation/overview>`
   * :doc:`Format </contributing/documentation/format>`
   * :doc:`Çeviriler </contributing/documentation/translations>`
   * :doc:`Lisans </contributing/documentation/license>`
 
-* **Community**
+* **Topluluk**
 
   * :doc:`IRC Toplantıları </contributing/community/irc>`
   * :doc:`Diğer Kaynaklar </contributing/community/other>`
