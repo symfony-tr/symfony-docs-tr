@@ -1,21 +1,21 @@
 * **Code**
 
-  * :doc:`Bugs </contributing/code/bugs>`
-  * :doc:`Patches </contributing/code/patches>`
-  * :doc:`Security </contributing/code/security>`
-  * :doc:`Tests </contributing/code/tests>`
-  * :doc:`Coding Standards</contributing/code/standards>`
-  * :doc:`Code Conventions</contributing/code/conventions>`
-  * :doc:`License </contributing/code/license>`
+  * :doc:`Hatalar </contributing/code/bugs>`
+  * :doc:`Yamalar </contributing/code/patches>`
+  * :doc:`Güvenlik </contributing/code/security>`
+  * :doc:`Testler </contributing/code/tests>`
+  * :doc:`Kodlama Standartları</contributing/code/standards>`
+  * :doc:`Kodlama Düzeleri</contributing/code/conventions>`
+  * :doc:`Lisans </contributing/code/license>`
 
 * **Documentation**
 
-  * :doc:`Overview </contributing/documentation/overview>`
+  * :doc:`Genel Bakış </contributing/documentation/overview>`
   * :doc:`Format </contributing/documentation/format>`
-  * :doc:`Translations </contributing/documentation/translations>`
-  * :doc:`License </contributing/documentation/license>`
+  * :doc:`Çeviriler </contributing/documentation/translations>`
+  * :doc:`Lisans </contributing/documentation/license>`
 
 * **Community**
 
-  * :doc:`IRC Meetings </contributing/community/irc>`
-  * :doc:`Other Resources </contributing/community/other>`
+  * :doc:`IRC Toplantıları </contributing/community/irc>`
+  * :doc:`Diğer Kaynaklar </contributing/community/other>`
