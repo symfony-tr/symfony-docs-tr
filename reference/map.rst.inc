@@ -1,10 +1,10 @@
-* **Configuration Options**
+* **Konfigürasyon Seçenekleri**
 
-  Ever wondered what configuration options you have available to you in files
-  such as ``app/config/config.yml``? In this section, all the available configuration
-  is broken down by the key (e.g. ``framework``) that defines each possible
-  section of your Symfony2 configuration.
-
+  Hiç merak ettiniz mi uygulamanızda ``app/config/config.yml`` şeklinde 
+  bulunan dosyaların içerisinde neler var ?. Bu bölümde konfigürasyon
+  dosyasındaki (Örn: ``app/config/config.yml``) anahtarlar altında belirlenmiş  
+  mevcut tüm konfigürasyon ayarları açıklanacaktır.
+  
   * :doc:`framework </reference/configuration/framework>`
   * :doc:`doctrine </reference/configuration/doctrine>`
   * :doc:`security </reference/configuration/security>`
@@ -14,13 +14,13 @@
   * :doc:`monolog </reference/configuration/monolog>`
   * :doc:`web_profiler </reference/configuration/web_profiler>`
 
-* **Forms and Validation**
+* **Formlar ve Doğrulama**
 
   * :doc:`Form Field Type Reference</reference/forms/types>`
   * :doc:`Validation Constraints Reference </reference/constraints>`
   * :doc:`Twig Template Function Reference</reference/forms/twig_reference>`
 
-* **Other Areas**
+* **Diğer Alanlar**
 
   * :doc:`/reference/dic_tags`
   * :doc:`/reference/requirements`
