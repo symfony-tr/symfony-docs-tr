@@ -1,26 +1,27 @@
-The View
+Görünüm (view)
 ========
-
-After reading the first part of this tutorial, you have decided that Symfony2
-was worth another 10 minutes. Great choice! In this second part, you will
-learn more about the Symfony2 template engine, `Twig`_. Twig is a flexible,
-fast, and secure template engine for PHP. It makes your templates more
-readable and concise; it also makes them more friendly for web designers.
+Bu öğreticinin ilk kısmını okuduktan sonra Symfony2 için bir 10 dakika
+daha ayırmaya karar verdiniz. Mükemmel bir seçim!. Bu ikinci kısımda, 
+Symfony2 şablon motoru `Twig`_. hakkında daha fazla bilgi öğreneceksiniz.
+Twig PHP için, esnek, hızlı ve güvenli bir şablon motorudur. Şablonları
+daha kolay okunabilir ve anlaşılabilir yapar. Aynı zamanda web tasarımcıları 
+için de kullanıcı dostu hale getirir.
 
 .. note::
 
-    Instead of Twig, you can also use :doc:`PHP </cookbook/templating/PHP>`
-    for your templates. Both template engines are supported by Symfony2.
+    Twig yerine aynı zamanda :doc:`PHP </cookbook/templating/PHP>`
+    de şablon olarak kullanabilirsiniz. İki şablon motoru da Symfony2
+    tarafından desteklenebilir.
 
-Getting familiar with Twig
+Twig ile samimi olmak
 --------------------------
 
 .. tip::
 
-    If you want to learn Twig, we highly recommend you to read its official
-    `documentation`_. This section is just a quick overview of the main
-    concepts.
-
+    Eğer Twig öğrenmek istiyorsanız resmi  `belge`_ sini mu
+    tlaka okumanızı tavsiye ediyoruz. Bu kısım sadece ana temeller üzerine
+    yoğunlaşacaktır.
+   
 A Twig template is a text file that can generate any type of content (HTML,
 XML, CSV, LaTeX, ...). Twig defines two kinds of delimiters:
 
@@ -285,4 +286,4 @@ and that's exactly the topic of the :doc:`next part of this tutorial<the_control
 Ready for another 10 minutes with Symfony2?
 
 .. _Twig:          http://twig.sensiolabs.org/
-.. _documentation: http://twig.sensiolabs.org/documentation
+.. _belge: http://twig.sensiolabs.org/documentation
