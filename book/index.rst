@@ -1,4 +1,4 @@
-The Book
+Kitap
 ========
 
 .. toctree::
