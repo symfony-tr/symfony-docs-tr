@@ -281,12 +281,12 @@ olabilirsiniz.
 Son Sözler
 --------------
 Twig gerçekten güçlüdür. Yerleşim planları, bloklar, şablonlar ve işlem
-fonksiyonları sayesinde şablonunuzu çok kolay bir şekilde organie edebilir
+fonksiyonları sayesinde şablonunuzu çok kolay bir şekilde organize edebilir
 ve genişletebilirsiniz. Eğer kendinizi Twig ile rahat hissetmiyorsanız
 dilediğiniz her zaman PHP  şablonlarını Symfony içerisinde bir şarta
 bağlı olmadan kolaylıkla kullanabilirsiniz.
 
-Sadece 20 dakikaan beri Symfony2 ile çalışıyorsunuz ancak daha şimdiden
+Sadece 20 dakikadan beri Symfony2 ile çalışıyorsunuz ancak daha şimdiden
 odukça fazla inanılmaz şey başardınız. Bu Symfony2'nin gücüdür.
 Temlleri öğrenmek kolaydır ve biraz sonra öğreneceğiniz gibi bu basitliğin
 altında oldukça esnek bir mimari bulunmaktadır.
