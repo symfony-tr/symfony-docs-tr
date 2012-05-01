@@ -18,20 +18,21 @@ Twig ile samimi olmak
 
 .. tip::
 
-    Eğer Twig öğrenmek istiyorsanız resmi  `belge`_ sini mu
-    tlaka okumanızı tavsiye ediyoruz. Bu kısım sadece ana temeller üzerine
+    Eğer Twig öğrenmek istiyorsanız resmi `belgesini`_ mutlaka okumanızı 
+    tavsiye ediyoruz. Bu kısım sadece ana temeller üzerine
     yoğunlaşacaktır.
-   
-A Twig template is a text file that can generate any type of content (HTML,
-XML, CSV, LaTeX, ...). Twig defines two kinds of delimiters:
 
-* ``{{ ... }}``: Prints a variable or the result of an expression;
+Bir Twig şablonu herhangi bir tipte (HTML,
+XML, CSV, LaTeX, ...) içerik yaratan bir metin dosyasıdır.
+Twig iki tip ayıcı belirler:
 
-* ``{% ... %}``: Controls the logic of the template; it is used to execute
-  ``for`` loops and ``if`` statements, for example.
+* ``{{ ... }}``: Bir değişken ya da bir ifadenin dönüşünü Ekrana Yazar;
 
-Below is a minimal template that illustrates a few basics, using two variables
-``page_title`` and ``navigation``, which would be passed into the template:
+* ``{% ... %}``: Şablonun  örneğin, ``for`` döngüleri ``if`` koşulu gibi mantıksal 
+kontrollerini çalıştırır.
+
+Aşağıda çok basit bir şablonda ``page_title`` ve  ``navigation``
+adındaki tanımlanan değişkenlerin şablona aktarılması gösterilmiştir.
 
 .. code-block:: html+jinja
 
@@ -54,18 +55,19 @@ Below is a minimal template that illustrates a few basics, using two variables
 
 .. tip::
 
-   Comments can be included inside templates using the ``{# ... #}`` delimiter.
+   Şablonlar içerisinde kullanılan yorum satırları ``{# ... #}`` ayraçları 
+   içerisinde belirtilirler.
 
-To render a template in Symfony, use the ``render`` method from within a controller
-and pass it any variables needed in the template::
+Symfony'de bir şablonu ekrana basmak ve şablona içerisine aktarılacak değişkenler
+için Controller içerisinde ``render``metodu kullanılır.
 
     $this->render('AcmeDemoBundle:Demo:hello.html.twig', array(
         'name' => $name,
     ));
 
-Variables passed to a template can be strings, arrays, or even objects. Twig
-abstracts the difference between them and lets you access "attributes" of a
-variable with the dot (``.``) notation:
+Şablon içerisine aktarılacak değişenkenler string, array ya da nesne tipinde
+olabilir. Twig özet olara gir değişkenin içerisindeki bir niteliğe erişmek için
+(``.``)  nokta işareti kullanılır.
 
 .. code-block:: jinja
 
@@ -91,22 +93,24 @@ variable with the dot (``.``) notation:
 
 .. note::
 
-    It's important to know that the curly braces are not part of the variable
-    but the print statement. If you access variables inside tags don't put the
-    braces around.
+    Burada dikkat edilmesi gereken şey küme parantezlerinin değişkene 
+    ait olmadığı sadece şablon içerisinde değişken değerini ekrana yazdımak
+    amacıyla kullanıldığınır. Eğer etiketler içerisinde bir değişkenin değerine
+    ulaşmak için küme parantezi kullanmayın.
+    
 
-Decorating Templates
+Şablonları Süslemek
 --------------------
+Çoğunlukla şablonlar proje içerisinde en genel bilinen şekliyle başlık (header) ve
+sayfa sonları (footer) olarak paylaşılan öğelerdir.
+Symfony2'de böyle bir sorunu farklı şekilde düşünürüz: bir şablon başka bir
+şablon tarafından dekore edilebilir. Bu aslında aynı PHP sınıfları gibidir: şablonların
+birbileri arasında miras alınmasına olanak verlmesi size temel "plan(layout)" adıyla
+şablon içerisindeki siteniz için gereken temel "bloklar" gibi şeyler diğer şablonlar
+tarafından kullanılmasına / değiştirilmesine olanak sağlar.
 
-More often than not, templates in a project share common elements, like the
-well-known header and footer. In Symfony2, we like to think about this problem
-differently: a template can be decorated by another one. This works exactly
-the same as PHP classes: template inheritance allows you to build a base
-"layout" template that contains all the common elements of your site and
-defines "blocks" that child templates can override.
-
-The ``hello.html.twig`` template inherits from ``layout.html.twig``, thanks to
-the ``extends`` tag:
+``hello.html.twig`` şablonu ``layout.html.twig``şablonundan ``extends`` 
+etiketi aracılığı ile miras alır:
 
 .. code-block:: html+jinja
 
@@ -119,12 +123,13 @@ the ``extends`` tag:
         <h1>Hello {{ name }}!</h1>
     {% endblock %}
 
-The ``AcmeDemoBundle::layout.html.twig`` notation sounds familiar, doesn't it?
-It is the same notation used to reference a regular template. The ``::`` part
-simply means that the controller element is empty, so the corresponding file
-is directly stored under the ``Resources/views/`` directory.
+``AcmeDemoBundle::layout.html.twig`` yazımı şablon adına çok benziyor değilmi ?
 
-Now, let's have a look at a simplified ``layout.html.twig``:
+Bu referans verilen gerçek şablon yazımı ile aynıdır . ``::``  kısmı basitçe
+controller elementinin boş olduğunu ifade eder ve bu yüzden ilgili dosya 
+direkt ``Resources/views/`` klasörü altında tutulur.
+
+Şimdi basit bir ``layout.html.twig`` dosyasını inceleyelim:
 
 .. code-block:: jinja
 
@@ -134,65 +139,69 @@ Now, let's have a look at a simplified ``layout.html.twig``:
         {% endblock %}
     </div>
 
-The ``{% block %}`` tags define blocks that child templates can fill in. All
-the block tag does is to tell the template engine that a child template may
-override those portions of the template.
+``{% block %}`` etikti içerisinde tanımlanan bloklar child şablonlar 
+tarafından doldurulabilir.
 
-In this example, the ``hello.html.twig`` template overrides the ``content``
-block, meaning that the "Hello Fabien" text is rendered inside the ``div.symfony-content``
-element.
+Tüm block etiketleri şablon motoruna child şablonun şablonun bu kısmını
+değiştirebileceğini söyler.
 
-Using Tags, Filters, and Functions
-----------------------------------
+Bu örnekte ``hello.html.twig`` şablonu ``content`` bloğunu düzenlemektedir.
+Bunun anlamı "Hello Fabien"  metni ``div.symfony-content`` elementi içerisinde
+çıkmaktadır.
 
-One of the best feature of Twig is its extensibility via tags, filters, and
-functions. Symfony2 comes bundled with many of these built-in to ease the
-work of the template designer.
+Etiketleri, Filitreleri ve Fonksiyonları Kullanmak
+--------------------------------------------------
 
-Including other Templates
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Twig'in en önemli özelliği etiketler filitreler ve fonksiyonlar yardımıyla 
+genişletilebilmesidir. Symfony2 şablon tasarımında bunun için önceden 
+tanımlanmış pek çok özellikle birlikte gelir.
 
-The best way to share a snippet of code between several distinct templates is
-to create a new template that can then be included from other templates.
+Diğer şablonlardan Aktarmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Create an ``embedded.html.twig`` template:
+Paylaşılan bir kodu farklı şablonlar arasında paylaştırmanın en kolay yolu,
+diğer şablonlarında ulaşabileceği bir yeni şablon yaratmaktır.
+
+``embedded.html.twig`` şablonunu şu şekilde yaratalım:
 
 .. code-block:: jinja
 
     {# src/Acme/DemoBundle/Resources/views/Demo/embedded.html.twig #}
     Hello {{ name }}
 
-And change the ``index.html.twig`` template to include it:
+Ve ``index.html.twig`` şablonunu bunu içerecek şekilde düzenleyelim:
 
 .. code-block:: jinja
 
     {# src/Acme/DemoBundle/Resources/views/Demo/hello.html.twig #}
     {% extends "AcmeDemoBundle::layout.html.twig" %}
 
-    {# override the body block from embedded.html.twig #}
+    {# body bloğu embedded.html.twig tarafından düzenleniyor...#}
     {% block content %}
         {% include "AcmeDemoBundle:Demo:embedded.html.twig" %}
     {% endblock %}
 
-Embedding other Controllers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Diğer Controller'ları İçeri Gömmek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-And what if you want to embed the result of another controller in a template?
-That's very useful when working with Ajax, or when the embedded template needs
-some variable not available in the main template.
+Başka bir controller'in sonucunu şablonunuza gömmek isterseniz? 
+Bu özellikle Ajax üzerinde çalışırken ya da ana şablonda bulunmayan
+bazı değişkenleri şablon içerisinde kullanmak istediğinizde çok 
+kullanışlıdır.
 
-Suppose you've created a ``fancy`` action, and you want to include it inside
-the ``index`` template. To do this, use the ``render`` tag:
+Varsayılımki siz bir ``örnek`` action yaratınız ve bunu ``index`` şablonu
+içerisine aktarmak istiyorsunuz. Bunu yapmak için ``render`` etiketi ile yaparız:
 
 .. code-block:: jinja
 
     {# src/Acme/DemoBundle/Resources/views/Demo/index.html.twig #}
-    {% render "AcmeDemoBundle:Demo:fancy" with { 'name': name, 'color': 'green' } %}
+    {% render "AcmeDemoBundle:Demo:ornek" with { 'name': name, 'color': 'green' } %}
 
-Here, the ``AcmeDemoBundle:Demo:fancy`` string refers to the ``fancy`` action
-of the ``Demo`` controller. The arguments (``name`` and ``color``) act like
-simulated request variables (as if the ``fancyAction`` were handling a whole
-new request) and are made available to the controller::
+Burada ``AcmeDemoBundle:Demo:ornek`` metni ``Demo`` controller içerisindeki
+``ornek`` actionunu ifade eder. Argümanlar (``name`` ve ``color``) istek
+değişkenlerini kontrol ederler (eğer orneKAction bu argümanlarla yeni bir istek
+alırsa)::
+
 
     // src/Acme/DemoBundle/Controller/DemoController.php
 
@@ -200,7 +209,7 @@ new request) and are made available to the controller::
     {
         public function fancyAction($name, $color)
         {
-            // create some object, based on the $color variable
+            // $color değişkenine bağlı bir nesne yarat
             $object = ...;
 
             return $this->render('AcmeDemoBundle:Demo:fancy.html.twig', array('name' => $name, 'object' => $object));
@@ -209,22 +218,23 @@ new request) and are made available to the controller::
         // ...
     }
 
-Creating Links between Pages
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sayfalar arasında Link Vermek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Speaking of web applications, creating links between pages is a must. Instead
-of hardcoding URLs in templates, the ``path`` function knows how to generate
-URLs based on the routing configuration. That way, all your URLs can be easily
-updated by just changing the configuration:
+Web uygulamalarının konuşması için sayfalar arasında linkler oluşturuması
+gereklidir. Şablolnlarda karmış URL adresleri kullanmak yerine ``path`` 
+fonksiyonu route konfigürasyonundan referans alarak bu URL adreslerini yaratır.
+Bu yol, tüm URL'lerinizi konfigürasyonda değiştirilerek basitçe değiştirilebilir:
 
 .. code-block:: html+jinja
 
     <a href="{{ path('_demo_hello', { 'name': 'Thomas' }) }}">Greet Thomas!</a>
 
-The ``path`` function takes the route name and an array of parameters as
-arguments. The route name is the main key under which routes are referenced
-and the parameters are the values of the placeholders defined in the route
-pattern::
+
+``path`` fonksiyonu route adını ve argümanları içeren dize değişkenini alır.
+Route adı hangi routeların ve yer tutucular içerisinde değer içeren parametrelerin
+ve route deseni içerisinde yapılan tanımlamaların ana anahtarıdır::
+
 
     // src/Acme/DemoBundle/Controller/DemoController.php
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -241,14 +251,14 @@ pattern::
 
 .. tip::
 
-    The ``url`` function generates *absolute* URLs: ``{{ url('_demo_hello', {
+    ``url`` fonksiyonu  *mutlak* URL üretir: ``{{ url('_demo_hello', {
     'name': 'Thomas' }) }}``.
 
-Including Assets: images, JavaScripts, and stylesheets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Varlıkları dahil etmek: resimler, JavaScriptler, and stil şablonları
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-What would the Internet be without images, JavaScripts, and stylesheets?
-Symfony2 provides the ``asset`` function to deal with them easily:
+Resimler, JavaScriptler v stil şablonları olmadan internet nasıl olurdu ?
+Symfony2 ``asset`` fonksiyonu ile bunlarla kolaylıkla çalışabilir:
 
 .. code-block:: jinja
 
@@ -256,34 +266,35 @@ Symfony2 provides the ``asset`` function to deal with them easily:
 
     <img src="{{ asset('images/logo.png') }}" />
 
-The ``asset`` function's main purpose is to make your application more portable.
-Thanks to this function, you can move the application root directory anywhere
-under your web root directory without changing anything in your template's
-code.
+``asset`` fonksiyonunun ana amacı uygulamanızı daha taşınabilir yapmaktıd.r
+Bu fonksiyon sayesinde uygulamanızın kök diznini web kök dizininiz içerisinde
+şablon kodunda herhangi bir değişiklik yapmadan kolaylıkla istediğiniz yere
+taşıyabilirsiniz.
 
-Escaping Variables
-------------------
+Değişken kaçışları (Escaping Variables)
+----------------------------------------
 
-Twig is configured to automatically escapes all output by default. Read Twig
-`documentation`_ to learn more about output escaping and the Escaper
-extension.
+Twig tüm çıktıları otomatik olarak kaçışlar. Twig `belgesini`_ okuyarak 
+Escaper eklentisinin nasıl çalıştığı hakkında daha fazla bilgiye sahip 
+olabilirsiniz.
 
-Final Thoughts
+Son Sözler
 --------------
+Twig gerçekten güçlüdür. Yerleşim planları, bloklar, şablonlar ve işlem
+fonksiyonları sayesinde şablonunuzu çok kolay bir şekilde organie edebilir
+ve genişletebilirsiniz. Eğer kendinizi Twig ile rahat hissetmiyorsanız
+dilediğiniz her zaman PHP  şablonlarını Symfony içerisinde bir şarta
+bağlı olmadan kolaylıkla kullanabilirsiniz.
 
-Twig is simple yet powerful. Thanks to layouts, blocks, templates and action
-inclusions, it is very easy to organize your templates in a logical and
-extensible way. However, if you're not comfortable with Twig, you can always
-use PHP templates inside Symfony without any issues.
+Sadece 20 dakikaan beri Symfony2 ile çalışıyorsunuz ancak daha şimdiden
+odukça fazla inanılmaz şey başardınız. Bu Symfony2'nin gücüdür.
+Temlleri öğrenmek kolaydır ve biraz sonra öğreneceğiniz gibi bu basitliğin
+altında oldukça esnek bir mimari bulunmaktadır.
 
-You have only been working with Symfony2 for about 20 minutes, but you can
-already do pretty amazing stuff with it. That's the power of Symfony2. Learning
-the basics is easy, and you will soon learn that this simplicity is hidden
-under a very flexible architecture.
-
-But I'm getting ahead of myself. First, you need to learn more about the controller
-and that's exactly the topic of the :doc:`next part of this tutorial<the_controller>`.
-Ready for another 10 minutes with Symfony2?
+But I'm getting ahead of myself. Öncelikle controller hakkında daha fazla 
+şey bilmelisiniz bunun için mutlaka :doc:`bu öğreticinin sonraki bölümünü<the_controller>`
+okumalısınız.
+Symfony2 ile başka bir 10 dakikaya hazır mısınız ?
 
 .. _Twig:          http://twig.sensiolabs.org/
-.. _belge: http://twig.sensiolabs.org/documentation
+.. _belgesini: http://twig.sensiolabs.org/documentation
