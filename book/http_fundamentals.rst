@@ -3,11 +3,11 @@
 
 Symfony2 ve HTTP Temelleri
 ==============================
+Tebrikler! Symfony2 hakkında öğrenerek, daha üretken, çok yönlü ve popüler 
+(aslında, siz kendiniz en son kısımdasınız) bir web geliştiricisi olma 
+yolunda doğru yol almaktasınız. 
 
-Congratulations! By learning about Symfony2, you're well on your way towards
-being a more *productive*, *well-rounded* and *popular* web developer (actually,
-you're on your own for the last part). Symfony2 is built to get back to
-basics: to develop tools that let you develop faster and build more robust
+Symfony2 is built to get back to basics: to develop tools that let you develop faster and build more robust
 applications, while staying out of your way. Symfony is built on the best
 ideas from many technologies: the tools and concepts you're about to learn
 represent the efforts of thousands of people, over many years. In other words,
