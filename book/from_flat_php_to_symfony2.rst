@@ -1,27 +1,26 @@
-Symfony2 versus Flat PHP
+Symfony2 Düz PHP'ye Karşı
 ========================
+** Neden Symfony2 sadece bir dosya açıp düz bir şekilde yazdığımız PHP dosyasından
+daha iyidir? **
 
-**Why is Symfony2 better than just opening up a file and writing flat PHP?**
+Eğer hiç PHP framework kullanmadıysanız MVC felsefesine yabancısınızdır 
+ya da Symfony2 hakkındaki hurafelere inanıyorsunuzdur. Bu bölüm sizin için.
+Size Symfony2'nin düz PHP kodlamasından daha iyi bir yazılım olduğunu *söylemek*
+yerine bunu kendiniz göreceksiniz.
 
-If you've never used a PHP framework, aren't familiar with the MVC philosophy,
-or just wonder what all the *hype* is around Symfony2, this chapter is for
-you. Instead of *telling* you that Symfony2 allows you to develop faster and
-better software than with flat PHP, you'll see for yourself.
+Bu kısımda düz PHP kullarak bir uygulama yazacaksınız daha sonra onu daha
+düzenli bir hale getirmek için yeniden düzenleyeceksınız.Web geliştirmenin 
+son bir kaç yıl içerisinde evrim geçirerek nasıl bu hale geldiği konusunda 
+bir zaman yolculuğu yapacaksınız.
 
-In this chapter, you'll write a simple application in flat PHP, and then
-refactor it to be more organized. You'll travel through time, seeing the
-decisions behind why web development has evolved over the past several years
-to where it is now. 
+ve Sonunda göreceksiniz Symfony2 nasıl sizi dünyevi sorunlardan kopartıp
+kodunuzun kontrolünü size veriyor.
 
-By the end, you'll see how Symfony2 can rescue you from mundane tasks and
-let you take back control of your code.
-
-A simple Blog in flat PHP
+Düz PHP'de Basit Bir Blog
 -------------------------
-
-In this chapter, you'll build the token blog application using only flat PHP.
-To begin, create a single page that displays blog entries that have been
-persisted to the database. Writing in flat PHP is quick and dirty:
+Bu bölümde Düz PHP kullanarak basit bir blog uygulaması geliştireceksiniz.
+Başlangıçta veritabanında kayıtlı olan girdileri ekranda göstern bir sayfa
+yaratın. Bunun PHP'de hızlı ve kirli bir şekilde yazılması şu şekilde:
 
 .. code-block:: html+php
 
@@ -55,31 +54,33 @@ persisted to the database. Writing in flat PHP is quick and dirty:
     <?php
     mysql_close($link);
 
-That's quick to write, fast to execute, and, as your app grows, impossible
-to maintain. There are several problems that need to be addressed:
+Çabucak yazılan bu kod hızlı çalışır ancak uygulamanız büyünce bakımı 
+imkansızlaşır. Ortaya bazı sorunlar çıkar:
 
-* **No error-checking**: What if the connection to the database fails?
+* **Hata Denetimi Yok**: Veri tabanı bağlantısı koparsa ne olacak?
 
-* **Poor organization**: If the application grows, this single file will become
-  increasingly unmaintainable. Where should you put code to handle a form
-  submission? How can you validate data? Where should code go for sending
-  emails?
-
-* **Difficult to reuse code**: Since everything is in one file, there's no
-  way to reuse any part of the application for other "pages" of the blog.
+* **Zayıf organizasyon**: Eğer uygulama büyürse bu tek dosya da 
+  bakım yapılamaz hale gelecektir. Form gönderilerinin kodlarını nerede 
+  tutmalısınız?. Veriyi nasıl kontrol edeceksiniz. E-posta gönderen kodu
+  nereye yazacaksınız ?
+* ** Kodu yeniden kullanımın zorluğu**: Herşey tek dosya olduğunda 
+  blogun diğer sayfalarının uygulama kodunun herhangi bir kısmının 
+  kullanmasının imkanı kalmaz.
 
 .. note::
-    Another problem not mentioned here is the fact that the database is
-    tied to MySQL. Though not covered here, Symfony2 fully integrates `Doctrine`_,
-    a library dedicated to database abstraction and mapping.
+    
+    Burada değinilmeyen bir başka konuda veritabanının MySQL bağlantısıdır.
+    Burada ele alınmamasına rağmen Symfony2, veritabanı ayırma ve mapping
+    işlemleri için kullanılan `Doctrine`_ kütüphanesi ile tam uyumludur.
+     
 
-Let's get to work on solving these problems and more.
+Bu ve diğer sorunları çözmek için çalışmaya başlayalım.
 
-Isolating the Presentation
+Sunumu İzole Etmek
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The code can immediately gain from separating the application "logic" from
-the code that prepares the HTML "presentation":
+Kod, HTML "sunumunu" yapan kod ile uygulama "mantıksal" katmanından 
+derhal ayrılabilmelidir:
 
 .. code-block:: html+php
 
@@ -101,8 +102,9 @@ the code that prepares the HTML "presentation":
     // include the HTML presentation code
     require 'templates/list.php';
 
-The HTML code is now stored in a separate file (``templates/list.php``), which
-is primarily an HTML file that uses a template-like PHP syntax:
+
+HTML kodu şimdi ayrı bir (``templates/list.php``) adındaki PHP yazımındaki 
+şablonvari bir dosyada tutulmaktadır:
 
 .. code-block:: html+php
 
@@ -124,23 +126,26 @@ is primarily an HTML file that uses a template-like PHP syntax:
         </body>
     </html>
 
-By convention, the file that contains all of the application logic - ``index.php`` -
-is known as a "controller". The term :term:`controller` is a word you'll hear
-a lot, regardless of the language or framework you use. It refers simply
-to the area of *your* code that processes user input and prepares the response.
 
-In this case, our controller prepares data from the database and then includes
-a template to present that data. With the controller isolated, you could
-easily change *just* the template file if you needed to render the blog
-entries in some other format (e.g. ``list.json.php`` for JSON format). 
+Kural gereği, bu dosya controller adı verin tüm uygulama mantıksal 
+katmanını - ``index.php`` - barındırmaktadır. :term:`controller` terimini
+framework ya da programlama dili ayırmaksızın çok fazla duyacaksınız. 
+Bu basitçe kullanıcının girdilerini işleyip bir çıktı yaratan kodunuzun 
+bir parçasını ifade eder.
+Bu durumda controller'ımız veriyi veri tabanından hazırlar ve şablona bu
+veriyi verir.Sadece şablon dosyasını değiştirerek,blog girdilerinizin 
+farklı şekillerde gösterilmesini sağlayabilmeniz için 
+(Örn: JSON format için ``list.json.php``) Controller şablondan ayrılmıştır.
+(İzole edilmiştir.)
 
-Isolating the Application (Domain) Logic
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So far the application contains only one page. But what if a second page
-needed to use the same database connection, or even the same array of blog
-posts? Refactor the code so that the core behavior and data-access functions
-of the application are isolated in a new file called ``model.php``:
+Uygulama (Domain) Mantıksal'ının Ayrılması (İzolasyonu)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Şimdiye kadar uygulama sadece bir sayfadan oluşuyor. Fakat eğer aynı
+veritanabanı bağlantısına ihtiyacı olan ya da blog girdilerini tutan aynı
+dize değişkenine ihtiyacı olan ikinci bir sayfa olursa ?
+Kodu ``model.php`` adıyla uygulamadan ayrılan temel veri erişimi ve davranışları 
+yapan fonksiyonların olduğu yeni bir dosya ile yeniden düzenleriz: 
 
 .. code-block:: html+php
 
@@ -176,14 +181,14 @@ of the application are isolated in a new file called ``model.php``:
 
 .. tip::
 
-   The filename ``model.php`` is used because the logic and data access of
-   an application is traditionally known as the "model" layer. In a well-organized
-   application, the majority of the code representing your "business logic"
-   should live in the model (as opposed to living in a controller). And unlike
-   in this example, only a portion (or none) of the model is actually concerned
-   with accessing a database.
+   ``model.php`` dosya adı, uygulamanın veri erişimini sağlayan katman
+   geleneksel olarak "model" katmanı olarak anıldığı için verilmiştir. 
+   İyi düzenlenmiş bir uygulamada ana kod olan sizin "iş yapma mantığınız"
+   (business logic) model içerisinde olmalıdır. (eğer bir kontroller
+   içindeyse). Ve bu uygulamanın aksine modelin sadece bir kısmı 
+   (ya da hiç birisi) gerçekten veri tabanı erişimi ile ilgilenir.
 
-The controller (``index.php``) is now very simple:
+Controller (``index.php``) şimdi daha basit:
 
 .. code-block:: html+php
 
@@ -194,19 +199,19 @@ The controller (``index.php``) is now very simple:
 
     require 'templates/list.php';
 
-Now, the sole task of the controller is to get data from the model layer of
-the application (the model) and to call a template to render that data.
-This is a very simple example of the model-view-controller pattern.
 
-Isolating the Layout
-~~~~~~~~~~~~~~~~~~~~
+Şimdi controller içerisindeki tek görev uygulamanın model katmanından 
+veriyi alır ve şablonu çağırarak veriyi ekrana basar.
+Bu Model-View-Controller yapısının çok basit bir örneğidir.
 
-At this point, the application has been refactored into three distinct pieces
-offering various advantages and the opportunity to reuse almost everything
-on different pages.
+Görünüm Planını (Layout) Ayırmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bu noktada uygulama  farklısayfalarda herşeyin yeniden kullanımı 
+sunan ve çeşitli fırsatlar sağlayan üç ayrı parçaya bölünerek yeniden 
+düzenlenmiştir.
 
-The only part of the code that *can't* be reused is the page layout. Fix
-that by creating a new ``layout.php`` file:
+Sadece kodun bir kısmı sayfa planında *kullanılamaz*. Bunu
+yeni bir ``layout.php`` dosyası yararak düzeltiyoruz:
 
 .. code-block:: html+php
 
@@ -220,8 +225,8 @@ that by creating a new ``layout.php`` file:
         </body>
     </html>
 
-The template (``templates/list.php``) can now be simplified to "extend"
-the layout:
+Şablon (``templates/list.php``) şimdi plandan (layout) daha rahat
+"genişllemiştir":
 
 .. code-block:: html+php
 
@@ -242,21 +247,22 @@ the layout:
 
     <?php include 'layout.php' ?>
 
-You've now introduced a methodology that allows for the reuse of the
-layout. Unfortunately, to accomplish this, you're forced to use a few ugly
-PHP functions (``ob_start()``, ``ob_get_clean()``) in the template. Symfony2
-uses a ``Templating`` component that allows this to be accomplished cleanly
-and easily. You'll see it in action shortly.
 
-Adding a Blog "show" Page
--------------------------
+Şimdi planın yeniden kullanımına imkan veren metodolojiye giriş yaptık.
+Ne yazıkki bunu gerçekleştirmek için şablon içerisinde birkaç sinir
+bozucu PHP fonksiyonunu (``ob_start()`` ve ``ob_get_clean()``) kullanmanız
+gerekli. Symfony2 ``Templating`` bileşenini kullanarak bu işi size temiz
+ve kolay olarak gerçekleştirir. Uygulamada ne kadar kısa olduğunu göreceksiniz.
 
-The blog "list" page has now been refactored so that the code is better-organized
-and reusable. To prove it, add a blog "show" page, which displays an individual
-blog post identified by an ``id`` query parameter.
+Blog'a "show" Sayfası Eklemek
+------------------------------
 
-To begin, create a new function in the ``model.php`` file that retrieves
-an individual blog result based on a given id::
+Blog "list" sayfası daha iyi organize edilmiş ve yeniden kullanılabilir olarak
+yeniden düzenlenmiştir. ``id`` query parametresi ile belirlenen birbirleri
+ile bağımsız olan blog postlarını göstermek için blog'a "show" sayfası 
+eklemek gereklidir.
+Başlamak için ``model.php`` dosyasının içerisinde verilen id 'ye göre
+bağımsız olarak blog girdilerini getirecek yeni bir fonksiyon yaratıyoruz::
 
     // model.php
     function get_post_by_id($id)
@@ -272,9 +278,9 @@ an individual blog result based on a given id::
 
         return $row;
     }
+Sonra, `show.php`` adında bu yeni sayfanın controller'i olan dosyayı 
+yaratıyoruz:
 
-Next, create a new file called ``show.php`` - the controller for this new
-page:
 
 .. code-block:: html+php
 
@@ -285,8 +291,8 @@ page:
 
     require 'templates/show.php';
 
-Finally, create the new template file - ``templates/show.php`` - to render
-the individual blog post:
+Son olarak, ``templates/show.php`` adında bağımsız blog girdilerini
+ekrana basacak olan şablon dosyasını oluşturuyoruz.
 
 .. code-block:: html+php
 
@@ -303,57 +309,59 @@ the individual blog post:
 
     <?php include 'layout.php' ?>
 
-Creating the second page is now very easy and no code is duplicated. Still,
-this page introduces even more lingering problems that a framework can solve
-for you. For example, a missing or invalid ``id`` query parameter will cause
-the page to crash. It would be better if this caused a 404 page to be rendered,
-but this can't really be done easily yet. Worse, had you forgotten to clean
-the ``id`` parameter via the ``mysql_real_escape_string()`` function, your
-entire database would be at risk for an SQL injection attack.
 
-Another major problem is that each individual controller file must include
-the ``model.php`` file. What if each controller file suddenly needed to include
-an additional file or perform some other global task (e.g. enforce security)?
-As it stands now, that code would need to be added to every controller file.
-If you forget to include something in one file, hopefully it doesn't relate
-to security...
+İkinci sayfanın yaratımı şimdi çok daha kolay oldu ve hiç bir kod tekrar
+yazılmadı. Ancak hala framework'un sizin için çözebileceği bir çok sorun
+var. Örneğin yanlış ya da olmayan ``id`` query parametresi verildiğinde
+sayfa çokecektir. Bu durumda 404 sayfasının çıkartılması en iyi çözüm 
+olacaktır ancak henüz bunu yapmak o kadar kolay değil.  Daha kötüsü 
+``id`` query parametresini ``mysql_real_escape_string()`` fonksiyonu ile
+SQL injection attaklarına karşı savunmayı unuttuğunuz zaman olacaktır.
 
-A "Front Controller" to the Rescue
-----------------------------------
+Bir diğer ana sorun ise her bağımsız controller dosyuasının mutlaka
+``model.php`` dosyasını kendi içerisinde çağırması zorunluluğudur.Peki
+aniden diğer global süreçlerin gerçekleştirileceği (Örn: güvenliğin 
+sağlanması) ek bi dosyayı çağırmak zorunda kalınırsa ? O zaman oturacaksınız
+tüm controller dosyalarını tek tek açıp bunu eklemeniz gerekecek.
+Eğer bir dosya içerisinde bunu eklemeyi unutursanız galiba bu dosya içeriği
+güvenlikten yoksun kalacak...
 
-The solution is to use a :term:`front controller`: a single PHP file through
-which *all* requests are processed. With a front controller, the URIs for the
-application change slightly, but start to become more flexible:
+Kurtarma için bir "Front Controller"
+------------------------------------
+
+Çözüm *tüm* istekleri işleyecek bir :term:`front controller` PHP dosyası 
+kullanmak. Front controller ile uygulamanın URI'leri biraz değişebilir 
+ancak bu daha fazla esnek hale getirir:
 
 .. code-block:: text
 
-    Without a front controller
-    /index.php          => Blog post list page (index.php executed)
-    /show.php           => Blog post show page (show.php executed)
+    front controller olmadan
+    /index.php          => Blog postları liste sayfası (index.php çalışacak)
+    /show.php           => Blog postları gösterme sayfası(show.php çalışacak)
 
-    With index.php as the front controller
-    /index.php          => Blog post list page (index.php executed)
-    /index.php/show     => Blog post show page (index.php executed)
+    index.php ,front controller gibi kullanılırsa
+    /index.php          => Blog postları liste sayfası (index.php çalışacak)
+    /index.php/show     => Blog postları gösterme sayfası(index.php çalışacak)
 
 .. tip::
-    The ``index.php`` portion of the URI can be removed if using Apache
-    rewrite rules (or equivalent). In that case, the resulting URI of the
-    blog show page would be simply ``/show``.
+    URI'den ``index.php`` kısmı Apache rewrite kuralları (yada benzeri)
+    kullanılırsa silinebilir. Bu durumda blog show sayfasının URI'sinin 
+    sonucu basitçe  ``/show`` olur.
+    
+Tek bir PHP dosyası front controller olarak kullanıldığında (bu durumda
+``index.php``) tüm *istekler* ekrana basılacaktır. Blog postları için 
+show sayfası ``/index.php/show`` gerçekte ``index.php`` dosyasını çalıştıracak
+ve tam URI için isteklerin yönlendirilmesinin tamamından sorumlu olacaktır.
+Gördüğünüz üzere br front controller oldukça güçlü bir yardımcı araçtır.
 
-When using a front controller, a single PHP file (``index.php`` in this case)
-renders *every* request. For the blog post show page, ``/index.php/show`` will
-actually execute the ``index.php`` file, which is now responsible for routing
-requests internally based on the full URI. As you'll see, a front controller
-is a very powerful tool.
-
-Creating the Front Controller
+Front Controller Yaratmak
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bu uygulama ile **büyük** bir adım atmak üzeresiniz. Bir dosya ile tüm 
+isteklerin işlenmesi ile güvenlik, konfigürasyon ve yönlendirme gibi 
+pek çok şeyi merkezileştirebilirsiniz. Bu uygulamada ``index.php`` 
+blog postlarını liste *ya da* post'u tek gösterme işini URI üzerinden
+ayıracak kadar akıllı olmalıdır:
 
-You're about to take a **big** step with the application. With one file handling
-all requests, you can centralize things such as security handling, configuration
-loading, and routing. In this application, ``index.php`` must now be smart
-enough to render the blog post list page *or* the blog post show page based
-on the requested URI:
 
 .. code-block:: html+php
 
@@ -375,8 +383,9 @@ on the requested URI:
         echo '<html><body><h1>Page Not Found</h1></body></html>';
     }
 
-For organization, both controllers (formerly ``index.php`` and ``show.php``)
-are now PHP functions and each has been moved into a separate file, ``controllers.php``:
+Düzenli olması açısından iki controller'da (``index.php`` ve``show.php``)
+şimdi ``controllers.php`` adındaki ayrı bir dosyada birer PHP fonksiyonu
+olmuşlardır.
 
 .. code-block:: php
 
@@ -392,14 +401,16 @@ are now PHP functions and each has been moved into a separate file, ``controller
         require 'templates/show.php';
     }
 
-As a front controller, ``index.php`` has taken on an entirely new role, one
-that includes loading the core libraries and routing the application so that
-one of the two controllers (the ``list_action()`` and ``show_action()``
-functions) is called. In reality, the front controller is beginning to look and
-act a lot like Symfony2's mechanism for handling and routing requests.
+Eğer ``index.php`` front controller olarak çekirdek kütüphanelerin
+yüklenmesi ve uygulamanın yönlentirme işlemleri gibi yeni bir görev aldığında
+bu iki controller (``list_action()`` and ``show_action()`` fonksiyonlaeı)
+çağırılacaktır. Gerçekte bu front controller mekanizması görünüm ve hareket 
+olarak Symfony2'nin route'ları ve istekleri işleme mekanızmasına çok benzemeye
+başlıyor.
 
 .. tip::
 
+   Front controller'in diğer bir avantajı esnel URL'lerdir. 
    Another advantage of a front controller is flexible URLs. Notice that
    the URL to the blog post show page could be changed from ``/show`` to ``/read``
    by changing code in only one location. Before, an entire file needed to
