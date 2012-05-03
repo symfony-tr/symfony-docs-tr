@@ -1,7 +1,7 @@
 .. index::
    single: Symfony2 Temelleri
 
-Symfony2 and HTTP Fundamentals
+Symfony2 ve HTTP Temelleri
 ==============================
 
 Congratulations! By learning about Symfony2, you're well on your way towards
