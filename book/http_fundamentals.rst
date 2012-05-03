@@ -15,48 +15,47 @@ Diğer bir kelimeyle "Symfony" öğrenirken web temellerini öğrenecek, en iyi
 pek çok inanılmaz PHP kütüphanesininde nasıl kullanılacağını öğreneceksiniz.
 Şimdi başlayalım.
 
-True to the Symfony2 philosophy, this chapter begins by explaining the fundamental
-concept common to web development: HTTP. Regardless of your background or
-preferred programming language, this chapter is a **must-read** for everyone.
+Web geliştirmede genel konsept olan HTTP konusunu Symfony2'nin felsefesine uygun olarak
+açıklamaya başlayalım.
+Genel bilgi düzeyiniz ya da tercih ettiğiniz programlama dilinden bağımsız olarak
+bu kısmı herkezin **okuması gereklidir** .
 
-HTTP is Simple
+HTTP Basittir
 --------------
-
-HTTP (Hypertext Transfer Protocol to the geeks) is a text language that allows
-two machines to communicate with each other. That's it! For example, when
-checking for the latest `xkcd`_ comic, the following (approximate) conversation
-takes place:
+HTTP (geekler için Hypertext Transfer Protocol'ü demek)  iki makinenin birbiri
+arasında konuşması için kullanılan metin tabanlı bil dildir. Hepsi bu kadar !.
+Örneğin ne zaman en son `xkcd`_ karikatürlerini görmek istediğinizde şu (kabaca)
+konuşma geçer:
 
 .. image:: /images/http-xkcd.png
    :align: center
 
-And while the actual language used is a bit more formal, it's still dead-simple.
-HTTP is the term used to describe this simple text-based language. And no
-matter how you develop on the web, the goal of your server is *always* to
-understand simple text requests, and return simple text responses.
-
-Symfony2 is built from the ground-up around that reality. Whether you realize
-it or not, HTTP is something you use everyday. With Symfony2, you'll learn
-how to master it.
+Kullandığınız gerçek dilde bu biraz daha karmaşık iken aslında iş temelde bu kadar basittir.
+HTTP bu basit metin tabalı dilin kurallarını tanımlar. Http sizin nasıl web
+geliştirme yaptığınızla ilgilenmez.Ama amacı sunucunuzun *her zaman* basit 
+metin tabanlı istekleri anlayarak basit metin tabanlı cevaplar geri döndürmesini
+sağlamaktır.
+Symfony2'de işte bu durum üzerine inşaa edilmiştir. HTTP'yi nasıl kullandığınızın
+önemi yoktur. Symfony2 ile HTTP konusunda nasıl uzmanlaşacağınızı öğreneceksiniz.
 
 .. index::
-   single: HTTP; Request-response paradigm
+   single: HTTP; İstek-cevap yaklaşımı
 
-Step1: The Client sends a Request
+Adım 1: İstemci Bir İstek Gönderir
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Every conversation on the web starts with a *request*. The request is a text
-message created by a client (e.g. a browser, an iPhone app, etc) in a
-special format known as HTTP. The client sends that request to a server,
-and then waits for the response.
+Web'de her konuşma bir *istek (request)* ile başlar. İstek istemci (client)
+tarafından (Örn: bir tarayıcı, bir iPhone uygulaması vb...) yaratılan 
+HTTP olarak bilinen özel formatta bir metin tabanlı mesajdır. İstemci
+sunucuya bir istek (request) gönderir ve cevabını bekler.
 
-Take a look at the first part of the interaction (the request) between a
-browser and the xkcd web server:
+Birinci kısımdaki tarayıcı ve xkcd sunucusu arasındaki olaya geri dönelim:
 
 .. image:: /images/http-xkcd-request.png
    :align: center
 
-In HTTP-speak, this HTTP request would actually look something like this:
+
+HTTP konuşmasında bu HTTP isteği aslında şuna benzemektedir:
 
 .. code-block:: text
 
@@ -65,28 +64,29 @@ In HTTP-speak, this HTTP request would actually look something like this:
     Accept: text/html
     User-Agent: Mozilla/5.0 (Macintosh)
 
-This simple message communicates *everything* necessary about exactly which
-resource the client is requesting. The first line of an HTTP request is the
-most important and contains two things: the URI and the HTTP method.
 
-The URI (e.g. ``/``, ``/contact``, etc) is the unique address or location
-that identifies the resource the client wants. The HTTP method (e.g. ``GET``)
-defines what you want to *do* with the resource. The HTTP methods are the
-*verbs* of the request and define the few common ways that you can act upon
-the resource:
+Bu basit mesaj istek yapan istemci hakkındaki bilgilerin neredeyse *tamamını*
+kapsamaktadır. HTTP isteğinin ilk satırı çok önemli iki şeyi barındırır: URI 
+ve HTTP metodu.
+
+URI (örn: ``/``, ``/contact`` vb..) istemcinin istediği kaynağın benzersiz 
+bir şekilde tanımlandığı konumu ifade eder. HTTP metodu (örn: ``GET``)
+bu kaynakla ne *yapmak* istediğinizi ifade eder. HTTP metodları isteklerin
+bir kaç genel bilinen yolla kaynak üzerinde nasıl davranılacağını gösteren
+eylemlerdir :
 
 +----------+---------------------------------------+
-| *GET*    | Retrieve the resource from the server |
+| *GET*    | Sunucudan kaynağı alır.               |
 +----------+---------------------------------------+
-| *POST*   | Create a resource on the server       |
+| *POST*   | Sunucuda bir kaynak oluşturur.        |
 +----------+---------------------------------------+
-| *PUT*    | Update the resource on the server     |
+| *PUT*    | Sunucudaki kaynağı günceller          |
 +----------+---------------------------------------+
-| *DELETE* | Delete the resource from the server   |
+| *DELETE* | Sunucudaki kaynağı siler              |
 +----------+---------------------------------------+
 
-With this in mind, you can imagine what an HTTP request might look like to
-delete a specific blog entry, for example:
+Bu duruma göre belirlenen bir blog girdisinin silinmesini HTTP isteği ile
+şu şekilde olabileceğini düşünebilirsiniz:
 
 .. code-block:: text
 
@@ -94,31 +94,29 @@ delete a specific blog entry, for example:
 
 .. note::
 
-    There are actually nine HTTP methods defined by the HTTP specification,
-    but many of them are not widely used or supported. In reality, many modern
-    browsers don't support the ``PUT`` and ``DELETE`` methods.
+    Aslında HTTP tanımlamasında dokuz adet HTTP metodu tanımlanmış olmasına
+    karşın pek çoğu artık kullanılmamakta ya da desteklenmemektedir.
+    Gerçekte pek çok modern tarayıcı ``PUT`` ve ``DELETE`` metodlarına
+    destek vermezler.
 
-In addition to the first line, an HTTP request invariably contains other
-lines of information called request headers. The headers can supply a wide
-range of information such as the requested ``Host``, the response formats
-the client accepts (``Accept``) and the application the client is using to
-make the request (``User-Agent``). Many other headers exist and can be found
-on Wikipedia's `List of HTTP header fields`_ article.
+İlk satıra ek olarak bir HTTP isteği daima istek başlıklarının içerdiği
+diğer tüm satırları içerir.Bu başlıklar istekte bulunan ``Host`` 'un
+geniş çaptaki bilgilerin, istemcinin kabul ettiği cevap formatlarını 
+(``Accept``) ve istemcinin istek yaptığı uygulama (``User-Agent``)
+gibi pek çok bilgi içerir. Diğer başlıklar hakkındaki bilgiler
+Wikipedia'nın `HTTP başlık alanları listesi`_ adlı makalesinde bulunmaktadır.
 
-Step 2: The Server returns a Response
+Adım 2: Sunucu bir cevap döndürür
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Once a server has received the request, it knows exactly which resource the
-client needs (via the URI) and what the client wants to do with that resource
-(via the method). For example, in the case of a GET request, the server
-prepares the resource and returns it in an HTTP response. Consider the response
-from the xkcd web server:
+Sunucu bir istek alır almaz istemcinin hangi kaynağı istediği (URI aracılığı ile)
+ve hangi istemcinin bu kaynakla ne yapmak istediğini (metod aracılığı ile) bilir.
+Örneğin GET isteği durumunda sunucu kaynağı HTTP cevabı olarak hazırlar.  xkcd
+web sunucusunu göz önüne aldığımızda :
 
 .. image:: /images/http-xkcd.png
    :align: center
 
-Translated into HTTP, the response sent back to the browser will look something
-like this: 
+HTTP çevrilen cevap tarayıcıda şu şekilde gözükecektir:
 
 .. code-block:: text
 
@@ -128,42 +126,45 @@ like this:
     Content-Type: text/html
 
     <html>
-      <!-- HTML for the xkcd comic -->
+      <!-- xkcd karikatürü için HTML kodu -->
     </html>
 
-The HTTP response contains the requested resource (the HTML content in this
-case), as well as other information about the response. The first line is
-especially important and contains the HTTP response status code (200 in this
-case). The status code communicates the overall outcome of the request back
-to the client. Was the request successful? Was there an error? Different
-status codes exist that indicate success, an error, or that the client needs
-to do something (e.g. redirect to another page). A full list can be found
-on Wikipedia's `List of HTTP status codes`_ article.
 
-Like the request, an HTTP response contains additional pieces of information
-known as HTTP headers. For example, one important HTTP response header is
-``Content-Type``. The body of the same resource could be returned in multiple
-different formats like HTML, XML, or JSON and the ``Content-Type`` header uses
-Internet Media Types like ``text/html`` to tell the client which format is
-being returned. A list of common media types can be found on Wikipedia's 
-`List of common media types`_ article.
+HTTP cevabı istenen kaynağın bilgisini barındırdığı gibi (bu örnekte HTML
+içeriğidir) aynı zamanda cevap hakkında diğer bilgileri de barındırır.
+İlk satır özellikle HTTP durum kodunu gösteren önemli bir kısımdır. (
+Bu örnekte 200) Bu durum kodu ile dönüş yapılacak istemci arasında iletişim
+kurulur. İstek başarılı oldumu ? Bir hata var mı ? Farklı bir durum kodu 
+çıktığında bunun hata mı, başarılı bir istek olduğumu ya da istemcinin başka
+bir şey istediğini mi (örneğin başka bir sayfaya yönlendirme) olduğu böylece
+belirlenmiş olur. Durum kodları hakkındaki tam liste Wikipedia'nın 
+`HTTP durum kodları`_  makalesinde bulunabilir.
 
-Many other headers exist, some of which are very powerful. For example, certain
-headers can be used to create a powerful caching system.
+İstekte olduğu gibi HTTP cevapları (response) HTTP başlıkları (headers)
+olarak bilinen ayrıca ek bilgiler içerir. Örneğin önemli bir HTTP cevap
+başlığı ``Content-Type`` dır. Aynı kaynağın içeriği HTML, XML, ya da  JSON 
+olarak döndürülebilir. ``Content-Type`` başlığına  ``text/html`` gibi
+Internet Medya tipleri bilgisi atanarak istemciye bu kaynağın nasıl 
+döndürüleceği belirlenir.  Internet medya tipleri hakındaki tüm listeye
+Wikipedia'nın `Genel medya tipleri listesi`_ makalesinden erişilebilir.
 
-Requests, Responses and Web Development
+İçlerinde oldukça güçlü olan diğer başlık tanımlamalarıda mevcuttur. 
+Örneğin bazı başlıklar güçlü bir önbellekleme (caching) sistemi için 
+kullanılır.
+
+
+İstekler, Cevaplar ve Web Geliştirme
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bu istek-cevap iletişimi web üzerindeki tüm iletişimin temelini sağlayan
+bir süreçtir. Önemli olan şey, bu iletişimin çok basit
+bir şekile ve oldukça güçlü olarak sağladığıdır.
 
-This request-response conversation is the fundamental process that drives all
-communication on the web. And as important and powerful as this process is,
-it's inescapably simple.
+Burada anlaşılması gereken en önemli şey sizin uygulama dilinden 
+ve uygulama tipinizden (web, mobile, JSON API) ya da geliştirme mantalitenizden
+bağımsız olarak bir uygulamanın **daima** her isteği anladığı ve uygun
+bir cevabı geri döndürdüği durumu olmalıdır.
 
-The most important fact is this: regardless of the language you use, the
-type of application you build (web, mobile, JSON API), or the development
-philosophy you follow, the end goal of an application is **always** to understand
-each request and create and return the appropriate response.
-
-Symfony is architected to match this reality.
+Symfony işte bu gerçek üzerine mimarilendirilmiştir.
 
 .. tip::
 
@@ -173,13 +174,12 @@ Symfony is architected to match this reality.
     while browsing is the `Live HTTP Headers`_ extension for Firefox.
 
 .. index::
-   single: Symfony2 Fundamentals; Requests and responses
+   single: Symfony2 Temelleri; İstekler ve cevaplar
 
-Requests and Responses in PHP
+PHP'de İstekler ve cevaplar
 -----------------------------
-
-So how do you interact with the "request" and create a "response" when using
-PHP? In reality, PHP abstracts you a bit from the whole process:
+Peki PHP kullanarak "istekler" 'i nasıl yapacak ve "cevapları" nasıl 
+yaratacağız?. Gerçekte PHP bu süreci kısa bir şekilde ifade eder:
 
 .. code-block:: php
 
@@ -191,14 +191,14 @@ PHP? In reality, PHP abstracts you a bit from the whole process:
     echo 'The URI requested is: '.$uri;
     echo 'The value of the "foo" parameter is: '.$foo;
 
-As strange as it sounds, this small application is in fact taking information
-from the HTTP request and using it to create an HTTP response. Instead of
-parsing the raw HTTP request message, PHP prepares superglobal variables
-such as ``$_SERVER`` and ``$_GET`` that contain all the information from
-the request. Similarly, instead of returning the HTTP-formatted text response,
-you can use the ``header()`` function to create response headers and simply
-print out the actual content that will be the content portion of the response
-message. PHP will create a true HTTP response and return it to the client:
+Bu acayip gözüken küçük uygulama aslında bir HTTP isteğini alıyor ve
+buna göre bir HTTP cevabı yaratıyor.
+HTTP 'nin ham mesajlarını işlemek yerine PHP ``$_SERVER`` ve ``$_GET``
+adı verilen süper global değişkenleri ile isteğin tüm bilgilerini hazırlıyor.
+Benzer olarak geri dönen HTTP formatlı metin mesajı ile ``header()`` 
+fonksiyonunu kullanarak cevap başlıkları (reponse header) yaratarak basitçe
+güncel içeriği gelen cevap mesajına göre ekrana basabiliyorsunuz. Aşağıda 
+PHP istemciye gidecek gerçek bir HTTP cevabı yaratacak:
 
 .. code-block:: text
 
@@ -210,14 +210,13 @@ message. PHP will create a true HTTP response and return it to the client:
     The URI requested is: /testing?foo=symfony
     The value of the "foo" parameter is: symfony
 
-Requests and Responses in Symfony
+Symfony'de İstekler ve cevaplar
 ---------------------------------
-
-Symfony provides an alternative to the raw PHP approach via two classes that
-allow you to interact with the HTTP request and response in an easier way.
-The :class:`Symfony\\Component\\HttpFoundation\\Request` class is a simple
-object-oriented representation of the HTTP request message. With it, you
-have all the request information at your fingertips::
+Symfony, PHP'nin HTTP istekleri ve cevapları'nın arasındaki iletişimi
+sağlamak için kullandığı yaklaşımı alternatif bir yok kullanarak kolaylıkla
+gerçekleştirir. :class:`Symfony\\Component\\HttpFoundation\\Request` sınıfı
+HTTP istek mesajlarının ifade edildiği basit bir sınıftır.
+Bu sınıf ile isteğe (request) ait bilgileri parmaklarınızın ucunda olacaktır::
 
     use Symfony\Component\HttpFoundation\Request;
 
@@ -246,37 +245,38 @@ have all the request information at your fingertips::
     $request->getMethod();          // GET, POST, PUT, DELETE, HEAD
     $request->getLanguages();       // an array of languages the client accepts
 
-As a bonus, the ``Request`` class does a lot of work in the background that
-you'll never need to worry about. For example, the ``isSecure()`` method
-checks the *three* different values in PHP that can indicate whether or not
-the user is connecting via a secured connection (i.e. ``https``).
+``Request`` sınıfı arka tarafta çok iş yapar diye endişelenmeyin.
+Örneğin ``isSecure()`` metodu kullanıcının güvenli bağlantı yapıp 
+yapmadığını (Örn: ``https``) anlamak için sadece PHP'deki üç farklı 
+değere bakar.
 
-.. sidebar:: ParameterBags and Request attributes
+.. sidebar:: ParameterBags ve Request nitelikleri
 
-    As seen above, the ``$_GET`` and ``$_POST`` variables are accessible via
-    the public ``query`` and ``request`` properties respectively. Each of
-    these objects is a :class:`Symfony\\Component\\HttpFoundation\\ParameterBag`
-    object, which has methods like
+    Yukarıda ``$_GET`` ve ``$_POST`` değişkenlerinin sırasıyla ``query`` 
+    ve ``request`` özellikleri ile erişebildiğini gördünüz. Bu nesnelerin
+    her birisi :class:`Symfony\\Component\\HttpFoundation\\ParameterBag`
+    nesnesinin aşağıdaki gibi kullanılan metodlarıdır
     :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::get`,
     :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::has`,
-    :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::all` and more.
-    In fact, every public property used in the previous example is some instance
-    of the ParameterBag.
+    :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::all` ve diğerleri.
+    Aslında önceki örnekte kullanılan her bir özellikte ParameterBag'ın bir 
+    özelliğidir.
     
     .. _book-fundamentals-attributes:
     
-    The Request class also has a public ``attributes`` property, which holds
-    special data related to how the application works internally. For the
-    Symfony2 framework, the ``attributes`` holds the values returned by the
-    matched route, like ``_controller``, ``id`` (if you have an ``{id}``
-    wildcard), and even the name of the matched route (``_route``). The
-    ``attributes`` property exists entirely to be a place where you can
-    prepare and store context-specific information about the request.
+    Request sınıfı ayrıca ``attributes`` adındaki özelliği ile uygulamanın
+    kendi içerisinde kullanılmak üzere bazı ekstra bilgileride tutar.
+    Symfony2 framework'u için ``attributes`` içeriği,eşleşen yönlendirme
+    için ``_controller`` bilgisi, ``id`` (eğer yönlendirme de ``{id}`` parametresi 
+    kullandıysanız ) ve eşleşen yönlendirme ismi (``_route``) dir.
     
+    ``attributes`` özelliği'nin tuttuğu bilgileri istediğiniz yerde kullanabilir
+    ve isteğe göre içerik özel olarak tutabilirsiniz.
+      
 
-Symfony also provides a ``Response`` class: a simple PHP representation of
-an HTTP response message. This allows your application to use an object-oriented
-interface to construct the response that needs to be returned to the client::
+Symfony ayrıca ``Response`` adında HTTP response mesajları için bir sınıf barındırır. 
+Bu uygulamanızda istemciye dönecek olan mesajları nesne tabanlı bir arabirimle 
+inşa etmenize olanak sağlar::
 
     use Symfony\Component\HttpFoundation\Response;
     $response = new Response();
@@ -288,45 +288,45 @@ interface to construct the response that needs to be returned to the client::
     // prints the HTTP headers followed by the content
     $response->send();
 
-If Symfony offered nothing else, you would already have a toolkit for easily
-accessing request information and an object-oriented interface for creating
-the response. Even as you learn the many powerful features in Symfony, keep
-in mind that the goal of your application is always *to interpret a request
-and create the appropriate response based on your application logic*.
+Eğer Symfony başka bir şey teklif etseydi siz zaten bu request bilgisine 
+ulaşıp cevap yaratmak için nesne yönelimli araç kullanacaktınız. Symfony
+içerisinde gelen pek çok güçlü özellikten de öğrendiğiniz üzere ana amaç,
+uygulamanızın *gelen isteği yorumlamak ve uygulama mantığınız içerisindeki en
+uygun cevabı yaratmaktır.*
 
 .. tip::
 
-    The ``Request`` and ``Response`` classes are part of a standalone component
-    included with Symfony called ``HttpFoundation``. This component can be
-    used entirely independent of Symfony and also provides classes for handling
-    sessions and file uploads.
+    ``Request`` ve ``Response`` sınıfları kendi başına çalışabilen ve Symfony'de
+    ``HttpFoundation`` olarak adlandırılan bileşendedirler. Bu bileşen. 
+    Symfony'den bağımsız olarak oturumlar ve dosya yüklemeleri içinde başka uygu
+    lamalarda kullanılabilir.
+    
 
-The Journey from the Request to the Response
---------------------------------------------
+İstekten Cevaba Bir Seyahat
+------------------------------
+HTTP'ninde olduğu gibi ``Request`` ve ``Response`` nesneleri oldukça basittir.
+Bir uygulamanın geliştirilmesinin zorluğu nelerin gelip gittiğinin yazılmasıdır.
+Diğer bir ifade ile gerçek çalışmalar istek bilgilerini yorumlar ve ilgili bilgi
+yüklü cevapları oluşturur.
 
-Like HTTP itself, the ``Request`` and ``Response`` objects are pretty simple.
-The hard part of building an application is writing what comes in between.
-In other words, the real work comes in writing the code that interprets the
-request information and creates the response.
+Uygulamanız muhtemelen e-posta göndermek form verilerini işlemek, veri tabanına
+bilgi saklamak, HTML sayfalarını oluşturmak ve içeriğinizin güvenliğini sağlamak
+gibi pek çok iş yapıyordur. Bunları ortak bir yapıda nasıl organize edip bakımını
+sağlayabilirsiniz ?
 
-Your application probably does many things, like sending emails, handling
-form submissions, saving things to a database, rendering HTML pages and protecting
-content with security. How can you manage all of this and still keep your
-code organized and maintainable?
+Symfony ortadaki bu sorunları çözerek size bir şey bırakmaz.
 
-Symfony was created to solve these problems so that you don't have to.
-
-The Front Controller
+Front Controller
 ~~~~~~~~~~~~~~~~~~~~
 
-Traditionally, applications were built so that each "page" of a site was
-its own physical file:
+Geleneksel olarak uygulamalarda her sayfa bir dosya ile ifade edilir :
 
 .. code-block:: text
 
     index.php
     contact.php
     blog.php
+
 
 There are several problems with this approach, including the inflexibility
 of the URLs (what if you wanted to change ``blog.php`` to ``news.php`` without
@@ -538,10 +538,10 @@ sensible defaults. For more advanced users, the sky is the limit.
 .. _`xkcd`: http://xkcd.com/
 .. _`HTTP 1.1 RFC`: http://www.w3.org/Protocols/rfc2616/rfc2616.html
 .. _`HTTP Bis`: http://datatracker.ietf.org/wg/httpbis/
-.. _`Live HTTP Headers`: https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/
-.. _`List of HTTP status codes`: http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-.. _`List of HTTP header fields`: http://en.wikipedia.org/wiki/List_of_HTTP_header_fields
-.. _`List of common media types`: http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types
+.. _`Live HTTP Headers`: https://addons.mozilla.org/en-US/firefox/addon/3829/
+.. _`HTTP durum kodları`: http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+.. _`HTTP başlık alanları listesi`: http://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+.. _`Genel medya tipleri listesi`: http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types
 .. _`HttpFoundation`: https://github.com/symfony/HttpFoundation
 .. _`Routing`: https://github.com/symfony/Routing
 .. _`Form`: https://github.com/symfony/Form
