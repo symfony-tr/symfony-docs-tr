@@ -168,17 +168,17 @@ Symfony işte bu gerçek üzerine mimarilendirilmiştir.
 
 .. tip::
 
-    To learn more about the HTTP specification, read the original `HTTP 1.1 RFC`_
-    or the `HTTP Bis`_, which is an active effort to clarify the original
-    specification. A great tool to check both the request and response headers
-    while browsing is the `Live HTTP Headers`_ extension for Firefox.
+    HTTP tanımlaması hakkında daha fazlasını öğrenmek için orijinal 
+    `HTTP 1.1 RFC`_ ya da `HTTP Bis`_, belgelerini okumanız gereklidir.
+    İstek ve cevap başlıklarını kontrol edebilmek için Firefox'un `Live HTTP Headers`_ 
+    adlı eklentisi mükemmel bir yardımcı araçtır.
 
 .. index::
    single: Symfony2 Temelleri; İstekler ve cevaplar
 
 PHP'de İstekler ve cevaplar
 -----------------------------
-Peki PHP kullanarak "istekler" 'i nasıl yapacak ve "cevapları" nasıl 
+Peki PHP kullanarak "istekler" 'i nasıl yapacak ve "cevaplar" 'ı nasıl 
 yaratacağız?. Gerçekte PHP bu süreci kısa bir şekilde ifade eder:
 
 .. code-block:: php
@@ -269,7 +269,6 @@ değere bakar.
     Symfony2 framework'u için ``attributes`` içeriği,eşleşen yönlendirme
     için ``_controller`` bilgisi, ``id`` (eğer yönlendirme de ``{id}`` parametresi 
     kullandıysanız ) ve eşleşen yönlendirme ismi (``_route``) dir.
-    
     ``attributes`` özelliği'nin tuttuğu bilgileri istediğiniz yerde kullanabilir
     ve isteğe göre içerik özel olarak tutabilirsiniz.
       
@@ -319,7 +318,7 @@ Symfony ortadaki bu sorunları çözerek size bir şey bırakmaz.
 Front Controller
 ~~~~~~~~~~~~~~~~~~~~
 
-Geleneksel olarak uygulamalarda her sayfa bir dosya ile ifade edilir :
+Geleneksel olarak web uygulamalarında her sayfa bir dosya ile ifade edilir :
 
 .. code-block:: text
 
@@ -327,43 +326,48 @@ Geleneksel olarak uygulamalarda her sayfa bir dosya ile ifade edilir :
     contact.php
     blog.php
 
+Bu yaklaşımda esnek olmayan URL'ler (``blog.php`` den ``news.php`` ye değişiklik yaparken 
+tüm linklerinizi bozmadan değişklik nasıl yapabilirsiniz ), her dosyanın içerisinde 
+mutlaka manuel olarak güvenlik, veritabanı bağlantıları ve sitenin
+görünümü gibi bazı çekirdek dosyaların sürekli çağrılmak zorunda kalınması
+gibi bazı sorunlar ortaya çıkar. 
 
-There are several problems with this approach, including the inflexibility
-of the URLs (what if you wanted to change ``blog.php`` to ``news.php`` without
-breaking all of your links?) and the fact that each file *must* manually
-include some set of core files so that security, database connections and
-the "look" of the site can remain consistent.
+En iyi çözüm tek bir php dosyasından oluşan ve gelen her isteği işleyen bir
+:term:`front controller` kullanmaktır. Örneğin:
 
-A much better solution is to use a :term:`front controller`: a single PHP
-file that handles every request coming into your application. For example:
-
-+------------------------+------------------------+
-| ``/index.php``         | executes ``index.php`` |
-+------------------------+------------------------+
-| ``/index.php/contact`` | executes ``index.php`` |
-+------------------------+------------------------+
-| ``/index.php/blog``    | executes ``index.php`` |
-+------------------------+------------------------+
++------------------------+------------------------------+
+| ``/index.php``         | ``index.php`` 'yi çalıştırır |
++------------------------+------------------------------+
+| ``/index.php/contact`` | ``index.php`` 'yi çalıştırır |
++------------------------+------------------------------+
+| ``/index.php/blog``    | ``index.php`` 'yi çalıştırır |
++------------------------+------------------------------+
 
 .. tip::
 
-    Using Apache's ``mod_rewrite`` (or equivalent with other web servers),
-    the URLs can easily be cleaned up to be just ``/``, ``/contact`` and
-    ``/blog``.
+    Apache web sunucusunun ``mod_rewrite`` modülünü kullandığınızda
+    (ya da diğer web sunucularındaki bu işe yarayan bir şeyi),
+    URL'ler kolaylıkla temizlenip sadece ``/``, ``/contact`` ve
+    ``/blog`` şekline gelebilirler.
 
-Now, every request is handled exactly the same. Instead of individual URLs
-executing different PHP files, the front controller is *always* executed,
-and the routing of different URLs to different parts of your application
-is done internally. This solves both problems with the original approach.
-Almost all modern web apps do this - including apps like WordPress.
+Şimdi her istek aynı şekilde işlenir. Birbirinden bağımsız URL'lerin 
+farklı PHP dosyaları tarafından çalıştırılması yerine front controller 
+*daima* tek olarak çalışır ve içeride uygulamanın farklı parçalarındaki farklı
+URL'lere yönlendirme yapar. Bu orijinal bir yaklaşımla bu iki sorun çözülür.
+Modern tüm web uygulamaları -WordPress gibi- bu sorunu tamamen bu şekilde
+çözerler.
 
-Stay Organized
+Düzenli Kalmak
 ~~~~~~~~~~~~~~
+Fakat front controllerinizin içerisinde hangi sayfanın aynı şekilde 
+ekrana basılmasını nasıl sağlayacaksınız ?. Bu yollardan birtanesi
+gelen URI'yi kontrol etmek ve gelen değere göre kodunuzun farklı kısımlarını
+çalıştırmak olabilir. Bu 
 
 But inside your front controller, how do you know which page should
 be rendered and how can you render each in a sane way? One way or another, you'll need to
 check the incoming URI and execute different parts of your code depending
-on that value. This can get ugly quickly:
+on that value. Bunu çok çirkin olarak şu şekilde yapabilirsiniz:
 
 .. code-block:: php
 
@@ -381,47 +385,49 @@ on that value. This can get ugly quickly:
     }
     $response->send();
 
-Solving this problem can be difficult. Fortunately it's *exactly* what Symfony
-is designed to do.
 
-The Symfony Application Flow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bu problemi çözmek zor olabilir. Ama neyseki Symfony tamamen bunu çözmek 
+için tasarlanmıştır.
 
-When you let Symfony handle each request, life is much easier. Symfony follows
-the same simple pattern for every request:
+Symfony Uygulama Akışı
+~~~~~~~~~~~~~~~~~~~~~~
+Gelen her isteği Symfony ye bıraktığınızda hayat daha da kolaylaşır. Symfony
+her istek için aynı şablonu kullanır:
 
 .. _request-flow-figure:
 
 .. figure:: /images/request-flow.png
    :align: center
-   :alt: Symfony2 request flow
+   :alt: Symfony2 istek akışı
 
-   Incoming requests are interpreted by the routing and passed to controller
-   functions that return ``Response`` objects.
+   Gelen istekler yönlendirme tarafından işlenir ve controllerdaki
+   ``Response`` nesnesini çeviren fonksiyona gönderilir.
 
-Each "page" of your site is defined in a routing configuration file that
-maps different URLs to different PHP functions. The job of each PHP function,
-called a :term:`controller`, is to use information from the request - along
-with many other tools Symfony makes available - to create and return a ``Response``
-object. In other words, the controller is where *your* code goes: it's where
-you interpret the request and create a response.
+Sitenizin yönlendirme konfigürasyon dosyasında tanımlı olan her "sayfa"
+farklı URL adresleri için farklı PHP fonksiyonlarına yönlendirilir. Her
+PHP fonksiyonunun işi istekten -Symfony de mevcut olan diğer toolarda dahil
+olmak üzere- gelen bilgiyi kullanıp geriye bir ``Response``
+nesnesi çeviren bir :term:`controller` 'ı çalıştırmaktır.
+Diğer bir ifade ile controller, *sizin* bir istek yaratıp geriye bir cevap
+döndüren kodunuzdur.
 
-It's that easy! Let's review:
+Ne kadar kolay!.Tekrar Edelim:
 
-* Each request executes a front controller file;
 
-* The routing system determines which PHP function should be executed based
-  on information from the request and routing configuration you've created;
+* Her istek bir front controller dosyasını çalıştırır;
 
-* The correct PHP function is executed, where your code creates and returns
-  the appropriate ``Response`` object.
+* Yönlendirme sistemi,istekten gelen bilgilerle konfigürasyonda belirlediğiniz
+  PHP fonksiyonlarından hangisinin çalışacağını belirler;
 
-A Symfony Request in Action
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Kodunuz içerisinde belirlediğiniz, uygun ``Response`` nesnesini çeviren
+  PHP fonksiyonu çalıştırılır.
 
-Without diving into too much detail, let's see this process in action. Suppose
-you want to add a ``/contact`` page to your Symfony application. First, start
-by adding an entry for ``/contact`` to your routing configuration file:
+Uygulamada Bir Symfony İsteği
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Çok fazla detaya girmeden uygulamada sürecin nasıl işlediğine bakalım.
+Varsayalım Symfony uygulamanıza ``/contact`` sayfası eklemek istiyorsunuz.
+Öncelikle yönlendirme konfigürasyon dosyanıza  ``/contact``  girdisini 
+eklemelisiniz:
 
 .. code-block:: yaml
 
@@ -431,14 +437,14 @@ by adding an entry for ``/contact`` to your routing configuration file:
 
 .. note::
 
-   This example uses :doc:`YAML</components/yaml>` to define the routing
-   configuration. Routing configuration can also be written in other formats
-   such as XML or PHP.
+   Bu örnek yönlendirme konfigürasyonu için :doc:`YAML</components/yaml>`
+   kullannır. Yönlendirme konfigürasyonu ayrıca PHP ya da XML tiplerinde de 
+   yazılabilir.
 
-When someone visits the ``/contact`` page, this route is matched, and the
-specified controller is executed. As you'll learn in the :doc:`routing chapter</book/routing>`,
-the ``AcmeDemoBundle:Main:contact`` string is a short syntax that points to a
-specific PHP method ``contactAction`` inside a class called ``MainController``:
+Birisi ne zaman ``/contact`` sayfasını ziyaret ederse bu yönlendirme eşleşecek
+ve belirlenmiş olan controller çalıştırılacaktır.:doc:`Yönlendirme Kısmında</book/routing>`,
+öğrendiğiniz gibi ``AcmeDemoBundle:Main:contact`` string değeri ``MainController`` adı ile
+belirlenmiş olan sınıfın içerisindeki ``contactAction`` adlı PHP metodunun kısa yazımıdır:
 
 .. code-block:: php
 
@@ -450,90 +456,93 @@ specific PHP method ``contactAction`` inside a class called ``MainController``:
         }
     }
 
-In this very simple example, the controller simply creates a ``Response``
-object with the HTML "<h1>Contact us!</h1>". In the :doc:`controller chapter</book/controller>`,
-you'll learn how a controller can render templates, allowing your "presentation"
-code (i.e. anything that actually writes out HTML) to live in a separate
-template file. This frees up the controller to worry only about the hard
-stuff: interacting with the database, handling submitted data, or sending
-email messages. 
+Bu çok basit örnekte controller basitçe HTML olarak "<h1>Contact us!</h1>" 
+içeren bir ``Response`` nesnesi yaratmaktadır. :doc:`Controller kısmında</book/controller>`,
+bir controller'in "sunum" kodunuzu içeren (örn. HTML'den başka birşey olmayan) ayrı bir dosya içerisinde 
+tutulan şablonu ekrana nasıl basabileceğini öğreneceksiniz.
+Bu özellik controller'ı veri tabanı ile etkileşime geçmek, gelen veriyi işlemek 
+ya da e-posta mesajları göndermek gibi daha ciddi işleri yapmak konusunda 
+rahatlatır.
 
-Symfony2: Build your App, not your Tools.
------------------------------------------
+Symfony2: Yardımcı araçlarınızı Değil Uygulamanızı Geliştirin.
+---------------------------------------------------------------
+Bildiğiniz gibi her uygulamanın ana amacı gelen her istek için uygun
+bir cevap yaratmaktır. Uygulama büyüdüğünde kodunuzu düzenlemek ve
+derli toplu kalmasını sağlamak zorlaşır. Her zaman veritabanına bir
+şeyler kayıt etmek, şablonları ekrana basmak ya da yeniden kullanmak,
+form verileri almak ve işlemek,e-postalar göndermek, güvenlik amacıyla
+kullanıcı girdileri kontrol etmek ve düzenlemek gibi aynı karmaşık görevler
+tekrar tekrar karşınıza gelir.
+İyi haber bu sorunların hiç birisi benzersiz çözümlere sahip değildir. 
+Symfony uygulamanızı geliştirmek için bir framework sağlar, bunlar için
+kullanacağınız yardımcı araçlar geliştirmek için değil... Symfony2 size
+Symfony2 'nin tamamını kullanmanız konusunda bir zorlama yapmaz. Tamamını
+kullanmak ya da bir parçasını kullanmak konusunda özgürsünüz.
 
-You now know that the goal of any app is to interpret each incoming request
-and create an appropriate response. As an application grows, it becomes more
-difficult to keep your code organized and maintainable. Invariably, the same
-complex tasks keep coming up over and over again: persisting things to the
-database, rendering and reusing templates, handling form submissions, sending
-emails, validating user input and handling security.
-
-The good news is that none of these problems is unique. Symfony provides
-a framework full of tools that allow you to build your application, not your
-tools. With Symfony2, nothing is imposed on you: you're free to use the full
-Symfony framework, or just one piece of Symfony all by itself.
 
 .. index::
-   single: Symfony2 Components
+   single: Symfony2 Temelleri
 
-Standalone Tools: The Symfony2 *Components*
+Kendi Başına Çalışan Araçlar: Symfony2 *Bileşenleri* (Components)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Peki Symfony2 *nedir?* Öncelikle Symfony2 yirminin üzerinde birbirinden 
+bağımsız herhangi bir PHP uygulamasında kullanılabilecek olan kütüphaneden
+oluşan bir kolleksiyondur.
+Bu kütüphaneler her durumda ,projenizi nasıl geliştirdiğinize aldırmayan
+işinize yarayabilecek kullanışlı şeyler içeren, *Symfony2 Bileşenleri* 
+olarak adlandırılır. 
+
+Bunlardan bir kaç tanesinin adı:
+
+* `HttpFoundation`_ - ``Request`` ve ``Response`` sınıfları ile
+  oturum yönetimi ve dosya yükleme işlemlerini de içeren bileşen;
+
+* `Routing`_ - Spesifik URI'leri yöneten (Örn. ``/contact``) , gelen isteğin nasıl
+  işleneceğini belirleyen (Örn: ``contactAction()`` metodunu çalıştıran) güçlü ve hızlı
+  yönlendirme sistemi;
+
+* `Form`_ - Form'ları yaratan ve form verilerini işleyen tam donanımlı 
+   esnek bir form framework'u;
+
+* `Validator`_ kullanıcı tarafından girilen verilerin yarattığınız veri doğrulama
+  kuralları ile uyuşup uyuşmadığını kontrol eden bir sistem;
+
+* `ClassLoader`_ PHP sınıflarını içeren her dosyayı diğer dosyalar içerisinde manuel olarak yükleme
+  zahmetinden kurtaran bir otomatik yükleme kütüphanesi;
+
+* `Templating`_ Şablonları ekrana basmak, şablon arabirimini kontrol etmek ve
+  diğer temel şablon işlemlerini gerçekleştirmek için kullanılan bir toolkit;
+
+* `Security`_ - Uygulamanızda güvenlik ile ilgili gerek duyduğunuz tüm işlemleri
+  yapabileceğiniz güçlü bir kütüphane;
+
+* `Translation`_ Uygulamanızdaki metinleri diğer dillere çevirebileceğiniz bir kütüphane.
+
+Bu bileşenlerden her birisi Symfony2 frameworkunu kulllanıp kullanmadığınıza
+bakılmaksızın *herhangi bir* PHP projesinde parça parça kullanılabilir.
+Her parça gerekli olduğu zaman yeniden düzenlenebilir.
+
+Tam Çözüm: Symfony2 *Framework*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peki Symfony2 *Framework* 'ü *nedir* ? *Symfony2 Framework* 'ü 
+aşağıdaki iki ayrı görevi gerçekleştiren bir PHP kütüphanesidir :
 
-So what *is* Symfony2? First, Symfony2 is a collection of over twenty independent
-libraries that can be used inside *any* PHP project. These libraries, called
-the *Symfony2 Components*, contain something useful for almost any situation,
-regardless of how your project is developed. To name a few:
+#. Seçilmiş bileşenleri (Symfony2 Bileşenleri) 
+   ve üçüncü parti kütüphaneleri (Örn. e-posta göndermek için``Swiftmailer``) 
+   sağlamak;
 
-* `HttpFoundation`_ - Contains the ``Request`` and ``Response`` classes, as
-  well as other classes for handling sessions and file uploads;
+#. Tutarlı bir konfigürasyon yapısı ve bu yapıyla birlikte tüm parçaları 
+   biribirine "tutkal" gibi yapıştıran kütüphaneler sağlamak. 
 
-* `Routing`_ - Powerful and fast routing system that allows you to map a
-  specific URI (e.g. ``/contact``) to some information about how that request
-  should be handled (e.g. execute the ``contactAction()`` method);
+Framework'un amacı pek çok birbirinden bağımsız yardımcı aracı geiştirici
+için en uygun ve tutarlı bir şekilde entegre etmektir. Bu bir Symfony2 Bundle'ı
+(plugin) içerisinde kolaylıkla konfigüre edilebilir.
 
-* `Form`_ - A full-featured and flexible framework for creating forms and
-  handling form submissions;
-
-* `Validator`_ A system for creating rules about data and then validating
-  whether or not user-submitted data follows those rules;
-
-* `ClassLoader`_ An autoloading library that allows PHP classes to be used
-  without needing to manually ``require`` the files containing those classes;
-
-* `Templating`_ A toolkit for rendering templates, handling template inheritance
-  (i.e. a template is decorated with a layout) and performing other common
-  template tasks;
-
-* `Security`_ - A powerful library for handling all types of security inside
-  an application;
-
-* `Translation`_ A framework for translating strings in your application.
-
-Each and every one of these components is decoupled and can be used in *any*
-PHP project, regardless of whether or not you use the Symfony2 framework.
-Every part is made to be used if needed and replaced when necessary.
-
-The Full Solution: The Symfony2 *Framework*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-So then, what *is* the Symfony2 *Framework*? The *Symfony2 Framework* is
-a PHP library that accomplishes two distinct tasks:
-
-#. Provides a selection of components (i.e. the Symfony2 Components) and
-   third-party libraries (e.g. ``Swiftmailer`` for sending emails);
-
-#. Provides sensible configuration and a "glue" library that ties all of these
-   pieces together.
-
-The goal of the framework is to integrate many independent tools in order
-to provide a consistent experience for the developer. Even the framework
-itself is a Symfony2 bundle (i.e. a plugin) that can be configured or replaced
-entirely.
-
-Symfony2 provides a powerful set of tools for rapidly developing web applications
-without imposing on your application. Normal users can quickly start development
-by using a Symfony2 distribution, which provides a project skeleton with
-sensible defaults. For more advanced users, the sky is the limit.
+Symfony2, uygulamanızı zora sokmadan hızlı bir şekilde web uygulamaları geliştirmenize
+olanak sağlayan pek çok güçlü yardımcı araç sağlar. Normal kullanıcılar hızlı bir şekilde
+Symfony2 dağıtımı kullanarak mantık çerçevesi belirlenmiş olan projeleri için uygulama
+geliştirebilirler. İleri düzey kullanıcılar için ise limit gökyüzüdür.
 
 .. _`xkcd`: http://xkcd.com/
 .. _`HTTP 1.1 RFC`: http://www.w3.org/Protocols/rfc2616/rfc2616.html
