@@ -13,7 +13,7 @@ geri dönerek alışılmışın dışında geliştirme araçlarına sahiptir.
 Symfony binlerce insanın yıllarca çalışmasının ürünü olan pek çok teknolojinin
 en iyi fikirlerini ,yardımcı araçlarını ve konseptlerini bünyesinde barındırır.
 
-Diğer bir kelimeyle "Symfony" öprenirken webin temellerini öğrenecek, en iyi
+Diğer bir kelimeyle "Symfony" öğrenirken web temellerini öğrenecek, en iyi
 öprneklerle geliştirme yapacak ve Symfony2 ile bağılmı ya da bağımsız olan 
 pek çok inanılmaz PHP kütüphanesininde nasıl kullanılacağını öğreneceksiniz.
 Şimdi başlayalım.
