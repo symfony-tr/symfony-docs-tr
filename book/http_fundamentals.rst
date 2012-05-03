@@ -1,5 +1,5 @@
 .. index::
-   single: Symfony2 Fundamentals
+   single: Symfony2 Temelleri
 
 Symfony2 and HTTP Fundamentals
 ==============================
