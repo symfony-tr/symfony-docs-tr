@@ -10,11 +10,13 @@ yolunda doğru yol almaktasınız.
 Daha hızlı ve sağlam uygulamalar geliştirmek için Symfony2 temellere 
 geri dönerek alışılmışın dışında geliştirme araçlarına sahiptir.
 
-ymfony is built on the best ideas from many technologies: the tools and concepts you're about to learn
-represent the efforts of thousands of people, over many years. In other words,
-you're not just learning "Symfony", you're learning the fundamentals of the
-web, development best practices, and how to use many amazing new PHP libraries,
-inside or independent of Symfony2. So, get ready.
+Symfony binlerce insanın yıllarca çalışmasının ürünü olan pek çok teknolojinin
+en iyi fikirlerini ,yardımcı araçlarını ve konseptlerini bünyesinde barındırır.
+
+Diğer bir kelimeyle "Symfony" öprenirken webin temellerini öğrenecek, en iyi
+öprneklerle geliştirme yapacak ve Symfony2 ile bağılmı ya da bağımsız olan 
+pek çok inanılmaz PHP kütüphanesininde nasıl kullanılacağını öğreneceksiniz.
+Şimdi başlayalım.
 
 True to the Symfony2 philosophy, this chapter begins by explaining the fundamental
 concept common to web development: HTTP. Regardless of your background or
