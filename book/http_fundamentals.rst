@@ -7,9 +7,10 @@ Tebrikler! Symfony2 hakkında öğrenerek, daha üretken, çok yönlü ve popül
 (aslında, siz kendiniz en son kısımdasınız) bir web geliştiricisi olma 
 yolunda doğru yol almaktasınız. 
 
-Symfony2 is built to get back to basics: to develop tools that let you develop faster and build more robust
-applications, while staying out of your way. Symfony is built on the best
-ideas from many technologies: the tools and concepts you're about to learn
+Daha hızlı ve sağlam uygulamalar geliştirmek için Symfony2 temellere 
+geri dönerek alışılmışın dışında geliştirme araçlarına sahiptir.
+
+ymfony is built on the best ideas from many technologies: the tools and concepts you're about to learn
 represent the efforts of thousands of people, over many years. In other words,
 you're not just learning "Symfony", you're learning the fundamentals of the
 web, development best practices, and how to use many amazing new PHP libraries,
