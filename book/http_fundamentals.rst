@@ -6,13 +6,10 @@ Symfony2 ve HTTP Temelleri
 Tebrikler! Symfony2 hakkında öğrenerek, daha üretken, çok yönlü ve popüler 
 (aslında, siz kendiniz en son kısımdasınız) bir web geliştiricisi olma 
 yolunda doğru yol almaktasınız. 
-
 Daha hızlı ve sağlam uygulamalar geliştirmek için Symfony2 temellere 
 geri dönerek alışılmışın dışında geliştirme araçlarına sahiptir.
-
 Symfony binlerce insanın yıllarca çalışmasının ürünü olan pek çok teknolojinin
 en iyi fikirlerini ,yardımcı araçlarını ve konseptlerini bünyesinde barındırır.
-
 Diğer bir kelimeyle "Symfony" öğrenirken web temellerini öğrenecek, en iyi
 öprneklerle geliştirme yapacak ve Symfony2 ile bağılmı ya da bağımsız olan 
 pek çok inanılmaz PHP kütüphanesininde nasıl kullanılacağını öğreneceksiniz.
