@@ -402,42 +402,40 @@ olmuşlardır.
     }
 
 Eğer ``index.php`` front controller olarak çekirdek kütüphanelerin
-yüklenmesi ve uygulamanın yönlentirme işlemleri gibi yeni bir görev aldığında
-bu iki controller (``list_action()`` and ``show_action()`` fonksiyonlaeı)
+yüklenmesi ve uygulamanın yönlendirme işlemleri gibi yeni bir görev aldığında
+bu iki controller (``list_action()`` ve ``show_action()`` fonksiyonları)
 çağırılacaktır. Gerçekte bu front controller mekanizması görünüm ve hareket 
 olarak Symfony2'nin route'ları ve istekleri işleme mekanızmasına çok benzemeye
 başlıyor.
 
 .. tip::
 
-   Front controller'in diğer bir avantajı esnel URL'lerdir. 
-   Another advantage of a front controller is flexible URLs. Notice that
-   the URL to the blog post show page could be changed from ``/show`` to ``/read``
-   by changing code in only one location. Before, an entire file needed to
-   be renamed. In Symfony2, URLs are even more flexible.
+   Front controller'in diğer bir avantajı esnek URL'lerdir.
+   Önceleri bir blog girdisinin isminin öncelikle değiştirilmesi
+   gerekiyordu.Blog post sayfasının URL lerini sadece bir yerden  ``/show`` dan ``/read``
+   olarak değiştirebildiğini hatırlayın.Symfony2'de URL'ler oldukça esnektir.
 
-By now, the application has evolved from a single PHP file into a structure
-that is organized and allows for code reuse. You should be happier, but far
-from satisfied. For example, the "routing" system is fickle, and wouldn't
-recognize that the list page (``/index.php``) should be accessible also via ``/``
-(if Apache rewrite rules were added). Also, instead of developing the blog,
-a lot of time is being spent working on the "architecture" of the code (e.g.
-routing, calling controllers, templates, etc.). More time will need to be
-spent to handle form submissions, input validation, logging and security.
-Why should you have to reinvent solutions to all these routine problems?
+Şimdi ise uygulama tek dosyadan kodu yeniden kullanılabilmesine olanak 
+sağlayacak bir yapıya dönüştü. Mutlu olmalısınız ancak bitmedi.Örneğin
+"yönlendirme" sistemi kararsız ve ``/`` dan erişirse 
+bu liste sayfasını tanımayacak (``/index.php``) (Eğer Apache rewrite kuralları
+eklendiyse). Ayrıca blog geliştirmek terine kodun "mimari" yapısına (Örn
+yönlendirme, controller'ların çağırılması, şablonlar vs..) oldukça fazla
+zaman harcadınız. Form verilerinin işlenmesi, girdilerin kontrolü, loglama
+ve güvenlik işlemleri için daha da vakit harcamalısınız. Neden bu rutin 
+sorunların önceden yapılmış çözümlerini kendiniz yapmaya çalışıyorsunuz ?
 
-Add a Touch of Symfony2
-~~~~~~~~~~~~~~~~~~~~~~~
+Bir Symfony2 Dokunuşu Ekleyin.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Symfony2 to the rescue. Before actually using Symfony2, you need to make
-sure PHP knows how to find the Symfony2 classes. This is accomplished via
-an autoloader that Symfony provides. An autoloader is a tool that makes it
-possible to start using PHP classes without explicitly including the file
-containing the class.
-
-First, `download symfony`_ and place it into a ``vendor/symfony/`` directory.
-Next, create an ``app/bootstrap.php`` file. Use it to ``require`` the two
-files in the application and to configure the autoloader:
+Symfony2 kurtarır. Önceden gerçten Symfony2 kullanılsaydı, PHP'nin Symfony2
+sınıflarını nasıl bulduğunu bilmeniz gerkecekti. Bu Symfony 'nin sağladığı 
+bir otomatik yükleyici tarafından gerçekleştirilir. Bir otomatik yükleme 
+aracı sınıfları içeren dosyaların başlangıçta dosyalar içerisinden 
+tanımlamadan otomatik olarak yüklenmesine olanak sağlar.
+Öncelikle  `symfony'i indirin`_  ve ``vendor/symfony/`` dizinine yerleştirin.
+Sonra bir  ``app/bootstrap.php`` dosyası yaratın ve uygulamada autoloader'i
+konfigüre eden sistemi çalıştırmak için ``require`` ile bunları çağırın:
 
 .. code-block:: html+php
 
@@ -454,16 +452,19 @@ files in the application and to configure the autoloader:
 
     $loader->register();
 
-This tells the autoloader where the ``Symfony`` classes are. With this, you
-can start using Symfony classes without using the ``require`` statement for
-the files that contain them.
 
-Core to Symfony's philosophy is the idea that an application's main job is
-to interpret each request and return a response. To this end, Symfony2 provides
-both a :class:`Symfony\\Component\\HttpFoundation\\Request` and a
-:class:`Symfony\\Component\\HttpFoundation\\Response` class. These classes are
-object-oriented representations of the raw HTTP request being processed and
-the HTTP response being returned. Use them to improve the blog:
+
+Bu autoloader'a ``Symfony`` sınıflarının nerede olduğunu söyler. Bununla
+siz Symfony sınıflarını ilgili dosyaların içerisinde ``require``  ifadesini
+kullanarak çağırmadan kullanabilirsiniz.
+
+Symfony'nin ana felsefesi bir uygulamanın ana işinin gelen her isteği 
+yorumlamak ve bir cevap döndürmek olduğu düşüncesidir. Bunun sonucunda 
+Symfony2 :class:`Symfony\\Component\\HttpFoundation\\Request`  ve  
+:class:`Symfony\\Component\\HttpFoundation\\Response` adındaki iki sınıf
+ile birlikte gelir. 
+Bu sınıflar nesne-yönelimli olarak ham HTTP isteklerini işler ve HTTP 
+cevapları döndürmeye başlar. Bunları kullanarak blogunuzu geliştirin:
 
 .. code-block:: html+php
 
@@ -489,9 +490,10 @@ the HTTP response being returned. Use them to improve the blog:
     // echo the headers and send the response
     $response->send();
 
-The controllers are now responsible for returning a ``Response`` object.
-To make this easier, you can add a new ``render_template()`` function, which,
-incidentally, acts quite a bit like the Symfony2 templating engine:
+
+Controllerkar şimdi ``Response`` nesnesini döndürmekten sorumludur.
+Bunu daha kolak yapmak için ``render_template()`` adında tesadüfen Symfony2'nin
+şablon motoru işlemlerine çok benzeyen, bir fonksiyon kullanabilirsiniz:
 
 .. code-block:: php
 
@@ -525,30 +527,38 @@ incidentally, acts quite a bit like the Symfony2 templating engine:
         return $html;
     }
 
-By bringing in a small part of Symfony2, the application is more flexible and
-reliable. The ``Request`` provides a dependable way to access information
-about the HTTP request. Specifically, the ``getPathInfo()`` method returns
-a cleaned URI (always returning ``/show`` and never ``/index.php/show``).
-So, even if the user goes to ``/index.php/show``, the application is intelligent
-enough to route the request through ``show_action()``.
+Symfony2'nin küçük bir parçasının alınıp kullanılmasıyla uygulama daha
+esnek ve güvenilir bir hale geldi.
+``Request`` HTTP isteğine güvenilir bir şekilde erişmek için bir yol sağlar.
+Özellikle ``getPathIngo()`` metodu temizlenmiş bir URI 
+(daima ``/show`` döner. Asla  ``/index.php/show`` dönmez) döndürür.
+Bu yüzden eğer kullanıcı ``/index.php/show`` isteğini yapsa bile, 
+uygulama zekice davranarak isteği ``show_action()`` a yönlendirir.
+
+``Response`` nesnesi HTTP cevapları 
+oluşturmada,HTTP başlıklarını kabul etmedede ve nesne-yönelimli 
+bir arabirim vasıtasıyla  içerik olusturmada esneklik verir.
 
 The ``Response`` object gives flexibility when constructing the HTTP response,
 allowing HTTP headers and content to be added via an object-oriented interface.
-And while the responses in this application are simple, this flexibility
-will pay dividends as your application grows.
+Response'lar bu uygulamada basit iken bu esneklik uygulama büyüdükçe 
+size daha fazla fayda sağlayacaktır.
 
-The Sample Application in Symfony2
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Symfony2'de Örnek Uygulama
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Blog *uzun* bir yol katetmesine rağmen hala böyle bir uygulama için çok
+fazla kod geliştirilmelidir. Bu yolda biz ayrıca basit bir yönlendirme
+sistemini ve şablonları render ederken ``ob_start()`` ve ``ob_get_clean()``
+fonksiyonlarını keşfettik.
+ 
+Eğer bazı nedenlerden bu "framework" 'u sıfırdan inşaa etmeye gereksinim
+duyuyorsanız en azından Symfony'nin kendi başına çalışabilen ve bu 
+problemleri zaten çözmüş olan `Yönlendirme`_ ve `Şablon`_ bileşenlerini
+kullanabilirsiniz.
 
-The blog has come a *long* way, but it still contains a lot of code for such
-a simple application. Along the way, we've also invented a simple routing
-system and a method using ``ob_start()`` and ``ob_get_clean()`` to render
-templates. If, for some reason, you needed to continue building this "framework"
-from scratch, you could at least use Symfony's standalone `Routing`_ and
-`Templating`_ components, which already solve these problems.
-
-Instead of re-solving common problems, you can let Symfony2 take care of
-them for you. Here's the same sample application, now built in Symfony2:
+Bilinen sorunların yeniden çözümü yerine Symfony2'nin sizin yerinize bunları
+nasıl çözdüğüne bakabilirsiniz. Buarada aynı uygulamanın Symfony2 ile
+yapılmış hali bulunmaktadır:
 
 .. code-block:: html+php
 
@@ -584,11 +594,10 @@ them for you. Here's the same sample application, now built in Symfony2:
             return $this->render('AcmeBlogBundle:Blog:show.html.php', array('post' => $post));
         }
     }
-
-The two controllers are still lightweight. Each uses the Doctrine ORM library
-to retrieve objects from the database and the ``Templating`` component to
-render a template and return a ``Response`` object. The list template is
-now quite a bit simpler:
+İki controller hala basit ve az kod içeriyor. Her ikiside veritabanından
+nesneleri getirmek için Doctrine ORM kütüphanesini ve ``Şablon`` bileşenini
+``Response`` nesnesinden gelen içeriği ekrana basmak için kullanıyor. 
+Listeleme yapan şablon ise biraz daha basit:
 
 .. code-block:: html+php
 
@@ -608,7 +617,7 @@ now quite a bit simpler:
         <?php endforeach; ?>
     </ul>
 
-The layout is nearly identical:
+Layout ise neredeyse aynı:
 
 .. code-block:: html+php
 
@@ -624,12 +633,12 @@ The layout is nearly identical:
 
 .. note::
 
-    We'll leave the show template as an exercise, as it should be trivial to
-    create based on the list template.
+    show şablonunu örnekte yapmayacağız çünki neredeyse yarattığımız list
+    şablonu ile tamamen aynı.
 
-When Symfony2's engine (called the ``Kernel``) boots up, it needs a map so
-that it knows which controllers to execute based on the request information.
-A routing configuration map provides this information in a readable format:
+Symfony2'nin motoru ilk kalkışta (``Kernel`` adını alır) hangi controller'ın
+hangi istek bilgisinde çalışacağını bilmesi için haritalamaya(map) ihtiyaç duyar.
+Bir yönlendirme konfigürasyonu bu bilgiyi okunabilir bir formatta sağlar:
 
 .. code-block:: yaml
 
@@ -642,10 +651,10 @@ A routing configuration map provides this information in a readable format:
         pattern:  /blog/show/{id}
         defaults: { _controller: AcmeBlogBundle:Blog:show }
 
-Now that Symfony2 is handling all the mundane tasks, the front controller
-is dead simple. And since it does so little, you'll never have to touch
-it once it's created (and if you use a Symfony2 distribution, you won't
-even need to create it!):
+Şimdi Symfony2, tüm olağan görevleri çok basit olan bir front controller
+aracılığı ile denetlemektedir. Bu o kadar az çalışırki, bir kere oluşturduktan sonra
+asla dokunmak zorunda kalmazsınız. (ve eğer Symfony2 dağıtımı kullanıyorsanız
+bunuda asla yaratmak zorunda değilsiniz!):
 
 .. code-block:: html+php
 
@@ -659,53 +668,57 @@ even need to create it!):
     $kernel = new AppKernel('prod', false);
     $kernel->handle(Request::createFromGlobals())->send();
 
-The front controller's only job is to initialize Symfony2's engine (``Kernel``)
-and pass it a ``Request`` object to handle. Symfony2's core then uses the
-routing map to determine which controller to call. Just like before, the
-controller method is responsible for returning the final ``Response`` object.
-There's really not much else to it.
 
-For a visual representation of how Symfony2 handles each request, see the
-:ref:`request flow diagram<request-flow-figure>`.
+Front controller'in görevi sadece Symfony2'nin motorunu (``Kernel``)
+başlatmak ve gelen ``Request`` nesnesini kontrol etmektir.
+Symfony2'nin çekirdeği yönlendirme haritası ile hangi kontroller'ın
+çağrı yaptığını belirler.Önceki gibi controller metodları sadece 
+enson ``Response`` nesnesini döndürmekten sorumludur. Gerçekten sadece
+budur. Başka bir şey değil. 
 
-Where Symfony2 Delivers
+Görsel olarak Symfony2'nin her isteğin nasıl kontrol edildiğini görmek
+için :ref:`istek akış diyagramı<request-flow-figure>` 'na bakın.
+
+Symfony2 Neler Verir
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-In the upcoming chapters, you'll learn more about how each piece of Symfony
-works and the recommended organization of a project. For now, let's see how
-migrating the blog from flat PHP to Symfony2 has improved life:
+Gelecek olan bölümlerde Symfony2'nin her bir parçası hakkında ve bir 
+projenin tavsiye edilen yapısı ile ilgili daha fazla şey öğreneceksiniz.
+Şimdi blog'un düz PHP'den Symfony2'ye aktarım sürecinde ne gelişti bakalım:
 
-* Your application now has **clear and consistently organized code** (though
-  Symfony doesn't force you into this). This promotes **reusability** and
-  allows for new developers to be productive in your project more quickly.
+* Uygulamanız şimdi daha ** temiz ve daima organize koda ** sahip (Symfony
+  sizi buna zorlamamasına rağmen). Bu **yeniden kullanılabilirliği** ve
+  yeni geliştiricilerin proje içerisinde daha verimli ve çabuk olmasını
+  sağlar.
+* Kodun 100%'ünü *uygulamanıza* yazarsınız. :ref:`autoloading<autoloading-introduction-sidebar>`,
+  :doc:`routing</book/routing>`, ya da rendering :doc:`controllers</book/controller>`.
+  gibi *Düşük seviye* işlemleri geliştirmeye gerek kalmaz.
 
-* 100% of the code you write is for *your* application. You **don't need
-  to develop or maintain low-level utilities** such as :ref:`autoloading<autoloading-introduction-sidebar>`,
-  :doc:`routing</book/routing>`, or rendering :doc:`controllers</book/controller>`.
+* Symfony2 size Doctrine, Templating, Güvenlik, Form,
+  Veri Doğrulama ve Çeviri bileşenleri (daha pek çok olan) gibi 
+  **açık kaynak yardımcı araçlara erişmenize** olanak verir.
 
-* Symfony2 gives you **access to open source tools** such as Doctrine and the
-  Templating, Security, Form, Validation and Translation components (to name
-  a few).
+* Uygulama şimdi ``Routing`` bileşeni yardımı ile ** tamamen esnek URL** yapısıyla
+  daha güzeldir.
 
-* The application now enjoys **fully-flexible URLs** thanks to the ``Routing``
-  component.
+* Symfony2'nin HTTP merkezli mimarisi size **Symfony2'nin içsel HTTP cache**
+  sistemi ile güçlendirilmiş **HTTP önbelleklemesi** ya da `Varnish`_ güçlü
+  araçlara erişimi sağlar.
+  
 
-* Symfony2's HTTP-centric architecture gives you access to powerful tools
-  such as **HTTP caching** powered by **Symfony2's internal HTTP cache** or
-  more powerful tools such as `Varnish`_. This is covered in a later chapter
-  all about :doc:`caching</book/http_cache>`.
+Ve belkide en iyisi, Symfony2 kullanırken, **Symfony2 topluluğu tarafından
+geliştirilen yüksek kaliteli açık kaynak tool'lara** erişebilmektir!!
+Symfony2 topluluğu tarafından geliştiren araçları bulabilmeniz için 
+`KnpBundles.com`_ iyi bir seçimdir.
 
-And perhaps best of all, by using Symfony2, you now have access to a whole
-set of **high-quality open source tools developed by the Symfony2 community**!
-A good selection of Symfony2 community tools can be found on `KnpBundles.com`_.
+Daha İyi Şablonlar
+------------------
 
-Better templates
-----------------
-
-If you choose to use it, Symfony2 comes standard with a templating engine
-called `Twig`_ that makes templates faster to write and easier to read.
-It means that the sample application could contain even less code! Take,
-for example, the list template written in Twig:
+Eğer kullanmayı seçerseniz Symfony2 `Twig`_ adndaki şablonları 
+daha hızlı okumanızı ve yazmanızı sağlayan bir standart şablon motoru ile
+birlikte gelir.
+Bunun anlamı örnek uygulamanız çok daha az kod tutacaktır!! Örneğin
+blog için listeleme şablonunun Twig haline bakın:
 
 .. code-block:: html+jinja
 
@@ -727,7 +740,7 @@ for example, the list template written in Twig:
         </ul>
     {% endblock %}
 
-The corresponding ``layout.html.twig`` template is also easier to write:
+İlgili ``layout.html.twig`` şablonunuda yazmak çok kolay:
 
 .. code-block:: html+jinja
 
@@ -742,20 +755,21 @@ The corresponding ``layout.html.twig`` template is also easier to write:
         </body>
     </html>
 
-Twig is well-supported in Symfony2. And while PHP templates will always
-be supported in Symfony2, we'll continue to discuss the many advantages of
-Twig. For more information, see the :doc:`templating chapter</book/templating>`.
+Twig Symfony2'de tam desteklenir. Twig'in pek çok avantajını konuşurken
+PHP şavlonlarıda her zaman Symfony2 tarafından desteklenecektir.
+Daha fazla bilgi almak için kitabın :doc:`şablon kısmına </book/templating>`
+bakın.
 
-Learn more from the Cookbook
-----------------------------
+Tarif Kitabından Daha Fazlasını Öğrenin
+----------------------------------------
 
 * :doc:`/cookbook/templating/PHP`
 * :doc:`/cookbook/controller/service`
 
 .. _`Doctrine`: http://www.doctrine-project.org
-.. _`download symfony`: http://symfony.com/download
-.. _`Routing`: https://github.com/symfony/Routing
-.. _`Templating`: https://github.com/symfony/Templating
+.. _`symfony'i indirin`: http://symfony.com/download
+.. _`Yönlendirme`: https://github.com/symfony/Routing
+.. _`Şablon`: https://github.com/symfony/Templating
 .. _`KnpBundles.com`: http://knpbundles.com/
 .. _`Twig`: http://twig.sensiolabs.org
 .. _`Varnish`: http://www.varnish-cache.org
