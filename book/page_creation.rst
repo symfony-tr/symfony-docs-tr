@@ -4,76 +4,77 @@
 Symfony2'de Sayfaları Yaratmak
 ===============================
 
-Creating a new page in Symfony2 is a simple two-step process:
+Symfony2'de sayfa yaratmak basit iki adımlı işlemden oluşur:
 
-* *Create a route*: A route defines the URL (e.g. ``/about``) to your page
-  and specifies a controller (which is a PHP function) that Symfony2 should
-  execute when the URL of an incoming request matches the route pattern;
+* *Bir yönlendirme (route) Yaratın*: Bir yönlendirme sayfanızın 
+  URL'sini (Örn. ``/about``) ve yapılan istek yönlendirme deseninde
+  eşleştiğinde çalıştırılacak olan controller (hangi PHP fonksiyonu ise)
+  bilgisini tanımlar.
 
-* *Create a controller*: A controller is a PHP function that takes the incoming
-  request and transforms it into the Symfony2 ``Response`` object that's
-  returned to the user.
+* *Bir controller yaratın*: Controller Symfony2'de gelen istekleri alan 
+  ve kullanıcıya bir ``Response`` nesnesi döndüren bir PHP fonksiyonudur.
 
-This simple approach is beautiful because it matches the way that the Web works.
-Every interaction on the Web is initiated by an HTTP request. The job of
-your application is simply to interpret the request and return the appropriate
-HTTP response.
+Bu basit yaklaşım Webin çalışmasıyla tam olarak eşleştiği için güzeldir.
+Web üzerindeki her etkileşim bir HTTP isteği ile başlar. Uygulamanızın 
+görevi basitçe isteği işleyip uygun bir HTTP cevabını döndürmektir.
 
-Symfony2 follows this philosophy and provides you with tools and conventions
-to keep your application organized as it grows in users and complexity.
+Symfony2 bu fikri takip eder ve toolar ve kurallar ile size uygulamanızın
+artan kullanıcı sayısı ve karmaşıklığında bile düzenli olmasını sağlar.
 
-Sounds simple enough? Let's dive in!
+Yeterince basit gözüküyor değil mi? Haydi devam edelim!
 
 .. index::
-   single: Page creation; Example
+   single: Sayfa Yaratımı; Örnek
 
-The "Hello Symfony!" Page
+"Hello Symfony!" Sayfası
 -------------------------
-
-Let's start with a spin off of the classic "Hello World!" application. When
-you're finished, the user will be able to get a personal greeting (e.g. "Hello Symfony")
-by going to the following URL:
+Haydi şimdi klasik "Hello World!" uygulamasından örneğimizi türetelim.
+Örneği tamamladığınızda kullanıcı aşağıdaki URL vasıtasıyla kendi adı 
+ile selamlanacak (örn. "Hello Symfony"). :
 
 .. code-block:: text
 
     http://localhost/app_dev.php/hello/Symfony
 
-Actually, you'll be able to replace ``Symfony`` with any other name to be
-greeted. To create the page, follow the simple two-step process.
+
+Gerçekte, ``Symfony`` yazan yere kendi adınızla değiştirdiğinizde selamlama
+gerçekleştirilecek. Sayfayı yaratmak için iki adımdan oluşan işlemi
+takıp edin:
 
 .. note::
 
-    The tutorial assumes that you've already downloaded Symfony2 and configured
-    your webserver. The above URL assumes that ``localhost`` points to the
-    ``web`` directory of your new Symfony2 project. For detailed information
-    on this process, see the documentation on the web server you are using.
-    Here's the relevant documentation page for some web server you might be using:
+    Örnekte sizin önceden Symfony2'yi indirip web sunucunuzda konfigüre 
+    ettiğiniz varsayılmaktadır. Aşağıdaki URL yeni Symfony2 projenizin 
+    ``localhost`` u işaret eden bir klasörde olduğunu varsayar.
+    Bu işlem hakkında daha fazla bilgi almak için kullandığınız web
+    sunucusunun dokümanlarını okumanız gereklidir. 
+      
+    Burada kullanmış olabileceğiniz web sunucularının dökümanları bulunmaktadır.
     
-    * For Apache HTTP Server, refer to `Apache's DirectoryIndex documentation`_.
-    * For Nginx, refer to `Nginx HttpCoreModule location documentation`_.
+    * Apache HTTP Server için `Apachenin DirectoryIndex belgesi`_.
+    * Nginx için  `Nginx HttpCoreModule location belgesi`_.
 
-Before you begin: Create the Bundle
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Başlamadan Önce: Bundle Yaratın
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Başlamadan önce bir bundle yaratmanız gerekmektedir. Symfony2'de :term:`bundle`
+eklenti (plugin) gibi düşünülebilir ancak pluginden farklı olarak bundle içerisinde 
+uygulamanızın bütün kodları yer alır.
 
-Before you begin, you'll need to create a *bundle*. In Symfony2, a :term:`bundle`
-is like a plugin, except that all of the code in your application will live
-inside a bundle.
+Bir bundle bir dizinden çok çağırılan PHP sınıflarını, konfigürasyonlar
+hatta Stil şablonları ve Javascript betiklerini gibi tüm ilgili özelliklere
+ev sahipliği yapar (bkz :ref:`page-creation-bundles`).
 
-A bundle is nothing more than a directory that houses everything related
-to a specific feature, including PHP classes, configuration, and even stylesheets
-and Javascript files (see :ref:`page-creation-bundles`).
-
-To create a bundle called ``AcmeHelloBundle`` (a play bundle that you'll
-build in this chapter), run the following command and follow the on-screen
-instructions (use all of the default options):
+Yaratılacak bundle'ı adı ``AcmeHelloBundle`` olacak şekilde (bu kısımda
+yaratacağımız bundle'ın adı ) yaratmak için komut satırından 
+şu komutların işletilmesi ve ekranda çıkacak talimatını izleyin.
 
 .. code-block:: bash
 
     php app/console generate:bundle --namespace=Acme/HelloBundle --format=yml
 
-Behind the scenes, a directory is created for the bundle at ``src/Acme/HelloBundle``.
-A line is also automatically added to the ``app/AppKernel.php`` file so that
-the bundle is registered with the kernel::
+Bu senaryonun arkasında aslında bundle'ın bulunduğu  ``src/Acme/HelloBundle``
+şeklinde bir klasör yaratıldı.  Ayrıca ``app/AppKernel.php`` dosyasına 
+kernel'in bundle'ı tanıması için de bir satır eklendi::
 
     // app/AppKernel.php
     public function registerBundles()
@@ -87,18 +88,19 @@ the bundle is registered with the kernel::
         return $bundles;
     }
 
-Now that you have a bundle setup, you can begin building your application
-inside the bundle.
+Şu anda bundle kurulumunuz var ve uygulamanızı bundle içerisinde geliştirmeye
+başlayabilirsiniz.
 
-Step 1: Create the Route
-~~~~~~~~~~~~~~~~~~~~~~~~
+Adım 1: Route (Yönlendirme) Yaratın
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default, the routing configuration file in a Symfony2 application is
-located at ``app/config/routing.yml``. Like all configuration in Symfony2,
-you can also choose to use XML or PHP out of the box to configure routes.
+Varsayılan olarak Symfony2 uygulamasının yönlendirme konfigürasyonu 
+``app/config/routing.yml`` dosyasında bulunmaktadır. Symfony2 'deki tüm
+konfigürasyonlarda olduğu gibi ayrıca farklı route konfigürasyonları
+yaratmak için XML ya da PHP dosya tipleride kullanılabilir.
 
-If you look at the main routing file, you'll see that Symfony already added
-an entry when you generated the ``AcmeHelloBundle``:
+Eğer ana yönlendirme dosyasına bakarsanız Symfony'nin zaten yarattığınız
+``AcmeHelloBundle`` 'ı eklediğini görürsünüz:
 
 .. configuration-block::
 
@@ -135,13 +137,14 @@ an entry when you generated the ``AcmeHelloBundle``:
 
         return $collection;
 
-This entry is pretty basic: it tells Symfony to load routing configuration
-from the ``Resources/config/routing.yml`` file that lives inside the ``AcmeHelloBundle``.
-This means that you place routing configuration directly in ``app/config/routing.yml``
-or organize your routes throughout your application, and import them from here.
+Bu girdi oldukça kolay. Bu, Symfony'e ``AcmeHelloBundle`` içerisindeki 
+``Resources/config/routing.yml`` dosyasında bulunan routing konfiürasyonunu
+yüklemesini söyler.
+Bunun anlamı yönlendirme konfigürasyonlarınız direkt olarak ``app/config/routing.yml``
+koyabilir ya da uygulamanızdaki diğer route'ları buradan aktarabilirsimiz.
 
-Now that the ``routing.yml`` file from the bundle is being imported, add
-the new route that defines the URL of the page that you're about to create:
+Şimdi bundle'daki ``routing.yml``  dosyasından yarattığınız sayfanın  
+yeni yönlendirme URL'si aktarıldı:
 
 .. configuration-block::
 
@@ -179,19 +182,20 @@ the new route that defines the URL of the page that you're about to create:
 
         return $collection;
 
-The routing consists of two basic pieces: the ``pattern``, which is the URL
-that this route will match, and a ``defaults`` array, which specifies the
-controller that should be executed. The placeholder syntax in the pattern
-(``{name}``) is a wildcard. It means that ``/hello/Ryan``, ``/hello/Fabien``
-or any other similar URL will match this route. The ``{name}`` placeholder
-parameter will also be passed to the controller so that you can use its value
-to personally greet the user.
+Bu yönlendirme iki basit parçadan oluşur: ``pattern`` (desen) , route'un eşleştireceği
+URL 'yi ve ``defaults`` adındaki array değeri, çalıştırılacak olan controller'i ifade eder.
+Pattern içerisinde yer tutucu (placeholder) yazımı (``{name}``)  şeklinde ifade edilir.
+Yani ``/hello/Ryan``, ``/hello/Fabien`` ya da diğer benzer URL bu route'da
+eşleşecektir.  ``{name}`` Placeholder (yer tutucu) parametresi ayrıca 
+controller'a aktarılacak ve siz bu değeri kullanıcıyı selamlamak amacıyla
+kullanabileceksiniz.
 
 .. note::
 
-  The routing system has many more great features for creating flexible
-  and powerful URL structures in your application. For more details, see
-  the chapter all about :doc:`Routing </book/routing>`.
+  Yönlendirme sistemi uygulamanıza oldukça fazla özelliği olan, esnek ve 
+  güçlü bir URL sistemi özelliği verir. Bunlar hakkında daha fazla bilgi
+  için  :doc:`Yönlendirme (Routing) </book/routing>` kısmını okuyun.
+  
 
 Step 2: Create the Controller
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -988,5 +992,5 @@ to rapidly develop applications.
 .. _`Twig`: http://twig.sensiolabs.org
 .. _`third-party bundles`: http://symfony2bundles.org/
 .. _`Symfony Standard Edition`: http://symfony.com/download
-.. _`Apache's DirectoryIndex documentation`: http://httpd.apache.org/docs/2.0/mod/mod_dir.html
-.. _`Nginx HttpCoreModule location documentation`: http://wiki.nginx.org/HttpCoreModule#location
+.. _`Apachenin DirectoryIndex belgesi`: http://httpd.apache.org/docs/2.0/mod/mod_dir.html
+.. _`Nginx HttpCoreModule location belgesi`: http://wiki.nginx.org/HttpCoreModule#location
