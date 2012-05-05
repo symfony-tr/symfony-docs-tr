@@ -1,8 +1,8 @@
 .. index::
-   single: Page creation
+   single: Sayfa Yartımı
 
-Creating Pages in Symfony2
-==========================
+Symfony2'de Sayfaları Yaratmak
+===============================
 
 Creating a new page in Symfony2 is a simple two-step process:
 
