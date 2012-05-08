@@ -197,18 +197,18 @@ kullanabileceksiniz.
   için  :doc:`Yönlendirme (Routing) </book/routing>` kısmını okuyun.
   
 
-Step 2: Create the Controller
+Adım 2: Controller Yaratın
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a URL such as ``/hello/Ryan`` is handled by the application, the ``hello``
-route is matched and the ``AcmeHelloBundle:Hello:index`` controller is executed
-by the framework. The second step of the page-creation process is to create
-that controller.
+``/hello/Ryan`` adındaki bir URL uygulama tarafından ele alındığunda ``hello``
+yönlendirmesi eşleşecek ve ``AcmeHelloBundle:Hello:index`` controller'i framework
+tarafından çalıştırılacaktır. Sayfa yaratımının ikinci aşaması işte bu 
+controller'i yaratmaktır.
 
-The controller - ``AcmeHelloBundle:Hello:index`` is the *logical* name of
-the controller, and it maps to the ``indexAction`` method of a PHP class
-called ``Acme\HelloBundle\Controller\Hello``. Start by creating this file
-inside your ``AcmeHelloBundle``::
+``AcmeHelloBundle:Hello:index`` Controller'in *mantıksal* ismidir ve 
+``Acme\HelloBundle\Controller\Hello`` adıyla çağırılan PHP sınıfındaki
+``indexAction``  işaret eder. Bu dosyayı ``AcmeHelloBundle`` içerisinde
+yaratarak işe başlayalım::
 
     // src/Acme/HelloBundle/Controller/HelloController.php
     namespace Acme\HelloBundle\Controller;
@@ -219,14 +219,13 @@ inside your ``AcmeHelloBundle``::
     {
     }
 
-In reality, the controller is nothing more than a PHP method that you create
-and Symfony executes. This is where your code uses information from the request
-to build and prepare the resource being requested. Except in some advanced
-cases, the end product of a controller is always the same: a Symfony2 ``Response``
-object.
+Gerçekte controller Symfony'nin çalıştırdığı bir PHP metodundan başka 
+bir şey değildir. Bu kod sadece istekten(request) gelen bilgiyi alır ve
+istenen kaynağı hazırlar. Bazı özel durumlar hariç controller her zaman
+bir ``Response`` nesnesi çevirir. 
 
-Create the ``indexAction`` method that Symfony will execute when the ``hello``
-route is matched::
+Symfony'nin ``hello`` yönlendirmesi eşleştiği zaman çalıştıracağı ``indexAction``
+metodunu yaratın::
 
     // src/Acme/HelloBundle/Controller/HelloController.php
 
@@ -239,13 +238,13 @@ route is matched::
         }
     }
 
-The controller is simple: it creates a new ``Response`` object, whose first
-argument is the content that should be used in the response (a small HTML
-page in this example).
+Controller basittir. Yeni bir ``Response`` yaratır. Burada kullanılacak 
+olan ilk argüman cevapta kullanacağınız içerik olmalıdır. (bu örnekte
+basit bir HTML sayfası)
 
-Congratulations! After creating only a route and a controller, you already
-have a fully-functional page! If you've setup everything correctly, your
-application should greet you:
+Tebrikler!. Sadece bir yönlendirme e controller yarattıktan sonra şu anda
+elinizde tam fonksiyonlu bir sayfa var!. Eğer her şeyi doğru ayarladıysanız
+uygulamanız sizi selamlamalı:
 
 .. code-block:: text
 
@@ -253,34 +252,33 @@ application should greet you:
 
 .. tip::
 
-    You can also view your app in the "prod" :ref:`environment<environments-summary>`
-    by visiting:
+    Uygulamanızı ayrıca "prod" :ref:`environment<environments-summary>`
+    ortamında da şurasını ziyaret ederek görebilirsiniz:
 
     .. code-block:: text
 
         http://localhost/app.php/hello/Ryan
     
-    If you get an error, it's likely because you need to clear your cache
-    by running:
+    Eğer bir hata aldıysanız, muhtemelen ön belleğinizi temizlemeniz 
+    gerekiyordur. Bunu yapmak için:
     
     .. code-block:: bash
 
         php app/console cache:clear --env=prod --no-debug
 
-An optional, but common, third step in the process is to create a template.
+İsteğe bağlı ancak genel olarak sürecin üçüncü adımı bir şablon yaratmaktır.
 
 .. note::
 
-   Controllers are the main entry point for your code and a key ingredient
-   when creating pages. Much more information can be found in the
-   :doc:`Controller Chapter </book/controller>`.
+   Controller 'lar kodunuzun ana noktası ve sayfalarınızı yaratırken
+   anahtar içeriği belirler. Bu konuda daha fazla bilgi öğrenmek için
+   :doc:`Controller Bölümünü </book/controller>` okuyun.
 
-Optional Step 3: Create the Template
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Templates allows you to move all of the presentation (e.g. HTML code) into
-a separate file and reuse different portions of the page layout. Instead
-of writing the HTML inside the controller, render a template instead:
+Seçimlik Adım 3: Şablon Yaratın
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Şablonlar sayfa yerleşimi içerisindeki tüm sunacağınız şeyleri (Örn. HTML kodu)
+tek bir dosya altında toplayarak tekrar kullanabilmenize olanak sağlar.
+Controller içerisinde HTML kodu yazmak yerine bir şablon tasarlanır:
 
 .. code-block:: php
     :linenos:
@@ -303,34 +301,37 @@ of writing the HTML inside the controller, render a template instead:
 
 .. note::
 
-   In order to use the ``render()`` method, your controller must extend the
-   ``Symfony\Bundle\FrameworkBundle\Controller\Controller`` class (API
-   docs: :class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller`),
-   which adds shortcuts for tasks that are common inside controllers. This
-   is done in the above example by adding the ``use`` statement on line 4
-   and then extending ``Controller`` on line 6.
+   ``render()`` metodunu kullanmanıza göre controller'ınız bazı kısa 
+   yolları kullanabilmek ve genel görevleri yapabilmek için 
+   ``Symfony\Bundle\FrameworkBundle\Controller\Controller`` sınıfından 
+   türetilmelidir.  (API
+   docs: :class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller`)
+   Bu örnekte ``use`` belirteci ile 4.satırda eklenmiş ve 6. satırda da 
+   ``Controller`` ile sınıf türetilmiştir.
 
-The ``render()`` method creates a ``Response`` object filled with the content
-of the given, rendered template. Like any other controller, you will ultimately
-return that ``Response`` object.
 
-Notice that there are two different examples for rendering the template.
-By default, Symfony2 supports two different templating languages: classic
-PHP templates and the succinct but powerful `Twig`_ templates. Don't be
-alarmed - you're free to choose either or even both in the same project.
+``render()`` metodu bir verilen içerikle birlikte şablona aktarılacak 
+``Response`` nesnesi yaratır. Diğer controllerdaki gibi en sonunda mutlaka 
+``Response`` nesnesi döner.
 
-The controller renders the ``AcmeHelloBundle:Hello:index.html.twig`` template,
-which uses the following naming convention:
+Şablonun iki türlü ekrana basıldığını hatırlayın.
+Varsayılan olarak Symfony2, iki adet farklı şablon diline izin verir; 
+klasik PHP şablonları kısa ancak güçlü `Twig`_ şablonları. Endişelenmeyin,
+birisini ya da ikisinide aynı projede kullanıp kullanmama seçimi size kalmış.
 
-    **BundleName**:**ControllerName**:**TemplateName**
+Controller ``AcmeHelloBundle:Hello:index.html.twig`` şablonunu şu şekildeki
+isimlendirme dizilimi ile ekrana basar::
 
-This is the *logical* name of the template, which is mapped to a physical
-location using the following convention.
+    **BundleAdi**:**ControllerAdi**:**ŞablonAdi**
 
-    **/path/to/BundleName**/Resources/views/**ControllerName**/**TemplateName**
+Şablonun bu *mantıksal* isimi aşağıdaki fiziksel lokasyona işaret eder::
 
-In this case, ``AcmeHelloBundle`` is the bundle name, ``Hello`` is the
-controller, and ``index.html.twig`` the template:
+    **/path/to/BundleName**/Resources/views/**ControllerAdi**/**ŞablonAdi**
+
+Bu durumda ``AcmeHelloBundle`` bundle ismi, ``Hello`` controller ismi 
+ve ``index.html.twig`` 'de şablon olmaktadır::
+
+
 
 .. configuration-block::
 
@@ -351,20 +352,23 @@ controller, and ``index.html.twig`` the template:
 
         Hello <?php echo $view->escape($name) ?>!
 
-Let's step through the Twig template line-by-line:
 
-* *line 2*: The ``extends`` token defines a parent template. The template
-  explicitly defines a layout file inside of which it will be placed.
+Şimdi Twig şablonunu satır satır inceleyelim:
 
-* *line 4*: The ``block`` token says that everything inside should be placed
-  inside a block called ``body``. As you'll see, it's the responsibility
-  of the parent template (``base.html.twig``) to ultimately render the
-  block called ``body``.
 
-The parent template, ``::base.html.twig``, is missing both the **BundleName**
-and **ControllerName** portions of its name (hence the double colon (``::``)
-at the beginning). This means that the template lives outside of the bundles
-and in the ``app`` directory:
+* *satır 2*: ``extends`` ifadesi esas sablonu ifade eder. Şablon için 
+  bu layout açıkça nerede konumlandıysa belirtilmelidir.
+
+* *satır 4*: ``block`` ifadesi ``body`` olarak adlandırılan bloğun içerisinde
+  çıkacak olan herşeyin burada çıkacağını ifade eder. Gördüğünüz gibi esas
+  şablon (``base.html.twig``) ``body`` isimli blok ve içeriğinin ekrana basımından 
+  açıkça sorumludur.
+
+``::base.html.twig`` isimli esas şablonun **BundleAdi** ve **ControllerAdi** eksik.
+(Bundan dolayı başlangıçta çift iki nokta üstüste ile (``::``) ifade ediliyor.)
+
+Bunun anlamı esas şablon dosyasının bundle'ın dışında, ``app`` dizininde olduğunu
+ifade ediyor:
 
 .. configuration-block::
 
@@ -402,49 +406,49 @@ and in the ``app`` directory:
             </body>
         </html>
 
-The base template file defines the HTML layout and renders the ``body`` block
-that you defined in the ``index.html.twig`` template. It also renders a ``title``
-block, which you could choose to define in the ``index.html.twig`` template.
-Since you did not define the ``title`` block in the child template, it defaults
-to "Welcome!".
 
-Templates are a powerful way to render and organize the content for your
-page. A template can render anything, from HTML markup, to CSS code, or anything
-else that the controller may need to return.
+Ana şablon dosyası HTML planını ve ekrana basılacak olan ve ``index.html.twig``
+şablonunda belirtilen ``body``  bloğunu tanımlamaktadır. Aynı zamanda yine 
+``index.html.twig`` 'de tanımlanan  ``title`` bloğuda tanımlanmaktadır. 
+``title`` bloğu alt şablonda tanımlanmadığında varsayılan olarak burada "Welcome!"
+ifadesi yazılacaktır.
 
-In the lifecycle of handling a request, the templating engine is simply
-an optional tool. Recall that the goal of each controller is to return a
-``Response`` object. Templates are a powerful, but optional, tool for creating
-the content for that ``Response`` object.
+Şablonlar sayfanızdaki içeriği organize etmek ve ekrana basmak için güçlü
+bir yoldur. Bir şablon HTML işaretleri CSS kodu ya da controller'in geriye
+döndürdüğü yer içeriği ekrana basabilirler.
+
+Bir isteğin işlenmesi süresince şablon motoru basit ve seçimlik bir yardımcı araçtır.
+Hatırlarsanız, her controller'in ana görevi bir ``Response`` nesnesi döndürmektir.
+Şablonlar güçlüdür ancak ``Response`` objeninizi yaratırken isteğe bağlı kullanacağınız
+yardımcı araçlardır.
 
 .. index::
-   single: Directory Structure
+   single: Klasör Yapısı
 
-The Directory Structure
+Klasör Yapısı
 -----------------------
+Bir kaç kısa bölümden sonra Symfony2'nin sayfaları yaratma ve ekrana basma
+felsefesini zaten anlamış olmalısınız. Ayrıca Symfony2 projelerinin nasıl
+yapılandırıldığını da gördünüz. Bu bölümün sonunda farklı tip dosyaların
+nerede bulunduğunu ve bunların niçin olduğunu öğreneceksiniz.
 
-After just a few short sections, you already understand the philosophy behind
-creating and rendering pages in Symfony2. You've also already begun to see
-how Symfony2 projects are structured and organized. By the end of this section,
-you'll know where to find and put different types of files and why.
+Her ne kadar esnek olsada varsayılan olarak her Symfony :term:`uygulama` sı
+aynı, önerilen klasör yapısına sahiptir.
 
-Though entirely flexible, by default, each Symfony :term:`application` has
-the same basic and recommended directory structure:
+* ``app/``: Bu klasör uygulamanın ayarlarını barındırır;
 
-* ``app/``: This directory contains the application configuration;
+* ``src/``: Projenin tüm PHP kodu bu klasör altında tutulur;
 
-* ``src/``: All the project PHP code is stored under this directory;
+* ``vendor/``: Her türlü sağlayıcı (vendor) kütüphaneleri burada tutulur;
 
-* ``vendor/``: Any vendor libraries are placed here by convention;
+* ``web/``: Bu klasör genel olarak ulaşılabilecek tüm dosyaların bulunduğu web kök klasörüdür.
 
-* ``web/``: This is the web root directory and contains any publicly accessible files;
+Web Klasörü
+~~~~~~~~~~~
 
-The Web Directory
-~~~~~~~~~~~~~~~~~
-
-The web root directory is the home of all public and static files including
-images, stylesheets, and JavaScript files. It is also where each
-:term:`front controller` lives::
+Web kök klasörü resimler, stil şablonları ve javascript dosyaları gibi herkezin
+erişebileceği dosyalara ev sahipliği yapar.
+Aynı zamanda burada :term:`front controller` 'da bulunur::
 
     // web/app.php
     require_once __DIR__.'/../app/bootstrap.php.cache';
@@ -456,35 +460,37 @@ images, stylesheets, and JavaScript files. It is also where each
     $kernel->loadClassCache();
     $kernel->handle(Request::createFromGlobals())->send();
 
-The front controller file (``app.php`` in this example) is the actual PHP
-file that's executed when using a Symfony2 application and its job is to
-use a Kernel class, ``AppKernel``, to bootstrap the application.
+
+Front controller dosyası (bu örnekte ``app.php`` dosyası) Kernel sınıfını
+,``AppKernel`, kullanan görevi Symfony2 uygulamasını başlatan asıl dosyadır
 
 .. tip::
 
-    Having a front controller means different and more flexible URLs than
-    are used in a typical flat PHP application. When using a front controller,
-    URLs are formatted in the following way:
+    Bir front controllerin kullanılması demek farklı ve çok esnek URL'lerin
+    basit ve düz bir PHP dosyası yerine bu dosyadan kullanılması demektir.
+    Bir front controller kullanımında URL'ler aşağıdaki şekilde düzenlenir:
 
     .. code-block:: text
 
         http://localhost/app.php/hello/Ryan
-
-    The front controller, ``app.php``, is executed and the "internal:" URL
-    ``/hello/Ryan`` is routed internally using the routing configuration.
-    By using Apache ``mod_rewrite`` rules, you can force the ``app.php`` file
-    to be executed without needing to specify it in the URL:
+	
+	Front controller,``app.php``, "içsel" olarak yönlendirme konfigürasyonundaki
+	``/hello/Ryan`` URL'sini çalıştırır.
+    Apache'nin ``mod_rewrite`` kullanıldığında URL içerisinden ``app.php`` 
+    dosyasını kaldırabilirsiniz.
+    
 
     .. code-block:: text
 
         http://localhost/hello/Ryan
 
-Though front controllers are essential in handling every request, you'll
-rarely need to modify or even think about them. We'll mention them again
-briefly in the `Environments`_ section.
+Front controller'lar temel olarak her isteği işleyebilmelerine rağmen
+nadiren bunları değiştirmek hatta onları yeniden ele almak ihtiyacını 
+hissedebilirsiniz. Biz bunları `Ortamlar`_ kısmında yeniden bahsedeceğiz.
 
-The Application (``app``) Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Uygulama (``app``) Klasörü
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As you saw in the front controller, the ``AppKernel`` class is the main entry
 point of the application and is responsible for all configuration. As such,
@@ -889,7 +895,7 @@ cached files and allow them to rebuild::
     for more details.
 
 .. index::
-   single: Environments; Configuration
+   single: Ortamlar; Configuration
 
 Environment Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
