@@ -1,5 +1,5 @@
-The Dependency Injection Tags
-=============================
+Dependency Injection Etiketleri
+====================================
 
 Dependency Injection Tags are little strings that can be applied to a service
 to "flag" it to be used in some special way. For example, if you have a service
