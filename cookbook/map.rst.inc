@@ -22,7 +22,7 @@
   * :doc:`/cookbook/configuration/external_parameters`
   * :doc:`/cookbook/configuration/pdo_session_storage`
 
-* **Console Commands**
+* **Konsol Komutları**
 
   * :doc:`/cookbook/console/console_command`
 
