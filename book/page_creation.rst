@@ -473,9 +473,9 @@ Front controller dosyası (bu örnekte ``app.php`` dosyası) Kernel sınıfını
     .. code-block:: text
 
         http://localhost/app.php/hello/Ryan
-	
-	Front controller,``app.php``, "içsel" olarak yönlendirme konfigürasyonundaki
-	``/hello/Ryan`` URL'sini çalıştırır.
+     
+     Front controller,``app.php``, "içsel" olarak yönlendirme konfigürasyonundaki
+     ``/hello/Ryan`` URL'sini çalıştırır.
     Apache'nin ``mod_rewrite`` kullanıldığında URL içerisinden ``app.php`` 
     dosyasını kaldırabilirsiniz.
     
@@ -523,30 +523,30 @@ Sonraki kısımlarda bu klasörler hakkında daha fazla bilgi öğreneceksiniz.
     ``src/`` klasörü içerisinde bulunan uygulama dosyalarınızı ve ``vendor/``
     klasöründe bulunan 3. parti kütüphanelerin otomatik yüklenmesi için
     autoloader'i konfigüre eder.
-	
-	autoloader sayesinde herhangi bir şekilde uygulamanızda ``include`` ya da 
-	``require`` ifadelerini kullanmak zorunda kalmazsınız.
-	Bunun yerine Symfony2 sınıfların namespace'lerini kullanarak bu dosyaların
-	yerlerini otomatik olarak belirleyerek uygulamanıza otomatik include eder.
-	
-	autoloader ``src/`` klasörü içerisinde bulunan tüm PHP sınıflarını
-	önceden konfigüre eder. autoloading işlemi esnasında sınıf adı ve dosyanın
-	yolu aynı şekli kullanır.
-	
+    
+    autoloader sayesinde herhangi bir şekilde uygulamanızda ``include`` ya da 
+    ``require`` ifadelerini kullanmak zorunda kalmazsınız.
+    Bunun yerine Symfony2 sınıfların namespace'lerini kullanarak bu dosyaların
+    yerlerini otomatik olarak belirleyerek uygulamanıza otomatik include eder.
+     
+    autoloader ``src/`` klasörü içerisinde bulunan tüm PHP sınıflarını
+    önceden konfigüre eder. autoloading işlemi esnasında sınıf adı ve dosyanın
+    yolu aynı şekli kullanır.
+     
     .. code-block:: text
 
-        Class Name:
+        Sınıf Adı:
             Acme\HelloBundle\Controller\HelloController
-        Path:
+        Dosya Yolu:
             src/Acme/HelloBundle/Controller/HelloController.php
+            
+    Temelde sadece dikkat etmeniz gereken ``app/autoload.php`` dosyası 
+    içerisinde ``vendor/`` klasöründe bulunan yeni eklediğiniz 
+    3. parti kütüphanelerin tanımlanmasıdır. autoloading konusunda daha fazla
+    bilgi için :doc:`Sınıflar nasıl autoload edilir</components/class_loader>`  
+    belgesine bakın.
+     
 
-	Temelde sadece dikkat etmeniz gereken ``app/autoload.php`` dosyası 
-	içerisinde ``vendor/`` klasöründe bulunan yeni eklediğiniz 
-	3. parti kütüphanelerin tanımlanmasıdır. autoloading konusunda daha fazla
-	bilgi için  :doc:`Sınıflar nasıl autoload edilir ?</components/class_loader>` belgesine
-	bakın.
-	
-   
 
 Kaynak (``src``) Klasörü
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -567,7 +567,7 @@ Bir bundle diğer yazılımlardaki plugin (eklenti) 'ye benzer ancak daha
 iyisidir. Ana farklılık, Symfony2'de çekirdek framework özellikleri ve yazdığınız
 uygulamanın *tüm herşeyi* bir bundle olmasıdır.
 Bundle'lar Symfony2'nin bir numaralı elemanlarıdır. Bu size önceden 
-yapılandırılmış `3.parti bundle'lar_`  kullanmayı veya kendi bundle'larınızı
+yapılandırılmış `3.parti bundle'lar`_  kullanmayı veya kendi bundle'larınızı
 dağıtmak gibi esneklikler kazandırır. Aynı şekilde bu, uygulamanıza istediğiniz
 özelliği seçip yüklemek ve bu özellikleri istediğiniz şekilde optimize etmeyi kolaylaştırır.
 
@@ -575,7 +575,7 @@ dağıtmak gibi esneklikler kazandırır. Aynı şekilde bu, uygulamanıza isted
 
    
    Burada temelleri öğrenirken, tüm tarif kitabı girdileri
-   :doc:`bundle</cookbook/bundles/best_practices>`ların 
+   :doc:`bundle</cookbook/bundles/best_practices>` ların 
    organzasyonu ve en iyi örnekleri hakkında iyi bilgiler sunar.
    
 Bir bundle basitçe bir özelliği hayata geçiren dosyaların düzenli bir 
@@ -586,12 +586,6 @@ başka bir bundle yaratırsınız. Her klasör bu özelikleri meydana getiren
 PHP dosyaları, Şablonlar, stil şablonları, Javascriptler, testler ya da diğer
 ne varsa, bu dosyaların tamamını içerir.
 
-
-A bundle is simply a structured set of files within a directory that implement
-a single feature. You might create a ``BlogBundle``, a ``ForumBundle`` or
-a bundle for user management (many of these exist already as open source
-bundles). Each directory contains everything related to that feature, including
-PHP files, templates, stylesheets, JavaScripts, tests and anything else.
 Var olan her özellik bir bundle içerisindedir ve her özellik bir bundle
 ile birlikle meydana gelir.
 
@@ -1013,7 +1007,7 @@ appreciate the flexibility of its architecture and the power it gives you
 to rapidly develop applications.
 
 .. _`Twig`: http://twig.sensiolabs.org
-.. _`third-party bundles`: http://symfony2bundles.org/
+.. _`3.parti bundle'lar`: http://symfony2bundles.org/
 .. _`Symfony Standard Edition`: http://symfony.com/download
 .. _`Apachenin DirectoryIndex belgesi`: http://httpd.apache.org/docs/2.0/mod/mod_dir.html
 .. _`Nginx HttpCoreModule location belgesi`: http://wiki.nginx.org/HttpCoreModule#location
