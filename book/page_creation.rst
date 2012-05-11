@@ -491,47 +491,48 @@ hissedebilirsiniz. Biz bunları `Ortamlar`_ kısmında yeniden bahsedeceğiz.
 
 Uygulama (``app``) Klasörü
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Front Controller'da gördüğünüz gibi ``AppKernel`` sınıfı uygulamanın ana
+noktası ve tüm konfigürasyonlardan sorumlu olan sınıftır.
+Bu da ``app/`` klasöründe saklanır.
 
-As you saw in the front controller, the ``AppKernel`` class is the main entry
-point of the application and is responsible for all configuration. As such,
-it is stored in the ``app/`` directory.
+Bu sınıf mutlaka Symfony'nin uygulamanız hakkında bilmesi gereken iki 
+metodu uygular. Bu metodlar için uygulama başlarken endişelenmeyin.
+Symfony sizin ayarlarınıza göre bunları otomatik uygular.
 
-This class must implement two methods that define everything that Symfony
-needs to know about your application. You don't even need to worry about
-these methods when starting - Symfony fills them in for you with sensible
-defaults.
+* ``registerBundles()``: Uygulamanın ihtiyacı olan tüm bundle'ların bir 
+  dize değişken halindeki listesi  (bkz :ref:`page-creation-bundles`);
 
-* ``registerBundles()``: Returns an array of all bundles needed to run the
-  application (see :ref:`page-creation-bundles`);
+* ``registerContainerConfiguration()``: Ana uygulama konfigürasyonu kaynak
+   dosyasını yükler.(bkz `Uygulama Konfigürasyonu`_ kısmı).
 
-* ``registerContainerConfiguration()``: Loads the main application configuration
-  resource file (see the `Application Configuration`_ section).
-
-In day-to-day development, you'll mostly use the ``app/`` directory to modify
-configuration and routing files in the ``app/config/`` directory (see
-`Application Configuration`_). It also contains the application cache
-directory (``app/cache``), a log directory (``app/logs``) and a directory
-for application-level resource files, such as templates (``app/Resources``).
-You'll learn more about each of these directories in later chapters.
+Geliştirmede günden güne çok sık olarak ``app/`` dizinini, ``app/config/`` 
+içerisinde bulunan konfigürasyon ve yönledirme dosyalarını değiştirmek için
+kullanacaksınız. (bkz `Uygulama Konfigürasyonu`_ ). Bu klasör aynı zamanda
+ön bellek dizinini (``app/cache``), bir log dizinini (``app/logs``)  ve
+şablonlar gibi (``app/Resources``) uygulama-düzeyi dosyalarını ve klasör
+lerini içerir.
+Sonraki kısımlarda bu klasörler hakkında daha fazla bilgi öğreneceksiniz.
 
 .. _autoloading-introduction-sidebar:
 
-.. sidebar:: Autoloading
+.. sidebar:: Autoloading (Otomatik Yükleme)
 
-    When Symfony is loading, a special file - ``app/autoload.php`` - is included.
-    This file is responsible for configuring the autoloader, which will autoload
-    your application files from the ``src/`` directory and third-party libraries
-    from the ``vendor/`` directory.
-
-    Because of the autoloader, you never need to worry about using ``include``
-    or ``require`` statements. Instead, Symfony2 uses the namespace of a class
-    to determine its location and automatically includes the file on your
-    behalf the instant you need a class.
-
-    The autoloader is already configured to look in the ``src/`` directory
-    for any of your PHP classes. For autoloading to work, the class name and
-    path to the file have to follow the same pattern:
-
+    
+    Symfony -``app/autoload.php``  -  adındaki özel bir dosyayı hemen 
+    çağırır (include eder) . Bu dosya, uygulamanızın çalışması için ihiyaç duyulan
+    ``src/`` klasörü içerisinde bulunan uygulama dosyalarınızı ve ``vendor/``
+    klasöründe bulunan 3. parti kütüphanelerin otomatik yüklenmesi için
+    autoloader'i konfigüre eder.
+	
+	autoloader sayesinde herhangi bir şekilde uygulamanızda ``include`` ya da 
+	``require`` ifadelerini kullanmak zorunda kalmazsınız.
+	Bunun yerine Symfony2 sınıfların namespace'lerini kullanarak bu dosyaların
+	yerlerini otomatik olarak belirleyerek uygulamanıza otomatik include eder.
+	
+	autoloader ``src/`` klasörü içerisinde bulunan tüm PHP sınıflarını
+	önceden konfigüre eder. autoloading işlemi esnasında sınıf adı ve dosyanın
+	yolu aynı şekli kullanır.
+	
     .. code-block:: text
 
         Class Name:
@@ -539,49 +540,63 @@ You'll learn more about each of these directories in later chapters.
         Path:
             src/Acme/HelloBundle/Controller/HelloController.php
 
-    Typically, the only time you'll need to worry about the ``app/autoload.php``
-    file is when you're including a new third-party library in the ``vendor/``
-    directory. For more information on autoloading, see
-    :doc:`How to autoload Classes</components/class_loader>`.
+	Temelde sadece dikkat etmeniz gereken ``app/autoload.php`` dosyası 
+	içerisinde ``vendor/`` klasöründe bulunan yeni eklediğiniz 
+	3. parti kütüphanelerin tanımlanmasıdır. autoloading konusunda daha fazla
+	bilgi için  :doc:`Sınıflar nasıl autoload edilir ?</components/class_loader>` belgesine
+	bakın.
+	
+   
 
-The Source (``src``) Directory
+Kaynak (``src``) Klasörü
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Put simply, the ``src/`` directory contains all of the actual code (PHP code,
-templates, configuration files, stylesheets, etc) that drives *your* application.
-When developing, the vast majority of your work will be done inside one or
-more bundles that you create in this directory.
+Basitçe ``src/`` klasörü uygulamanızı çalıştıran tüm güncel dosyalarınızın
+(PHP kodu, şablonlar, konfigürasyon dosyaları, stil şablonları vs..)
+bulunduğu yerdir. 
+Uygulama geliştirirken çalışmanızın çok büyük ve önemli bir kısmını kapsayan
+bundle'larınız  bu klasör içerisinde yaratacaksınız.
 
-But what exactly is a :term:`bundle`?
+Peki gerçekten :term:`bundle` terimi neyi ifade eder ?
 
 .. _page-creation-bundles:
 
-The Bundle System
+Bundle Sistemi
 -----------------
-
-A bundle is similar to a plugin in other software, but even better. The key
-difference is that *everything* is a bundle in Symfony2, including both the
-core framework functionality and the code written for your application.
-Bundles are first-class citizens in Symfony2. This gives you the flexibility
-to use pre-built features packaged in `third-party bundles`_ or to distribute
-your own bundles. It makes it easy to pick and choose which features to enable
-in your application and to optimize them the way you want.
+Bir bundle diğer yazılımlardaki plugin (eklenti) 'ye benzer ancak daha 
+iyisidir. Ana farklılık, Symfony2'de çekirdek framework özellikleri ve yazdığınız
+uygulamanın *tüm herşeyi* bir bundle olmasıdır.
+Bundle'lar Symfony2'nin bir numaralı elemanlarıdır. Bu size önceden 
+yapılandırılmış `3.parti bundle'lar_`  kullanmayı veya kendi bundle'larınızı
+dağıtmak gibi esneklikler kazandırır. Aynı şekilde bu, uygulamanıza istediğiniz
+özelliği seçip yüklemek ve bu özellikleri istediğiniz şekilde optimize etmeyi kolaylaştırır.
 
 .. note::
 
-   While you'll learn the basics here, an entire cookbook entry is devoted
-   to the organization and best practices of :doc:`bundles</cookbook/bundles/best_practices>`.
+   
+   Burada temelleri öğrenirken, tüm tarif kitabı girdileri
+   :doc:`bundle</cookbook/bundles/best_practices>`ların 
+   organzasyonu ve en iyi örnekleri hakkında iyi bilgiler sunar.
+   
+Bir bundle basitçe bir özelliği hayata geçiren dosyaların düzenli bir 
+şekilde bir klasörde barındırılmış halidir. Örneğin belki bir 
+``BlogBundle`` yaratırsınız, belki bir ``ForumBundle`` ya da kullanıcı yönetimi
+için (zaten açık kaynak kod şekilnde yaratılmış bir sürü bundle gibi )
+başka bir bundle yaratırsınız. Her klasör bu özelikleri meydana getiren
+PHP dosyaları, Şablonlar, stil şablonları, Javascriptler, testler ya da diğer
+ne varsa, bu dosyaların tamamını içerir.
+
 
 A bundle is simply a structured set of files within a directory that implement
 a single feature. You might create a ``BlogBundle``, a ``ForumBundle`` or
 a bundle for user management (many of these exist already as open source
 bundles). Each directory contains everything related to that feature, including
 PHP files, templates, stylesheets, JavaScripts, tests and anything else.
-Every aspect of a feature exists in a bundle and every feature lives in a
-bundle.
+Var olan her özellik bir bundle içerisindedir ve her özellik bir bundle
+ile birlikle meydana gelir.
 
-An application is made up of bundles as defined in the ``registerBundles()``
-method of the ``AppKernel`` class::
+Bundle'lardan oluşan bir uygulama  ``AppKernel`` sınıfının ``registerBundles()``
+metodu ile tanımlanır::
 
     // app/AppKernel.php
     public function registerBundles()
@@ -608,13 +623,15 @@ method of the ``AppKernel`` class::
         return $bundles;
     }
 
-With the ``registerBundles()`` method, you have total control over which bundles
-are used by your application (including the core Symfony bundles).
+``registerBundles()`` methodu ile uygulamanızda kullanmak istediğiniz
+(Symfony'nin çekirdek bundleları dahil) tüm bundlelar üzerinde tam kontrol
+sağlarsınız.
 
 .. tip::
 
-   A bundle can live *anywhere* as long as it can be autoloaded (via the
-   autoloader configured at ``app/autoload.php``).
+   Bir bundle autoload edildiği *her yerde* çalışabilir. 
+   (autoloader ``app/autoload.php`` tarafından konfigüre edilirse)
+  
 
 Creating a Bundle
 ~~~~~~~~~~~~~~~~~
