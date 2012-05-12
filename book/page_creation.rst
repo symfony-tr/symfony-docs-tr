@@ -461,8 +461,8 @@ Aynı zamanda burada :term:`front controller` 'da bulunur::
     $kernel->handle(Request::createFromGlobals())->send();
 
 
-Front controller dosyası (bu örnekte ``app.php`` dosyası) Kernel sınıfını
-,``AppKernel`, kullanan görevi Symfony2 uygulamasını başlatan asıl dosyadır
+Front controller dosyası, (bu örnekte ``app.php`` dosyası) Kernel sınıfını
+,``AppKernel`, kullanan, görevi Symfony2 uygulamasını başlatan asıl dosyadır
 
 .. tip::
 
@@ -626,24 +626,25 @@ sağlarsınız.
    Bir bundle autoload edildiği *her yerde* çalışabilir. 
    (autoloader ``app/autoload.php`` tarafından konfigüre edilirse)
   
-
-Creating a Bundle
+  
+Bir Bundle Yaratmak
 ~~~~~~~~~~~~~~~~~
 
-The Symfony Standard Edition comes with a handy task that creates a fully-functional
-bundle for you. Of course, creating a bundle by hand is pretty easy as well.
+Symfony Standart Sürümü sizin için tam fonksiyonlu bundleları yaratmak
+için pratik bir araç ile birlikte gelir.
+Elbette bu araç olmadan da bir bundle yaratmak oldukça basittir.
 
-To show you how simple the bundle system is, create a new bundle called
-``AcmeTestBundle`` and enable it.
+Yeni bir bundle sistemi nasıl yaratılır sorusunun cevabı için ``AcmeTestBundle``
+yaratıp aktif hale getirelim.
 
 .. tip::
 
-    The ``Acme`` portion is just a dummy name that should be replaced by
-    some "vendor" name that represents you or your organization (e.g. ``ABCTestBundle``
-    for some company named ``ABC``).
+    Bundle ismindeki ``Acme`` kısmı tamamen uydurmadır.Bu kısmı organizasyonunuzu ifade eden
+    herhangi bir "vendor" (Sağlayıcı) ismi ile değiştirebilirsiniz (Örn. ``ABC`` 
+    isimli bir şirketiniz var ise ``ABCTestBundle`` olabilir.).
 
-Start by creating a ``src/Acme/TestBundle/`` directory and adding a new file
-called ``AcmeTestBundle.php``::
+``src/Acme/TestBundle/`` klasöründe ``AcmeTestBundle.php`` adında yeni 
+bir dosya yaratarak başlayın::
 
     // src/Acme/TestBundle/AcmeTestBundle.php
     namespace Acme\TestBundle;
@@ -656,15 +657,16 @@ called ``AcmeTestBundle.php``::
 
 .. tip::
 
-   The name ``AcmeTestBundle`` follows the standard :ref:`Bundle naming conventions<bundles-naming-conventions>`.
-   You could also choose to shorten the name of the bundle to simply ``TestBundle``
-   by naming this class ``TestBundle`` (and naming the file ``TestBundle.php``).
+   ``AcmeTestBundle`` ismi standart :ref:`Bundle isimlendirme kuralları<bundles-naming-conventions>` 
+   'na uygun olarak verilmiştir. Eğer isterseniz basitçe ``TestBundle`` sınıfınızı içeren 
+   bundle'lınızın adını ``TestBundle`` olarak da seçebilirsiniz (dosyanın adlandırması ``TestBundle.php``
+   olacaktır). 
 
-This empty class is the only piece you need to create the new bundle. Though
-commonly empty, this class is powerful and can be used to customize the behavior
-of the bundle.
+Bu boş sınıf yarattığınız bundle'ın sadece bir parçası. Tamamen boş olmasına
+rağmen bu sınıf bundle'ın davranışlarını düzenlemek için oldukça güçlü özelliklere
+sahip.
 
-Now that you've created the bundle, enable it via the ``AppKernel`` class::
+Şimdi yarattığınız bundle'ı ``AppKernel`` sınıfı aracılığı ile aktif edelim::
 
     // app/AppKernel.php
     public function registerBundles()
@@ -680,65 +682,70 @@ Now that you've created the bundle, enable it via the ``AppKernel`` class::
         return $bundles;
     }
 
-And while it doesn't do anything yet, ``AcmeTestBundle`` is now ready to
-be used.
+Bundan başka yapmanız gereken hiç bir şey yok. ``AcmeTestBundle`` kullanıma
+hazır.
 
-And as easy as this is, Symfony also provides a command-line interface for
-generating a basic bundle skeleton:
+Bunun kadar kolay olarak Symfony ayrıca komut satırı arabiriminden de 
+basit bir bundle sistemi iskeleti yaratmaya yarayan komutlar da içerir.
 
 .. code-block:: bash
 
     php app/console generate:bundle --namespace=Acme/TestBundle
 
-The bundle skeleton generates with a basic controller, template and routing
-resource that can be customized. You'll learn more about Symfony2's command-line
-tools later.
+Bundle iskeleti basit bir controller ile şablon ve routing (yönlendirme) 
+kaynakları düzenlenebilecek şekiklde yaratıldı. Symfony2'nin komut satırı
+araçları hakkında daha fazla şeyi daha sonra öğreneceksiniz.
 
 .. tip::
 
-   Whenever creating a new bundle or using a third-party bundle, always make
-   sure the bundle has been enabled in ``registerBundles()``. When using
-   the ``generate:bundle`` command, this is done for you.
+   
+   Yeni bir bundle yaratıldığında ya da bir 3. parti bundle kullanıldığında
+   mutlaka bundle ``registerBundles()`` içerisinde aktif edilmelidir.
+   ``generate:bundle`` komutu kullanıldında bu sizin için otomatik olarak
+   yapılır.
 
-Bundle Directory Structure
-~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The directory structure of a bundle is simple and flexible. By default, the
-bundle system follows a set of conventions that help to keep code consistent
-between all Symfony2 bundles. Take a look at ``AcmeHelloBundle``, as it contains
-some of the most common elements of a bundle:
+Bundle Klasör Yapısı
+~~~~~~~~~~~~~~~~~~~~
 
-* ``Controller/`` contains the controllers of the bundle (e.g. ``HelloController.php``);
+Bir bundle'ın klasör yapısı basit ve esnektir. Varsayılan olarak bundle
+sistemi, Symfony2 bundle'ları arasındaki kod tutarlılığını sağlamak amacıyla bir dizi
+kuralı uygular. ``AcmeHelloBundle`` 'a bakarak bundle içerisindeki en temel
+öğeleri inceleyelim:
 
-* ``Resources/config/`` houses configuration, including routing configuration
-  (e.g. ``routing.yml``);
+* ``Controller/`` bundle'ın controlerlarını içerir (Örn. ``HelloController.php``);
 
-* ``Resources/views/`` holds templates organized by controller name (e.g.
-  ``Hello/index.html.twig``);
+* ``Resources/config/`` yönlendirme konfigürasyonu gibi konfigürasonları içerir. 
+  (Örn. ``routing.yml``);
 
-* ``Resources/public/`` contains web assets (images, stylesheets, etc) and is
-  copied or symbolically linked into the project ``web/`` directory via
-  the ``assets:install`` console command;
+* ``Resources/views/`` controller ismine göre düzenlenmiş şablonları içerir.
+  (Örn. ``Hello/index.html.twig``);
 
-* ``Tests/`` holds all tests for the bundle.
+* ``Resources/public/`` web varlıklarını (resimler, stilşablonları, vs) 
+  ve proje içerisindeki ``assets:install`` komutu ile ``web/`` klasörüne 
+  kopyalanmış ya da sembolik link yaratılmış dosyaları içerir;
 
-A bundle can be as small or large as the feature it implements. It contains
-only the files you need and nothing else.
+* ``Tests/`` bundle'ın tüm testlerini barındırır.
 
-As you move through the book, you'll learn how to persist objects to a database,
-create and validate forms, create translations for your application, write
-tests and much more. Each of these has their own place and role within the
-bundle.
 
-Application Configuration
--------------------------
+Bir bundle'ın basit özellikleri olabileceği gibi çok karmaşık özellikleri
+de olabilir. Bir bundle sadece size gereken dosyaları barındırır. Başka bir şey
+değildirler.
 
-An application consists of a collection of bundles representing all of the
-features and capabilities of your application. Each bundle can be customized
-via configuration files written in YAML, XML or PHP. By default, the main
-configuration file lives in the ``app/config/`` directory and is called
-either ``config.yml``, ``config.xml`` or ``config.php`` depending on which
-format you prefer:
+Kitabın ilerleyen bölümlerinde veritabanına nesnelerin nasıl yazılacağını,
+formların yaratılmasını ve doğrulanmasını, uygulamanız için farklı dillere 
+çevirileri, testler yazmayı vb gib pek çok şeyi göreceksiniz. Bunların her
+birisi bundle içerisinde kendilerine ait olan yerlerde dururlar. 
+
+Uygulama Konfigürasyonu
+------------------------
+Bir uygulama, uygulamanızın tüm özelliklerini içeren bir seri bundle 
+kolleksiyonundan oluşur. Her bundle YAML, XML ya da PHP olarak yazılan
+bir konfigürasyon dosyasından konfigüre edilirler. Varsayılan olarak
+ana konfigürasyon dosyaları ``app/config/`` dizininde bulunur ve 
+hangi formatı tercih ettiğinize bağlı olarak ``config.yml``, ``config.xml``
+ya da ``config.php`` olarak adlandırılır:
+
 
 .. configuration-block::
 
@@ -824,95 +831,100 @@ format you prefer:
 
 .. note::
 
-   You'll learn exactly how to load each file/format in the next section
-   `Environments`_.
+   Her dosya/format 'ın nasıl yüklendiğini açık olarak sonraki kısım olan
+   `Ortamlar`_ kısmında öğreneceksiniz.
 
-Each top-level entry like ``framework`` or ``twig`` defines the configuration
-for a particular bundle. For example, the ``framework`` key defines the configuration
-for the core Symfony ``FrameworkBundle`` and includes configuration for the
-routing, templating, and other core systems.
 
-For now, don't worry about the specific configuration options in each section.
-The configuration file ships with sensible defaults. As you read more and
-explore each part of Symfony2, you'll learn about the specific configuration
-options of each feature.
+``framework`` ya da ``twig`` gibi en üst düzey girdiler bir özel bir 
+bundle'ı konfigüre ederler. Örneğin ``framework`` anahtarı Symfony'nin
+çekirdek bundle'larından birisi olan ve yönlendirme, şablonlar ve diğer
+çekirdek sistemleri içeren ``FrameworkBundle`` 'ı konfigüre eder.
 
-.. sidebar:: Configuration Formats
+Şimdi her kısım için spesifik konfigürasyon ayarları için endişelenmeyin.
+Konfigürasyon dosyası varsayılan olarak iyi bir şekilde ayarlanmıştır.
+Daha fazla okudukça ve Symfony2'nin diğer parçalarını da araştırdıkça
+her özellik için konfigürasyon özelliklerini öğreneceksiniz.
 
-    Throughout the chapters, all configuration examples will be shown in all
-    three formats (YAML, XML and PHP). Each has its own advantages and
-    disadvantages. The choice of which to use is up to you:
+.. sidebar:: Konfigürasyon Formatları
 
-    * *YAML*: Simple, clean and readable;
+    Bölümler boyunca tüm konfigürasyon formatlarını 3 farklı şekilde 
+    göreceksiniz (YAML, XML ve PHP). Herbirsi kendi içerisinde avantajlar
+    ve dezavantajlar barındırır. Hangisini kullanacağınız konusundaki 
+    seçim size kalmış:
 
-    * *XML*: More powerful than YAML at times and supports IDE autocompletion;
+    * *YAML*: Basit, temiz ve okunabilir;
 
-    * *PHP*: Very powerful but less readable than standard configuration formats.
+    * *XML*: YAML'dan defalarca kuvvetli ve IDE otomatik tamamlama desteği;
+
+    * *PHP*: Oldukça güçlü ancak standart konfigürasyon formatlarından daha az okunabilir.
 
 .. index::
-   single: Environments; Introduction
+   single: Ortamlar; Giriş
 
 .. _environments-summary:
 
-Environments
-------------
+Ortamlar
+---------
+Bir uygulama farklı ortamlarda çalışabilir. Farkjlı ortamlar aynı 
+PHP kodunu paylaşır (front controller ayrı olarak), ancak farklı
+konfigürasyonlar kullanırlar. Örneğin bir ``dev`` ortamı uyarıları ve 
+hataları log altına alırken ``prod`` ortamı sadece hataları log altına alır.
+Bazı dosyalar her istek durumunda ``dev`` ortamında değişirken (geliştirici
+nin faydası için) fakat ``prod`` ortamında bu dosyalar önbelleklenir ve
+değiştirilmez. Tüm ortamlar aynı makinede aynı uygulamayı çalıştırırlar.
 
-An application can run in various environments. The different environments
-share the same PHP code (apart from the front controller), but use different
-configuration. For instance, a ``dev`` environment will log warnings and
-errors, while a ``prod`` environment will only log errors. Some files are
-rebuilt on each request in the ``dev`` environment (for the developer's convenience),
-but cached in the ``prod`` environment. All environments live together on
-the same machine and execute the same application.
+Bir Symfony2 projesi gene olarak üç ortamla başlamasına rağmen (``dev``, ``test``
+ve ``prod``) başka ortamlarda yaratmak oldukça kolaydır. Uygulamanızı farklı
+ortamlarda görebilmek için basitçe tarayıcınızdan front controller'ınızı değiştirmeniz
+yeterlidir.  Uygulamanızı ``dev`` ortamında görmek ve geliştirme front
+controllerine erişmek için bu adresi tarayıcınıza vermeniz yeterlidir:
 
-A Symfony2 project generally begins with three environments (``dev``, ``test``
-and ``prod``), though creating new environments is easy. You can view your
-application in different environments simply by changing the front controller
-in your browser. To see the application in the ``dev`` environment, access
-the application via the development front controller:
 
 .. code-block:: text
 
     http://localhost/app_dev.php/hello/Ryan
 
-If you'd like to see how your application will behave in the production environment,
-call the ``prod`` front controller instead:
+
+Eğer uygulamanızı ürün (production) ortamında görmek isterseniz front controller'ınızın
+``prod`` ortamında çalışanını çağırmanız yeterlidir:
 
 .. code-block:: text
 
     http://localhost/app.php/hello/Ryan
-
-Since the ``prod`` environment is optimized for speed; the configuration,
-routing and Twig templates are compiled into flat PHP classes and cached.
-When viewing changes in the ``prod`` environment, you'll need to clear these
-cached files and allow them to rebuild::
+ 
+``prod`` ortamı hız için optimize edildiğinden dolayı konfigürasyon,
+yonlendirme ve Twig şablonları PHP dosyaları olarak derlenir ve 
+önbelleğe alınır.  Yapılan değişiklikleri  ``prod`` ortamında 
+görmek istiyorsanız ön bellekleri temizleyip uygulamayı yeniden önbellekleme
+yapmasını sağlamanız gereklidir:
 
     php app/console cache:clear --env=prod --no-debug
 
 .. note::
 
-   If you open the ``web/app.php`` file, you'll find that it's configured explicitly
-   to use the ``prod`` environment::
+   Eğer ``web/app.php`` dosyasını açarsanız basitçe ``prod`` ortamının 
+   kullanılması için ayarlandığını göreceksiniz::
 
        $kernel = new AppKernel('prod', false);
 
-   You can create a new front controller for a new environment by copying
-   this file and changing ``prod`` to some other value.
+   Yeni bir ortam için yeni bir front controller yarattığınızda bu dosyanın
+   içeriği yeni front controller içerisine kopyalayıp ``prod`` değerini
+   isteğinize göre değiştirebilirsiniz.
 
 .. note::
 
-    The ``test`` environment is used when running automated tests and cannot
-    be accessed directly through the browser. See the :doc:`testing chapter</book/testing>`
-    for more details.
+    ``test`` ortamı tarayıcı tarafından erişimeyen otomatik test süreçleri 
+    için kullanılır. Daha fazla bilgi için :doc:`Test Süreçleri Kısmına</book/testing>`
+    bakınız.
 
 .. index::
-   single: Ortamlar; Configuration
+   single: Ortamlar; Konfigürasyon
 
-Environment Configuration
+Ortam Konfigürasyonları
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``AppKernel`` class is responsible for actually loading the configuration
-file of your choice::
+``AppKernel`` sınıfı seçiminize göre güncel konfigürasyon dosyasını yüklemekten
+sorumludur::
 
     // app/AppKernel.php
     public function registerContainerConfiguration(LoaderInterface $loader)
@@ -920,10 +932,10 @@ file of your choice::
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
 
-You already know that the ``.yml`` extension can be changed to ``.xml`` or
-``.php`` if you prefer to use either XML or PHP to write your configuration.
-Notice also that each environment loads its own configuration file. Consider
-the configuration file for the ``dev`` environment.
+``.yml`` uzantısını ``.xml`` ya da ``.php`` olarak değiştirebileceğinizi 
+zaten biliyorsunuz. XML ya da PHP tercihinize göre konfigürasyon dosyanızı da 
+düzenlemelisiniz. Her konfigürasyon tipinin kendi dosyasını yüklediğini 
+unutmayın. ``dev`` ortamı için konfigürasyon dosyasına bakalım.
 
 .. configuration-block::
 
@@ -965,49 +977,48 @@ the configuration file for the ``dev`` environment.
 
         // ...
 
-The ``imports`` key is similar to a PHP ``include`` statement and guarantees
-that the main configuration file (``config.yml``) is loaded first. The rest
-of the file tweaks the default configuration for increased logging and other
-settings conducive to a development environment.
 
-Both the ``prod`` and ``test`` environments follow the same model: each environment
-imports the base configuration file and then modifies its configuration values
-to fit the needs of the specific environment. This is just a convention,
-but one that allows you to reuse most of your configuration and customize
-just pieces of it between environments.
+``imports`` anahtarı PHP'deki ``include`` ifadesinin aynısıdır ve görevi
+ilk önce ana konfigürasyon dosyasını (``config.yml``) yüklemektir. Geri 
+kalan düzenlemeler,arttırılmış loglama özellikleri ve geliştirme ortamına 
+yardımcı olan diğer düzenlemelerdir. 
 
-Summary
--------
+``prod`` ve ``test`` ortamlarının ikiside aynı modeli takip ederler. Her 
+ortam temel konfigürasyon dosyasını çağırırlar (import) ve ilgili çevreye bağlı
+olarak kendi konfigürasyonları içerisinde de değerleri değiştirilir. Bu sadece bir 
+kuraldır ve çevreler arasında sadece gerekli parçaları değiştirerek
+ana konfigrasyon değerlerini yeniden kullanmanıza olanak verir.
 
-Congratulations! You've now seen every fundamental aspect of Symfony2 and have
-hopefully discovered how easy and flexible it can be. And while there are
-*a lot* of features still to come, be sure to keep the following basic points
-in mind:
 
-* creating a page is a three-step process involving a **route**, a **controller**
-  and (optionally) a **template**.
+Özet
+----
+Tebrikler! Şu anda Symfony2'nin tüm temellerini ve bunların ne kadar
+esnek olabileceğini gördünüz. Daha *pek çok* özellik olmasına rağmen
+şimdi bazı temel noktaları aklımızda tutalım:
 
-* each project contains just a few main directories: ``web/`` (web assets and
-  the front controllers), ``app/`` (configuration), ``src/`` (your bundles),
-  and ``vendor/`` (third-party code) (there's also a ``bin/`` directory that's
-  used to help updated vendor libraries);
+* sayfa yaratmak **route**, bir **controller** ve (isteğe bağlı) bir **şablon**
+  yaratmayı kapsayan 3 adımlı bir süreçten oluşur.
 
-* each feature in Symfony2 (including the Symfony2 framework core) is organized
-  into a *bundle*, which is a structured set of files for that feature;
+* her proje sadece bir kaç ana klasörden oluşur: ``web/`` (web varlıkları ve
+  front controllerlar), ``app/`` (konfigüasyon), ``src/`` (bundle'larınız),
+  ve``vendor/`` (3. parti kodlar) (aynı zamanda vendor kütüphanelerini güncelleyecek
+  araçları barındıran ``bin/`` klasörüde vardır);
 
-* the **configuration** for each bundle lives in the ``app/config`` directory
-  and can be specified in YAML, XML or PHP;
+* Symfony2'deki her özellik (Symfony2 framework çekirdeği de dahil) bir 
+  *bundle* içerisinde organize edilir, 
+* her bundle için genel **Konfigürasyon** ``app/config`` klasöründe bulunur ve
+  bu YAML, XML ya da PHP tipinde olabilir,
 
-* each **environment** is accessible via a different front controller (e.g.
-  ``app.php`` and ``app_dev.php``) and loads a different configuration file.
+* her **ortam** kendisine ait olan farklı front controller'lardan erişilebilir
+   (Örn.``app.php`` and ``app_dev.php``)ve bu ortamlar farklı konfigürasyon 
+   dosyaları yüklerler.
 
-From here, each chapter will introduce you to more and more powerful tools
-and advanced concepts. The more you know about Symfony2, the more you'll
-appreciate the flexibility of its architecture and the power it gives you
-to rapidly develop applications.
+Buradan sonra her bölüm size çok daha fazla güçlü araç ve gelişmiş konseptler
+gösterecek. Symfony2 hakkında daha fazla şey öğrendiğinizde, mimarideki esnekliğin gücünü
+ve size hızlı bir geliştirme ortamı sağlamasının anlamını daha iyi anlayacaksınız.
 
 .. _`Twig`: http://twig.sensiolabs.org
 .. _`3.parti bundle'lar`: http://symfony2bundles.org/
-.. _`Symfony Standard Edition`: http://symfony.com/download
+.. _`Symfony Standard Sürümü`: http://symfony.com/download
 .. _`Apachenin DirectoryIndex belgesi`: http://httpd.apache.org/docs/2.0/mod/mod_dir.html
 .. _`Nginx HttpCoreModule location belgesi`: http://wiki.nginx.org/HttpCoreModule#location
