@@ -1,25 +1,28 @@
-The Symfony2 Stable API
+Symfony2 Kararlı API
 =======================
 
-The Symfony2 stable API is a subset of all Symfony2 published public methods
-(components and core bundles) that share the following properties:
+Symfony2 Kararlı API  tüm Symfony2 nin yayınlanan genel metodlarının
+(bileşenler ce çekirdek bundle'lar) aşağıdaki özelliklerine göre yayınlanmış
+halidir:
 
-* The namespace and class name won't change;
-* The method name won't change;
-* The method signature (arguments and return value type) won't change;
-* The semantic of what the method does won't change.
+* namespace ve sınıf isimleri değişmeyecekler;
+* method adı değişmeyecekler;
+* method imzaları (argumanlar ve döndürülen değer tipleri) değişmeyecekler;
+* metodun yaptığını şeyin kavramsal olarak değişmeyeceği;
 
-The implementation itself can change though. The only valid case for a change
-in the stable API is in order to fix a security issue.
+Uygulamanın kendisini değiştirilebilir. Kararlı API içerisinde değiştirilmesine
+neden olacak olan tek şey güvenlik ile ilgili olan durumlara bağlı yapılacak
+değişikliklerdir.
 
-The stable API is based on a whitelist, tagged with `@api`. Therefore,
-everything not tagged explicitly is not part of the stable API.
+Kararlı API `@api` olarak etiketlenen bir beyaz listeden türer. Bu yüzden
+herşey Karalı API'nin bir parçası olmadan etiketlenmez.
 
 .. tip::
 
-    Any third party bundle should also publish its own stable API.
+    Herhangi 3. parti bundle kendisine ait Kararlı bir API ile yayınlanabilmelidir.
 
-As of Symfony 2.0, the following components have a public tagged API:
+Symfony 2.0 gibi aşağıdaki bileşenlerinde kendilerinde genel etiketli 
+API'leri mevcuttur:
 
 * BrowserKit
 * ClassLoader
