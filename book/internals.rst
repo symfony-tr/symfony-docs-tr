@@ -504,7 +504,7 @@ Konfigürasyon
 
 Varsayılan Symfony2 konfigürasyonu profiler, web debug toolbar ve web 
 profiler araçlarının kullanması için ayarlı bir şekilde gelir. Burada
-geliştirme ortamına ait olan konfigürasyon dosyasının içini görmektesiniz::
+geliştirme ortamına ait olan konfigürasyon dosyasının içini görmektesiniz:
 
 .. configuration-block::
 
@@ -563,7 +563,7 @@ yönlendirmelerin (redirect) 'ların tamamını yakalayacak ve redirect gerçekl
 ikincil veriler saklanacak ve toolbar daha kısa olacaktır. 
 
 Eğer web profiler'ı aktif ederseniz aynı zamanda profiler yönlendirmelerinide (route)
-açmanız gerekmektedir::
+açmanız gerekmektedir:
 
 .. configuration-block::
 
@@ -587,7 +587,7 @@ belirli durumlar altında aktif etmek isteyebilirsiniz.``only-exceptions``
 ayarı 500 sayfalarında profillemeyi limitler ancak eğer belirlediğiniz başka
 ip'lerden gelen bilgileri ya da web sitesinin sadece belirli kısımlarındaki
 bilgileri almak isterseniz? Bu durumda istek eşleştiricisini (request matcher)
-kullanabiirsiniz::
+kullanabiirsiniz:
 
 .. configuration-block::
 
