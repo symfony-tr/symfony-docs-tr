@@ -1,50 +1,49 @@
 .. index::
    single: Doctrine
 
-Databases and Doctrine
-======================
-
-Let's face it, one of the most common and challenging tasks for any application
-involves persisting and reading information to and from a database. Fortunately,
-Symfony comes integrated with `Doctrine`_, a library whose sole goal is to
-give you powerful tools to make this easy. In this chapter, you'll learn the
-basic philosophy behind Doctrine and see how easy working with a database can
-be.
+Veritabanları ve Doctrine
+==========================
+Şunu kabul edelim. Herhangi bir uygulamanın en zorlu işleri veritabanından
+bilgileri okumak ya da buraya bilgleri yazmaktır. Çok şükür, Symfony 
+`Doctrine`_ adındaki bu işleri kolaylıkla yapacağınız araçları içeren bir
+kütüphane ile birlikte entegre gelir. Bu kısımda Doctrine'ın arkasındaki
+temel felsefeyi öğrenecek ve veritabanları ile çalışmanın ne kadar kolay
+olabileceğini göreceksiniz. 
 
 .. note::
 
-    Doctrine is totally decoupled from Symfony and using it is optional.
-    This chapter is all about the Doctrine ORM, which aims to let you map
-    objects to a relational database (such as *MySQL*, *PostgreSQL* or *Microsoft SQL*).
-    If you prefer to use raw database queries, this is easy, and explained
-    in the ":doc:`/cookbook/doctrine/dbal`" cookbook entry.
+    Doctrine isteğe bağlı olarak kullanabilmeniz için Symfony2'den tamamen 
+    ayrıştırılmıştır. Bu kısım tamamen Doctrine ORM ile nesnelerinizi ilişkisel
+    veri tabanında  (*MySQL*, *PostgreSQL* ya da  *Microsoft SQL*) nasıl 
+    kullanacağınızı içerir.
+    Eğer saf veritabanı cümlecikleri kullanmak isterseniz bu da basittir 
+    ve ":doc:`/cookbook/doctrine/dbal`" tarif kitabı girdisinde açıklanmıştır.
+    Ayrıca verilerinizi  Doctrine ODM kullanarak da `MongoDB`_ üzerinde
+    işleyebilirsiniz. Bu konudaki daha fazla bilgi için 
+    ":doc:`/bundles/DoctrineMongoDBBundle/index`" belgesini okuyabilirsiniz.
 
-    You can also persist data to `MongoDB`_ using Doctrine ODM library. For
-    more information, read the ":doc:`/bundles/DoctrineMongoDBBundle/index`"
-    documentation.
+Basit Bir Örnek: Bir Ürün (Product)
+-----------------------------------
 
-A Simple Example: A Product
----------------------------
+Doctrine'nin nasıl çalıştığını anlamanın en iyi yolu onu uygulamada görmektir.
+Bu kısımda veritabanını konfigüre edecek ``Product`` nesnesi yaratacak
+bunu veri tabanına yazacak ve veritabanından geri çağıracaksınız.
 
-The easiest way to understand how Doctrine works is to see it in action.
-In this section, you'll configure your database, create a ``Product`` object,
-persist it to the database and fetch it back out.
+.. sidebar:: Kodu örnek üzerinde takip etmek
 
-.. sidebar:: Code along with the example
-
-    If you want to follow along with the example in this chapter, create
-    an ``AcmeStoreBundle`` via:
+    Eğer bu kısmı bir örnekle birlikte takip etmek istiyorsanız,
+    şu komut satırı komutu ile ``AcmeStoreBundle`` bundle'ını yaratın:
     
     .. code-block:: bash
     
         php app/console generate:bundle --namespace=Acme/StoreBundle
 
-Configuring the Database
-~~~~~~~~~~~~~~~~~~~~~~~~
+Veritabanını Konfigüre Etmek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Before you really begin, you'll need to configure your database connection
-information. By convention, this information is usually configured in an
-``app/config/parameters.ini`` file:
+Gerçekten başlamadan önce veritabanı bağlantı bilgisini konfigüre etmek
+gerekli. Kural olarak bu bilgi genellikle ``app/config/parameters.ini``
+dosyasında tutulur:
 
 .. code-block:: ini
 
@@ -58,9 +57,10 @@ information. By convention, this information is usually configured in an
 
 .. note::
 
-    Defining the configuration via ``parameters.ini`` is just a convention.
-    The parameters defined in that file are referenced by the main configuration
-    file when setting up Doctrine:
+   ``parameters.ini`` dosyası ile konfigüre etmek işi sadece bir teamüldür.
+   Parametreler ana konfigürasyon dosyasında doctrine altında gösterilerek de 
+   ayarlanabilir.
+   
     
     .. code-block:: yaml
     
@@ -72,26 +72,30 @@ information. By convention, this information is usually configured in an
                 user:     %database_user%
                 password: %database_password%
     
-    By separating the database information into a separate file, you can
-    easily keep different versions of the file on each server. You can also
-    easily store database configuration (or any sensitive information) outside
-    of your project, like inside your Apache configuration, for example. For
-    more information, see :doc:`/cookbook/configuration/external_parameters`.
+    
+    Veritabanı bilgisinin farklı bir dosya da ayrılması ile her sunucu
+    için bu dosyanın farklı şekillerini tutmanız kolaylaşır.
+    Ayrıca kolaylıkla veritabanı konfigürasyonunu (ya da önemli herhangi
+    bir veriyi) projenizden ,mesela apache konfigürasyonu gibi,
+    ayrımış olursunuz. Daha fazla bilgi için 
+    :doc:`/cookbook/configuration/external_parameters` belgesini okuyun.
 
-Now that Doctrine knows about your database, you can have it create the database
-for you:
+
+Bundan sonra Doctine veritabanınızı tanıyor ve şu şekilde de sizin için bir
+veritabanı yaratabilir:
 
 .. code-block:: bash
 
     php app/console doctrine:database:create
 
-Creating an Entity Class
-~~~~~~~~~~~~~~~~~~~~~~~~
+Bir Entity (Varlık) Sınıfı Yaratmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Suppose you're building an application where products need to be displayed.
-Without even thinking about Doctrine or databases, you already know that
-you need a ``Product`` object to represent those products. Create this class
-inside the ``Entity`` directory of your ``AcmeStoreBundle``::
+Varsayalım ürünleri listeleyen bir uygulama geliştiriyorsunuz. Doctrine yada
+veritabanları olmadan düşünseniz bile zaten bildiğiniz gibi tüm ürünleri
+temsil eden bir ``Product`` nesnesine ihtiyacınızın olduğudur.
+Bu sınıfı ``AcmeStoreBundle`` içerisindeki ``Entity`` klasörü altında 
+yaratın:: 
 
     // src/Acme/StoreBundle/Entity/Product.php    
     namespace Acme\StoreBundle\Entity;
@@ -105,48 +109,49 @@ inside the ``Entity`` directory of your ``AcmeStoreBundle``::
         protected $description;
     }
 
-The class - often called an "entity", meaning *a basic class that holds data* -
-is simple and helps fulfill the business requirement of needing products
-in your application. This class can't be persisted to a database yet - it's
-just a simple PHP class.
+Bu sınıf - sıklıkla "entity" adıyla adlandırılan bu sınıfın anlamı *verileri 
+tutan temel sınıftır* - basittir ve uygulamanızda işletmenizin ihtiyacı 
+olan tüm ürünlerin listelenmesi işine yardım eder. Bu sınıf henüz veritabanına
+kayıt yapamamaktadır. Bu sadece basit bir PHP sınıfıdır.
 
 .. tip::
 
-    Once you learn the concepts behind Doctrine, you can have Doctrine create
-    this entity class for you:
+    Doctrine bu entity sınıfını sizin için aşağıdaki komut ile yaratabilir
+    ancak öncelikle Doctrine'nin arkasındaki konseptleri öğrenin:
     
     .. code-block:: bash
         
         php app/console doctrine:generate:entity --entity="AcmeStoreBundle:Product" --fields="name:string(255) price:float description:text"
 
 .. index::
-    single: Doctrine; Adding mapping metadata
+    single: Doctrine; metadata eşleştirmesi eklemek (mapping metadata)
 
 .. _book-doctrine-adding-mapping:
 
-Add Mapping Information
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Doctrine allows you to work with databases in a much more interesting way
-than just fetching rows of a column-based table into an array. Instead, Doctrine
-allows you to persist entire *objects* to the database and fetch entire objects
-out of the database. This works by mapping a PHP class to a database table,
-and the properties of that PHP class to columns on the table:
+Eşleme Bilgisi Ekleme (Mapping Information)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Doctrine size veritabanları ile çalışırken sadece sütün tabanlı verileri
+tablodan bir dize değişkenine çekmekten çok daha ilginç bir şekilde çalışmanıza
+izin verir. Verileri dize değişkenine aktarmak yerine, Doctrine tüm *nesneleri*
+veritabanına yazmaya ve tüm nesneleri veritabanından çekmeye izin verir. 
+Bu PHP sınıfının veritabanı tablosu ile eşleştirilmesi (mapping) ile olur ve
+PHP sınıfının değişkenleri tablonun sütünları haline gelir:
 
 .. image:: /images/book/doctrine_image_1.png
    :align: center
 
-For Doctrine to be able to do this, you just have to create "metadata", or
-configuration that tells Doctrine exactly how the ``Product`` class and its
-properties should be *mapped* to the database. This metadata can be specified
-in a number of different formats including YAML, XML or directly inside the
-``Product`` class via annotations:
+Doctrinde bunu yapabilmek için öncelikle bir "metadata" yaratmak ya da 
+Doctrine'e tam olarak ``Product`` sınıfının ve değişkenlerinin veritabanında
+nasıl *eşleşeceğini* (map) düzenleyecek şekilde konfigüre etmeniz gerekir.
+Bu metadata YAML, XML gibi formatlarda da olacağı gibi ``Product`` sınıfı
+içerisinde belirteçler (annotation) aracılığı ile de olabilir:
 
 .. note::
 
-    A bundle can accept only one metadata definition format. For example, it's
-    not possible to mix YAML metadata definitions with annotated PHP entity
-    class definitions.
+    Bir bundle sadece bir metadata tanımlama formatını tanıyabilir. Örneğin,
+    YAML tipinde tutulan metadata bilgilerinin belirteçler ile PHP sınıfında da
+    kullanılması gibi karışık bir kullanım mümkün değildir.
+
 
 .. configuration-block::
 
@@ -226,41 +231,47 @@ in a number of different formats including YAML, XML or directly inside the
 
 .. tip::
 
-    The table name is optional and if omitted, will be determined automatically
-    based on the name of the entity class.
+    
+    Tablo ismi seçimliktir ve eğer atlanırsa tablo adı otomatik olarak 
+    entity sınıfının ismi olarak belirlenir.
 
-Doctrine allows you to choose from a wide variety of different field types,
-each with their own options. For information on the available field types,
-see the :ref:`book-doctrine-field-types` section.
+
+Doctrine geniş bir yelpazede çeşitli alan tip tanımlamalarını her birisinin
+kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için 
+:ref:`book-doctrine-field-types` kısmına bakın.
 
 .. seealso::
 
-    You can also check out Doctrine's `Basic Mapping Documentation`_ for
-    all details about mapping information. If you use annotations, you'll
-    need to prepend all annotations with ``ORM\`` (e.g. ``ORM\Column(..)``),
-    which is not shown in Doctrine's documentation. You'll also need to include
-    the ``use Doctrine\ORM\Mapping as ORM;`` statement, which *imports* the
-    ``ORM`` annotations prefix.
-
+    
+    Aynı zamanda  eşleme bilgisi hakkında tüm herşey için Doctrine'nin 
+    `Basit Eşleme Belgesi`_  belgesine de bakabilirsiniz.
+    Eğer belirteç (annotation) kullanıyorsanız bu alıntıların önlerine
+    ``ORM\`` ifadsini eklemeniz gereklidir. (Örn. : ``ORM\Column(..)``)
+    Bu Doctrine'nin kendi belgelerinde gösterilmemektedir. Ayrıca 
+    ``use Doctrine\ORM\Mapping as ORM;`` ifadesini kullanarak ``ORM``
+    belirteci ön ekini *kullanabilir* hale gelirsiniz.
+    
 .. caution::
 
-    Be careful that your class name and properties aren't mapped to a protected
-    SQL keyword (such as ``group`` or ``user``). For example, if your entity
-    class name is ``Group``, then, by default, your table name will be ``group``,
-    which will cause an SQL error in some engines. See Doctrine's
-    `Reserved SQL keywords documentation`_ on how to properly escape these
-    names. Alternatively, if you're free to choose your database schema,
+    Sınıf isimlerinde ve sınıfın değişkenlerinde korunan SQL anahtar kelimeleri
+    ni kullanmayınız(``group`` ya da ``user`` gibi).Bunlar eşleştirilmezler. 
+    Örneğin eğer entity sınıfınızın adı ``Group`` ise varsayılan tablo adınızda
+    ``group`` olacak ve SQL motorunda bu hataya neden olacaktır. Doctrine'nin
+    `Ayrılmış SQL anahtar kelimeleri belgesi`_  'ni okuyarak bunlardan nasıl
+    kaçınabileceğinizi öğrenebilirsiniz. Alternatively, if you're free to choose your database schema,
     simply map to a different table name or column name. See Doctrine's
     `Persistent classes`_ and `Property Mapping`_ documentation.
+   
 
 .. note::
 
-    When using another library or program (ie. Doxygen) that uses annotations,
-    you should place the ``@IgnoreAnnotation`` annotation on the class to
-    indicate which annotations Symfony should ignore.
+    Belirteçleri kullanan başka bir kütüphane yada program kullandığınızda
+    (örn: Doxygen) ``@IgnoreAnnotation`` belirtecini kullanarak Symfony' nin
+    hangi belirteçleri görmemezden geleceğini ayarlamanız gereklidir.
+    
+    Örneğin, ``@fn`` belirtecinin bir hataya sebep olmasını engellemek için
+    şu ifadeyi kullanmanız gerekmektedir::
 
-    For example, to prevent the ``@fn`` annotation from throwing an exception,
-    add the following::
 
         /**
          * @IgnoreAnnotation("fn")
@@ -1377,7 +1388,7 @@ For more information about Doctrine, see the *Doctrine* section of the
 
 .. _`Doctrine`: http://www.doctrine-project.org/
 .. _`MongoDB`: http://www.mongodb.org/
-.. _`Basic Mapping Documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html
+.. _`Basit Eşleme Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html
 .. _`Query Builder`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/query-builder.html
 .. _`Doctrine Query Language`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/dql-doctrine-query-language.html
 .. _`Association Mapping Documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/association-mapping.html
@@ -1385,6 +1396,6 @@ For more information about Doctrine, see the *Doctrine* section of the
 .. _`Mapping Types Documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#doctrine-mapping-types
 .. _`Property Mapping documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping
 .. _`Lifecycle Events documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/events.html#lifecycle-events
-.. _`Reserved SQL keywords documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#quoting-reserved-words
+.. _`Ayrılmış SQL anahtar kelimeleri belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#quoting-reserved-words
 .. _`Persistent classes`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#persistent-classes
 .. _`Property Mapping`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping
