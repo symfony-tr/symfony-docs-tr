@@ -1,224 +1,223 @@
 .. index::
-   single: Internals
+   single: Internals (İç Yapı)
 
-Internals
-=========
-
-Looks like you want to understand how Symfony2 works and how to extend it.
-That makes me very happy! This section is an in-depth explanation of the
-Symfony2 internals.
+Internals (İç Yapı)
+===================
+Göründüğü kadarıyla Symfony2'nin nasıl çalıştığını ve genişletilebileceğini
+anlamak istiyorsunuz. Bu beni çok mutlu ediyor!. Bu ksımda Symfony2'nin
+iç yapısına (internals) daha derin bir bakış yapacağız.
 
 .. note::
 
-    You need to read this section only if you want to understand how Symfony2
-    works behind the scene, or if you want to extend Symfony2.
+    Bu bölümü Symfony2'de sahne arkasında neler oluyor ya da Symfony2'yi
+    nasıl genişletilebileceğini anlamak ihtiyacı hissediyorsanız okuyun
 
-Overview
---------
+Genel Bakış
+------------
 
-The Symfony2 code is made of several independent layers. Each layer is built
-on top of the previous one.
+Symfony2 kodu bazı bağımsız katmanlardan oluşur. Her katman bir öncekinin
+üzerinde inşa edilmiştir.
 
 .. tip::
 
-    Autoloading is not managed by the framework directly; it's done
-    independently with the help of the
-    :class:`Symfony\\Component\\ClassLoader\\UniversalClassLoader` class
-    and the ``src/autoload.php`` file. Read the :doc:`dedicated chapter
-    </components/class_loader>` for more information.
+    Autoloading framework tarafından direkt kontrol edilmez. Bu bağımsız
+    olarak :class:`Symfony\\Component\\ClassLoader\\UniversalClassLoader`
+    sınıfı ve  ``src/autoload.php`` dosyası yardımı ile yaplır.
+    Daha fazla bilgi için :doc:`dedicated kısmını </components/class_loader>` 
+    okuyun.
 
-``HttpFoundation`` Component
+``HttpFoundation`` Bileşeni
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+En alt düzey :namespace:`Symfony\\Component\\HttpFoundation` bileşenidir.
+HttpFoundation HTTP işlemlerini halledebilmeniz için ana nesneleri sağlar.
+Bu bazı PHP fonksiyonlarının ve değişkenlerinin Nesneye-Yönelimli bir özetidir: 
 
-The deepest level is the :namespace:`Symfony\\Component\\HttpFoundation`
-component. HttpFoundation provides the main objects needed to deal with HTTP.
-It is an Object-Oriented abstraction of some native PHP functions and
-variables:
+* :class:`Symfony\\Component\\HttpFoundation\\Request` sınıfı 
+  ``$_GET``, ``$_POST``, ``$_COOKIE``, ``$_FILES``, ve ``$_SERVER``
+  gibi ana PHP global değişkenlerini özetler;
 
-* The :class:`Symfony\\Component\\HttpFoundation\\Request` class abstracts
-  the main PHP global variables like ``$_GET``, ``$_POST``, ``$_COOKIE``,
-  ``$_FILES``, and ``$_SERVER``;
+* :class:`Symfony\\Component\\HttpFoundation\\Response` sınıfı 
+  ``header()``, ``setcookie()``, ve ``echo`` gibi bazı PHP fonksiyonlarını
+  özetler.
 
-* The :class:`Symfony\\Component\\HttpFoundation\\Response` class abstracts
-  some PHP functions like ``header()``, ``setcookie()``, and ``echo``;
-
-* The :class:`Symfony\\Component\\HttpFoundation\\Session` class and
+* :class:`Symfony\\Component\\HttpFoundation\\Session` sınıfı ve 
   :class:`Symfony\\Component\\HttpFoundation\\SessionStorage\\SessionStorageInterface`
-  interface abstract session management ``session_*()`` functions.
+  interface'i oturum yönetimleri için kullanılan ``session_*()`` functionlarını 7
+  özetler.
 
-``HttpKernel`` Component
+``HttpKernel`` Bileşeni
 ~~~~~~~~~~~~~~~~~~~~~~~~
+HttpFoundation 'un üzerinde :namespace:`Symfony\\Component\\HttpKernel`
+bileşeni bulunur. HttpKernel, HTTP'nin dinamik kısımı olan Request ve Response
+sınıflarının üzerinde gelen isteklerin işlenmesi için standart ve basit bir yol
+sunar. Aynı zamanda HttpKernel, bir Web Framework'un yeniden yaratılmasında 
+çok kafa yorulmaması için araçlar ve uzatma noktalarını da sağlayarak ideal 
+bir başlangıç noktasıdır.
 
-On top of HttpFoundation is the :namespace:`Symfony\\Component\\HttpKernel`
-component. HttpKernel handles the dynamic part of HTTP; it is a thin wrapper
-on top of the Request and Response classes to standardize the way requests are
-handled. It also provides extension points and tools that makes it the ideal
-starting point to create a Web framework without too much overhead.
-
-It also optionally adds configurability and extensibility, thanks to the
-Dependency Injection component and a powerful plugin system (bundles).
+İsteğe bağlı olarak Dependency Injection (Bağımlılık enjeksiyonu) bileşeni
+ve güçlü eklenti sistemi (bundle) sayesinde de konfügüre edilebilirlik ve
+genişletilebilirlik sağlar.
 
 .. seealso::
 
-    Read more about :doc:`Dependency Injection </book/service_container>` and
-    :doc:`Bundles </cookbook/bundles/best_practices>`.
+    Daha fazlası için :doc:`Dependency Injection (Bağımlılık enjeksiyonu) </book/service_container>` 
+    ve :doc:`Bundle'lar </cookbook/bundles/best_practices>` kısımlarına bakın.
 
-``FrameworkBundle`` Bundle
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+``FrameworkBundle`` Bundle'ı
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The :namespace:`Symfony\\Bundle\\FrameworkBundle` bundle is the bundle that
-ties the main components and libraries together to make a lightweight and fast
-MVC framework. It comes with a sensible default configuration and conventions
-to ease the learning curve.
+:namespace:`Symfony\\Bundle\\FrameworkBundle` bundle 'ı ana bileşenleri ve 
+kütüphaneleri hafif ve hızlı bir MVC frameworku haline getirmek için birleştien
+bundle'dır. Ayrıca beraberinde gelen tutarlı bir konfigrüasyon ve kurallar ile
+birlikte kolay bir öğrenme eğrisine sahiptir.
 
 .. index::
-   single: Internals; Kernel
+   single: İç Yapı; Kernel (Çekirdek)
 
-Kernel
-------
+Kernel (Çekirdek)
+-----------------
+:class:`Symfony\\Component\\HttpKernel\\HttpKernel` sınıfı Symfony2'nin 
+merkez sınıfıdır ve istemciden gelen istekleri işlemek ile sorumludur.
+Ana amacı :class:`Symfony\\Component\\HttpFoundation\\Request` nesnesinden
+:class:`Symfony\\Component\\HttpFoundation\\Response` nesnesine "çevirmektir"
 
-The :class:`Symfony\\Component\\HttpKernel\\HttpKernel` class is the central
-class of Symfony2 and is responsible for handling client requests. Its main
-goal is to "convert" a :class:`Symfony\\Component\\HttpFoundation\\Request`
-object to a :class:`Symfony\\Component\\HttpFoundation\\Response` object.
 
-Every Symfony2 Kernel implements
-:class:`Symfony\\Component\\HttpKernel\\HttpKernelInterface`::
+Her Symfony2 Kernel'i 
+:class:`Symfony\\Component\\HttpKernel\\HttpKernelInterface` 'inden 
+yapılır::
 
     function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
 
 .. index::
-   single: Internals; Controller Resolver
+   single: İç Yapı; Controller Resolver (Controller Çözümleyicisi)
 
-Controllers
-~~~~~~~~~~~
+Controller'lar
+~~~~~~~~~~~~~~
+Request (istek) 'i Response (Cevap) 'a çevirirken  Çekirdek bir "Controller" 
+kullanır. Bir controller geçerli herhangi bir PHP çağırılabileni olabilir.
 
-To convert a Request to a Response, the Kernel relies on a "Controller". A
-Controller can be any valid PHP callable.
-
-The Kernel delegates the selection of what Controller should be executed
-to an implementation of
-:class:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface`::
+Kernel, :class:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface`
+vasıtası ile hangi controller'in çalıştırılacağını belirler::
 
     public function getController(Request $request);
 
     public function getArguments(Request $request, $controller);
 
-The
 :method:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface::getController`
-method returns the Controller (a PHP callable) associated with the given
-Request. The default implementation
-(:class:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolver`)
-looks for a ``_controller`` request attribute that represents the controller
-name (a "class::method" string, like
-``Bundle\BlogBundle\PostController:indexAction``).
+methodu verilen Request ile bir Controller (bir PHP çağırılanı) 'ı birleştirerek geri döndürme yapar.
+
+Varsayılan olarak (:class:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolver`)
+request niteliğine uygun olarak düzenlenmiş bir ``_controller`` aranır.
+( "class::method" ``Bundle\BlogBundle\PostController:indexAction`` gibi bir şey olabilir).
 
 .. tip::
 
-    The default implementation uses the
-    :class:`Symfony\\Bundle\\FrameworkBundle\\EventListener\\RouterListener`
-    to define the ``_controller`` Request attribute (see :ref:`kernel-core-request`).
+    Varsayılan uygulama 
+    :class:`Symfony\\Bundle\\FrameworkBundle\\EventListener\\RouterListener` sınıfını
+    ``_controller`` ın Request niteliğini tanımlamak için kullanır 
+    (bkz :ref:`kernel-core-request`).
 
-The
 :method:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface::getArguments`
-method returns an array of arguments to pass to the Controller callable. The
-default implementation automatically resolves the method arguments, based on
-the Request attributes.
+methodu Controller'a gönderilecek olan parametreleri barındıran bir dize değeri döndürür.
+Varsayılan uygulama otomatik olarak Request'in niteliğine göre metod argümanlarını çözer.
 
-.. sidebar:: Matching Controller method arguments from Request attributes
+.. sidebar:: Request niteliklerinden Controller'ın metod argümanlarını eşleştirmek.
 
-    For each method argument, Symfony2 tries to get the value of a Request
-    attribute with the same name. If it is not defined, the argument default
-    value is used if defined::
+    Her metod argümanı için Symfony2 Request niteliğinin değerini aynı isim ile
+    almayı dener. Eğer bu tanımlı değilse argüman varsayılan değeri kullanılır. 
+    (eğer tanımlı ise)::
 
-        // Symfony2 will look for an 'id' attribute (mandatory)
-        // and an 'admin' one (optional)
+        // Symfony2 bir 'id' niteliği (zorunlu)
+        // ve bir 'admin' niteliği (opsiyonel) arayacak
         public function showAction($id, $admin = true)
         {
             // ...
         }
 
 .. index::
-  single: Internals; Request Handling
+  single: İç Yapı; Request İşlemek
 
-Handling Requests
-~~~~~~~~~~~~~~~~~
+Request (İstek) 'leri İşlemek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``handle()`` method takes a ``Request`` and *always* returns a ``Response``.
-To convert the ``Request``, ``handle()`` relies on the Resolver and an ordered
-chain of Event notifications (see the next section for more information about
-each Event):
+``handle()`` metodu bir ``Request`` değeri alır ve  *daima* bir ``Response``
+döndürür.
+``handle()``  , ``Request`` 'e çevirmek için Resolver ve bir dizi sıralı
+Event notification (Olay Belirteci) 'ne bakar. (Her olay (Event) bilgisi için
+bir sonraki bölüme bakınız.):
 
-1. Before doing anything else, the ``kernel.request`` event is notified -- if
-   one of the listeners returns a ``Response``, it jumps to step 8 directly;
+1. Herhangi bir şey olmadan önce, ``kernel.request`` olayı tetiklenir -- Eğer
+   dinleyicilerden (listener) herhangibirisi bir ``Response`` döndürürse
+   8. adıma direkt olarak atlanır;
 
-2. The Resolver is called to determine the Controller to execute;
+2. Resolver çalıştırılacak Controller'in belirlenmesi için çağırılır;
 
-3. Listeners of the ``kernel.controller`` event can now manipulate the
-   Controller callable the way they want (change it, wrap it, ...);
 
-4. The Kernel checks that the Controller is actually a valid PHP callable;
+3. ``kernel.controller`` event'ının dinleyicileri şu anda Controller'ı 
+   istedikleri gibi değiştirebilime yeteneğine sahiptir. (değiştir, paketle, ...);
+   
+4. Kernel Controller'ın gerçekten bir PHP cağırılabiliri olduğunu kontrol eder;
 
-5. The Resolver is called to determine the arguments to pass to the Controller;
+5. Resolver Controller'a gönderilecek argümanları belirlemek üzere çağırılır;
 
-6. The Kernel calls the Controller;
+6. Kernel, Controller'ı çağırır;
 
-7. If the Controller does not return a ``Response``, listeners of the
-   ``kernel.view`` event can convert the Controller return value to a ``Response``;
+7. Eğer Controller bir ``Response`` döndürmüyorsa, ``kernel.view`` olayı
+   dinleyicileri (listeners) Controller'i  çevirdiği değeri ``Response``
+   olarak çevirebilirler; 
 
-8. Listeners of the ``kernel.response`` event can manipulate the ``Response``
-   (content and headers);
+8. ``kernel.response`` olayı dinşeyicileri ``Response`` 'u değişitrebilirler
+   (içerik ve başlıklarını)
 
-9. The Response is returned.
+9. Response çevrilir.
 
-If an Exception is thrown during processing, the ``kernel.exception`` is
-notified and listeners are given a chance to convert the Exception to a
-Response. If that works, the ``kernel.response`` event is notified; if not, the
-Exception is re-thrown.
+Eğer işlem sırasında bir Exception(İstisna) meydana gelirse ``kernel.exception``
+tetiklenir ve dinleyiciler (listener) İstisnayı bir Response'a çevirmek için bir
+şans verirler. Eğer çalışırsa ``kernel.response`` tetiklenir; çalışmazsa 
+İstisna yeniden atılır.
 
-If you don't want Exceptions to be caught (for embedded requests for
-instance), disable the ``kernel.exception`` event by passing ``false`` as the
-third argument to the ``handle()`` method.
+Eğer istisnaların yakalanmasını istemiyorsanuz (olay içerisinde gömülü istekler için)
+``kernel.exception`` kapatmak için ``handle()`` metodunun üçüncü parametresini 
+``false`` olarak değiştirin.
 
 .. index::
-  single: Internals; Internal Requests
+  single: İç Yapı; İçsel İstekler (Requests)
 
-Internal Requests
-~~~~~~~~~~~~~~~~~
+İçsel İstekler (Requests)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Request'in işlendiği ('ana' olanı) herhangi bir zamanda bir alt-istek de 
+işlenebilir. ``handle()`` metoduna bir istek tipi gönderebilirsiniz (ikinci argümanına):
 
-At any time during the handling of a request (the 'master' one), a sub-request
-can be handled. You can pass the request type to the ``handle()`` method (its
-second argument):
 
 * ``HttpKernelInterface::MASTER_REQUEST``;
 * ``HttpKernelInterface::SUB_REQUEST``.
 
-The type is passed to all events and listeners can act accordingly (some
-processing must only occur on the master request).
+Gönderilen bu tipe göre tüm event (olay) ve listener (dinleyiciler) hareket
+edebilirler. (bazı süreçler sadece ana istekten önce oluşmalıdır)
 
 .. index::
-   pair: Kernel; Event
+   pair: Kernel; Event (olay)
 
-Events
-~~~~~~
+Olaylar (Events)
+~~~~~~~~~~~~~~~~
 
-Each event thrown by the Kernel is a subclass of
-:class:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent`. This means that
-each event has access to the same basic information:
+Her olay Kernel'in bir alt sınıfı olan 
+:class:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent` sınıfıdan türer.
+Bunun anlamı her olay şu aynı temel bilgilere ulaşır demektir:
 
-* ``getRequestType()`` - returns the *type* of the request
-  (``HttpKernelInterface::MASTER_REQUEST`` or ``HttpKernelInterface::SUB_REQUEST``);
+* ``getRequestType()`` - isteğin *tipini* döndürür
+  (``HttpKernelInterface::MASTER_REQUEST`` ya da ``HttpKernelInterface::SUB_REQUEST``);
 
-* ``getKernel()`` - returns the Kernel handling the request;
+* ``getKernel()`` - isteği işleyen Kernel'i döndürür;
 
-* ``getRequest()`` - returns the current ``Request`` being handled.
+* ``getRequest()`` - düzenlenecek olan geçerli ``Request`` 'i döndürür.
 
 ``getRequestType()``
 ....................
 
-The ``getRequestType()`` method allows listeners to know the type of the
-request. For instance, if a listener must only be active for master requests,
-add the following code at the beginning of your listener method::
+``getRequestType()`` methodu listenere isteğin tipini öğrenmesini sağlar.
+Örneğin eğer bir listener sadece ana istekler için akif olmalı ise listener
+metodunuzun başına şu kodu eklemelisiniz::
 
     use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -229,42 +228,43 @@ add the following code at the beginning of your listener method::
 
 .. tip::
 
-    If you are not yet familiar with the Symfony2 Event Dispatcher, read the
-    :doc:`Event Dispatcher Component Documentation</components/event_dispatcher/introduction>`
-    section first.
+    Eğer henüz Symfony2 Event Dispatcher ile tanışmadıysanız, önce
+    :doc:`Event Dispatcher Bileşen Belgesi</components/event_dispatcher/introduction>`
+    kısmını okuyun.
 
 .. index::
    single: Event; kernel.request
 
 .. _kernel-core-request:
 
-``kernel.request`` Event
-........................
+``kernel.request`` Event'i (olayı)
+..................................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseEvent`
+*Event Sınıfı*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseEvent`
 
-The goal of this event is to either return a ``Response`` object immediately
-or setup variables so that a Controller can be called after the event. Any
-listener can return a ``Response`` object via the ``setResponse()`` method on
-the event. In this case, all other listeners won't be called.
+Bu event'in amacı acilen bir ``Response`` objesi döndürmek ya da Controller'ın
+eventtan sonra çağırılabilmesi için gerekli değişkenleri set etmektir.
+Herhangi bir listener ``Response`` nesnesini event içerisindeki ``setResponse()`` 
+metodu aracılığı ile çevirebilir. Bu durumda diğer tüm listener'lar çağırılamayacaktır.
 
-This event is used by ``FrameworkBundle`` to populate the ``_controller``
-``Request`` attribute, via the
-:class:`Symfony\\Bundle\\FrameworkBundle\\EventListener\\RouterListener`. RequestListener
-uses a :class:`Symfony\\Component\\Routing\\RouterInterface` object to match
-the ``Request`` and determine the Controller name (stored in the
-``_controller`` ``Request`` attribute).
+Bu event ``FrameworkBundle`` bundle'ı kullanarak  ``_controller`` ``Request``
+niteliklerini :class:`Symfony\\Bundle\\FrameworkBundle\\EventListener\\RouterListener` 
+sınıfı aracılığı ile toplar.
+RequestListener :class:`Symfony\\Component\\Routing\\RouterInterface` nesnesini
+``Request` 'i eşlemek ve Controller adını belirlemek için kullanır. 
+(``_controller`` 'ın ``Request`` niteliğinde saklanan değer üzerinden)
+
 
 .. index::
    single: Event; kernel.controller
 
-``kernel.controller`` Event
-...........................
+``kernel.controller`` Event'i (olayı)
+.....................................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\FilterControllerEvent`
+*Event Sınıfı*: :class:`Symfony\\Component\\HttpKernel\\Event\\FilterControllerEvent`
 
-This event is not used by ``FrameworkBundle``, but can be an entry point used
-to modify the controller that should be executed:
+Bu event ``FrameworkBundle`` tarafından kullanılmaz ancak çalıştrıacak olan
+controller'i değiştirmek için kullanılacak ana noktadır:
 
 .. code-block:: php
 
@@ -275,25 +275,26 @@ to modify the controller that should be executed:
         $controller = $event->getController();
         // ...
 
-        // the controller can be changed to any PHP callable
+        // Controller herhangi bir PHP çağırılabileni tarafından
+        // değiştirilebilir.
         $event->setController($controller);
     }
 
 .. index::
    single: Event; kernel.view
 
-``kernel.view`` Event
+``kernel.view`` Event'i (olayı)
 .....................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseForControllerResultEvent`
+*Event Sınıfı*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseForControllerResultEvent`
 
-This event is not used by ``FrameworkBundle``, but it can be used to implement
-a view sub-system. This event is called *only* if the Controller does *not*
-return a ``Response`` object. The purpose of the event is to allow some other
-return value to be converted into a ``Response``.
+Bu event ``FrameworkBundle`` tarafından kullanılmaz ancak görünümü düzenlemek
+için kullanılabilir. Bu event *sadece* eğer controller bir ``Response`` nesnesi
+*döndürmezse* kullanılır. Bu event'in amacı ``Response`` nesnesine çevrilebilecek diğer
+şeylere izin vermektir.
 
-The value returned by the Controller is accessible via the
-``getControllerResult`` method::
+Controller'in çevirdiği değere ``getControllerResult`` metodu
+ile erişilebilir:: 
 
     use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
     use Symfony\Component\HttpFoundation\Response;
@@ -302,7 +303,8 @@ The value returned by the Controller is accessible via the
     {
         $val = $event->getControllerResult();
         $response = new Response();
-        // some how customize the Response from the return value
+        // Response değerinin nasıl değişitirlebileceği
+        // hakkındaki bazı kodlar...
 
         $event->setResponse($response);
     }
@@ -310,32 +312,32 @@ The value returned by the Controller is accessible via the
 .. index::
    single: Event; kernel.response
 
-``kernel.response`` Event
-.........................
+``kernel.response`` Event'i (olayı)
+...................................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\FilterResponseEvent`
+*Event Sınıfı*: :class:`Symfony\\Component\\HttpKernel\\Event\\FilterResponseEvent`
 
-The purpose of this event is to allow other systems to modify or replace the
-``Response`` object after its creation:
+Bu eventin amacı diğer sistemlerin ``Response`` nesnesini yaratıldıktan sonra
+değiştirebilmelerine olanak vermektir:
 
 .. code-block:: php
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $response = $event->getResponse();
-        // .. modify the response object
+        // .. response nesnesini değiştir...
     }
 
-The ``FrameworkBundle`` registers several listeners:
+``FrameworkBundle`` bazı listenerleri kayıt eder:
 
 * :class:`Symfony\\Component\\HttpKernel\\EventListener\\ProfilerListener`:
-  collects data for the current request;
+  geçerli requestteki verileri toplar;
 
 * :class:`Symfony\\Bundle\\WebProfilerBundle\\EventListener\\WebDebugToolbarListener`:
-  injects the Web Debug Toolbar;
+  Web Debug Araç Çubuğunu ekler;
 
-* :class:`Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener`: fixes the
-  Response ``Content-Type`` based on the request format;
+* :class:`Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener`: 
+  Response'un ``Content-Type`` 'ını gelen isteğe göre düzeltir.
 
 * :class:`Symfony\\Component\\HttpKernel\\EventListener\\EsiListener`: adds a
   ``Surrogate-Control`` HTTP header when the Response needs to be parsed for
@@ -346,19 +348,21 @@ The ``FrameworkBundle`` registers several listeners:
 
 .. _kernel-kernel.exception:
 
-``kernel.exception`` Event
-..........................
+``kernel.exception`` Event'i (olayı)
+....................................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseForExceptionEvent`
+*Event Sınıfı*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseForExceptionEvent`
 
-``FrameworkBundle`` registers an
-:class:`Symfony\\Component\\HttpKernel\\EventListener\\ExceptionListener` that
-forwards the ``Request`` to a given Controller (the value of the
-``exception_listener.controller`` parameter -- must be in the
-``class::method`` notation).
+``FrameworkBundle`` 'ı 
+:class:`Symfony\\Component\\HttpKernel\\EventListener\\ExceptionListener`
+sınıfını ``Request`` 'i verilen Controller'a göndermesi için kayıt eder
+(``exception_listener.controller`` parametresinin değeri --
+``sinif::metod`` yazım şeklinde olmalıdır)
 
-A listener on this event can create and set a ``Response`` object, create
-and set a new ``Exception`` object, or do nothing:
+
+Bu event üzerindeki bir listener bir ``Response`` nesnesi yaratabilir set
+edebilir  yeni bir ``Exception`` nesnesi yaratabilir, set edebilir ya da 
+hiç bir şey yapmaz:
 
 .. code-block:: php
 
@@ -369,23 +373,24 @@ and set a new ``Exception`` object, or do nothing:
     {
         $exception = $event->getException();
         $response = new Response();
-        // setup the Response object based on the caught exception
+        // Yakalanan İstisnaya göre bir Response nesnesi yarat
         $event->setResponse($response);
 
-        // you can alternatively set a new Exception
-        // $exception = new \Exception('Some special exception');
+        // Alternatif olarak bir İstisna yaratabilirsiniz
+        // $exception = new \Exception('Özel bir İstisna');
         // $event->setException($exception);
     }
 
 .. index::
    single: Event Dispatcher
 
-The Event Dispatcher
+Event Dispatcher
 --------------------
 
-The event dispatcher is a standalone component that is responsible for much
-of the underlying logic and flow behind a Symfony request. For more information,
-see the :doc:`Event Dispatcher Component Documentation</components/event_dispatcher/introduction>`.
+Event dispatcher bir Symfony isteğinin (request) altındaki pek çok mantıksal işlemleri ve 
+akışlardan sorumlu olan kendi başına çalışabilen bir bileşendir. 
+Daha fazla bilgi için :doc:`Event Dispatcher Bileşeni Belgesi </components/event_dispatcher/introduction>`
+'ni okuyun.
 
 .. index::
    single: Profiler
@@ -394,67 +399,69 @@ see the :doc:`Event Dispatcher Component Documentation</components/event_dispatc
 
 Profiler
 --------
+Aktif edildiğinde, Symfony2 Profiller, yapılan her istek (request) için 
+daha soradan saklayıp analiz edebilmeniz için pek çok kullanışlı bilgi toplar.
+Profilleri geliştirme ortamında kullanmanı durumunda bu araç size
+kodu inceleme ve performansı geliştirme açısından yardımcı olabilir. Production
+(Ürün) tarafında kullandığınızda sorunlar ortaya çıktıktan sonra neden çıktığı
+konusunda size bir fikir verebilir.
 
-When enabled, the Symfony2 profiler collects useful information about each
-request made to your application and store them for later analysis. Use the
-profiler in the development environment to help you to debug your code and
-enhance performance; use it in the production environment to explore problems
-after the fact.
-
-You rarely have to deal with the profiler directly as Symfony2 provides
-visualizer tools like the Web Debug Toolbar and the Web Profiler. If you use
-the Symfony2 Standard Edition, the profiler, the web debug toolbar, and the
-web profiler are all already configured with sensible settings.
+Symfony2'nin sizlere sunmuş olduğu Web Debug Toolbar ve Web Profiller adındaki
+görsel veri araçlarını direkt olarak nadiren kullanmışsınızdır. Eğer Symfony2 Standart
+Edition kullanıyorsanız profiler, web debug toolbar ve web profiler araçlarının 
+tamamı sizin için düzgün bir şekilde ayarlanmış ve kullanımınıza hazırlanmıştır.
 
 .. note::
 
-    The profiler collects information for all requests (simple requests,
-    redirects, exceptions, Ajax requests, ESI requests; and for all HTTP
-    methods and all formats). It means that for a single URL, you can have
-    several associated profiling data (one per external request/response
-    pair).
+    Profiler füm request'ler (istekler) (basit istekler, yönlendirmeler, 
+    istisnalar, ajax istekleri, ESI istekleri gibi pek çok form ve şekildeki 
+    HTTP metodlarını) için bilgi toplar.
+    Bunun anlamı tel bir URL için birden fazla farklı profiling verisi
+    elde edebilirsiniz.
 
 .. index::
-   single: Profiler; Visualizing
+   single: Profiler; Görselleştirme
 
-Visualizing Profiling Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Profiling Verisini Görselleştirme
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using the Web Debug Toolbar
+Web Debug Toolbar'ı kullanmak
+..............................
+
+Geliştirme ortamında web debug toolbar'ı sayfanın altında bulunur. Bu
+kısım istediğiniz zaman kapayabileceğiniz istediğiniz zaman erişebileceğiniz
+şekilde profile verisi hakkında güzel bilgiler içerir
+
+Eğer Web Debug Toolbar üzerinde sağlanan veri yetersiz gelirse token linkine
+(13 hanelirastgele karakterlerden oluşan bir metin) tıklayarak Web Profiler
+aracına ulaşabilirsiniz.
+
+.. note::
+
+    Eğer token tıklanamaz bir durumda ise bunun anlamı profiler isteği
+    tam olarak anlamamış demektir. (bunun için altındaki konfigürasyon bilgisi
+    kısmına bakın) 
+
+Web Profiler aracıyla Profile verisini Analiz Etmek
+....................................................
+
+Web profiler geliştirme ortamında kodunuzu debug edebilmeniz ve performansı
+iyileştirmeniz için ayrıca da production ortamında ortaya çıkan sorunları
+belirleyebilmeniz için verilerinizi görselleştiren bir araçtır.
+Profiller'ın topladığı tüm veri web arabirimi üzerinden görülebilmektedir.
+
+.. index::
+   single: Profiler; Profiler servisini kullanmak
+
+Profiling Bilgisine Ulaşmak
 ...........................
 
-In the development environment, the web debug toolbar is available at the
-bottom of all pages. It displays a good summary of the profiling data that
-gives you instant access to a lot of useful information when something does
-not work as expected.
+Profile verisini görselleştirmek için başka bir görselleştirme aracı
+kullanmanıza gerek yok. Fakat özel bir isteğin gerçekleştikten sonraki
+profile bilgilerini nasıl bulacaksınız?. Profiler bir istek hakkında verileri
+saklarken aynı zamanda onu ilgili token'ı ile de ilişkilendirerek saklar. Bu
+token değeri Response içerisindeki ``X-Debug-Token`` adlı HTTP başlığında saklanır::
 
-If the summary provided by the Web Debug Toolbar is not enough, click on the
-token link (a string made of 13 random characters) to access the Web Profiler.
-
-.. note::
-
-    If the token is not clickable, it means that the profiler routes are not
-    registered (see below for configuration information).
-
-Analyzing Profiling data with the Web Profiler
-..............................................
-
-The Web Profiler is a visualization tool for profiling data that you can use
-in development to debug your code and enhance performance; but it can also be
-used to explore problems that occur in production. It exposes all information
-collected by the profiler in a web interface.
-
-.. index::
-   single: Profiler; Using the profiler service
-
-Accessing the Profiling information
-...................................
-
-You don't need to use the default visualizer to access the profiling
-information. But how can you retrieve profiling information for a specific
-request after the fact? When the profiler stores data about a Request, it also
-associates a token with it; this token is available in the ``X-Debug-Token``
-HTTP header of the Response::
 
     $profile = $container->get('profiler')->loadProfileFromResponse($response);
 
@@ -462,24 +469,25 @@ HTTP header of the Response::
 
 .. tip::
 
-    When the profiler is enabled but not the web debug toolbar, or when you
-    want to get the token for an Ajax request, use a tool like Firebug to get
-    the value of the ``X-Debug-Token`` HTTP header.
+    Profiler açık ancak web debug toolbar'ında gözükmüyorsa ya da Token
+    değerini bir Ajax isteği ise bu durumda Firebuf gibi bir araç 
+    kullanarak HTTP başlığında gelen ``X-Debug-Token`` değerini öğrenebilirsiniz.
 
-Use the ``find()`` method to access tokens based on some criteria::
+``find()`` metod'unu kullanarak bazı filitreleme özellikleri kullanarak 
+token'lara ulaşabilirsiniz::
 
-    // get the latest 10 tokens
+    // Son 10 token'ı al
     $tokens = $container->get('profiler')->find('', '', 10);
 
-    // get the latest 10 tokens for all URL containing /admin/
+    // URL'de /admin/ içeren 10 token'ı al
     $tokens = $container->get('profiler')->find('', '/admin/', 10);
 
-    // get the latest 10 tokens for local requests
+    // lokal istekleri içeren Son 10 token'ı al
     $tokens = $container->get('profiler')->find('127.0.0.1', '', 10);
 
-If you want to manipulate profiling data on a different machine than the one
-where the information were generated, use the ``export()`` and ``import()``
-methods::
+Eğer profiling verisini başka bir makinede değiştirmek istiyorsanız bu durumda
+yaratılan veriyi almak ya da vermek için ``export()`` ve ``import()`` metodları
+kullanılır::
 
     // on the production machine
     $profile = $container->get('profiler')->loadProfile($token);
@@ -489,24 +497,24 @@ methods::
     $profiler->import($data);
 
 .. index::
-   single: Profiler; Visualizing
+   single: Profiler; Görselleştirme
 
-Configuration
+Konfigürasyon
 .............
 
-The default Symfony2 configuration comes with sensible settings for the
-profiler, the web debug toolbar, and the web profiler. Here is for instance
-the configuration for the development environment:
+Varsayılan Symfony2 konfigürasyonu profiler, web debug toolbar ve web 
+profiler araçlarının kullanması için ayarlı bir şekilde gelir. Burada
+geliştirme ortamına ait olan konfigürasyon dosyasının içini görmektesiniz:
 
 .. configuration-block::
 
     .. code-block:: yaml
 
-        # load the profiler
+        # profiler'ı yükle
         framework:
             profiler: { only_exceptions: false }
 
-        # enable the web profiler
+        # web profiler'ı aç
         web_profiler:
             toolbar: true
             intercept_redirects: true
@@ -517,12 +525,12 @@ the configuration for the development environment:
         <!-- xmlns:webprofiler="http://symfony.com/schema/dic/webprofiler" -->
         <!-- xsi:schemaLocation="http://symfony.com/schema/dic/webprofiler http://symfony.com/schema/dic/webprofiler/webprofiler-1.0.xsd"> -->
 
-        <!-- load the profiler -->
+        <!-- profiler'ı yükle -->
         <framework:config>
             <framework:profiler only-exceptions="false" />
         </framework:config>
 
-        <!-- enable the web profiler -->
+        <!-- web profiler'ı aç -->
         <webprofiler:config
             toolbar="true"
             intercept-redirects="true"
@@ -531,30 +539,31 @@ the configuration for the development environment:
 
     .. code-block:: php
 
-        // load the profiler
+        // profiler'ı yükle
         $container->loadFromExtension('framework', array(
             'profiler' => array('only-exceptions' => false),
         ));
 
-        // enable the web profiler
+        // web profiler'ı aç
         $container->loadFromExtension('web_profiler', array(
             'toolbar' => true,
             'intercept-redirects' => true,
             'verbose' => true,
         ));
 
-When ``only-exceptions`` is set to ``true``, the profiler only collects data
-when an exception is thrown by the application.
+``only-exceptions`` parametresi ``true`` yapıldığında profiler uygulamada
+bir exception (istisna) oluştuğunda veri toplayacaktır.
 
-When ``intercept-redirects`` is set to ``true``, the web profiler intercepts
-the redirects and gives you the opportunity to look at the collected data
-before following the redirect.
+``intercept-redirects`` parametresi ``true`` yapıldığında profiler 
+yönlendirmelerin (redirect) 'ların tamamını yakalayacak ve redirect gerçekleşmeden
+önceki veriyi incelemek için size bir fırsat verecektir.
 
-When ``verbose`` is set to ``true``, the Web Debug Toolbar displays a lot of
-information. Setting ``verbose`` to ``false`` hides some secondary information
-to make the toolbar shorter.
+``verbose`` parametresi ``true`` yapıldığında Web Debug Toolbar üzerinde 
+çok fazla veri gözükecektir. ``verbose`` parametresi ``false`` yapıldığında ise
+ikincil veriler saklanacak ve toolbar daha kısa olacaktır. 
 
-If you enable the web profiler, you also need to mount the profiler routes:
+Eğer web profiler'ı aktif ederseniz aynı zamanda profiler yönlendirmelerinide (route)
+açmanız gerekmektedir:
 
 .. configuration-block::
 
@@ -572,60 +581,62 @@ If you enable the web profiler, you also need to mount the profiler routes:
 
         $collection->addCollection($loader->import("@WebProfilerBundle/Resources/config/routing/profiler.xml"), '/_profiler');
 
-As the profiler adds some overhead, you might want to enable it only under
-certain circumstances in the production environment. The ``only-exceptions``
-settings limits profiling to 500 pages, but what if you want to get
-information when the client IP comes from a specific address, or for a limited
-portion of the website? You can use a request matcher:
+
+Eğer profiler çok fazla şey açtıysa production ortamında belki sadece 
+belirli durumlar altında aktif etmek isteyebilirsiniz.``only-exceptions`` 
+ayarı 500 sayfalarında profillemeyi limitler ancak eğer belirlediğiniz başka
+ip'lerden gelen bilgileri ya da web sitesinin sadece belirli kısımlarındaki
+bilgileri almak isterseniz? Bu durumda istek eşleştiricisini (request matcher)
+kullanabiirsiniz:
 
 .. configuration-block::
 
     .. code-block:: yaml
 
-        # enables the profiler only for request coming for the 192.168.0.0 network
+        # profiler'ı sadece 192.168.0.0 ağından istek geldiğinde aktif et.
         framework:
             profiler:
                 matcher: { ip: 192.168.0.0/24 }
 
-        # enables the profiler only for the /admin URLs
+        # profiler sadece /admin URL'lerinde aktif olur.
         framework:
             profiler:
                 matcher: { path: "^/admin/" }
 
-        # combine rules
+        # kuralların kombinasyonu
         framework:
             profiler:
                 matcher: { ip: 192.168.0.0/24, path: "^/admin/" }
 
-        # use a custom matcher instance defined in the "custom_matcher" service
+        # "custom_matcher" olarak tanımlanan özel bir eşleştirici hizmeti kullanmak için
         framework:
             profiler:
                 matcher: { service: custom_matcher }
 
     .. code-block:: xml
 
-        <!-- enables the profiler only for request coming for the 192.168.0.0 network -->
+        <!-- profiler'ı sadece 192.168.0.0 ağından istek geldiğinde aktif et. -->
         <framework:config>
             <framework:profiler>
                 <framework:matcher ip="192.168.0.0/24" />
             </framework:profiler>
         </framework:config>
 
-        <!-- enables the profiler only for the /admin URLs -->
+        <!-- profiler sadece /admin URL'lerinde aktif olur.-->
         <framework:config>
             <framework:profiler>
                 <framework:matcher path="^/admin/" />
             </framework:profiler>
         </framework:config>
 
-        <!-- combine rules -->
+        <!-- kuralların kombinasyonu -->
         <framework:config>
             <framework:profiler>
                 <framework:matcher ip="192.168.0.0/24" path="^/admin/" />
             </framework:profiler>
         </framework:config>
 
-        <!-- use a custom matcher instance defined in the "custom_matcher" service -->
+        <!-- "custom_matcher" olarak tanımlanan özel bir eşleştirici hizmeti kullanmak için -->
         <framework:config>
             <framework:profiler>
                 <framework:matcher service="custom_matcher" />
@@ -634,36 +645,36 @@ portion of the website? You can use a request matcher:
 
     .. code-block:: php
 
-        // enables the profiler only for request coming for the 192.168.0.0 network
+        // profiler'ı sadece 192.168.0.0 ağından istek geldiğinde aktif et.
         $container->loadFromExtension('framework', array(
             'profiler' => array(
                 'matcher' => array('ip' => '192.168.0.0/24'),
             ),
         ));
 
-        // enables the profiler only for the /admin URLs
+        // profiler sadece /admin URL'lerinde aktif olur.
         $container->loadFromExtension('framework', array(
             'profiler' => array(
                 'matcher' => array('path' => '^/admin/'),
             ),
         ));
 
-        // combine rules
+        // kuralların kombinasyonu
         $container->loadFromExtension('framework', array(
             'profiler' => array(
                 'matcher' => array('ip' => '192.168.0.0/24', 'path' => '^/admin/'),
             ),
         ));
 
-        # use a custom matcher instance defined in the "custom_matcher" service
+        # "custom_matcher" olarak tanımlanan özel bir eşleştirici hizmeti kullanmak için
         $container->loadFromExtension('framework', array(
             'profiler' => array(
                 'matcher' => array('service' => 'custom_matcher'),
             ),
         ));
 
-Learn more from the Cookbook
-----------------------------
+Tarif Kitabından Daha Fazlasını Öğrenin
+----------------------------------------
 
 * :doc:`/cookbook/testing/profiling`
 * :doc:`/cookbook/profiler/data_collector`
