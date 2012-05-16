@@ -276,48 +276,52 @@ kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için
          */
         class Product
 
-Generating Getters and Setters
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Even though Doctrine now knows how to persist a ``Product`` object to the
-database, the class itself isn't really useful yet. Since ``Product`` is just
-a regular PHP class, you need to create getter and setter methods (e.g. ``getName()``,
-``setName()``) in order to access its properties (since the properties are
-``protected``). Fortunately, Doctrine can do this for you by running:
+Getter'ları ve Setter'ları Yaratmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Doctrine şimdi ``Product`` nesnesini nasıl veritabanına yazacağını bilmesine
+rağmen bu sınıf hala kullanışlı bir sınıf değil. ``Product`` sınıfı sadece
+düz bir PHP sınıfı olduğundan dolayı sınıfın değişkenlerine erişebilmek
+için (sınıfın değişkenleri(properties) protected tipinde olduğu için) bazı
+metod fonksiyonları (örn: ``getName()``, ``setName()``) yaratmanız gereklidir.
+Çok şükür ki Doctrine şunu çalıştırdığınızda bunu sizin için yapar:
 
 .. code-block:: bash
 
     php app/console doctrine:generate:entities Acme/StoreBundle/Entity/Product
 
-This command makes sure that all of the getters and setters are generated
-for the ``Product`` class. This is a safe command - you can run it over and
-over again: it only generates getters and setters that don't exist (i.e. it
-doesn't replace your existing methods).
+Bu komut yaratılan ``Product`` sınıfı için tüm getter'ları ve setter'ları
+yaratılmasını sağlar.
+Bu güvenli bir komuttur. Tekrar tekrar çalıştırabilirsiniz.Çünki komut sadece
+yaratılmayan değişkenler (properties) için getter ve setter metodları yaratır.
 
-.. sidebar:: More about ``doctrine:generate:entities``
+.. sidebar:: Daha Fazlası ``doctrine:generate:entities``
 
-    With the ``doctrine:generate:entities`` command you can:
+    ``doctrine:generate:entities`` komutu ile şunları yapabilirsiniz:
 
-        * generate getters and setters,
+        * getter  ve setter metodları yapabilirsiniz,
 
-        * generate repository classes configured with the
-            ``@ORM\Entity(repositoryClass="...")`` annotation,
+        * ``@ORM\Entity(repositoryClass="...")`` belirteci ile 
+          konfigüre edilebilien ambar (repository) sınıfları yaratabilirsiniz,
 
-        * generate the appropriate constructor for 1:n and n:m relations.
+        * 1:n ve n:m ilişkilere uygun yapıcılar (constructor) yaratabilirsiniz.
 
-    The ``doctrine:generate:entities`` command saves a backup of the original
-    ``Product.php`` named ``Product.php~``. In some cases, the presence of
-    this file can cause a "Cannot redeclare class" error. It can be safely
-    removed.
+    
+    ``doctrine:generate:entities`` komutu orijinal ``Product.php`` dosyasını
+    ``Product.php~`` olarak bir yedeğini alır. Bazı durumlarda bu dosyanın 
+    varlığı "Cannot redeclare class" hatası verebilir.Bu dosyayı güvenle silebilirsiniz.
 
-    Note that you don't *need* to use this command. Doctrine doesn't rely
-    on code generation. Like with normal PHP classes, you just need to make
-    sure that your protected/private properties have getter and setter methods.
-    Since this is a common thing to do when using Doctrine, this command
-    was created.
+    
+    Bu komuta ihiyacınız *olmadığını* hatırlatalım. Doctrine kod yaratım 
+    araçlarına dikkat etmez. Normal PHP sınıfları gibi sadece sınıfınızdaki
+    protected tipinde  değişkenlerin (properties) olması ve bu değişkenlere
+    erişebilmek için ilgili getter ve setter metod fonksiyonlarının olması
+    yeterlidir. Bu konu Doctrine içerisinde önemli olmasından dolayı bu komut
+    bunları sizin için yaratır.
 
-You can also generate all known entities (i.e. any PHP class with Doctrine
-mapping information) of a bundle or an entire namespace:
+Ayrıca var olan tüm bundle'lar içerisinde ya da bundle içerisindeki 
+namespace bilgisi içerisinde kalan tüm entity'lerin (Örn. Doctrine eşleme
+bilgisi içeren herhangi bir PHP sınıfı) getter ve setter'larının yaratımını
+yapabilirsiniz: 
 
 .. code-block:: bash
 
@@ -326,19 +330,19 @@ mapping information) of a bundle or an entire namespace:
 
 .. note::
 
-    Doctrine doesn't care whether your properties are ``protected`` or ``private``,
-    or whether or not you have a getter or setter function for a property.
-    The getters and setters are generated here only because you'll need them
-    to interact with your PHP object.
+    Doctrine sınıf değişkenlerinizin ``protected`` ya da ``private`` tipte 
+    olması ile ya da değişkenin bir getter ya da setter fonksiyonuna sahip
+    olması ile ilgilenmez. Getter ve setter metodları siz bu PHP sınıfı ile
+    etkileşime geçmek istediğinizde bu etkileşimi sağlamak içindir.
 
-Creating the Database Tables/Schema
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Veritabanı Tabloları/Şemaları Yaratmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You now have a usable ``Product`` class with mapping information so that
-Doctrine knows exactly how to persist it. Of course, you don't yet have the
-corresponding ``product`` table in your database. Fortunately, Doctrine can
-automatically create all the database tables needed for every known entity
-in your application. To do this, run:
+Artık Doctrine'nin de nasıl veritabanına yazacağını açıkça bildiği kullanışlı
+bir ``Product`` sınıfınız var. Elbette veritabanınız içerisinde ilgili 
+``product`` tablonuz yok. Çok şükür ki Doctrine uygulamanız içinde kullandığınız
+tüm entity'ler için gerekli olan tabloları otomatik olarak yaratır.
+Bunu şu komutu çalıştırarak yapabilirsiniz:
 
 .. code-block:: bash
 
@@ -346,30 +350,30 @@ in your application. To do this, run:
 
 .. tip::
 
-    Actually, this command is incredibly powerful. It compares what
-    your database *should* look like (based on the mapping information of
-    your entities) with how it *actually* looks, and generates the SQL statements
-    needed to *update* the database to where it should be. In other words, if you add
-    a new property with mapping metadata to ``Product`` and run this task
-    again, it will generate the "alter table" statement needed to add that
-    new column to the existing ``product`` table.
-
+    Gerçekte bu komut inanılmaz güçlüdür. Bu araç veritabanınızı nasıl olması
+    gerektiğinle (entity'lerinizdeki eşleme bilgisine göre) ve gerçekte 
+    nasıl olduğunla karşılaştırır ve olması gereken değişikliklere göre
+    gerekli SQL cümlelerini çalıştrırarak veritabanınızı günceller.
+    Başka bir ifade ile eğer ``Product`` sınıfına yeni bir değişken 
+    (property) eklerseniz ve bu komutu yeniden çalıştırırsanız, komut
+	"alter table" ifadesini çalıştıracak ve ``product`` tablosundaki
+	gerekli alanı yaratacaktır.
+    
     An even better way to take advantage of this functionality is via
     :doc:`migrations</bundles/DoctrineMigrationsBundle/index>`, which allow you to
     generate these SQL statements and store them in migration classes that
     can be run systematically on your production server in order to track
     and migrate your database schema safely and reliably.
 
-Your database now has a fully-functional ``product`` table with columns that
-match the metadata you've specified.
 
-Persisting Objects to the Database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Veritabanınız şimdi belirmiş olduğunuz eşleme bilgisine uygun sütunlara sahip,
+tam fonksiyonel bir ``product`` tablosuna sahip.
 
-Now that you have a mapped ``Product`` entity and corresponding ``product``
-table, you're ready to persist data to the database. From inside a controller,
-this is pretty easy. Add the following method to the ``DefaultController``
-of the bundle:
+Nesneleri Veritabanına Yazmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Şimdi elinizde ilgili ``product`` tablosu ile eşleştirilmiş (map) ``Product`` entitysi 
+var ve veritabanına yazmaya hazırsınız. Controller içerisinde bu oldukça basittir.
+Bundle'ınız içerisindeki ``DefaultController`` içerisine şu satırı ekleyin: 
 
 .. code-block:: php
     :linenos:
@@ -382,66 +386,65 @@ of the bundle:
     public function createAction()
     {
         $product = new Product();
-        $product->setName('A Foo Bar');
+        $product->setName('Örnek Ürün Adı');
         $product->setPrice('19.99');
-        $product->setDescription('Lorem ipsum dolor');
+        $product->setDescription('Bir Açıklama');
 
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($product);
         $em->flush();
 
-        return new Response('Created product id '.$product->getId());
+        return new Response('Yaratılan Ürün id: '.$product->getId());
     }
 
 .. note::
 
-    If you're following along with this example, you'll need to create a
-    route that points to this action to see it work.
+    Eğer bunu bir örnek ile birlikte takip ediyorsanız bunun çalışması 
+    için kendinize bir route (yönlendirme) ayarı yapmanız gereklidir.
 
-Let's walk through this example:
+Şimdi bu örnekten devam edelim:
 
-* **lines 8-11** In this section, you instantiate and work with the ``$product``
-  object like any other, normal PHP object;
+* **8-11 satırlar** Bu kısımda diğer normal PHP nesneleri ile çalıştığınız gibi 
+  ``$product`` ile temsil edilen bir değişkende işlemler yaptınız;
 
-* **line 13** This line fetches Doctrine's *entity manager* object, which is
-  responsible for handling the process of persisting and fetching objects
-  to and from the database;
+* **satır 13** Bu satır Doctrine'in nesneleri okumak ya da 
+  veritabanına yazmak gibi işlemlerinde kullandığı *entity manager* nesnesini alır;
 
-* **line 14** The ``persist()`` method tells Doctrine to "manage" the ``$product``
-  object. This does not actually cause a query to be made to the database (yet).
+* **satır 14** ``persist()`` metodu Doctrine bu nesnenin yönetileceğini söyler.
+  Şu anda gerçek olarak veritabanına herhangi bir yazım işlemi olmadı (şimdilik).
 
-* **line 15** When the ``flush()`` method is called, Doctrine looks through
-  all of the objects that it's managing to see if they need to be persisted
-  to the database. In this example, the ``$product`` object has not been
-  persisted yet, so the entity manager executes an ``INSERT`` query and a
-  row is created in the ``product`` table.
+* **satır 15** ``flush()`` metodu çağırıldığında Doctrone veritabanına yazılmak için
+  yönetilecek olan tüm nesneleri alır ve veritabanına yazar. Bu örnekte  ``$product``
+  nesnesi henüz yazılmadı bu yüzden entity yöneticisi (entity manager) ``INSERT``
+  ifadesini kullanarak ``product`` tablosunda bir satır yarattı.
 
 .. note::
 
-  In fact, since Doctrine is aware of all your managed entities, when you
-  call the ``flush()`` method, it calculates an overall changeset and executes
-  the most efficient query/queries possible. For example, if you persist a
-  total of 100 ``Product`` objects and then subsequently call ``flush()``, 
-  Doctrine will create a *single* prepared statement and re-use it for each 
-  insert. This pattern is called *Unit of Work*, and it's used because it's 
-  fast and efficient.
+  Aslında Doctrine tüm yönetilen entity'lerinize dikkat etmesine rağmen
+  ne zaman ``flush()`` metodunu çağırdığınızda yapılacak tüm değişiklikler
+  hesaplanır ve mümkün olan en etkin query/query'ler şeklinde çalıştırılır.
+  Örneğin eğer toplamda 100 ürün nesnesi yazacaksanız ve en altta ``flush()`` 
+  metodunu çağırırsanız Doctrine *bir adet* hazırlanmış ifade yaratır ve
+  her birisi için bu ifadeyi tekrar tekrar kullanır. Bu tip kullanıma 
+  *Unit of Work* denir. Bu tür bir yapı kullanılır çünki bu hızlı ve verimlidir.
 
-When creating or updating objects, the workflow is always the same. In the
-next section, you'll see how Doctrine is smart enough to automatically issue
-an ``UPDATE`` query if the record already exists in the database.
+
+Nesneleri yaratırken ya da güncellerken akış sistemi hep aynıdır. Sonraki
+bölümde Doctrine'nin nasıl akıllı bir şekilde veri tabanıda var olan bir 
+kayıt için ``UPDATE`` ifadesini kullandığını göreceksiniz.
 
 .. tip::
 
-    Doctrine provides a library that allows you to programmatically load testing
-    data into your project (i.e. "fixture data"). For information, see
-    :doc:`/bundles/DoctrineFixturesBundle/index`.
+    Doctrine size projniz içerisinde programsal olarak test yapabilmeniz 
+    için bir kütüphane de sağlar. Daha fazla bilgi için :doc:`/bundles/DoctrineFixturesBundle/index`
+    belgesine bakın.
 
-Fetching Objects from the Database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Veritabanından Nesneleri Almak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Fetching an object back out of the database is even easier. For example,
-suppose you've configured a route to display a specific ``Product`` based
-on its ``id`` value::
+Veritabanından bir nesneyi almak çok kolaydır. Örneğin varsayalım 
+``Product`` nesnesinin ``id`` değeri üzerinden bir yönlendirme (route)
+yapılandırdınız::
 
     public function showAction($id)
     {
@@ -456,48 +459,51 @@ on its ``id`` value::
         // do something, like pass the $product object into a template
     }
 
-When you query for a particular type of object, you always use what's known
-as its "repository". You can think of a repository as a PHP class whose only
-job is to help you fetch entities of a certain class. You can access the
-repository object for an entity class via::
+Query bir nesnenin bir parçası olduğunda her zaman onu bir "ambar" gibi
+kullanabilirsiniz. Repository'i (ambar), işi sadece entity'leri belirli bir sınıf
+için almak olan bir PHP sınıfı olarak düşünebilirsiniz. Bir entity sınıfını 
+kullanarak bu repositry sınıfına şu şekilde ulaşabilirsiniz::
 
     $repository = $this->getDoctrine()
         ->getRepository('AcmeStoreBundle:Product');
 
 .. note::
 
-    The ``AcmeStoreBundle:Product`` string is a shortcut you can use anywhere
-    in Doctrine instead of the full class name of the entity (i.e. ``Acme\StoreBundle\Entity\Product``).
-    As long as your entity lives under the ``Entity`` namespace of your bundle,
-    this will work.
+    ``AcmeStoreBundle:Product`` ifadesi Sınıfın tam adını kullanmak yerine 
+    (Örn. ``Acme\StoreBundle\Entity\Product``) Doctrine içerisinde herhangi bir
+    yerde bu sınıfı kullanmak için onu kısaca tanımlayan ifadedir.
+    Entity sınıfı bundle'ınız içerisindeki ``Entity`` isim uzayında olduğu
+    sürece bu çalışacaktır.
 
-Once you have your repository, you have access to all sorts of helpful methods::
+Bir kez bir repository'niz olursa aşağıda sıralanan tüm faydalı metodlara
+ulaşabilirsiniz::
 
-    // query by the primary key (usually "id")
+    // primary key'e göre sql query'si (genellikle "id")
     $product = $repository->find($id);
 
-    // dynamic method names to find based on a column value
+    // sütün değerine göre bulmak için dinamik metodlar
     $product = $repository->findOneById($id);
     $product = $repository->findOneByName('foo');
 
-    // find *all* products
+    // *Tüm* ürünleri getirir
     $products = $repository->findAll();
 
-    // find a group of products based on an arbitrary column value
+    // Rastgele seçilen sütun değerine uyan tüm verileri gurup halinde
+    // getirir.
     $products = $repository->findByPrice(19.99);
 
 .. note::
 
-    Of course, you can also issue complex queries, which you'll learn more
-    about in the :ref:`book-doctrine-queries` section.
+    Elbette karmaşık query'leri yazmak isterseniz :ref:`book-doctrine-queries`
+    kısmına da bakabilirsiniz.
 
-You can also take advantage of the useful ``findBy`` and ``findOneBy`` methods
-to easily fetch objects based on multiple conditions::
+Ayrıca ``findBy`` and ``findOneBy`` metodlarını birden fazla  şartla uyan nesneleri 
+almak içinde kullanabilirsiniz::
 
-    // query for one product matching be name and price
+    // Fiyat ve isime uyan ürünleri getir.
     $product = $repository->findOneBy(array('name' => 'foo', 'price' => 19.99));
 
-    // query for all products matching the name, ordered by price
+    // qfiyata göre sıralı bir şekilde tüm ürünleri getir.
     $product = $repository->findBy(
         array('name' => 'foo'),
         array('price' => 'ASC')
@@ -505,22 +511,22 @@ to easily fetch objects based on multiple conditions::
 
 .. tip::
 
-    When you render any page, you can see how many queries were made in the
-    bottom right corner of the web debug toolbar.
+   Herhangi bir sayfayı ekrana bastığınızda ne kadar query'nin çalıştığını
+   görme isterseniz web debug araç çubuğunun sağ alt köşesine bakın.
 
     .. image:: /images/book/doctrine_web_debug_toolbar.png
        :align: center
        :scale: 50
        :width: 350
 
-    If you click the icon, the profiler will open, showing you the exact
-    queries that were made.
+    Eğer ikon'a tıklarsanız profiller açılacak ve size ne kadar query'nin
+    yapıldığını açıkça gösterecektir.
 
-Updating an Object
-~~~~~~~~~~~~~~~~~~
-
-Once you've fetched an object from Doctrine, updating it is easy. Suppose
-you have a route that maps a product id to an update action in a controller::
+Bir Nesneyi Güncellemek
+~~~~~~~~~~~~~~~~~~~~~~~~
+Bir kez Doctrinden bir nesneyi aldınız mı güncellemek çok kolaydır.
+Varsayalım ürün id'sine göre controllerda update action'a giden bir route'nız
+var::
 
     public function updateAction($id)
     {
@@ -537,29 +543,31 @@ you have a route that maps a product id to an update action in a controller::
         return $this->redirect($this->generateUrl('homepage'));
     }
 
-Updating an object involves just three steps:
+Güncellenen nesne şu üç adımdan oluşur:
 
-1. fetching the object from Doctrine;
-2. modifying the object;
-3. calling ``flush()`` on the entity manager
+1. Doctrine üzerinden nesneyi al;
+2. nesneyi değiştir;
+3. entity manager üzerinden ``flush()``metodunu çağır.
 
-Notice that calling ``$em->persist($product)`` isn't necessary. Recall that
-this method simply tells Doctrine to manage or "watch" the ``$product`` object.
-In this case, since you fetched the ``$product`` object from Doctrine, it's
-already managed.
+``$em->persist($product)``  metodunun çağırılmasının gereksiz olduğunu hatırlatalım.
+Bu  metodun yeniden çağırımı Doctrine'e sadece ``$product`` nesnesini yönet
+ya da izle demektir.Bu durumda ``$product`` nesnesini Doctrine üzerinden aldığınız
+için bu zaten yönetilebilir duruma gelmiştir.
 
-Deleting an Object
+Bir Nesneyi Silmek
 ~~~~~~~~~~~~~~~~~~
 
-Deleting an object is very similar, but requires a call to the ``remove()``
-method of the entity manager::
+Bir nesneyi silmekde çok benzer ancak entity manager üzerinden bu sefer
+``remove()`` metodunu çağırılması gerekir::
+
 
     $em->remove($product);
     $em->flush();
 
-As you might expect, the ``remove()`` method notifies Doctrine that you'd
-like to remove the given entity from the database. The actual ``DELETE`` query,
-however, isn't actually executed until the ``flush()`` method is called.
+
+``remove()`` metodu Doctrine istenilen entity'in veritabanından silinmesini
+söyler. Gerçekte bu ``DELETE`` query'si olmasına karşın ``flush()`` metodu
+çağırılmadan çalışmaz. 
 
 .. _`book-doctrine-queries`:
 
