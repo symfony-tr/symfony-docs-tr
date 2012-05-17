@@ -422,7 +422,7 @@ Bundle'ınız içerisindeki ``DefaultController`` içerisine şu satırı ekleyi
 
   Aslında Doctrine tüm yönetilen entity'lerinize dikkat etmesine rağmen
   ne zaman ``flush()`` metodunu çağırdığınızda yapılacak tüm değişiklikler
-  hesaplanır ve mümkün olan en etkin query/query'ler şeklinde çalıştırılır.
+  hesaplanır ve mümkün olan en etkin sorgu/sorgular şeklinde çalıştırılır.
   Örneğin eğer toplamda 100 ürün nesnesi yazacaksanız ve en altta ``flush()`` 
   metodunu çağırırsanız Doctrine *bir adet* hazırlanmış ifade yaratır ve
   her birisi için bu ifadeyi tekrar tekrar kullanır. Bu tip kullanıma 
@@ -435,8 +435,9 @@ kayıt için ``UPDATE`` ifadesini kullandığını göreceksiniz.
 
 .. tip::
 
-    Doctrine size projniz içerisinde programsal olarak test yapabilmeniz 
-    için bir kütüphane de sağlar. Daha fazla bilgi için :doc:`/bundles/DoctrineFixturesBundle/index`
+    Doctrine size projeniz içerisinde programsal olarak test yapabilmeniz 
+    için bir kütüphane de sağlar. Daha fazla bilgi için 
+    :doc:`/bundles/DoctrineFixturesBundle/index`
     belgesine bakın.
 
 Veritabanından Nesneleri Almak
@@ -459,7 +460,7 @@ yapılandırdınız::
         // do something, like pass the $product object into a template
     }
 
-Query bir nesnenin bir parçası olduğunda her zaman onu bir "ambar" gibi
+Sorgu bir nesnenin bir parçası olduğunda her zaman onu bir "ambar" gibi
 kullanabilirsiniz. Repository'i (ambar), işi sadece entity'leri belirli bir sınıf
 için almak olan bir PHP sınıfı olarak düşünebilirsiniz. Bir entity sınıfını 
 kullanarak bu repositry sınıfına şu şekilde ulaşabilirsiniz::
@@ -478,7 +479,7 @@ kullanarak bu repositry sınıfına şu şekilde ulaşabilirsiniz::
 Bir kez bir repository'niz olursa aşağıda sıralanan tüm faydalı metodlara
 ulaşabilirsiniz::
 
-    // primary key'e göre sql query'si (genellikle "id")
+    // primary key'e göre sql sorgusu (genellikle "id")
     $product = $repository->find($id);
 
     // sütün değerine göre bulmak için dinamik metodlar
@@ -494,7 +495,7 @@ ulaşabilirsiniz::
 
 .. note::
 
-    Elbette karmaşık query'leri yazmak isterseniz :ref:`book-doctrine-queries`
+    Elbette karmaşık sorgular yazmak isterseniz :ref:`book-doctrine-queries`
     kısmına da bakabilirsiniz.
 
 Ayrıca ``findBy`` and ``findOneBy`` metodlarını birden fazla  şartla uyan nesneleri 
@@ -511,7 +512,7 @@ almak içinde kullanabilirsiniz::
 
 .. tip::
 
-   Herhangi bir sayfayı ekrana bastığınızda ne kadar query'nin çalıştığını
+   Herhangi bir sayfayı ekrana bastığınızda ne kadar sorgunun çalıştığını
    görme isterseniz web debug araç çubuğunun sağ alt köşesine bakın.
 
     .. image:: /images/book/doctrine_web_debug_toolbar.png
@@ -519,7 +520,7 @@ almak içinde kullanabilirsiniz::
        :scale: 50
        :width: 350
 
-    Eğer ikon'a tıklarsanız profiller açılacak ve size ne kadar query'nin
+    Eğer ikon'a tıklarsanız profiller açılacak ve size ne kadar sorgunun
     yapıldığını açıkça gösterecektir.
 
 Bir Nesneyi Güncellemek
@@ -566,35 +567,37 @@ Bir nesneyi silmekde çok benzer ancak entity manager üzerinden bu sefer
 
 
 ``remove()`` metodu Doctrine istenilen entity'in veritabanından silinmesini
-söyler. Gerçekte bu ``DELETE`` query'si olmasına karşın ``flush()`` metodu
+söyler. Gerçekte bu ``DELETE`` sorgusu olmasına karşın ``flush()`` metodu
 çağırılmadan çalışmaz. 
 
 .. _`book-doctrine-queries`:
 
-Querying for Objects
---------------------
-
-You've already seen how the repository object allows you to run basic queries
-without any work::
+Nesneler için Sorgulama
+-----------------------
+Bir repository(ambar) nesnesinin herhangi bir işlem yapmadan basit
+sorguları nasıl çalıştırdığını zaten gördünüz::
 
     $repository->find($id);
     
     $repository->findOneByName('Foo');
 
-Of course, Doctrine also allows you to write more complex queries using the
-Doctrine Query Language (DQL). DQL is similar to SQL except that you should
-imagine that you're querying for one or more objects of an entity class (e.g. ``Product``)
-instead of querying for rows on a table (e.g. ``product``).
 
-When querying in Doctrine, you have two options: writing pure Doctrine queries
-or using Doctrine's Query Builder.
+Elbette Doctrine ayrıca daha karmaşık sorgular için Doctrine Sorgu Dili
+adındaki (DQL) bir araçla bu sorguları yazmanıza olanak sağlar.DQL , SQL
+diline benzer olarak sadece SQL'deki gibi tablodaki satırlar için sorgular
+yazmaktan ziyade (Örn: ``product``) bir entity snıfı ya da birden fazla
+entity sınıfı için sorgu yazmanız gereklidir. (Örn ``Product``)
 
-Querying for Objects with DQL
+Doctrine üzerinde sorgu yazarken iki seçeneğiniz bulunmaktadır. Birincisi
+saf Doctrine sorguları yazmak, diğeri ise Doctrine Sorgu Üreteci'ni (Query Builder)
+kullanmaktır.
+
+Nesneleri DQL ile Sorgulamak
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Imagine that you want to query for products, but only return products that
-cost more than ``19.99``, ordered from cheapest to most expensive. From inside
-a controller, do the following::
+Farzedin ki ürünlerinizi sorgulamak istiyorsunuz ancak sadece fiyatı ``19.99``
+dan büyük olanları sorgulamak istiyorsunuz ve bunlar en ucuzdan en pahalıya 
+doğru sıralanacak şekilde geri dönecek.  Bir controller içinden şunu yapabilirsiniz::
 
     $em = $this->getDoctrine()->getEntityManager();
     $query = $em->createQuery(
@@ -603,24 +606,27 @@ a controller, do the following::
     
     $products = $query->getResult();
 
-If you're comfortable with SQL, then DQL should feel very natural. The biggest
-difference is that you need to think in terms of "objects" instead of rows
-in a database. For this reason, you select *from* ``AcmeStoreBundle:Product``
-and then alias it as ``p``.
 
-The ``getResult()`` method returns an array of results. If you're querying
-for just one object, you can use the ``getSingleResult()`` method instead::
+Eğer SQL 'de rahat ediyorsanız DQL üzerinde daha rahat hissedeceksiniz. Buradaki
+en büyük fark veri tabanı üzerindeki sorgunuzu satırlar olarak düşünmek yerine
+"nesneler" olarak düşünmeniz gerekliliğidir. Bu yüzden 
+select *from*  ``AcmeStoreBundle:Product``
+ifadesine ``p`` aliası (takma adı) verilmiştir. 
+
+``getResult()`` metodu sonuçları bir dize (array) halinde döndürür. Eğer sadece
+bir nesne dönüşü için sorguladıysanız bu durumda ``getSingleResult()`` metodunu
+bu metodun yerine kullanabilirsiniz::
 
     $product = $query->getSingleResult();
 
 .. caution::
 
-    The ``getSingleResult()`` method throws a ``Doctrine\ORM\NoResultException``
-    exception if no results are returned and a ``Doctrine\ORM\NonUniqueResultException``
-    if *more* than one result is returned. If you use this method, you may
-    need to wrap it in a try-catch block and ensure that only one result is
-    returned (if you're querying on something that could feasibly return
-    more than one result)::
+    ``getSingleResult()`` metodu herhangibir sonuç dönmemesi halinde bir 
+    ``Doctrine\ORM\NoResultException`` istisnası ve eğer birden fazla sonuç döndüyse
+    ``Doctrine\ORM\NonUniqueResultException`` istisnası atar. Eğer bu metodu
+    kullanırsanız mutlaka bu işlemi try catch içerisine alarak sadece bir sonucun
+    dönmesi durumunu kontrol etmeniz gerekir (eğer sorguladığınız herhangi birşey
+    birden fazla sonuç döndürme olasılığı varsa)::
     
         $query = $em->createQuery('SELECT ....')
             ->setMaxResults(1);
@@ -632,43 +638,45 @@ for just one object, you can use the ``getSingleResult()`` method instead::
         }
         // ...
 
-The DQL syntax is incredibly powerful, allowing you to easily join between
-entities (the topic of :ref:`relations<book-doctrine-relations>` will be
-covered later), group, etc. For more information, see the official Doctrine
-`Doctrine Query Language`_ documentation.
 
-.. sidebar:: Setting Parameters
+DQL yazımı (syntax) entity 'ler arasında join, group işlemleri için 
+(:ref:`ilişkiler<book-doctrine-relations>` konusu daha sonra işlenecektir)
+inanılmaz güçlüdür. Daha fazla bilgi için resmi `Doctrine Sorgu Dili`_ 
+belgesine bakın.
 
-    Take note of the ``setParameter()`` method. When working with Doctrine,
-    it's always a good idea to set any external values as "placeholders",
-    which was done in the above query:
+.. sidebar:: Parametreleri Ayarlamak
+
+    ``setParameter()`` metoduna dikkat edin. Doctrine ile çalışırken
+    herhangi bir dışsal değeri bir "yertutucu"  içerisine atıp, query
+    içerisinde kullanmak her zaman çok iyi bir yöntemdir:
     
     .. code-block:: text
 
         ... WHERE p.price > :price ...
 
-    You can then set the value of the ``price`` placeholder by calling the
-    ``setParameter()`` method::
+    ``price`` yer tutucusunun değerini ``setParameter()`` metodunu 
+    çağırarak düzenleyebilirsiniz:
 
         ->setParameter('price', '19.99')
 
-    Using parameters instead of placing values directly in the query string
-    is done to prevent SQL injection attacks and should *always* be done.
-    If you're using multiple parameters, you can set their values at once
-    using the ``setParameters()`` method::
+    Sorgu içerisinde değerleri direkt olarak vermek yerine yertutucularını 
+    kullanmak *daima* SQL injection ataklarına karşı koruma sağlar.
+    Eğer çoklu parametreler kullanıyorsanız, öncelikle onların değerlerini
+    ``setParameters()`` metodu ile düzenlemeniz gerekir::
 
         ->setParameters(array(
             'price' => '19.99',
             'name'  => 'Foo',
         ))
 
-Using Doctrine's Query Builder
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Doctrine'nin Sorgu Üretecini Kullanmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Instead of writing the queries directly, you can alternatively use Doctrine's
-``QueryBuilder`` to do the same job using a nice, object-oriented interface.
-If you use an IDE, you can also take advantage of auto-completion as you
-type the method names. From inside a controller::
+Sorguları direkt yazmak yerine alternatif olarak Doctrine'nin ``QueryBuilder``
+(Sorgu Üreteci) 'ni kullanarak bu işi nesne yönelimli bir ara birim ile 
+daha güzel halledebilirsiniz. Eğer bir IDE kullanıyorsanız aynı zamanda
+metodları otomatik tamamlama özelliğinide kullanabilirsiniz. Bir Controller
+içerisinden şu şekilde kullanabilirsiniz::
 
     $repository = $this->getDoctrine()
         ->getRepository('AcmeStoreBundle:Product');
@@ -681,23 +689,24 @@ type the method names. From inside a controller::
     
     $products = $query->getResult();
 
-The ``QueryBuilder`` object contains every method necessary to build your
-query. By calling the ``getQuery()`` method, the query builder returns a
-normal ``Query`` object, which is the same object you built directly in the
-previous section.
 
-For more information on Doctrine's Query Builder, consult Doctrine's
-`Query Builder`_ documentation.
+``QueryBuilder``  nesnesi sorgunuzu üretebilmek için tüm metodları içerir.
+``getQuery()`` metodunun çağırılması ile sorgu üreteci önceki bölümde gösterildiği gibi
+normal bir ``Query`` nesnesi çevirir.
 
-Custom Repository Classes
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Doctrine'nin Sorgu Üreteci (Query Builder) hakkında daha fazla bilgi almak
+için `Sorgu Üreteci`_  dökümanına başvurun.
 
-In the previous sections, you began constructing and using more complex queries
-from inside a controller. In order to isolate, test and reuse these queries,
-it's a good idea to create a custom repository class for your entity and
-add methods with your query logic there.
+Özel Ambar(Repository) Sınıfları
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To do this, add the name of the repository class to your mapping definition.
+Önceki bölümlerde controller içerisinden karmaşık sorguları üretmeye başlamıştınız.
+Ancak bu sorguları test etmek ve yeniden kullanmak için izole ederek bunları entity'nizin 
+kullanabileceği özel bir repository (ambar) sınıfı içerisine almak ve 
+sorguları mantıksal olarak metodlara atamak daha iyi bir fikirdir.
+
+Bunu yapmak için repository(ambar) sınıfınızın ismini eşleştirme (mapping) tanımlamanız
+içerisine eklemeniz gereklidir.
 
 .. configuration-block::
 
@@ -736,16 +745,17 @@ To do this, add the name of the repository class to your mapping definition.
             </entity>
         </doctrine-mapping>
 
-Doctrine can generate the repository class for you by running the same command
-used earlier to generate the missing getter and setter methods:
+
+Doctrine daha önceleri gördüğümüz, getter ve setter metodlarını yaratmak için
+kullandığımız komut ile bu repository sınıflarını da yaratabilir:
 
 .. code-block:: bash
 
     php app/console doctrine:generate:entities Acme
 
-Next, add a new method - ``findAllOrderedByName()`` - to the newly generated
-repository class. This method will query for all of the ``Product`` entities,
-ordered alphabetically.
+Sonra bu repository sınıfının içerisine ``findAllOrderedByName()`` adına
+yeni bir metod ekleyin. Bu metod tüm ``Product`` entity'lerini sorgulayacak ve
+alfabetik olarak sıralayacaktır.
 
 .. code-block:: php
 
@@ -766,10 +776,11 @@ ordered alphabetically.
 
 .. tip::
 
-    The entity manager can be accessed via ``$this->getEntityManager()``
-    from inside the repository.
+    Entity manager'a repository içerisinden ``$this->getEntityManager()``
+    ile erişilebilir.
 
-You can use this new method just like the default finder methods of the repository::
+Repository'niz içerisinde bu yeni metodu varsayılan bulma metodu yerine 
+basitçe şu şekilde kullanabilirsiniz::
 
     $em = $this->getDoctrine()->getEntityManager();
     $products = $em->getRepository('AcmeStoreBundle:Product')
@@ -777,12 +788,12 @@ You can use this new method just like the default finder methods of the reposito
 
 .. note::
 
-    When using a custom repository class, you still have access to the default
-    finder methods such as ``find()`` and ``findAll()``.
+    Özel bir repository sınıfı kullandığınızda diğer ``find()`` ve ``findAll()``
+    metodlarına da kolaylıkla erişebilirsiniz.
 
 .. _`book-doctrine-relations`:
 
-Entity Relationships/Associations
+Entity İlişkileri/Ortaklıkları
 ---------------------------------
 
 Suppose that the products in your application all belong to exactly one "category".
@@ -1395,8 +1406,8 @@ For more information about Doctrine, see the *Doctrine* section of the
 .. _`Doctrine`: http://www.doctrine-project.org/
 .. _`MongoDB`: http://www.mongodb.org/
 .. _`Basit Eşleme Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html
-.. _`Query Builder`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/query-builder.html
-.. _`Doctrine Query Language`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/dql-doctrine-query-language.html
+.. _`Sorgu Üreteci`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/query-builder.html
+.. _`Doctrine Sorgu Dili`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/dql-doctrine-query-language.html
 .. _`Association Mapping Documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/association-mapping.html
 .. _`DateTime`: http://php.net/manual/en/class.datetime.php
 .. _`Mapping Types Documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#doctrine-mapping-types
