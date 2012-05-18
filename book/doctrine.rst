@@ -4,7 +4,7 @@
 Veritabanları ve Doctrine
 ==========================
 Şunu kabul edelim. Herhangi bir uygulamanın en zorlu işleri veritabanından
-bilgileri okumak ya da buraya bilgleri yazmaktır. Çok şükür, Symfony 
+bilgileri okumak ya da buraya bilgileri yazmaktır. Çok şükür, Symfony 
 `Doctrine`_ adındaki bu işleri kolaylıkla yapacağınız araçları içeren bir
 kütüphane ile birlikte entegre gelir. Bu kısımda Doctrine'ın arkasındaki
 temel felsefeyi öğrenecek ve veritabanları ile çalışmanın ne kadar kolay
@@ -810,10 +810,11 @@ gereklidir. Bırakın bu sınıfı Doctrine sizin için yaratsın.
 Bu işlem ``id`` alanı ve bir ``name`` alanı ve ilgili getter ve setter fonksiyonlarına
 sahip olan bir ``Category`` entity'sini sizin için yaratır.
 
-Relationship Mapping Metadata
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Eşleştirilen Metadatalarda İlişkiler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ``Category` ve ``Product`` entity'lerini ilişkilendirmek için ``Category``
-sınıfında bi ``products`` değişkeni yaratalım:
+sınıfında bir ``products`` değişkeni yaratalım:
 
 .. configuration-block::
 
@@ -1081,21 +1082,19 @@ siz bunu sordu iseniz. (Örn: ``->getProducts()`` 'ı çağırdığınızda).
 	bilgilerini alma ihtiyacı hissedilene kadar (lazy loading)
 	*true* döndürecektir.
 
-Joining to Related Records
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In the above examples, two queries were made - one for the original object
-(e.g. a ``Category``) and one for the related object(s) (e.g. the ``Product``
-objects).
+İlgili Kayıtlarda Join
+~~~~~~~~~~~~~~~~~~~~~~~~
+Yukarıdaki örneklerde bir tanesi orijinal nesne için (Örn : ``Category``)
+bir taneside ilgili nesne(ler) için (Örn:``Product``) iki adet sorgu yapılıyordu.
 
 .. tip::
 
-    Remember that you can see all of the queries made during a request via
-    the web debug toolbar.
+    İstek esnasında çalıştırılan tüm sorguları web debug toolbar'dan
+    görebileceğinizi Hatırlayın.
 
-Of course, if you know up front that you'll need to access both objects, you
-can avoid the second query by issuing a join in the original query. Add the
-following method to the ``ProductRepository`` class::
+Elbette eğer önceden iki nesneye ulaşmak istediğimizde ikinci sorgunun join
+sorgusu esnasında çalıştırılmayacağını bilmelisiniz. ``ProductRepository`` 
+sınıfına şu metodu ekleyin::
 
     // src/Acme/StoreBundle/Repository/ProductRepository.php
     
@@ -1115,8 +1114,9 @@ following method to the ``ProductRepository`` class::
         }
     }
 
-Now, you can use this method in your controller to query for a ``Product``
-object and its related ``Category`` with just one query::
+
+Şimdi bu metodu controller içerisinde ``Product`` nesnesini ve ilgil
+``Category`` nesnesini bir sorguda sorgulayabilmek için kullanabilirsiniz::
 
     public function showAction($id)
     {
@@ -1129,39 +1129,44 @@ object and its related ``Category`` with just one query::
         // ...
     }    
 
-More Information on Associations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Birliktelikler İçin Daha Fazla Bilgi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section has been an introduction to one common type of entity relationship,
-the one-to-many relationship. For more advanced details and examples of how
-to use other types of relations (e.g. ``one-to-one``, ``many-to-many``), see
-Doctrine's `Association Mapping Documentation`_.
+Bu kısım da genel entity birliktelik tiplerinden olan birden - çoka (one-to-many)
+ilişkisine giriş yapılmıştır. Diğer birliktelik tipleri hakkında daha fazla 
+bilgi almak ve daha ileri düzey örnekler için (Örn : ``one-to-one`` (birebir) , 
+``many to many`` (çoktan çoka)) Doctrine'nin `Birliktelik Eşleme Belgesi`_. 'ne
+bakın. 
 
 .. note::
 
-    If you're using annotations, you'll need to prepend all annotations with
-    ``ORM\`` (e.g. ``ORM\OneToMany``), which is not reflected in Doctrine's
-    documentation. You'll also need to include the ``use Doctrine\ORM\Mapping as ORM;``
-    statement, which *imports* the ``ORM`` annotations prefix.
+    Eğer belirteçleri(annotations) kullanıyorsanız tüm belirteçlerin önüne
+    Doctrine resmi belgesinde olmamasına rağmen , ``ORM\`` etiketini 
+    koymalısınız (Örn. ``ORM\OneToMany``). 
+    Ayrıca ``ORM`` belirtecini kullanabilmeniz için ``use Doctrine\ORM\Mapping as ORM;``
+    deyimini de kullanmanız gerekecektir.
+    
 
-Configuration
+Konfigürasyon
 -------------
 
-Doctrine is highly configurable, though you probably won't ever need to worry
-about most of its options. To find out more about configuring Doctrine, see
-the Doctrine section of the :doc:`reference manual</reference/configuration/doctrine>`.
+Doctrine muhtemelen pek çok seçeneğini ayarlamaya ihtiyaç duymayacak olmanıza rağmen 
+oldukça konfigüre edilebilirdir. Doctrine'nin nasıl konfigüre edilebileceği
+hakkındaki belgeyi :doc:`referans belgeleri</reference/configuration/doctrine>` 
+kısmında bulabilirsiniz.
 
-Lifecycle Callbacks
--------------------
 
-Sometimes, you need to perform an action right before or after an entity
-is inserted, updated, or deleted. These types of actions are known as "lifecycle"
-callbacks, as they're callback methods that you need to execute during different
-stages of the lifecycle of an entity (e.g. the entity is inserted, updated,
-deleted, etc).
+LifeCycle Çağrıları (LifeCycle Callbacks)
+----------------------------------------------
+Bazen bir entity insert edildiğinde , güncellendiğinde ya da silindiğinde
+bu hareket gerçekleşmeden önce ya da sonra bir şey yapmaya ihtiyaç duyarsınız.
+Bu tipteki hareketler "lifecycle" çağrıları olarak adlandırılırlar. Bu çağrı metodları
+bir entity 'nin farklı lifecycle durumlarında çalıştırılırlar (Örn : entity 
+insert edildiğinde güncellendiğinde, silindiğinde vs.. ).
 
-If you're using annotations for your metadata, start by enabling the lifecycle
-callbacks. This is not necessary if you're using YAML or XML for your mapping:
+Eğer eşleme verileri için (metadata) belirteçleri (annotations) kullanıyorsanız,
+lifecycle cağrılarını aktifleştirmeniz gerekir. Eğer YAML ya da XML'i eşleştirme
+için kullanıyorsanız bu gerekli değildir:
 
 .. code-block:: php-annotations
 
@@ -1174,9 +1179,10 @@ callbacks. This is not necessary if you're using YAML or XML for your mapping:
         // ...
     }
 
-Now, you can tell Doctrine to execute a method on any of the available lifecycle
-events. For example, suppose you want to set a ``created`` date column to
-the current date, only when the entity is first persisted (i.e. inserted):
+Şimdi Doctrine herhangi bir lifecycle olayı için herhangi bir metodun 
+çalıştılmasını söyleyebilirsiniz. Örneğin varsayalım bir entity ilk kez 
+veritabanına yazılıyorsa (Örn : insert ) ``created`` (yaratılma) sütununa
+geçerli tarihi de yazalım:
 
 .. configuration-block::
 
@@ -1215,13 +1221,13 @@ the current date, only when the entity is first persisted (i.e. inserted):
 
 .. note::
 
-    The above example assumes that you've created and mapped a ``created``
-    property (not shown here).
+    Yukarıdaki örnekler (burada gözükmesede) entity sınıfı içinde 
+    sizin ``created`` adında bir değişkeni (property) yarattığınızı varsaymıştır.
 
-Now, right before the entity is first persisted, Doctrine will automatically
-call this method and the ``created`` field will be set to the current date.
+Şimdi,entity ilk kez yazılmadan hemen önce, Doctrine otomatik olarak ``created``
+alanına geçerli tarihi yazacak olan metodu çağıracaktır.
 
-This can be repeated for any of the other lifecycle events, which include:
+Bu aşağıdaki gibi diğer lifecycle olaylarına da uygulanabilir:
 
 * ``preRemove``
 * ``postRemove``
@@ -1232,48 +1238,52 @@ This can be repeated for any of the other lifecycle events, which include:
 * ``postLoad``
 * ``loadClassMetadata``
 
-For more information on what these lifecycle events mean and lifecycle callbacks
-in general, see Doctrine's `Lifecycle Events documentation`_
+Genel olarak bu lifecycle olaylarının  ve çağrılarının ne anlama geldiği
+konusunda daha fazla bilgi için Doctrine'nin  `Lifecycle Olayları belgesi`_ 
+'ne bakın.
 
-.. sidebar:: Lifecycle Callbacks and Event Listeners
 
-    Notice that the ``setCreatedValue()`` method receives no arguments. This
-    is always the case for lifecycle callbacks and is intentional: lifecycle
-    callbacks should be simple methods that are concerned with internally
-    transforming data in the entity (e.g. setting a created/updated field,
-    generating a slug value).
+.. sidebar:: Lifecycle Çağrıları ve Olay Dinleyicileri (Event Listeners)
+	
+	``setCreatedValue()`` metodunun herhangi bir argüman almadığına dikkat edin.
+	Bu life cycle cağrılarında her zaman genel geçer olan bir şeydir. Lifecycle
+	cağrıları entity içerisindeki veriyi değiştiren metodlarla birlikte ilişkili
+	olan basit metodlar olmalıdır. (örn : alana değer atamak/yaratmak/güncellemek,
+	yapışkan (slug) değer yaratmak gibi)
     
-    If you need to do some heavier lifting - like perform logging or send
-    an email - you should register an external class as an event listener
-    or subscriber and give it access to whatever resources you need. For
-    more information, see :doc:`/cookbook/doctrine/event_listeners_subscribers`.
+    Eğer log tutmak e-posta göndermek gibi daha ağır işler yapmak istiyorsanız,
+    bu durumda olay dinleyici (event listener) ya da olaya katılım yapan (subscriber)
+    bir dışsal sınıf içerisinde ne istiyorsanız yapabilirsiniz. Daha fazla bilgi için
+    :doc:`/cookbook/doctrine/event_listeners_subscribers` belgesine bakın.
+    
 
-Doctrine Extensions: Timestampable, Sluggable, etc.
----------------------------------------------------
+Doctrine İlaveleri (Extensions): Timestampable, Sluggable, vs.
+---------------------------------------------------------------
 
-Doctrine is quite flexible, and a number of third-party extensions are available
-that allow you to easily perform repeated and common tasks on your entities.
-These include thing such as *Sluggable*, *Timestampable*, *Loggable*, *Translatable*,
-and *Tree*.
+Doctrine oldukça esnektir ve entity'leriniz içerisinde sürekli tekrarlanan
+olayları basitçe çözebilmek için bir çok 3. parti ilave (extension) ile birlikte gelir. 
+Bunlar *Sluggable*, *Timestampable*, *Loggable*, *Translatable*,
+ve *Tree* gibi şeyleri kapsar.
 
-For more information on how to find and use these extensions, see the cookbook
-article about :doc:`using common Doctrine extensions</cookbook/doctrine/common_extensions>`.
+Bu extension'ları nasıl kullanacağınız konusunda daha fazla bilgi için 
+tarif kitabındaki :doc:`Genel Doctrine extension'larının kullanımı </cookbook/doctrine/common_extensions>` 
+adlı makaleyi okuyun.
 
 .. _book-doctrine-field-types:
 
-Doctrine Field Types Reference
-------------------------------
+Doctrine Alan Tipleri (Field Type) Başvurusu
+---------------------------------------------
 
-Doctrine comes with a large number of field types available. Each of these
-maps a PHP data type to a specific column type in whatever database you're
-using. The following types are supported in Doctrine:
+Doctrine çok sayıda alan tipi ile birlikte gelir. Bunların herbirisi 
+veritabanınız da hangi tipte sütun kullandıysanız bunlar için bir PHP
+veri tipi ile eşleşir. Doctrine'de desteklenen tipler şunlardır:
 
-* **Strings**
+* **Stringler**
 
-  * ``string`` (used for shorter strings)
-  * ``text`` (used for larger strings)
+  * ``string`` (kısa stringler için kullanılır)
+  * ``text`` (büyük stringler için kullanılır)
 
-* **Numbers**
+* **Sayılar**
 
   * ``integer``
   * ``smallint``
@@ -1281,42 +1291,42 @@ using. The following types are supported in Doctrine:
   * ``decimal``
   * ``float``
 
-* **Dates and Times** (use a `DateTime`_ object for these fields in PHP)
+* **Tarih ve Zaman** (PHP de bunun için `DateTime`_  nesnesi kullanılır)
 
   * ``date``
   * ``time``
   * ``datetime``
 
-* **Other Types**
+* **Diğer Tipler**
 
   * ``boolean``
-  * ``object`` (serialized and stored in a ``CLOB`` field)
-  * ``array`` (serialized and stored in a ``CLOB`` field)
+  * ``object`` (serileştirilmiş ve ``CLOB`` alanı içerisinde saklanmış)
+  * ``array`` (serileştirilmiş ve ``CLOB`` alanı içerisinde saklanmış)
 
-For more information, see Doctrine's `Mapping Types documentation`_.
+Daha fazla bilgi için Doctrine'nin `Eşleştirme Tipleri Belgesi`_ 'ne bakın.
 
-Field Options
-~~~~~~~~~~~~~
+Alan Özellikleri
+~~~~~~~~~~~~~~~~
 
-Each field can have a set of options applied to it. The available options
-include ``type`` (defaults to ``string``), ``name``, ``length``, ``unique``
-and ``nullable``. Take a few examples:
+Her alana bazı özellikler uygulanabilir. Uygulanabilen bu özellikler
+``type`` (varsayılan değeri ``string``), ``name``, ``length``, ``unique``
+ve ``nullable`` özelliklerinden oluşur. Bir kaç örnek yapalım:
 
 .. configuration-block::
 
     .. code-block:: php-annotations
 
         /**
-         * A string field with length 255 that cannot be null
-         * (reflecting the default values for the "type", "length" and *nullable* options)
+         * Bir string alanı 255 karakterden oluşur ve boş olamaz
+         * ("type", "length" ve *nullable* özelliklerinin varsayılan değerlerini yansıtmaktadır.)
          * 
          * @ORM\Column()
          */
         protected $name;
     
         /**
-         * A string field of length 150 that persists to an "email_address" column
-         * and has a unique index.
+         * Bir string alanının uzunluğu 150 olacak ve veri "email_address" sütununa 
+         * başka satırlarda tekrarlanmayacak şekilde (unique) yazılacak.
          *
          * @ORM\Column(name="email_address", unique=true, length=150)
          */
@@ -1325,14 +1335,14 @@ and ``nullable``. Take a few examples:
     .. code-block:: yaml
 
         fields:
-            # A string field length 255 that cannot be null
-            # (reflecting the default values for the "length" and *nullable* options)
-            # type attribute is necessary in yaml definitions
+            # Bir string alanı 255 karakterden oluşur ve boş olamaz
+            # ("type", "length" ve *nullable* özelliklerinin varsayılan değerlerini yansıtmaktadır.)
+            # type niteliği yam içerisinde zorunludur.
             name:
                 type: string
 
-            # A string field of length 150 that persists to an "email_address" column
-            # and has a unique index.
+            # Bir string alanının uzunluğu 150 olacak ve veri "email_address" sütununa 
+            # başka satırlarda tekrarlanmayacak şekilde (unique) yazılacak.
             email:
                 type: string
                 column: email_address
@@ -1341,76 +1351,74 @@ and ``nullable``. Take a few examples:
 
 .. note::
 
-    There are a few more options not listed here. For more details, see
-    Doctrine's `Property Mapping documentation`_
+    Daha pek çok özellik burada listelenmemiştir. Daha Fazla bilgi için
+	Doctrine'nin `Değişken Eşleme belgesi`_ 'ne bakın.
 
 .. index::
-   single: Doctrine; ORM Console Commands
+   single: Doctrine; ORM Konsol Komutları
    single: CLI; Doctrine ORM
 
-Console Commands
+Konsol Komutları
 ----------------
 
-The Doctrine2 ORM integration offers several console commands under the
-``doctrine`` namespace. To view the command list you can run the console
-without any arguments:
+Doctrine2 ORM entegrasyonu ``doctrine`` başlığı altında bazı konsol komutları sunar.
+Komut listesini görmek için konsoldan herhangi bir arguman vermeden şu
+komutu çalıştırın:
 
 .. code-block:: bash
 
     php app/console
 
-A list of available command will print out, many of which start with the
-``doctrine:`` prefix. You can find out more information about any of these
-commands (or any Symfony command) by running the ``help`` command. For example,
-to get details about the ``doctrine:database:create`` task, run:
+Listelenen komutlar arasından ilgili olanlar ``doctrine`` ön eki ile
+başlayanlardır. Bu komutlar (ya da diğer Symfony komutları) hakkında
+daha fazla bilgi almak için ``help`` komutunu kullanın. Örneğin
+``doctrine:database:create`` komutu hakkında daha fazla bilgi almak için
+şunu çalıştırın:
 
 .. code-block:: bash
 
     php app/console help doctrine:database:create
 
-Some notable or interesting tasks include:
+Bazı dikkat çekici ya da ilginç işlevler şunlardır:
 
-* ``doctrine:ensure-production-settings`` - checks to see if the current
-  environment is configured efficiently for production. This should always
-  be run in the ``prod`` environment:
+* ``doctrine:ensure-production-settings`` - çalışma ortamınızın ürün (production)
+  ortamı için etkinliğini kontrol eder. bu herzaman ``prod`` ortamında çalıştırılmalıdır:
   
   .. code-block:: bash
   
     php app/console doctrine:ensure-production-settings --env=prod
 
-* ``doctrine:mapping:import`` - allows Doctrine to introspect an existing
-  database and create mapping information. For more information, see
-  :doc:`/cookbook/doctrine/reverse_engineering`.
+* ``doctrine:mapping:import`` - Doctrine'e var olan bir veritabanını analiz
+  edip eşleme bilgisi yaratmasına olanak verir. Daha fazla bilgi için 
+  :doc:`/cookbook/doctrine/reverse_engineering` belgesine bakın.
 
-* ``doctrine:mapping:info`` - tells you all of the entities that Doctrine
-  is aware of and whether or not there are any basic errors with the mapping.
-
-* ``doctrine:query:dql`` and ``doctrine:query:sql`` - allow you to execute
-  DQL or SQL queries directly from the command line.
+* ``doctrine:mapping:info`` - Doctrine tarafından eşleme sırasında basit hataları ya da 
+  entity içerisindeki sorunları listeler.
+  
+* ``doctrine:query:dql`` ve ``doctrine:query:sql`` - komut satırından direkt olarak
+  DQL ya da SQL çalıştırılmasına olanak verir. 
 
 .. note::
 
-   To be able to load data fixtures to your database, you will need to have
-   the ``DoctrineFixturesBundle`` bundle installed. To learn how to do it,
-   read the ":doc:`/bundles/DoctrineFixturesBundle/index`" entry of the
-   documentation.
+   Data Fixture'larını yüklenebilmesi için ``DoctrineFixturesBundle`` bundle'ının
+   yüklü olması gerekir. Bunu nasıl yapağınızı öğrenmek için ":doc:`/bundles/DoctrineFixturesBundle/index`"
+   belgesini okuyun.
 
-Summary
--------
+Özet
+-----
 
-With Doctrine, you can focus on your objects and how they're useful in your
-application and worry about database persistence second. This is because
-Doctrine allows you to use any PHP object to hold your data and relies on
-mapping metadata information to map an object's data to a particular database
-table.
+Doctrine ile nesnelerinize odaklanabilir ve bu nesnelerin uygulamanızda 
+ne kadar kullanılabilir olduğunu görerek veritabanınıza verinin yazılma 
+endişesini daha sonra yaşarsınız.Bu Doctrine'nin verileri, PHP nesnelerinde 
+tutmasına olanak sağlaması ve eşleştirme metadata bilgilerinin nesneler 
+ile veritabanının ilgili tablosu arasında eşleştirmesiyle mümkün olmaktadır.
 
-And even though Doctrine revolves around a simple concept, it's incredibly
-powerful, allowing you to create complex queries and subscribe to events
-that allow you to take different actions as objects go through their persistence
-lifecycle.
+Doctrine basit bir düşünce etrafında dönmesine rağmen oldukça güçlü,
+karmaşık sorguları yaratma, nesleleri veritabanına yazma durumunda
+ortaya çıkan farklı lifecycle olaylarına karışmaya imkan sağlar.
 
-For more information about Doctrine, see the *Doctrine* section of the
-:doc:`cookbook</cookbook/index>`, which includes the following articles:
+Doctrine hakkında daha fazla bilgi için :doc:`tarif kitabı</cookbook/index>` 
+'nın *Doctrine* başlığı altındaki şu makalelere bakın:
 
 * :doc:`/bundles/DoctrineFixturesBundle/index`
 * :doc:`/cookbook/doctrine/common_extensions`
@@ -1420,9 +1428,9 @@ For more information about Doctrine, see the *Doctrine* section of the
 .. _`Basit Eşleme Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html
 .. _`Sorgu Üreteci`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/query-builder.html
 .. _`Doctrine Sorgu Dili`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/dql-doctrine-query-language.html
-.. _`Association Mapping Documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/association-mapping.html
+.. _`Birliktelik Eşleme Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/association-mapping.html
 .. _`DateTime`: http://php.net/manual/en/class.datetime.php
-.. _`Mapping Types Documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#doctrine-mapping-types
-.. _`Property Mapping documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping
-.. _`Lifecycle Events documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/events.html#lifecycle-events
+.. _`Eşleştirme Tipleri Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#doctrine-mapping-types
+.. _`Değişken Eşleme Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping
+.. _`Lifecycle Olayları belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/events.html#lifecycle-events
 .. _`Ayrılmış SQL anahtar kelimeleri belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#quoting-reserved-words
