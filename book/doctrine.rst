@@ -796,24 +796,24 @@ basitçe şu şekilde kullanabilirsiniz::
 Entity İlişkileri/Ortaklıkları
 ---------------------------------
 
-Suppose that the products in your application all belong to exactly one "category".
-In this case, you'll need a ``Category`` object and a way to relate a ``Product``
-object to a ``Category`` object. Start by creating the ``Category`` entity.
-Since you know that you'll eventually need to persist the class through Doctrine,
-you can let Doctrine create the class for you.
+Varsayalım ki uygulamanızdaki ürünlerin tamamı sadece bir "kategori" 'ye bağlı.
+Bu durumda ``Product`` nesnesi ``Category`` nesnesi ile ilişkilendirilmiş bir
+``Category`` nesnesine ihtiyacınız olacaktır.``Category`` entity'sini yaratmaya başlayalım.
+Sizinde bildiğiniz gibi nihayetinde sınıfın Doctrine tarafından veritabanına yazılması
+gereklidir. Bırakın bu sınıfı Doctrine sizin için yaratsın.
 
 .. code-block:: bash
 
     php app/console doctrine:generate:entity --entity="AcmeStoreBundle:Category" --fields="name:string(255)"
 
-This task generates the ``Category`` entity for you, with an ``id`` field,
-a ``name`` field and the associated getter and setter functions.
+
+Bu işlem ``id`` alanı ve bir ``name`` alanı ve ilgili getter ve setter fonksiyonlarına
+sahip olan bir ``Category`` entity'sini sizin için yaratır.
 
 Relationship Mapping Metadata
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To relate the ``Category`` and ``Product`` entities, start by creating a
-``products`` property on the ``Category`` class:
+``Category` ve ``Product`` entity'lerini ilişkilendirmek için ``Category``
+sınıfında bi ``products`` değişkeni yaratalım:
 
 .. configuration-block::
 
@@ -851,29 +851,33 @@ To relate the ``Category`` and ``Product`` entities, start by creating a
             # don't forget to init the collection in entity __construct() method
 
 
-First, since a ``Category`` object will relate to many ``Product`` objects,
-a ``products`` array property is added to hold those ``Product`` objects.
-Again, this isn't done because Doctrine needs it, but instead because it
-makes sense in the application for each ``Category`` to hold an array of
-``Product`` objects.
+
+Öncelikle bir ``Category`` nesnesi birden falza ``Product`` nesnesi ile ilişkili
+olduğunda, bir ``products`` dize değişkeni ilgili ``Product`` nesnelerini barındıracaktır.
+Aslında bu Doctrine tarafından ihtiyaç duyulan bir şey değildir ancak bunu
+uygulama içerisinde her ``Category`` için ``Product`` nesnelerini bir dize(array)
+içerisinde tutmak daha mantıklıdır.
 
 .. note::
 
-    The code in the ``__construct()`` method is important because Doctrine
-    requires the ``$products`` property to be an ``ArrayCollection`` object.
-    This object looks and acts almost *exactly* like an array, but has some
-    added flexibility. If this makes you uncomfortable, don't worry. Just
-    imagine that it's an ``array`` and you'll be in good shape.
+    Kod içerisindeki ``__construct()`` metodu Doctrine'nin ``$products`` 
+    değişkenini bir ``ArrayCollection`` objesi haline getirmesi için gerekli 
+    olduğundan önemlidir.
+    Bu nesne tamamen bir dize değişkeni gibi davranırken bazı esnekliklerde
+    sağlar. Eğer bu nesne ile rahat edemezseniz endileşenmeyin. Bu sadece
+    bir ``dize`` (array) değişkendir ve bununla ileride daha rahat edeceksiniz.
 
 .. tip::
 
-   The targetEntity value in the decorator used above can reference any entity
-   with a valid namespace, not just entities defined in the same class. To 
-   relate to an entity defined in a different class or bundle, enter a full
-   namespace as the targetEntity.
+   Dekoratör içerisindeki targetEntity değeri gerçerli bir namespace'e sahip
+   olan bir entity'i işaret eder sadece aynı sınıf içerisinde tanımlanan 
+   entity'lere işaret etmez. Başka sınıf ya da bundle içerisindeki entity ile
+   ilişkiyi düzenlemek için targetEntity içerisine namespace değerini tam olarak
+   girmeniz gereklidir.
 
-Next, since each ``Product`` class can relate to exactly one ``Category``
-object, you'll want to add a ``$category`` property to the ``Product`` class:
+Sonra, her ``Product`` sınıfı sadece bir ``Category`` nesnesi ile ilişkili
+olabileceğininden ``Product`` sınıfı içerisine bir ``$category`` değişkeni
+eklemek gerekecektir.
 
 .. configuration-block::
 
@@ -907,38 +911,41 @@ object, you'll want to add a ``$category`` property to the ``Product`` class:
                         name: category_id
                         referencedColumnName: id
 
-Finally, now that you've added a new property to both the ``Category`` and
-``Product`` classes, tell Doctrine to generate the missing getter and setter
-methods for you:
+
+Sonuç olarak ``Category`` ve ``Product`` nesnelerine bir değişken
+eklediniz. Şimdi Doctrine eksik olan getter ve setter metodlarını yaratmasını
+söyleyin:
 
 .. code-block:: bash
 
     php app/console doctrine:generate:entities Acme
 
-Ignore the Doctrine metadata for a moment. You now have two classes - ``Category``
-and ``Product`` with a natural one-to-many relationship. The ``Category``
-class holds an array of ``Product`` objects and the ``Product`` object can
-hold one ``Category`` object. In other words - you've built your classes
-in a way that makes sense for your needs. The fact that the data needs to
-be persisted to a database is always secondary.
+Doctrine metadata'sini bir an için yoksayın. Şimdi ``Category`` ve ``Product``
+adında doğal olarak birden-çoka ilişkisi ile bağlı iki sınıfınız var. 
+``Category`` sınıfı ``Product`` nesnelerini bir array içerisinde tutar ve
+``Product`` nesnesi sadece bir ``Category`` nesnesi tutar. Diğer bir ifade 
+ile sınıflarımızı ihtiyacımız doğrultusunda mantıklı bir şekilde yarattık.
+Aslında veri veritabanına yazılması gerekliliği her zaman ikincil bir konudur.
 
-Now, look at the metadata above the ``$category`` property on the ``Product``
-class. The information here tells doctrine that the related class is ``Category``
-and that it should store the ``id`` of the category record on a ``category_id``
-field that lives on the ``product`` table. In other words, the related ``Category``
-object will be stored on the ``$category`` property, but behind the scenes,
-Doctrine will persist this relationship by storing the category's id value
-on a ``category_id`` column of the ``product`` table.
+Şimdi ``Product`` nesnesi altındaki ``$category`` değişkeninde tutulan
+metadata'ya bakalım. Buradaki ilgi doctrine ``Category`` sınıfı ile ilişkili
+olduğunu ve kategori kaydının ``id`` bilgisini ``product`` tablosunun 
+``category_id`` alanında saklanmasını söyler.
+Diğer bir ifade ile ilgili ``Category`` nesnesi ``$category`` nesnesine
+tutulacak ancak arka planda Doctrine kategorinin id değerini, ``product``
+tablosunun ``category_id`` alanında tutacaktır.
 
 .. image:: /images/book/doctrine_image_2.png
    :align: center
 
-The metadata above the ``$products`` property of the ``Category`` object
-is less important, and simply tells Doctrine to look at the ``Product.category``
-property to figure out how the relationship is mapped.
 
-Before you continue, be sure to tell Doctrine to add the new ``category``
-table, and ``product.category_id`` column, and new foreign key:
+``Category`` sınıfının altındaki ``$products`` değişkeninde tutulan metadata
+bilgisi daha az önemlidir ve basitçe Doctrine ``Product.category`` tablosuna
+bakmasını söyler.
+
+Devam etmeden önce Doctrine 'e yeni bir ``category`` tablosunu, 
+``product.category_id`` sütununu ve yeni bir foreign key yaratmasın
+söylediğinizden emin olun:
 
 .. code-block:: bash
 
@@ -946,14 +953,15 @@ table, and ``product.category_id`` column, and new foreign key:
 
 .. note::
 
-    This task should only be really used during development. For a more robust
-    method of systematically updating your production database, read about
-    :doc:`Doctrine migrations</bundles/DoctrineMigrationsBundle/index>`.
+    Bu işlem sadece geliştirme ortamında kullanılır. Sistematik olarak
+    ürün veritabanınızda daha güçlü bir metod istiyorsanız 
+    :doc:`Doctrine migrations</bundles/DoctrineMigrationsBundle/index>` 
+    kısmını okuyun.
 
-Saving Related Entities
-~~~~~~~~~~~~~~~~~~~~~~~
+İlişkili Entity'leri Kayıt Etmek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now, let's see the code in action. Imagine you're inside a controller::
+Şimdi uygulamadaki koda bakalım. Bir kontroller içinde olduğunuzu düşünün::
 
     // ...
     use Acme\StoreBundle\Entity\Category;
@@ -985,17 +993,17 @@ Now, let's see the code in action. Imagine you're inside a controller::
         }
     }
 
-Now, a single row is added to both the ``category`` and ``product`` tables.
-The ``product.category_id`` column for the new product is set to whatever
-the ``id`` is of the new category. Doctrine manages the persistence of this
-relationship for you.
+Şimdi ``category`` ve ``product`` tablolarına bir satır eklendi.
+Eklenen ürünün ``product.category_id`` sütunu değeri, eklenen 
+yeni kategorinin  yeni ``id`` alanının değerine göre belirlendi. 
+Doctrine bu ilişkileri sizin için veritabanına otomatik olarak yazar.
 
-Fetching Related Objects
+İlişkili Nesneleri Almak
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you need to fetch associated objects, your workflow looks just like it
-did before. First, fetch a ``$product`` object and then access its related
-``Category``::
+İlişkilendirilmiş nesneleri çekmek istediğinizde akış önceden
+yapıtığınız çekme işine çok benzer. Önce ``$product`` nesnesini çek sonra ilgili 
+``Category`` 'ye ulaş::
 
     public function showAction($id)
     {
@@ -1008,21 +1016,22 @@ did before. First, fetch a ``$product`` object and then access its related
         // ...
     }
 
-In this example, you first query for a ``Product`` object based on the product's
-``id``. This issues a query for *just* the product data and hydrates the
-``$product`` object with that data. Later, when you call ``$product->getCategory()->getName()``,
-Doctrine silently makes a second query to find the ``Category`` that's related
-to this ``Product``. It prepares the ``$category`` object and returns it to
-you.
+Bu örnekte ilk sorgu ürünün id'sine uygun ``Product`` nesnesi için.
+Bu sorgu için sonuçlar *sadece* ürün verisi ve ``$product`` nesnesinin 
+bu döne veri ile birleştirilmiş (hydrate) şeklidir. Sonra ``$product->getCategory()->getName()``
+metodunu çağırdığınızda Doctrine sessizce ``Product`` ile ilişkili ``Category`` 'yi bulmak
+için ikinci sorguyu çalıştırır. Bu işlem ``$category`` nesnesini sizin için hazırlar ve
+döndürür.
+
 
 .. image:: /images/book/doctrine_image_3.png
    :align: center
 
-What's important is the fact that you have easy access to the product's related
-category, but the category data isn't actually retrieved until you ask for
-the category (i.e. it's "lazily loaded").
+Burada aslında önemli olan şey sizin ürünün ilişkili olduğu kategoriye ulaşmanızdan
+çok, kategori verisinin siz kategoriyi sormadan gerçekte getirilmemesidir. 
+( Örn. "lazily loaded").
 
-You can also query in the other direction::
+Diğer bir yönden de sorgu yapabilirsiniz::
 
     public function showProductAction($id)
     {
@@ -1035,17 +1044,18 @@ You can also query in the other direction::
         // ...
     }
 
-In this case, the same things occurs: you first query out for a single ``Category``
-object, and then Doctrine makes a second query to retrieve the related ``Product``
-objects, but only once/if you ask for them (i.e. when you call ``->getProducts()``).
-The ``$products`` variable is an array of all ``Product`` objects that relate
-to the given ``Category`` object via their ``category_id`` value.
+Bu durumda yine aynı şeyler olur. İlk sorgunuz bir ``Category`` nesnesi döndürür ve
+Doctrine ilgili ``Product`` 'ları getirmek üzere ikinci sorguyu çalıştırır önce/eğer
+siz bunu sordu iseniz. (Örn: ``->getProducts()`` 'ı çağırdığınızda).
+``$products`` değişkeni verilen ``Category`` nesnesinin ilgili ``Product`` nesnesindeki
+``category_id`` alanını eşleyen tüm verilerini bir dize değişkeni içerisinde döndürür.
 
-.. sidebar:: Relationships and Proxy Classes
+.. sidebar:: İlişkiler ve Proxy Sınıfları
 
-    This "lazy loading" is possible because, when necessary, Doctrine returns
-    a "proxy" object in place of the true object. Look again at the above
-    example::
+    
+    Bu nesnenin ihtiyaç halinde bilgilerinin getirilmesi "lazy loading" mümkündür
+    Çünkü gerektiği zaman, Doctrine gerçek nesnenin yerine bir "proxy" nesnesi
+    döndürecektir.Aşağıdaki örneğe yeniden bakalım::
     
         $product = $this->getDoctrine()
             ->getRepository('AcmeStoreBundle:Product')
@@ -1056,18 +1066,20 @@ to the given ``Category`` object via their ``category_id`` value.
         // prints "Proxies\AcmeStoreBundleEntityCategoryProxy"
         echo get_class($category);
 
-    This proxy object extends the true ``Category`` object, and looks and
-    acts exactly like it. The difference is that, by using a proxy object,
-    Doctrine can delay querying for the real ``Category`` data until you
-    actually need that data (e.g. until you call ``$category->getName()``).
+    Bu proxy nesnesi gerçek ``Category`` nesnesinden türetilmiştir ve
+    hem onun gibi gözükür hemde aynen onun gibi davranır.
+    Proxy nesnesinin kullanılmasının farkı Doctrine gerçek ``Category``
+    verisinin gerçekten ihtiyacınız olduğunda çalışması üzere bekletebilmesidir.
+    (Örn: ``$category->getName()`` metodunu çağırana kadar.)
 
-    The proxy classes are generated by Doctrine and stored in the cache directory.
-    And though you'll probably never even notice that your ``$category``
-    object is actually a proxy object, it's important to keep in mind.
+	Tüm proxy sınıfları Doctrine tarafından yaratılır ve cache klasöründe
+	saklanır. Belki hiç ``$category`` nesnesini br proxy nesnesi olarak
+	kullanmayacak olabilirsiniz ancak bunu akılda tutmak önemlidir.
 
-    In the next section, when you retrieve the product and category data
-    all at once (via a *join*), Doctrine will return the *true* ``Category``
-    object, since nothing needs to be lazily loaded.
+	Sonraki kısımda tüm ürün ve kategori verisini getirdiğinizde (bir *join*
+	aracılığı ile ) Doctine ``Category`` nesnesinin değerini bu nesnenin
+	bilgilerini alma ihtiyacı hissedilene kadar (lazy loading)
+	*true* döndürecektir.
 
 Joining to Related Records
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
