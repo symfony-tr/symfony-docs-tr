@@ -322,12 +322,11 @@ Sadece geliştirme süreci içerisinde şu kuralları aklınızıda tutun.
 
 .. _book-controller-request-argument:
 
-The ``Request`` as a Controller Argument
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For convenience, you can also have Symfony pass you the ``Request`` object
-as an argument to your controller. This is especially convenient when you're
-working with forms, for example::
+Controller Argümanı olarak ``Request``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kolaylık olması için ayrıca Symfonyde controllerinıza argüman olarak
+``Request`` nesnesini gönderebilirsiniz. Bu özellikle form'larla çalışırken
+büyük kolaylık sağlar. Örneğin::
 
     use Symfony\Component\HttpFoundation\Request;
 
@@ -340,18 +339,17 @@ working with forms, for example::
     }
 
 .. index::
-   single: Controller; Base controller class
+   single: Controller; Temel controller sınıfı
 
-The Base Controller Class
+Temel Controller Sınıfı
 -------------------------
+Kolaylık olsması için Symfony2 bazı genel controller görevlerine yardım etmek
+için ve controller sınıfına gerektiğinde herhangi bir kaynaktan erişmek için
+bir temel ``Controler`` sınıfı bile birlikte gelir. Sınıfınızı bu ``Controller``
+sınıfı ile genişlettiğinizde bazı yararlı yardımcı metodlara erişebilirsiniz.
 
-For convenience, Symfony2 comes with a base ``Controller`` class that assists
-with some of the most common controller tasks and gives your controller class
-access to any resource it might need. By extending this ``Controller`` class,
-you can take advantage of several helper methods.
-
-Add the ``use`` statement atop the ``Controller`` class and then modify the
-``HelloController`` to extend it:
+``use`` ifadesi ile bu ``Controller`` sınıfını çağırın ve ``HelloController`` 
+sınıfını şu şekilde değiştirerek extend edin:
 
 .. code-block:: php
 
@@ -369,57 +367,60 @@ Add the ``use`` statement atop the ``Controller`` class and then modify the
         }
     }
 
-This doesn't actually change anything about how your controller works. In
-the next section, you'll learn about the helper methods that the base controller
-class makes available. These methods are just shortcuts to using core Symfony2
-functionality that's available to you with or without the use of the base
-``Controller`` class. A great way to see the core functionality in action
-is to look in the
-:class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller` class
-itself.
+Bu gerçekte controllerinizin çalışmasına herhangi bir etkide bulumaz.
+Sonraki bölümde temel controller sınıfının yardımcı metodlarını öğreneceksiniz.
+Bu metodlar temel ``Controller`` sınıfıyla gelen ya da gelmeyen çekirdek Symfony2 özelliklerinin
+kısa yollarını kullanmanızıs sağlar. En iyi yok bu çekirdek özelliklerinin
+nasıl çalıştığını uygulamada :class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller` 
+sınıfının kendi içerisinde görmektir.
+
 
 .. tip::
 
-    Extending the base class is *optional* in Symfony; it contains useful
-    shortcuts but nothing mandatory. You can also extend
-    ``Symfony\Component\DependencyInjection\ContainerAware``. The service
-    container object will then be accessible via the ``container`` property.
+    Symfony de temel sınıftan türetme yapmak *seçimliktir*. Bu bazı 
+    kullanışlı fonksiyonlar sağlar ancak zorunlu değildir. Ayrıca 
+    ``Symfony\Component\DependencyInjection\ContainerAware`` sınıfından da
+    sınıfınızı genişletebilirsiniz. Servis taşıyıcısı (Service container)
+    nesnesi ``container`` değişkeni ile bu işlemden sonra erişilebilir
+    hale gelir.
+    
 
 .. note::
 
-    You can also define your :doc:`Controllers as Services
-    </cookbook/controller/service>`.
+    Ayrıca kendi :doc:`Controller'larınızı Servis gibi</cookbook/controller/service>`
+    tanımlayabilirsiniz. 
 
 .. index::
-   single: Controller; Common Tasks
+   single: Controller; Genel İşlemler
 
-Common Controller Tasks
------------------------
+Genel Controller İşlemleri
+--------------------------
 
-Though a controller can do virtually anything, most controllers will perform
-the same basic tasks over and over again. These tasks, such as redirecting,
-forwarding, rendering templates and accessing core services, are very easy
-to manage in Symfony2.
+Controller sanal olarak herşeyi yapabilmesine rağmen çoğu controllerda
+temel bazı işlemler tekrar tekrar gerçekleştirecektir. Bu işlemler,
+redirect (yönlendirme), forwarding(iletme), şablonları ekrana basma ve
+çekirdek hizmetlere erişmek gibi Symfony2 'de kolaylıkla yönetilen işlemlerdir.
 
 .. index::
-   single: Controller; Redirecting
+   single: Controller; Redirecting(Yönlendirme)
 
-Redirecting
-~~~~~~~~~~~
+Redirecting(Yönlendirme)
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to redirect the user to another page, use the ``redirect()`` method::
+Eğer kullanıcıyı başka bir sayfaya yönlendirmek istiyorsanız ``redirect()`` metodunu
+kullanırsınız::
 
     public function indexAction()
     {
         return $this->redirect($this->generateUrl('homepage'));
     }
 
-The ``generateUrl()`` method is just a helper function that generates the URL
-for a given route. For more information, see the :doc:`Routing </book/routing>`
-chapter.
+``generateUrl()`` metodu sadece verilen yol(route) için URL yaratan bir yardımcı
+metoddur.Daha fazla bilgi için :doc:`Routing (Yönlendirme)</book/routing>`
+bölümüne bakın.
 
-By default, the ``redirect()`` method performs a 302 (temporary) redirect. To
-perform a 301 (permanent) redirect, modify the second argument::
+Varsayılan olarak ``redirect()`` metodu bir 302 (geçici) yönlendirme gerçekleştirir.
+Bunu 301 (kalıcı) yönlendirmesi yapmak için ikinci argümanu değiştirmelisiniz::
 
     public function indexAction()
     {
@@ -428,8 +429,8 @@ perform a 301 (permanent) redirect, modify the second argument::
 
 .. tip::
 
-    The ``redirect()`` method is simply a shortcut that creates a ``Response``
-    object that specializes in redirecting the user. It's equivalent to:
+    ``redirect()`` metodu basitçe kullanıcıyı yönlendiren bir ``Response``
+    nesnesi yaratır. Bu şuna eşittir:
 
     .. code-block:: php
 
@@ -438,15 +439,16 @@ perform a 301 (permanent) redirect, modify the second argument::
         return new RedirectResponse($this->generateUrl('homepage'));
 
 .. index::
-   single: Controller; Forwarding
+   single: Controller; Forwarding (iletme)
 
-Forwarding
-~~~~~~~~~~
+ Forwarding (iletme)
+~~~~~~~~~~~~~~~~~~~
+Ayrıca kolaylıkla başka bir controller'a da içsel olarak ``forward()`` metodu
+ile kolaylıkla iletme yapabilirsiniz. Kullanıcının tarayıcısından yönlendime 
+yapmak yerine bu işlem bir alt istek açar ve ilgili controller'i çağırır. 
+``forward()`` metodu iletim yapılan ilgili controller'dan bir ``Response``
+nesnesi döndürür::
 
-You can also easily forward to another controller internally with the ``forward()``
-method. Instead of redirecting the user's browser, it makes an internal sub-request,
-and calls the specified controller. The ``forward()`` method returns the ``Response``
-object that's returned from that controller::
 
     public function indexAction($name)
     {
@@ -455,36 +457,38 @@ object that's returned from that controller::
             'color' => 'green'
         ));
 
-        // further modify the response or return it directly
-        
+        // response'u değiştirmeye devam et ya da direkt olarak döndür
+                
         return $response;
     }
 
-Notice that the `forward()` method uses the same string representation of
-the controller used in the routing configuration. In this case, the target
-controller class will be ``HelloController`` inside some ``AcmeHelloBundle``.
-The array passed to the method becomes the arguments on the resulting controller.
-This same interface is used when embedding controllers into templates (see
-:ref:`templating-embedding-controller`). The target controller method should
-look something like the following::
+
+`forward()` metodunun controller'in routing konfigürasyonunda controller'i
+temsil eden aynı string içerisinde kullanıldığına dikkat edin. Bu durumda
+hedef olan controller sınıfı ``AcmeHelloBundle`` içerisindeki 
+``HelloController`` olacaktır.Controller'da sonuçlandırılması için gereken
+parametreler array (dize) halinde gönderilecektir. Bu aynı yöntem aynı
+controller'lardan şablonlara veri aktarılması için kullanılan bir yöntemdir.
+(bkz. :ref:`templating-embedding-controller`) Hedef controller metodu aşağıdaki
+şekilde olmalıdır::
 
     public function fancyAction($name, $color)
     {
-        // ... create and return a Response object
+        // ... bir Response nesnesi yarat ve döndür.
     }
 
-And just like when creating a controller for a route, the order of the arguments
-to ``fancyAction`` doesn't matter. Symfony2 matches the index key names
-(e.g. ``name``) with the method argument names (e.g. ``$name``). If you
-change the order of the arguments, Symfony2 will still pass the correct
-value to each variable.
+ve yine route için bir controller yaratımındaki gibi argümanların ``fancyAction``
+metoduna gönderilmesine sıralı olması bir anlam ifade etmez. Symfony2 index
+anahtar isimleri (örn. ``name``) ile metod argüman isimlerini (örn. ``$name``) eşler.
+Eğer argüman sıralamasını değiştiriseniz Symfony2 hala her değişken için
+doğru değeri iletmeye devam edecektir.
 
 .. tip::
 
-    Like other base ``Controller`` methods, the ``forward`` method is just
-    a shortcut for core Symfony2 functionality. A forward can be accomplished
-    directly via the ``http_kernel`` service. A forward returns a ``Response``
-    object::
+    Diğer temel ``Controller`` metodları gibi ``forward`` metodu sadece
+    Symfony2 özelliklerinin kısa yollarından birisidir. Aslında iletim direkt
+    olarak ``http_kernel`` hizmeti sayesinde olur. Bir iletim bir ``Response``
+    nesnesi çevirir::
     
         $httpKernel = $this->container->get('http_kernel');
         $response = $httpKernel->forward('AcmeHelloBundle:Hello:fancy', array(
@@ -493,49 +497,50 @@ value to each variable.
         ));
 
 .. index::
-   single: Controller; Rendering templates
+   single: Controller; Şablonları Ekrana Basmak.
 
 .. _controller-rendering-templates:
 
-Rendering Templates
-~~~~~~~~~~~~~~~~~~~
-
-Though not a requirement, most controllers will ultimately render a template
-that's responsible for generating the HTML (or other format) for the controller.
-The ``renderView()`` method renders a template and returns its content. The
-content from the template can be used to create a ``Response`` object::
+Şablonları Ekrana Basmak
+~~~~~~~~~~~~~~~~~~~~~~~~
+Çok gerekmemesine rağmen, çoğu controller eninde sonunda controller için
+HTML yaratmaktan sorumlu ( ya da diğer bir formatta) bir şablonu ekrana basacaktır.
+``renderView()`` metodu şablonu ekrana basar ve şablon içindeki içeriği döndürür.
+Şablondan gelen içerik bir ``Response`` nesnesi yaratmak için kullanılır::
 
     $content = $this->renderView('AcmeHelloBundle:Hello:index.html.twig', array('name' => $name));
 
     return new Response($content);
 
-This can even be done in just one step with the ``render()`` method, which
-returns a ``Response`` object containing the content from the template::
+Bu işlem aynı zamanda ``render()`` metodunu kullanarak tek adımda da 
+yapılabilir::
 
     return $this->render('AcmeHelloBundle:Hello:index.html.twig', array('name' => $name));
 
-In both cases, the ``Resources/views/Hello/index.html.twig`` template inside
-the ``AcmeHelloBundle`` will be rendered.
+İki durumda da ``AcmeHelloBundle`` içerisindeki ``Resources/views/Hello/index.html.twig``
+şablonu ekrana basılacaktır.
 
-The Symfony templating engine is explained in great detail in the
-:doc:`Templating </book/templating>` chapter.
+Symfony şablon motorunun en muhteşem ayrıntıları ile :doc:`Şablonlama(Templating) </book/templating>` kısmında
+açıklanmıştır.
 
 .. tip::
 
-    The ``renderView`` method is a shortcut to direct use of the ``templating``
-    service. The ``templating`` service can also be used directly::
+    ``renderView`` metodu ``templating`` servisini direkt kullanılması için
+    bir kısa yoldur. ``templating`` servisi istenirse direkt olarak da 
+    kullanılabilir::
     
         $templating = $this->get('templating');
         $content = $templating->render('AcmeHelloBundle:Hello:index.html.twig', array('name' => $name));
 
 .. index::
-   single: Controller; Accessing services
+   single: Controller; Hizmetlere erişmek
 
-Accessing other Services
+Diğer Hizmetlere Erişmek
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When extending the base controller class, you can access any Symfony2 service
-via the ``get()`` method. Here are several common services you might need::
+Controller sınıfını temel controller sınıfı ile genişlettiğinizde herhangi
+Symfony2 servisine ``get()`` metodu ile erişebilirsiniz. Aşağıda ihtiyacınız
+olabilecek bazı genel servislere erişme yolu gösterilmiştir:: 
 
     $request = $this->getRequest();
 
@@ -545,93 +550,93 @@ via the ``get()`` method. Here are several common services you might need::
 
     $mailer = $this->get('mailer');
 
-There are countless other services available and you are encouraged to define
-your own. To list all available services, use the ``container:debug`` console
-command:
+Sayısız servis bulunmaktadır ve sizde eğer isterseniz kendi servisinizi
+yapabilirsiniz. Var olan tüm servislerin listesini almak için ``container:debug``
+konsol komutu çalıştırın:
 
 .. code-block:: bash
 
     php app/console container:debug
 
-For more information, see the :doc:`/book/service_container` chapter.
+Daha fazla bilgi için :doc:`/book/service_container` kısmına bakın.
 
 .. index::
-   single: Controller; Managing errors
-   single: Controller; 404 pages
+   single: Controller; Hataları yönetmek
+   single: Controller; 404 sayfaları
 
-Managing Errors and 404 Pages
------------------------------
-
-When things are not found, you should play well with the HTTP protocol and
-return a 404 response. To do this, you'll throw a special type of exception.
-If you're extending the base controller class, do the following::
+Hataları yönetmek ve 404 Sayfaları
+----------------------------------
+Bir şeyler bulunmadığında HTTP protokolinden 404 cevabıu döndürülür. Bunu
+yapmak için özel tipte bir istisna yaratmanı gereklidir. Eğer temel controller
+sınıfından sınıfınızı türetirseniz bunu şu şekilde yaparsınız::
 
     public function indexAction()
     {
-        $product = // retrieve the object from database
+        $product = // veritabanından nesneyi al
         if (!$product) {
-            throw $this->createNotFoundException('The product does not exist');
+            throw $this->createNotFoundException('Ürün Bulunamadı');
         }
 
         return $this->render(...);
     }
 
-The ``createNotFoundException()`` method creates a special ``NotFoundHttpException``
-object, which ultimately triggers a 404 HTTP response inside Symfony.
+``createNotFoundException()`` metodu Symfony içerisinde bir 404 HTTP cevabı
+üreten özel bir ``NotFoundHttpException`` istisnası üretir.
 
-Of course, you're free to throw any ``Exception`` class in your controller -
-Symfony2 will automatically return a 500 HTTP response code.
+Elbette controlleriniz içerisinde istediğiniz türde ``Exception`` classını
+kullanarak bir istisna üretebilirsiniz. Bunu Symfony2 otomatik olarak
+500 HTTP response kodu ile döndürecektir.
 
 .. code-block:: php
 
-    throw new \Exception('Something went wrong!');
+    throw new \Exception('Birşeyler Ters Gitti!');
 
-In every case, a styled error page is shown to the end user and a full debug
-error page is shown to the developer (when viewing the page in debug mode).
-Both of these error pages can be customized. For details, read the
-":doc:`/cookbook/controller/error_pages`" cookbook recipe.
+
+Her durumda stillendirilmiş, geliştiriciye hatayı bulmasına imkan sağlayan
+bütün hata izleme bilgilerini içeren bir hata sayfası (eğer sayfa debug modunda ise) 
+ve kullanıcıya genel bir hata sayfası gösterilecektir.
+Bu hata sayfalarının ikiside istenilen şekilde düzenlenebilir. Daha fazla bilgi için
+tarif kitabından ":doc:`/cookbook/controller/error_pages`" reçetesini okuyun.
 
 .. index::
-   single: Controller; The session
+   single: Controller; Oturum
    single: Session
 
-Managing the Session
+Oturumları Yönetmek
 --------------------
+Symfony2 kullanıcı istekleri arasında (tarayıcı kullanan gerçek bir kullanıcı, 
+bir bot, ya da bir web servisi) bilgileri saklayabileceğiniz güzel bir oturum nesnesi sağlar.
+Varsayılan olarak Symfony2 özellikleri doğal PHP sessionlarını kullanarak bir çerez içerisinde
+saklar.
 
-Symfony2 provides a nice session object that you can use to store information
-about the user (be it a real person using a browser, a bot, or a web service)
-between requests. By default, Symfony2 stores the attributes in a cookie
-by using the native PHP sessions.
-
-Storing and retrieving information from the session can be easily achieved
-from any controller::
+Oturumdan bilgileri almak ya da saklamak herhangi bir controller içerisinden
+kolaylıkla yapılabilir::
 
     $session = $this->getRequest()->getSession();
 
-    // store an attribute for reuse during a later user request
+    // kullanıcının başka bir isteğinde kullanılmak üzere bir değer sakla
     $session->set('foo', 'bar');
 
-    // in another controller for another request
+    // başka bir istek için başka bir controller içerisinde
     $foo = $session->get('foo');
 
-    // set the user locale
-    $session->setLocale('fr');
+    // kullanıcı yerel bilgilerini sakla
+    $session->setLocale('tr');
 
 These attributes will remain on the user for the remainder of that user's
 session.
 
 .. index::
-   single Session; Flash messages
+   single Session; Flash mesajları
 
-Flash Messages
+Flash Mesajları
 ~~~~~~~~~~~~~~
+Eğer isterseniz kullanıcının sadece bir isteği için saklanacak olan basit
+mesajlarıda kullanıcı oturumunda saklayabilirsiniz. Bu form işlemede çok
+kullanışlıdır. Örneğin istek için bir yönlendirme yapacak ve *sonraki* istekte
+bir kısa mesaj göstereceksiniz. Bu tipteki mesajlara *flash mesajları* denmektedir.
 
-You can also store small messages that will be stored on the user's session
-for exactly one additional request. This is useful when processing a form:
-you want to redirect and have a special message shown on the *next* request.
-These types of messages are called "flash" messages.
-
-For example, imagine you're processing a form submit::
+Örneğin bir form gönderisini işlediğinizi düşünün::
 
     public function updateAction()
     {
@@ -639,9 +644,9 @@ For example, imagine you're processing a form submit::
 
         $form->bindRequest($this->getRequest());
         if ($form->isValid()) {
-            // do some sort of processing
+            // bazı işlemler gerçekleştir.
 
-            $this->get('session')->setFlash('notice', 'Your changes were saved!');
+            $this->get('session')->setFlash('notice', 'Değişiklikleriniz kayıt edildi!');
 
             return $this->redirect($this->generateUrl(...));
         }
@@ -649,12 +654,11 @@ For example, imagine you're processing a form submit::
         return $this->render(...);
     }
 
-After processing the request, the controller sets a ``notice`` flash message
-and then redirects. The name (``notice``) isn't significant - it's just what
-you're using to identify the type of the message.
+İstek işlendikten sonra controller bir ``notice`` adı altında bir flash mesajı
+üretecek ve yönlendirme yapacaktır. (``notice``) adını koymanız çok önemli değildir.
+Sizin bu mesajı nasıl adlandırdığınız farketmez.
 
-In the template of the next action, the following code could be used to render
-the ``notice`` message:
+Sonraki aksiyonun şablonunda aşağıdaki kod ``notice`` mesajını ekranda gösterecektir:
 
 .. configuration-block::
 
@@ -674,77 +678,81 @@ the ``notice`` message:
             </div>
         <?php endif; ?>
 
+
+Tasarım tarafında flash mesajları ortalama sadece bir istek için yaşarlar
+("Işığa kavuşurlar"). 
 By design, flash messages are meant to live for exactly one request (they're
-"gone in a flash"). They're designed to be used across redirects exactly as
-you've done in this example.
+"gone in a flash").Bu mesajlar sadece konum yönlendirmelerinde bir önceki
+durum için gösterilebilecek mesajlar için tasarlanmışlardır.
 
 .. index::
-   single: Controller; Response object
+   single: Controller; Response (cevap) nesnesi
 
-The Response Object
--------------------
+Response (cevap) Nesnesi
+------------------------
+Bir controller için tek gereklilik bir ``Response`` nesnesi döndürmesidir.
+:class:`Symfony\\Component\\HttpFoundation\\Response` sınıfı kullanıcıya 
+HTTP başlıkları ile doldurulup istemciye geri iletilmek üzere hazırlanan 
+metin tabanlı mesajları yöneten ve HTTP response'u etrafında özetlenen işlemleri
+yöneten bir PHP sınıfıdır:: 
 
-The only requirement for a controller is to return a ``Response`` object. The
-:class:`Symfony\\Component\\HttpFoundation\\Response` class is a PHP
-abstraction around the HTTP response - the text-based message filled with HTTP
-headers and content that's sent back to the client::
 
-    // create a simple Response with a 200 status code (the default)
+    // 200 durum kodu ile birlikte basit bir Response üret(varsayılan)
     $response = new Response('Hello '.$name, 200);
     
-    // create a JSON-response with a 200 status code
+    // 200 durum kodu ile bir JSON Response'u üret
     $response = new Response(json_encode(array('name' => $name)));
     $response->headers->set('Content-Type', 'application/json');
 
 .. tip::
 
-    The ``headers`` property is a
-    :class:`Symfony\\Component\\HttpFoundation\\HeaderBag` object with several
-    useful methods for reading and mutating the ``Response`` headers. The
-    header names are normalized so that using ``Content-Type`` is equivalent
-    to ``content-type`` or even ``content_type``.
+    ``headers`` değişkeni ``Response`` başlıklarını yöneten ve değiştiren
+    ve içerisinde bir çok faydalı metod bulunan :class:`Symfony\\Component\\HttpFoundation\\HeaderBag`
+    nesnesinin değişkenidir.
+    Başlık isimleri ``Content-Type`` 'ın eşiti olan ``content-type`` ya da 
+    ``content_type`` isimlerini normalleştirir.
 
 .. index::
-   single: Controller; Request object
+   single: Controller; Request (istek) nesnesi
 
-The Request Object
-------------------
+Request (istek) nesnesi
+-----------------------
+Routing yertutucularının değerlerinin dışında controller ayrıca 
+temel ``Controller`` sınıfından türetildiğinde, ``Request``
+nesnesine de  erişebilir::
 
-Besides the values of the routing placeholders, the controller also has access
-to the ``Request`` object when extending the base ``Controller`` class::
 
     $request = $this->getRequest();
 
-    $request->isXmlHttpRequest(); // is it an Ajax request?
+    $request->isXmlHttpRequest(); // bir Ajax isteğimi ?
 
-    $request->getPreferredLanguage(array('en', 'fr'));
+    $request->getPreferredLanguage(array('en', 'tr'));
 
-    $request->query->get('page'); // get a $_GET parameter
+    $request->query->get('page'); // $_GET parametresini al
 
-    $request->request->get('page'); // get a $_POST parameter
+    $request->request->get('page'); // $_POST parametresini al
 
-Like the ``Response`` object, the request headers are stored in a ``HeaderBag``
-object and are easily accessible.
+``Response`` nesnesi gibi request başlıkları da  kolaylıklar erişilebilecek
+``HeaderBag`` nesnesinde tutulur.
 
-Final Thoughts
+Son Düşünceler
 --------------
+Nezaman bir sayfa yaratsanız eninde sonuda bu sayfanın içeriğini yaratacak
+olan kodu ve mantığına yazacaksınız. Symfony'de bu controller olarak adlandırılır
+ve bu kullanıcı tarafına gönderilecek final ``Response`` nesnesini geri döndürmek
+için herşeyi yapabilecek bir PHP fonksiyonudur.
 
-Whenever you create a page, you'll ultimately need to write some code that
-contains the logic for that page. In Symfony, this is called a controller,
-and it's a PHP function that can do anything it needs in order to return
-the final ``Response`` object that will be returned to the user.
+Hayatı kolaylaştırmak için pek çok genel controller görevlerine erişmekl için
+sınfınızı temel ``Controller`` sınıfı ile genişletebilirsiniz. Örneğin
+controllerınız içerisine HTML kodu yazmak istemiyorsanız ``render()`` 
+metodunu kullanarak içeriği bir şablondan ekrana bastırabilirsiniz.
 
-To make life easier, you can choose to extend a base ``Controller`` class,
-which contains shortcut methods for many common controller tasks. For example,
-since you don't want to put HTML code in your controller, you can use
-the ``render()`` method to render and return the content from a template.
+Diğer bölümlerde controller'ın veri tabanından nasıl verileri aldığını, 
+kayıt ettiğini, form verilerini işlediğini, ön bellekleri (cache) işlediğini
+göreceksiniz.
 
-In other chapters, you'll see how the controller can be used to persist and
-fetch objects from a database, process form submissions, handle caching and
-more.
-
-Learn more from the Cookbook
-----------------------------
+Tarif Kitabından Daha Fazlasını Öğrenin
+---------------------------------------
 
 * :doc:`/cookbook/controller/error_pages`
 * :doc:`/cookbook/controller/service`
