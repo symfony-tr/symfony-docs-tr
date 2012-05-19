@@ -4,15 +4,16 @@
 Controller
 ==========
 
-A controller is a PHP function you create that takes information from the
-HTTP request and constructs and returns an HTTP response (as a Symfony2
-``Response`` object). The response could be an HTML page, an XML document,
-a serialized JSON array, an image, a redirect, a 404 error or anything else
-you can dream up. The controller contains whatever arbitrary logic *your
-application* needs to render the content of a page.
+Bir controller yaratmış olduğunuz HTTP isteğinden bilgiyi alarak bir HTTP
+cevabı (Symfony2 'de ``Response`` nesnesi gibi) döndüren bir PHP fonksiyonudur.
+Cevap bir HTML sayfası , bir XML dökümanı, serileştirilmiş bir JSON dizesi (array),
+bir resim, bir yönlendirme (redirect), bir 404 hatası ya da düşünebildiğiniz
+herhangi bir şey olabilir. Controller *uygulamanızın*  sayfa içeriğini oluşturmadaki
+herhangi bir şeyi kapsayabilir. 
 
-To see how simple this is, let's look at a Symfony2 controller in action.
-The following controller would render a page that simply prints ``Hello world!``::
+Bunun nasıl basit bir şey olduğunu görmek için  Symfony2 Controller'ini
+uygulamada görelim.Aşağıdaki controller ekrana basitçe ``Hello world!`` 
+yazacaktır::
 
     use Symfony\Component\HttpFoundation\Response;
 
@@ -21,74 +22,74 @@ The following controller would render a page that simply prints ``Hello world!``
         return new Response('Hello world!');
     }
 
-The goal of a controller is always the same: create and return a ``Response``
-object. Along the way, it might read information from the request, load a
-database resource, send an email, or set information on the user's session.
-But in all cases, the controller will eventually return the ``Response`` object
-that will be delivered back to the client.
+Bir controller'in amacı her zaman aynıdır. Bir ``Response`` objesi döndürmek.
+Bunu yaparken istekten bazı bilgileri okuyabilir, bir veritabanı kaynağını
+çağırabilir, e-posta gönderebilir ya da kullanıcının  oturumuna herhangi
+bir bilgi yazabilir. Fakat bütün bu durumlarda, controller sonuçta istemciye
+geri gönderilmek üzere bir ``Response`` nesnesi döndürecektir.
 
-There's no magic and no other requirements to worry about! Here are a few
-common examples:
+Herhangi bir sihir yok ve diğer gereklilikler için endişelenmeyin!. Burada
+bir kaç çok kullanılan örnek var:
 
-* *Controller A* prepares a ``Response`` object representing the content
-  for the homepage of the site.
+* *Controller A* sitenin ana sayfasını temsil eden içeriği ``Response`` 
+  nesnesi olarak hazırlar.
 
-* *Controller B* reads the ``slug`` parameter from the request to load a
-  blog entry from the database and create a ``Response`` object displaying
-  that blog. If the ``slug`` can't be found in the database, it creates and
-  returns a ``Response`` object with a 404 status code.
-
-* *Controller C* handles the form submission of a contact form. It reads
-  the form information from the request, saves the contact information to
-  the database and emails the contact information to the webmaster. Finally,
-  it creates a ``Response`` object that redirects the client's browser to
-  the contact form "thank you" page.
+* *Controller B* Bu blog için veritabanından okunup gelecek değeri ekranda
+  gösterebilmek için bir ``Response`` objesi yaratmak amacıyla , ``slug`` adındaki
+  parametreyi okur. Eğer ``slug`` veritabanında bulunamazsa 404 durum 
+  koduyla birlikte bir ``Response`` nesnesi yaratır.
+  
+* *Controller C* iletişim formunu işler. İstek (request) üzerinden gelen
+  bilgileri okur ve iletişim bilgilerini webmastera göndermek için veritabanına 
+  yazar. En sonunda bir ``Response`` nesnesi yaratarak istemcinin tarayıcısına
+  iletişim sayfasında bilgilerin alındığını belirten "teşekkürler" sayfasını
+  gönderir.
 
 .. index::
-   single: Controller; Request-controller-response lifecycle
+   single: Controller; Request(istek)-controller-response(cevap) döngüsü
 
-Requests, Controller, Response Lifecycle
+Requests, Controller, Response döngüsü
 ----------------------------------------
+Her istek (request) Symfony2 projesinde basit bir döngü ile işlenir.
+Framework tekrarlayan süreçlere dikkat ederek en sonunda özelleştirilmiş uygulama
+kodunun evsahipliği yaptığı bir controller çalıştırır:
 
-Every request handled by a Symfony2 project goes through the same simple lifecycle.
-The framework takes care of the repetitive tasks and ultimately executes a
-controller, which houses your custom application code:
+#. Her istek uygulamanın başlatılmasını sağlayan bir front controller 
+   tarafından işlenir.(Örn. ``app.php`` ya da ``app_dev.php``)
 
-#. Each request is handled by a single front controller file (e.g. ``app.php``
-   or ``app_dev.php``) that bootstraps the application;
+#. ``Router`` istekten gelen bilgiyi okur, Bu bilgi ile (Örn. URI) 
+   route üzerinden gelen ``_controller`` parametresinde eşleşen route
+   bilgisini bulur.
 
-#. The ``Router`` reads information from the request (e.g. the URI), finds
-   a route that matches that information, and reads the ``_controller`` parameter
-   from the route;
+#. Eşleşen route üzerinde belirtilen controller calıştırılır ve controller
+   içerisindeki kod bir ``Response`` nesnesi yaratarak geri döndürür;
 
-#. The controller from the matched route is executed and the code inside the
-   controller creates and returns a ``Response`` object;
+#. ``Response`` nesnesi içeriğindeki HTTP başlıkları istemciye geri döndürülür.
 
-#. The HTTP headers and content of the ``Response`` object are sent back to
-   the client.
-
-Creating a page is as easy as creating a controller (#3) and making a route that
-maps a URL to that controller (#2).
+Sayfa yaratmak için controller yaratmak kadar basittir (#3) ve route yapmak URL'yi
+bu controller ile eşleştirmek içindir (#2).
 
 .. note::
 
-    Though similarly named, a "front controller" is different from the
-    "controllers" we'll talk about in this chapter. A front controller
-    is a short PHP file that lives in your web directory and through which
-    all requests are directed. A typical application will have a production
-    front controller (e.g. ``app.php``) and a development front controller
-    (e.g. ``app_dev.php``). You'll likely never need to edit, view or worry
-    about the front controllers in your application.
+    "front controller" isim olarak benzemesine rağmen biz bu bölümde
+    "controller" 'lardan bahsedeceğiz.Bir front controller bütün istekleri
+    yöneten, web klasöründe olan, kısa bir PHP dosyasıdır. Tipik bir uygulama
+    bir production (imalat) front controllerine (örn: ``app.php``) ve 
+    development(geliştirme) front controllerine (örn: ``app_dev.php``)
+    sahip olacaktır. Muhtemelen bu dosyaları asla düzenlemeyeceğiniz 
+    için uygulamanızdaki front controller'lar için endişelenmenize
+    gerek yok.
 
 .. index::
-   single: Controller; Simple example
+   single: Controller; Basit Örnek
 
-A Simple Controller
+Basit bir Controller
 -------------------
+Symfony2 'de herhangi bir PHP cağırılabileni (callable) (bir fonksiyon,
+bir nesnenin metodu ya da ``Closure``) bir controller olabilir iken, genellikle
+controller nesnesinin içinde bir metod bulunur. Controller'lar aynı şekilde 
+*actions* olarak da bilinirler.
 
-While a controller can be any PHP callable (a function, method on an object,
-or a ``Closure``), in Symfony2, a controller is usually a single method inside
-a controller object. Controllers are also called *actions*.
 
 .. code-block:: php
     :linenos:
@@ -108,41 +109,40 @@ a controller object. Controllers are also called *actions*.
 
 .. tip::
 
-    Note that the *controller* is the ``indexAction`` method, which lives
-    inside a *controller class* (``HelloController``). Don't be confused
-    by the naming: a *controller class* is simply a convenient way to group
-    several controllers/actions together. Typically, the controller class
-    will house several controllers/actions (e.g. ``updateAction``, ``deleteAction``,
-    etc).
+    *controller* ın , *controller sınıfı* (``HelloController``) içindeki
+    ``indexAction`` metodu olduğuna dikkat edin. *controller sınıfı* terimi
+    kafanızı karıştırmasın. Bu tip bir uygulama sadece çeşitli controller/action
+    'ları bir arada tutmak için kullanılır. Tipik olarak controller sınıfı pek çok
+    controller/action'a ev sahipliği yapar (Örn. ``updateAction``, ``deleteAction``,
+    vs).
 
-This controller is pretty straightforward, but let's walk through it:
+Bu controller olukça açık ancak yine de açıklayalım:
 
-* *line 3*: Symfony2 takes advantage of PHP 5.3 namespace functionality to
-  namespace the entire controller class. The ``use`` keyword imports the
-  ``Response`` class, which our controller must return.
 
-* *line 6*: The class name is the concatenation of a name for the controller
-  class (i.e. ``Hello``) and the word ``Controller``. This is a convention
-  that provides consistency to controllers and allows them to be referenced
-  only by the first part of the name (i.e. ``Hello``) in the routing configuration.
+* *satır 3*: Symfony2 geçerli controller'in namespace'i için 
+  PHP 5.3 namespace özelliğinin avantajlarını kullanır. ``use`` anahtar kelimesi
+  controllerimizin geri döndürmesi gereken ``Response`` sınıfını içeri aktarır.
 
-* *line 8*: Each action in a controller class is suffixed with ``Action``
-  and is referenced in the routing configuration by the action's name (``index``).
-  In the next section, you'll create a route that maps a URI to this action.
-  You'll learn how the route's placeholders (``{name}``) become arguments
-  to the action method (``$name``).
+* *satır 6*: Sınıf ismi controller sınıfının kısaltılmış hali (örn. ``Hello``) 
+  ve ``Controller`` teriminin birleşiminden oluşur. Bu kullanım controller'ların
+  tutarlı olmasını routing konfigürasyonunda adlarının sadece ilk kısımlarının
+  (örn. ``Hello``) kullanılabilmesine olanak sağlar. 
 
-* *line 10*: The controller creates and returns a ``Response`` object.
+* *satır 8*: Controller sınıfının içindeki her aksiyon ``Action`` son eki
+  ile ifade edilir ve routing konfigürasyonunda aksiyonun ismi ile (``index``) gösterilir.
+  Sonraki kısımda bu aksiyon için bir URI ile eşleşen route yaratacaksınız.
+  Route yer tutucularının  (``{name}``) aksiyon metodlarının argümanlarına 
+  (``$name``) nasıl döndüğünü göreceksiniz.
+  
+* *satır 10*: Controller bir ``Response`` nesnesi yaratır ve döndürür.
 
 .. index::
-   single: Controller; Routes and controllers
+   single: Controller; Route'lar ve controllers
 
-Mapping a URL to a Controller
------------------------------
-
-The new controller returns a simple HTML page. To actually view this page
-in your browser, you need to create a route, which maps a specific URL pattern
-to the controller:
+Controller için bir URI Eşleştirmek
+------------------------------------
+Yeni controller basit bir HTML sayfası döndürmekte. Gerçekte bu sayfayı görebilmeniz
+için özel bir URL deseni olan bir route ile controller'ı eşleştirmeniz gerekir:
 
 .. configuration-block::
 
@@ -167,42 +167,44 @@ to the controller:
             '_controller' => 'AcmeHelloBundle:Hello:index',
         )));
 
-Going to ``/hello/ryan`` now executes the ``HelloController::indexAction()``
-controller and passes in ``ryan`` for the ``$name`` variable. Creating a
-"page" means simply creating a controller method and associated route.
+şimdi  ``/hello/ryan`` olduğunda ``HelloController::indexAction()`` 
+controlleri çalıştırılacak ve ``ryan`` değerini ``$name`` değişkenine
+gönderecek. "Sayfa" yaratmanın anlamı basitçe bir controller metodu
+yaratmak ve bunu bir route ile birleştirmektir.
 
-Notice the syntax used to refer to the controller: ``AcmeHelloBundle:Hello:index``.
-Symfony2 uses a flexible string notation to refer to different controllers.
-This is the most common syntax and tells Symfony2 to look for a controller
-class called ``HelloController`` inside a bundle named ``AcmeHelloBundle``. The
-method ``indexAction()`` is then executed.
+Controller'i ifade eden yazıma ``AcmeHelloBundle:Hello:index`` dikkat edin.
+Symfony2 farklı controllerları ifade edebilmek için esnek bir yazım sistemi
+kullanır. Bu sık kullanılan yazım şekli Symfony2'ye ``AcmeHelloBundle`` olarak
+adlandırılan bir bundle içerisindeki ``HelloController`` sınıfını çalıştırmasını
+söyler. ``indexAction()`` metodu daha sonra çalıştırılır.
 
-For more details on the string format used to reference different controllers,
-see :ref:`controller-string-syntax`.
+Farklı controller'lar için yazım şekli hakkında daha fazla bilgi almak için
+:ref:`controller-string-syntax` belgesine bakın.
 
 .. note::
 
-    This example places the routing configuration directly in the ``app/config/``
-    directory. A better way to organize your routes is to place each route
-    in the bundle it belongs to. For more information on this, see
-    :ref:`routing-include-external-resources`.
+    Bu örnekler için routing (yönlendirme) konfigürasyonlarının  yerleri direkt olarak
+    ``app/config/`` klasörüdür. En iyi yöntem route'lar hangi bundle'ı işaret ediyorsa
+    o bundle içerisinde bu konfigürasyonu yapmaktır. Bu konuda daha fazla  bilgi için
+    :ref:`routing-include-external-resources` belgesine bakın.
 
 .. tip::
 
-    You can learn much more about the routing system in the :doc:`Routing chapter</book/routing>`.
+    Routing (Yönlendirme) sistemi hakkında daha fazla bilgiyi 
+    :doc:`Routing (Yönlendirme) kısmından</book/routing>` öğrenebilirsiniz.
 
 .. index::
-   single: Controller; Controller arguments
+   single: Controller; Controller argümanları
 
 .. _route-parameters-controller-arguments:
 
-Route Parameters as Controller Arguments
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Controller Argümanları için Route Parametreleri
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You already know that the ``_controller`` parameter ``AcmeHelloBundle:Hello:index``
-refers to a ``HelloController::indexAction()`` method that lives inside the
-``AcmeHelloBundle`` bundle. What's more interesting is the arguments that are
-passed to that method:
+Artık ``_controller`` parametresindeki ``AcmeHelloBundle:Hello:index``
+ifadesinin ``AcmeHelloBundle`` bundle içerisinde bulunan 
+``HelloController::indexAction()`` metoduna işaret ettiğini biliyorsunuz.
+Dahada ilginç olanı argümanlar bu metoda aktarıldı:
 
 .. code-block:: php
 
@@ -220,11 +222,11 @@ passed to that method:
         }
     }
 
-The controller has a single argument, ``$name``, which corresponds to the
-``{name}`` parameter from the matched route (``ryan`` in our example). In
-fact, when executing your controller, Symfony2 matches each argument of
-the controller with a parameter from the matched route. Take the following
-example:
+Controller'ın ``$name`` adında, eşleşen route için ``{name}``  parametresi
+ile ilişkili, (bizim örneğimizde ``ryan``) tek bir argümanı var. Aslında
+controller'iniz çalıştırıldığında, Symfony2 eşleşen yönlendirmedeki 
+parametreleri ilgili controller'ın argümanları ile eşleştirir. Şu örneğe
+bakalım:
 
 .. configuration-block::
 
@@ -251,56 +253,60 @@ example:
             'color'       => 'green',
         )));
 
-The controller for this can take several arguments::
+Controller bazı argümanlar alabilir::
 
     public function indexAction($first_name, $last_name, $color)
     {
         // ...
     }
 
-Notice that both placeholder variables (``{first_name}``, ``{last_name}``)
-as well as the default ``color`` variable are available as arguments in the
-controller. When a route is matched, the placeholder variables are merged
-with the ``defaults`` to make one array that's available to your controller.
+iki yer tutucu değişkeninin (``{first_name}``, ``{last_name}``) ve varsayılan
+değeri atanmış olan ``color`` değişkeninin controller'in argümanları olduğuna
+dikkat edin. Route eşleştiği zaman placeholde değişkenleri ``defaults`` ile
+birleştirilir ve controllerda olan değişkenler için bir dize değişkenine çevrilir.
 
-Mapping route parameters to controller arguments is easy and flexible. Keep
-the following guidelines in mind while you develop.
+Route parametrelerini controller argümanları ile eşleştirmek kolay ve esnektir.
+Sadece geliştirme süreci içerisinde şu kuralları aklınızıda tutun.
 
-* **The order of the controller arguments does not matter**
+* **Controller'daki argümanların sırası önemli değidir.**
 
+    Symfony route içerisindeki parametre isimleri ile controller'ın metodlarındaki
+    argümanların adlarını eşleştirebilir. Diğer bir ifade ile ``{last_name}`` 
+    parametresi ``$last_name`` argümanı ile eşleştirilir.  Controller'ın argümanları
+    yeniden  
     Symfony is able to match the parameter names from the route to the variable
     names in the controller method's signature. In other words, it realizes that
     the ``{last_name}`` parameter matches up with the ``$last_name`` argument.
-    The arguments of the controller could be totally reordered and still work
-    perfectly::
+    Controller'ın argümanlarının tamamı yeniden sıralansa bile bu durum mükemmel
+    çalışır::
 
         public function indexAction($last_name, $color, $first_name)
         {
             // ..
         }
 
-* **Each required controller argument must match up with a routing parameter**
+* **Gerekli olan her controller argümanı bir route parametresi ile eşleşmelidir.**
 
-    The following would throw a ``RuntimeException`` because there is no ``foo``
-    parameter defined in the route::
+    Aşağıdaki kod bir ``RuntimeException`` istisnası yaratacaktır. Çünki ``foo`` 
+    parametresi route içerisinde tanımlanmadı::
 
         public function indexAction($first_name, $last_name, $color, $foo)
         {
             // ..
         }
 
-    Making the argument optional, however, is perfectly ok. The following
-    example would not throw an exception::
+    Argümanları isteğe göre yapmakta mümkündür. Aşağıdaki örnek bir istisna
+    (exception) atmayacaktır::
 
         public function indexAction($first_name, $last_name, $color, $foo = 'bar')
         {
             // ..
         }
 
-* **Not all routing parameters need to be arguments on your controller**
+* **Tüm routing parametreleri controllerınızda bir argüman olmak zorunda değildir.**
 
-    If, for example, the ``last_name`` weren't important for your controller,
-    you could omit it entirely::
+    Eğer, örneğin ``last_name`` controller'ınz için çok önemli değil ise, onu
+    tamamen atlayabilirsiniz::
 
         public function indexAction($first_name, $color)
         {
@@ -309,9 +315,10 @@ the following guidelines in mind while you develop.
 
 .. tip::
 
-    Every route also has a special ``_route`` parameter, which is equal to
-    the name of the route that was matched (e.g. ``hello``). Though not usually
-    useful, this is equally available as a controller argument.
+    Her route (yönlendirme) özel bir ``_route`` parametresine sahiptir.Bu
+    parametre eşleşen route 'un ismini tutar(örn: ``hello``). Bu 
+    çok kullanışlı olmamasına rağmen bu bir controller argümanı
+    olarak da kullanılabilir.
 
 .. _book-controller-request-argument:
 
