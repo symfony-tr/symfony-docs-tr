@@ -1,28 +1,27 @@
 .. index::
-   single: Templating
+   single: Şablonlar (Templating)
 
-Creating and using Templates
-============================
-
-As you know, the :doc:`controller </book/controller>` is responsible for
-handling each request that comes into a Symfony2 application. In reality,
-the controller delegates the most of the heavy work to other places so that
-code can be tested and reused. When a controller needs to generate HTML,
-CSS or any other content, it hands the work off to the templating engine.
-In this chapter, you'll learn how to write powerful templates that can be
-used to return content to the user, populate email bodies, and more. You'll
-learn shortcuts, clever ways to extend templates and how to reuse template
-code.
+Şablonları Yaratmak ve Kullanmak
+================================
+Bildiğiniz gibi :doc:`controller </book/controller>`  Symfony2 uygulamasına
+gelen her isteği işlemekten sorumludur. 
+Gerçekte controller, diğer alanlardaki pek çok ağır iş için, kod test edilip
+yeniden kullanılsın diye görevlendirilir.
+Controller HTML,CSS ya da diğer bir içeriği yaratması gerektiğinde işi 
+şablon motoruna aktarır. Bu kısımda kullanıcının içeriğini döndürmek,
+e-posta gövdesini oluşturmak ve daha fazlası için güçlü şablonların nasıl 
+yazılabileceğini göreceksiniz. Kısa yolları öğrenecek, şablonların zarifçe
+nasıl genişletilebileceğini ve şablon kodunun nasıl yeniden kullanılabileceğini
+göreceksiniz.
 
 .. index::
-   single: Templating; What is a template?
+   single: Templating; Şablon nedir ?
 
-Templates
+Şablonlar
 ---------
-
-A template is simply a text file that can generate any text-based format
-(HTML, XML, CSV, LaTeX ...). The most familiar type of template is a *PHP*
-template - a text file parsed by PHP that contains a mix of text and PHP code:
+Bir şablon herhangi bir metin tipi ile (HTML, XML, CSV, LaTeX ...) yaratılan
+basit bi metin dosyasıdır. En bilinen şablon tipi bir metin dosyasının
+PHP tarafından yorumlanan, metin ve PHP kodunun karışımından oluşan *PHP* şablonudur:
 
 .. code-block:: html+php
 
@@ -46,11 +45,11 @@ template - a text file parsed by PHP that contains a mix of text and PHP code:
         </body>
     </html>
 
-.. index:: Twig; Introduction
+.. index:: Twig; Giriş
 
-But Symfony2 packages an even more powerful templating language called `Twig`_.
-Twig allows you to write concise, readable templates that are more friendly
-to web designers and, in several ways, more powerful than PHP templates:
+Fakat Symfony2 `Twig`_ adındaki daha güçlü bir şablonlama dili ile birlikte gelir.
+Twig  size ksa, okunabilir şablonlar yazmanızı, web tasarımcıları için daha 
+kolay ve çeşitli açılardan PHP şablonlarından daha güçlü bir şablon sunar.
 
 .. code-block:: html+jinja
 
@@ -70,40 +69,42 @@ to web designers and, in several ways, more powerful than PHP templates:
         </body>
     </html>
 
-Twig defines two types of special syntax:
+Twig iki adet özel yazım şekline sahiptir:
 
-* ``{{ ... }}``: "Says something": prints a variable or the result of an
-  expression to the template;
+* ``{{ ... }}``: "Bir Şeyler Söyler": bir değişkenin içeriğini ya da bir
+  ifadenin sonucunu şablon içerisine yazar;
 
-* ``{% ... %}``: "Does something": a **tag** that controls the logic of the
-  template; it is used to execute statements such as for-loops for example.
+* ``{% ... %}``: "Bir Şeyler Yapar": şablonun mantıksal kısmını, örneğin
+  for döngüleri gibi ifadeleri çalışırmak için bir **etiket**  tir.
 
 .. note::
 
-   There is a third syntax used for creating comments: ``{# this is a comment #}``.
-   This syntax can be used across multiple lines like the PHP-equivalent
-   ``/* comment */`` syntax.
+   Üçüncü bir ifade de yorum satırları yaratmak için kullanılan 
+   ``{# Burası Yorum Satırı #}`` şeklindeki yazım türüdür.
+   Bu yazım PHP'nin çoklu yorum yapılmasına olanak sağlayan 
+   ``/* Yorum */`` ifadesi gibi kullanılabilir.
 
-Twig also contains **filters**, which modify content before being rendered.
-The following makes the ``title`` variable all uppercase before rendering
-it:
+Twig ayrıca içeriğin ekrana basılmadan önce değiştirilmesine imkan
+sağlayan **filitre** 'lere sahiptir. Aşağıdaki kod ``title`` değişkeninin
+içeriğindeki tüm ifadeleri ekrana basmadan önce büyük harf haline getirir:
 
 .. code-block:: jinja
 
     {{ title|upper }}
 
-Twig comes with a long list of `tags`_ and `filters`_ that are available
-by default. You can even `add your own extensions`_ to Twig as needed.
+Twig varsayılan olarak `etiketler`_ ve `filitreler`_ için uzun bir liste
+ile birlikte gelir. Hatta gerektiğinde Twig'e `kendi eklentinizi dahi yazabilirsiniz`_ .
 
 .. tip::
-
-    Registering a Twig extension is as easy as creating a new service and tagging
-    it with ``twig.extension`` :ref:`tag<reference-dic-tags-twig-extension>`.
-
-As you'll see throughout the documentation, Twig also supports functions
-and new functions can be easily added. For example, the following uses a
-standard ``for`` tag and the ``cycle`` function to print ten div tags, with
-alternating ``odd``, ``even`` classes:
+	Bir Twig eklentisini tanıtmak yeni bir servis yaratıp onu 
+	``twig.extension`` :ref:`etiketi<reference-dic-tags-twig-extension>` ile
+	etiketlemek kadar kolaydır.
+	
+Buraya kadar sizinde görebildiğiniz gibi Twig ayrıca fonksiyonlar 
+ve yeni yaratılabilecek fonksiyonları da destekler. Örneğin, aşağıdaki
+örnekte standart ``for`` etiketi, on adet div etiketini ``odd`` ve
+``even`` classlarını sırasıyla yazdırmak için ``cycle`` fonksiyonu 
+kullanılmıştır: 
 
 .. code-block:: html+jinja
 
@@ -113,22 +114,23 @@ alternating ``odd``, ``even`` classes:
         </div>
     {% endfor %}
 
-Throughout this chapter, template examples will be shown in both Twig and PHP.
+Bu kısım boyunca şablon örnekleri Twig ve PHP ile birlikte gösterilecektir.
 
-.. sidebar:: Why Twig?
+.. sidebar:: Neden Twig?
 
-    Twig templates are meant to be simple and won't process PHP tags. This
-    is by design: the Twig template system is meant to express presentation,
-    not program logic. The more you use Twig, the more you'll appreciate
-    and benefit from this distinction. And of course, you'll be loved by
-    web designers everywhere.
+    Twig şablonları basit ve PHP taglarının kullanılmayacağı manasına gelmektedir.
+    Bu tasarım açısından; Twig şablon sistemi hızlı sunum, program kodunun 
+    olmaması anlamına gelmektedir. Daha fazla Twig kullandığınızda bu ayrımın
+    faydasını daha iyi anlayacaksınız. Ve elbette her yerde web tasarımcıları
+    tarafınan sevileceksiniz.
     
-    Twig can also do things that PHP can't, such as true template inheritance
-    (Twig templates compile down to PHP classes that inherit from each other),
-    whitespace control, sandboxing, and the inclusion of custom functions
-    and filters that only affect templates. Twig contains little features
-    that make writing templates easier and more concise. Take the following
-    example, which combines a loop with a logical ``if`` statement:
+    Twig PHP'nin yapamadığı gerçek şablon mirası alma (Twig şablonları PHP
+    sınıflarına çevrildiğinde birinden diğerine aktarılabilir), boşluk kontrolü,
+    sandbox'lama  ve sadece şablonları etkileyen özelleştirilmiş fonksiyonların 
+    ve filitler gibi pek çok şeyi de yapabilir. Twig şablonları daha kolay
+    anlaşılır ve basit yazmk için bazı küçük özelliklere sahiptir. Aşağıdaki
+    örnekte ``if`` mantıksal ifadesi ile birlikte bir döngünün kullanılması
+    gösterilmektedir:
     
     .. code-block:: html+jinja
     
@@ -141,42 +143,42 @@ Throughout this chapter, template examples will be shown in both Twig and PHP.
         </ul>
 
 .. index::
-   pair: Twig; Cache
+   pair: Twig; Ön Bellek
 
-Twig Template Caching
-~~~~~~~~~~~~~~~~~~~~~
+Twig Şablonu Ön Bellekleme
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Twig hızlıdır. Her Twig şablonu çalışma esnasında doğal PHP sınıflarına çevrilir.
+Derlenmiş sınıflar ``app/cache/{environment}/twig`` klasöründe 
+(``{environment}`` ``dev`` ya da  ``prod`` gibi çevrelerdir) ve bazı durumlarda
+hata ayıklamak için kullanılabilir. :ref:`environments-summary` belgesine
+bakarak çevreler hakkında daha fazla bilgiye sahip olabilirsiniz.
 
-Twig is fast. Each Twig template is compiled down to a native PHP class
-that is rendered at runtime. The compiled classes are located in the
-``app/cache/{environment}/twig`` directory (where ``{environment}`` is the
-environment, such as ``dev`` or ``prod``) and in some cases can be useful
-while debugging. See :ref:`environments-summary` for more information on
-environments.
+``debug`` modu aktif ise (genellikle ``dev`` ortamında) bir  Twig şablonu
+otomatik olarak değişiklik yapıldığında yeniden derlenecektir.Bunun anlamı
+geliştirme esnasında mutlu bir şekilde Twig şablonunda değişiklikleri yaptıktan
+sonra değişikliklerin etkili olması için önbellekleri temizlemenize gerek
+olmadığıdır.
 
-When ``debug`` mode is enabled (common in the ``dev`` environment), a Twig
-template will be automatically recompiled when changes are made to it. This
-means that during development you can happily make changes to a Twig template
-and instantly see the changes without needing to worry about clearing any
-cache.
-
-When ``debug`` mode is disabled (common in the ``prod`` environment), however,
-you must clear the Twig cache directory so that the Twig templates will
-regenerate. Remember to do this when deploying your application.
+``debug`` modu aktif değil ise (genellikle ``prod`` ortamında) bu durumda
+Twig şablonunun yeniden yaratılması için ön bellekleri boşaltmanız gereklidir.
+Bunu uygulamanızı aktarma(deploy) esnasında yapacağınızı unutmayın.
 
 .. index::
-   single: Templating; Inheritance
+   single: Templating; Kalıtım(Inheritance)
 
-Template Inheritance and Layouts
---------------------------------
+Şablon Kalıtımı(Inheritance) ve Layoutlar
+------------------------------------------
 
-More often than not, templates in a project share common elements, like the
-header, footer, sidebar or more. In Symfony2, we like to think about this
-problem differently: a template can be decorated by another one. This works
-exactly the same as PHP classes: template inheritance allows you to build
-a base "layout" template that contains all the common elements of your site
-defined as **blocks** (think "PHP class with base methods"). A child template
-can extend the base layout and override any of its blocks (think "PHP subclass
-that overrides certain methods of its parent class").
+Çoğunlukla bir proje içerisindeki şablonlar site başlık bilgisi (header),
+site alt bilgisi (footer) ya da yan kutular gibi pek çok genel öğeyi 
+paylaşırlar. Symfony2'de biz bu konuya daha farklı açıdan baktık. Bir 
+şablon başka bir şablon tarafından dekore edilebilir. Bu tamamen
+PHP sınıfları gibidir. Şablon kalıtımı size "layout" (plan) 
+adındaki, sitenin **bloklar** içerisinde tanımlanan (PHP'nin
+metodlarını düşünün) genel öğelerini içeren bir şablon inşaa etmenize
+olanak sağlar. Bir alt şablon bu ana layout şablonundan türetilerek
+ana şablon içerisindeki bloklara hükmedebilir. (PHP alt sınıflarının
+kendi üst sınıfın metodlarına hükmetmesini düşünün)
 
 First, build a base layout file:
 
@@ -236,17 +238,16 @@ First, build a base layout file:
 
 .. note::
 
-    Though the discussion about template inheritance will be in terms of Twig,
-    the philosophy is the same between Twig and PHP templates.
+    Şablon katılımı Twig'in terimleri içerisinde geçmesi rağmen,
+    PHP ve Twig  şablonlarının  felsefesi aynıdır.
 
-This template defines the base HTML skeleton document of a simple two-column
-page. In this example, three ``{% block %}`` areas are defined (``title``,
-``sidebar`` and ``body``). Each block may be overridden by a child template
-or left with its default implementation. This template could also be rendered
-directly. In that case the ``title``, ``sidebar`` and ``body`` blocks would
-simply retain the default values used in this template.
+Bu şablon iki sütünlu basit bir şablonun HTML iskeletini tanımlar. Bu örnekte
+üç ``{% block %}`` alanı tanımlanmıştır (``title``,``sidebar`` ve ``body``).
+Her blok kendi içersinde ya da bir alt şablon tarafından hükmedilebilir.
+Bu şablon direkt olarak da ekrana basılabilir. Bu durumda ``title``, ``sidebar`` 
+ve ``body`` blokları şablonun varsayılan değerlerine sahip olacaklardır.
 
-A child template might look like this:
+Bir alt şablon şu şekilde olabilir:
 
 .. configuration-block::
 
@@ -280,17 +281,17 @@ A child template might look like this:
 
 .. note::
 
-   The parent template is identified by a special string syntax
-   (``::base.html.twig``) that indicates that the template lives in the
-   ``app/Resources/views`` directory of the project. This naming convention is
-   explained fully in :ref:`template-naming-locations`.
-
-The key to template inheritance is the ``{% extends %}`` tag. This tells
-the templating engine to first evaluate the base template, which sets up
-the layout and defines several blocks. The child template is then rendered,
-at which point the ``title`` and ``body`` blocks of the parent are replaced
-by those from the child. Depending on the value of ``blog_entries``, the
-output might look like this:
+   (``::base.html.twig``) özel stringi olarak tanımlanan üst
+   şablon projenin ``app/Resources/views`` dizininde bulunan
+   bir şablondur. Bu isimlendirme kuralı açık olarak 
+   :ref:`template-naming-locations` 'nda açıklanmıştır
+   
+Şablon kalıtımı için ``{% extends %}`` etiketi kullanılır.
+Bu şablon motoruna temel şablonda ilk layout'un ve tanımlanan bazı
+blokların değerlendirmesini söyler. Alt şablon, üst şablondaki
+``title`` ve ``body`` bloklarının alt şablon tarafından değişitirilmesinden
+sonra ekrana basılır. ``blog_entries`` 'ın değerine göre çıktı şu şekilde
+olabilir:
 
 .. code-block:: html
 
@@ -318,33 +319,31 @@ output might look like this:
         </body>
     </html>
 
-Notice that since the child template didn't define a ``sidebar`` block, the
-value from the parent template is used instead. Content within a ``{% block %}``
-tag in a parent template is always used by default.
+Dikkat edin; alt şablon ``sidebar`` bloğunu tanımlamadığında üst şablondaki
+değer kullanılacaktır. ``{% block %}`` tagıyla belirlenen üst şablondaki içerik 
+her zaman varsayılan değerdir.
 
-You can use as many levels of inheritance as you want. In the next section,
-a common three-level inheritance model will be explained along with how templates
-are organized inside a Symfony2 project.
+Kalıtımı istediğiniz düzeyde kullanabilirsiniz. Sonraki kısımda genel bir 
+üç düzeyli kalılıtım modelini Symfony2 projelerinde nasıl organize edileceği
+açıklanmıştır.
 
-When working with template inheritance, here are some tips to keep in mind:
+Şablon kalıtımı ile çalışırken bazı hususları akılda tutmalısınız:
 
-* If you use ``{% extends %}`` in a template, it must be the first tag in
-  that template.
+* Eğer şablonda ``{% extends %}`` kullanıyorsanız bu şablondaki ilk etiket olmalıdır.
 
-* The more ``{% block %}`` tags you have in your base templates, the better.
-  Remember, child templates don't have to define all parent blocks, so create
-  as many blocks in your base templates as you want and give each a sensible
-  default. The more blocks your base templates have, the more flexible your
-  layout will be.
+* En güzeli ana şablonda fazla ``{% block %}`` etiketine sahip olmanızdır.
+  Alt şablonlar tüm üst şablonların bloklarını tanımlamaz bu yüzden ana
+  şablonunuzda ne kadar çok blok bulunursa, sablonunuz o kadar düzgün 
+  ve esnek olacaktır.
 
-* If you find yourself duplicating content in a number of templates, it probably
-  means you should move that content to a ``{% block %}`` in a parent template.
-  In some cases, a better solution may be to move the content to a new template
-  and ``include`` it (see :ref:`including-templates`).
+* Eğer kendiniz pek çok şablon içerisinden içeriği çoğaltıyorsanız, muhtemelen bu
+  içerikleri üst şablondaki ``{% block %}`` içerisine kaydırmalısınız.
+  Bazı durumlarda en iyi çözüm içeriği yeni bir şablona aktarmak ve onu ``include``
+  etmektir(içeri aktarmak). (bkz :ref:`including-templates`)
 
-* If you need to get the content of a block from the parent template, you
-  can use the ``{{ parent() }}`` function. This is useful if you want to add
-  to the contents of a parent block instead of completely overriding it:
+* Eğer üst şablonun blokundaki içeriği almak istiyorsanız,``{{ parent() }}``
+  fonksyionunu kullanabilirsiniz. Bu fonksiyon içeriği yeniden düzenlemek
+  yerine üst şablondan içeriği aktarmak için kullanışlı bir fonksiyondur:
 
     .. code-block:: html+jinja
 
@@ -355,134 +354,138 @@ When working with template inheritance, here are some tips to keep in mind:
         {% endblock %}
 
 .. index::
-   single: Templating; Naming Conventions
-   single: Templating; File Locations
+   single: Templating; İsimlendirme Kuralları
+   single: Templating; Dosya Konumları
 
 .. _template-naming-locations:
 
-Template Naming and Locations
------------------------------
+Şablon İsimlendirme ve Konumlandırma
+------------------------------------
 
-By default, templates can live in two different locations:
+Varsayılan olarak şablonlar iki farklı konumda bulunabilirler:
 
-* ``app/Resources/views/``: The applications ``views`` directory can contain
-  application-wide base templates (i.e. your application's layouts) as well as
-  templates that override bundle templates (see
-  :ref:`overriding-bundle-templates`);
+* ``app/Resources/views/``: Uygulamalar ``views`` klasörü uygulama genelinde
+  kullanılacak bundle şablonları tarafından hükmedilecek 
+  (Örn. Uygulamanızın planı (layout)) ana şablonu barındırır
+  (bkz :ref:`overriding-bundle-templates`);
 
-* ``path/to/bundle/Resources/views/``: Each bundle houses its templates in its
-  ``Resources/views`` directory (and subdirectories). The majority of templates
-  will live inside a bundle.
+* ``path/to/bundle/Resources/views/``: Her bundle kendi şablonlarını 
+   ``Resources/views`` klasöründe saklar (ve alt klasörleri). Bundle içerisindeki
+   şablonların önemli bir kısmı burada bulunur.
 
-Symfony2 uses a **bundle**:**controller**:**template** string syntax for
-templates. This allows for several different types of templates, each which
-lives in a specific location:
+Symfony2 şablonlar için **bundle**:**controller**:**şablon** yazım 
+şeklini kullanır. Bu belirtilen konumdaki farklı özelliklerde olan 
+şablonların kullanılmasını mümkün kılar:
 
-* ``AcmeBlogBundle:Blog:index.html.twig``: This syntax is used to specify a
-  template for a specific page. The three parts of the string, each separated
-  by a colon (``:``), mean the following:
+* ``AcmeBlogBundle:Blog:index.html.twig``: Bu yazın belirli bir sayfanın
+  belirli bir şablonunu ifade eder.Bu string içerisinde iki nokta üstüste (``:``)
+  ile ayrılmış üç alanın anlamı şudur:
 
-    * ``AcmeBlogBundle``: (*bundle*) the template lives inside the
-      ``AcmeBlogBundle`` (e.g. ``src/Acme/BlogBundle``);
+    * ``AcmeBlogBundle``: (*bundle*) şablon 
+      ``AcmeBlogBundle`` içerisinde bulunmaktadır. 
+      (Örn: ``src/Acme/BlogBundle``);
 
-    * ``Blog``: (*controller*) indicates that the template lives inside the
-      ``Blog`` subdirectory of ``Resources/views``;
+    * ``Blog``: (*controller*) şablon ``Resources/views`` klasörünün altındaki
+      ``Blog`` klasöründedir;
 
-    * ``index.html.twig``: (*template*) the actual name of the file is
-      ``index.html.twig``.
+    * ``index.html.twig``: (*şablon*) ``index.html.twig`` dosyasının adı.
 
-  Assuming that the ``AcmeBlogBundle`` lives at ``src/Acme/BlogBundle``, the
-  final path to the layout would be ``src/Acme/BlogBundle/Resources/views/Blog/index.html.twig``.
+  ``AcmeBlogBundle`` 'ı ``src/Acme/BlogBundle`` içerisinde bulunduğunu varsaydığımızda
+  ana plan (layut) 'un yolu ``src/Acme/BlogBundle/Resources/views/Blog/index.html.twig``
+  şeklinde olacaktır.
 
-* ``AcmeBlogBundle::layout.html.twig``: This syntax refers to a base template
-  that's specific to the ``AcmeBlogBundle``. Since the middle, "controller",
-  portion is missing (e.g. ``Blog``), the template lives at
-  ``Resources/views/layout.html.twig`` inside ``AcmeBlogBundle``.
+* ``AcmeBlogBundle::layout.html.twig``: Bu yazım şekli ``AcmeBlogBundle`` 'ın
+  temel şablonunu ifade eder. Bu yazımda "controller" kısmı eksik olduğundan dolayı
+  (Örn. ``Blog``) şablon  ``AcmeBlogBundle`` içindeki  ``Resources/views/layout.html.twig`` 
+  konumundadır.
 
-* ``::base.html.twig``: This syntax refers to an application-wide base template
-  or layout. Notice that the string begins with two colons (``::``), meaning
-  that both the *bundle* and *controller* portions are missing. This means
-  that the template is not located in any bundle, but instead in the root
-  ``app/Resources/views/`` directory.
+* ``::base.html.twig``: Bu yazım uygulama genelinde kullanılacak şablon ya da
+  planı(layout) ifade eder.String'in iki adet iki nokta üstüste (``::``) ile
+  başladığına ve *bundle* ve *controller* 'ların olmadığına dikkat edin.
+  Bunun anlamı bu şablon herhangi bir bundle içerisinde konumlandırılmamakta, bunun
+  yerine  ``app/Resources/views/``  klasöründe tutulmaktadır.
 
-In the :ref:`overriding-bundle-templates` section, you'll find out how each
-template living inside the ``AcmeBlogBundle``, for example, can be overridden
-by placing a template of the same name in the ``app/Resources/AcmeBlogBundle/views/``
-directory. This gives the power to override templates from any vendor bundle.
+:ref:`overriding-bundle-templates` bölümünde ``AcmeBlogBundle`` içerisinde
+her bir şablonun nasıl konumlandırıldığını ve mesela  
+``app/Resources/AcmeBlogBundle/views/`` içerisinde aynı isimde olan şablonların
+nasıl birbirlerine hükmettiklerini göreceksiniz.
+Bu herhangi bir vendor bundle'ından size şablonlara hükmetme gücü verir.
 
 .. tip::
 
-    Hopefully the template naming syntax looks familiar - it's the same naming
-    convention used to refer to :ref:`controller-string-syntax`.
+    Umarız şablon adlandırmada kullanılan yazım şekli (syntax) 'ni anlamışsınızdır.
+    Bu yazım şekli aynı :ref:`controller-string-syntax` yazım şekline benzemektedir.
 
-Template Suffix
-~~~~~~~~~~~~~~~
+Template Son Eki (Suffix)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+**bundle**:**controller**:**template** formatı şablon dosyasının *nerede* 
+konumlandırıldığını belirtir. Her şablon ismi ayrıca *format* ve *engine*
+adındaki ekler ile belirtilir.
 
-The **bundle**:**controller**:**template** format of each template specifies
-*where* the template file is located. Every template name also has two extensions
-that specify the *format* and *engine* for that template.
+* **AcmeBlogBundle:Blog:index.html.twig** - HTML formatı, Twig motoru
 
-* **AcmeBlogBundle:Blog:index.html.twig** - HTML format, Twig engine
+* **AcmeBlogBundle:Blog:index.html.php** - HTML formatı, PHP motoru
 
-* **AcmeBlogBundle:Blog:index.html.php** - HTML format, PHP engine
+* **AcmeBlogBundle:Blog:index.css.twig** - CSS formatı, Twig motoru
 
-* **AcmeBlogBundle:Blog:index.css.twig** - CSS format, Twig engine
 
-By default, any Symfony2 template can be written in either Twig or PHP, and
-the last part of the extension (e.g. ``.twig`` or ``.php``) specifies which
-of these two *engines* should be used. The first part of the extension,
-(e.g. ``.html``, ``.css``, etc) is the final format that the template will
-generate. Unlike the engine, which determines how Symfony2 parses the template,
-this is simply an organizational tactic used in case the same resource needs
-to be rendered as HTML (``index.html.twig``), XML (``index.xml.twig``),
-or any other format. For more information, read the :ref:`template-formats`
-section.
+Varsayılan olarak herhangi bir Symfony2 şablonu PHP ya da Twig olarak yazılabilir 
+ve uzantıyı belirten son kısım (örn. ``.twig`` ya da ``.php``) bu iki
+motordan hangisinin *kullanılacağını* belirler. Uzantının ilk kısmı 
+(örn. ``.html`` , ``.css`` , vs) yaratılacak içeriğin son tipini belirler.
+
+Şablon motorudan farklı olarak Symfony2'nin şablonu nasıl yorumlayacağı
+bu basit organizasyonel taktiği kullanmasıyla, aynı durumda kaynağın ihtiyaca göre 
+HTML(``index.html.twig``) ya da XML(``index.xml.twig``) ya da diğer bir 
+formatta ekrana basılacağını belirlenir.
+
+Daha fazla bilgi için :ref:`template-formats` kısmını okuyun.
 
 .. note::
 
-   The available "engines" can be configured and even new engines added.
-   See :ref:`Templating Configuration<template-configuration>` for more details.
+   Mevcut "motorlar" konfigüre edilebildiği gibi yeni motorlar da eklenebilir.
+   Daha fazla bilgi için :ref:`Şablon Konfigürasyonu'na <template-configuration>`
+   bakınız.
 
 .. index::
-   single: Templating; Tags and Helpers
-   single: Templating; Helpers
+   single: Templating; Etiketler ve Yardımcılar (Helpers)
+   single: Templating; Yardımcılar (Helpers)
 
-Tags and Helpers
+Etiketler ve Yardımcılar (Helpers)
 ----------------
+Şablonların temellerini ve bunların nasıl isimlendirilip nasıl birbirleri
+ile ilişkilendirilebilleceğini artık öğrendiniz. En zor kısımı geride
+bıraktınız. Bu kısımda diğer şablonları çağırmak, sayfalara link 
+vermek ve resimleri göstermek gibi genel işlemlerde kullanılan, geniş
+bir gurupta toplanan yardımcı araçları göreceksiniz.
 
-You already understand the basics of templates, how they're named and how
-to use template inheritance. The hardest parts are already behind you. In
-this section, you'll learn about a large group of tools available to help
-perform the most common template tasks such as including other templates,
-linking to pages and including images.
+Symfony2 şablon tasarımcısına yardımcı olmak amacıyla pek çok Twig etiketi ve 
+fonksiyonu barındıran bundle'la birlikte gelir.PHP'de şablon sistemi 
+şablon içeriğinde kullanılması için genişletilmiş bir  *yardımcı* 
+(helper) sistemi sunar.
 
-Symfony2 comes bundled with several specialized Twig tags and functions that
-ease the work of the template designer. In PHP, the templating system provides
-an extensible *helper* system that provides useful features in a template
-context.
-
-We've already seen a few built-in Twig tags (``{% block %}`` & ``{% extends %}``)
-as well as an example of a PHP helper (``$view['slots']``). Let's learn a
-few more.
+Gerçi biz zaten bir kaç Twig etiketi (``{% block %}`` & ``{% extends %}``) 
+ve PHP için örneklerden gördüğümüz (``$view['slots']``) yardımcıları biliyoruz.
+Şimdi biraz daha görelim.
 
 .. index::
-   single: Templating; Including other templates
+   single: Templating; Diğer Şablonları Çağırmak
 
 .. _including-templates:
 
-Including other Templates
+Diğer Şablonları Çağırmak
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+Sıklıkla farklı sayfalarda aynı şablonun ya da kodun bir kısmını kullanmak
+isteyecekisni. Örneğin bir "haberler" kısmı olan bir uygulamada şablon kodu
+haberi gösterebilmek için en çok izlenen haberlerde kullanılan haber detayı 
+sayfasının bir kısmını kullanabilir ya da en son haberler listesinin bir 
+kısmını kullanabilir. 
 
-You'll often want to include the same template or code fragment on several
-different pages. For example, in an application with "news articles", the
-template code displaying an article might be used on the article detail page,
-on a page displaying the most popular articles, or in a list of the latest
-articles.
-
-When you need to reuse a chunk of PHP code, you typically move the code to
-a new PHP class or function. The same is true for templates. By moving the
-reused template code into its own template, it can be included from any other
-template. First, create the template that you'll need to reuse.
+PHP kodunun bir kısmını kullanmak istediğinizde tipik olarak kodu yeni
+bir PHP sınıfı ya da fonksiyonuna taşırsınız. Aynsı şablonlar için de 
+geçerlidir. Şablon içerisinde kodu tekrar kullanmak için başka bir
+şablondan çağırma yapılabilir. Öncelikle yeniden kullanacağımız kısım
+için yeni bir şablon yapalım.
 
 .. configuration-block::
 
@@ -506,7 +509,7 @@ template. First, create the template that you'll need to reuse.
             <?php echo $article->getBody() ?>
         </p>
 
-Including this template from any other template is simple:
+Bunu başka bir şablondan çağırmak oldukça basittir:
 
 .. configuration-block::
 
@@ -536,33 +539,32 @@ Including this template from any other template is simple:
             <?php endforeach; ?>
         <?php $view['slots']->stop() ?>
 
-The template is included using the ``{% include %}`` tag. Notice that the
-template name follows the same typical convention. The ``articleDetails.html.twig``
-template uses an ``article`` variable. This is passed in by the ``list.html.twig``
-template using the ``with`` command.
+Şablon, diğer şablonu çağırmak için ``{% include %}``  etiketini kullanır.
+Şablon isminin aynı tipik yazım şekline sahip olduğuna dikkat edin.
+``articleDetails.html.twig`` şablonu ``article`` değişkenini kullanır.
+Bu değişkenin değeri ``list.html.twig`` şablonundan  ``with`` komutu
+ile aktarılır.
 
 .. tip::
 
-    The ``{'article': article}`` syntax is the standard Twig syntax for hash
-    maps (i.e. an array with named keys). If we needed to pass in multiple
-    elements, it would look like this: ``{'foo': foo, 'bar': bar}``.
-
+    ``{'article': article}`` yazımı Twig Standart karışık eşleştirme
+    (hash maps)(örn. isimlendirilmiş anahtarlara sahip bir array (dize)) yazımıdır.
+    Eğer birden fazla element aktarmak istediğimizde şu yazımı kullanırız:
+    ``{'foo': foo, 'bar': bar}``.
+    
 .. index::
-   single: Templating; Embedding action
+   single: Templating; Aksiyon gömmek (Embedding action)
 
 .. _templating-embedding-controller:
 
-Embedding Controllers
-~~~~~~~~~~~~~~~~~~~~~
-
-In some cases, you need to do more than include a simple template. Suppose
-you have a sidebar in your layout that contains the three most recent articles.
-Retrieving the three articles may include querying the database or performing
-other heavy logic that can't be done from within a template.
-
-The solution is to simply embed the result of an entire controller from your
-template. First, create a controller that renders a certain number of recent
-articles:
+Controller Gömmek (Embedding Controller)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bazı durumlarda bir şablonu çağırmaktan fazlasına ihityacını olur.
+Varsayalım layout(plan) içerisinde en önemli üç haberi getiren bir sidebar(kenar bloku)
+var. Bu üç haberin getirilmesinde belki şablondan yapılamayacak kadar
+ağır bir işlem ya da bir veritabanı sorgusu gereki olabilir.
+Çözüm ise basitçe şablonunuza sonucu getiren bir controller gömmektir.
+İlk önce belirli bir sayıdaki haberi ekrana getiren controlleri yapalım:
 
 .. code-block:: php
 
@@ -579,7 +581,7 @@ articles:
         }
     }
 
-The ``recentList`` template is perfectly straightforward:
+``recentList`` şablonu gayet açık ve nettir:
 
 .. configuration-block::
 
@@ -603,12 +605,12 @@ The ``recentList`` template is perfectly straightforward:
 
 .. note::
 
-    Notice that we've cheated and hardcoded the article URL in this example
-    (e.g. ``/article/*slug*``). This is a bad practice. In the next section,
-    you'll learn how to do this correctly.
+    Dikkat ederseniz bu örnekte haber URL'sini doğrudan cheat(hile ile bozma) ettik.
+    (Örn: ``/article/*slug*``). Ancak bu kötü bir örnek. Sonraki kısımda
+    bunun nasıl düzeltilebileceğini göreceksiniz.
 
-To include the controller, you'll need to refer to it using the standard string
-syntax for controllers (i.e. **bundle**:**controller**:**action**):
+Controller'i çağırmak için controller'lar için kullanıan standart yazımı
+kullanmanız gereklidir (Örn: **bundle**:**controller**:**aksiyon**):
 
 .. configuration-block::
 
@@ -630,25 +632,27 @@ syntax for controllers (i.e. **bundle**:**controller**:**action**):
             <?php echo $view['actions']->render('AcmeArticleBundle:Article:recentArticles', array('max' => 3)) ?>
         </div>
 
-Whenever you find that you need a variable or a piece of information that
-you don't have access to in a template, consider rendering a controller.
-Controllers are fast to execute and promote good code organization and reuse.
+Şablona erişimi olmayan bir değişkenin bilgisini bulmanız gerektiğinde bir
+controller'in bunu ekrana bastığını göz önünde bulundurun. 
+
+Controller'lar çalıştırma, iyi kod organizasyonu sunma ve yeniden kullanım için
+hızlı bir yol sunar.
 
 .. index::
-   single: Templating; Linking to pages
+   single: Templating; Sayfalara Link Vermek
 
-Linking to Pages
-~~~~~~~~~~~~~~~~
+Sayfalara Link Vermek
+~~~~~~~~~~~~~~~~~~~~~
+Şablon içerisinde diğer sayfalara link vermek uygulamanız içerisinde en sık 
+yapılan işlerden birisidir. URL'er üzerinde detaylıca çalışmak yerine 
+``path`` Twig fonksiyonunu ( ya da PHP için ``router`` yardımcısı) kullanarak 
+routing konfigürasyonunuza göre URL adreslerini yaratabilirsiniz.Sonra
+eğer isterseniz sayfadaki URL'lerin bir kısmını değiştirmek isterseniz sadece
+routing konfigürasyonunda değişiklik yaparak şablon içerisindeki URL'lerin
+otomatik olarak yeniden yaratılmasını sağlayabilirsiniz.
 
-Creating links to other pages in your application is one of the most common
-jobs for a template. Instead of hardcoding URLs in templates, use the ``path``
-Twig function (or the ``router`` helper in PHP) to generate URLs based on
-the routing configuration. Later, if you want to modify the URL of a particular
-page, all you'll need to do is change the routing configuration; the templates
-will automatically generate the new URL.
-
-First, link to the "_welcome" page, which is accessible via the following routing
-configuration:
+Öncelikle aşağıdaki routing konfigürasyonundan ulaşılabilen "_welcome"
+sayfasına link verelim:
 
 .. configuration-block::
 
@@ -673,7 +677,8 @@ configuration:
 
         return $collection;
 
-To link to the page, just use the ``path`` Twig function and refer to the route:
+Sayfaya link vermek için sadece route'a işaret eden ``path`` Twig fonksiyonunu
+kullanmanız yeterlidir:
 
 .. configuration-block::
 
@@ -685,8 +690,8 @@ To link to the page, just use the ``path`` Twig function and refer to the route:
 
         <a href="<?php echo $view['router']->generate('_welcome') ?>">Home</a>
 
-As expected, this will generate the URL ``/``. Let's see how this works with
-a more complicated route:
+Beklenildiği üzere bu ``/`` URL'si yaratacaktır. Şimdi daha karışık bir
+route üzerinde bunun nasıl çalıştığına bakalım:
 
 .. configuration-block::
 
@@ -711,10 +716,10 @@ a more complicated route:
 
         return $collection;
 
-In this case, you need to specify both the route name (``article_show``) and
-a value for the ``{slug}`` parameter. Using this route, let's revisit the
-``recentList`` template from the previous section and link to the articles
-correctly:
+Bu durumda route adı (``article_show``) ve değeri olan ``{slug}`` parametresinin
+ikisini de belirtmelisiniz. Bu route'un kullanarak önceki kısımda gösterilen
+``recentList`` şablonuna yeniden ziyaret ederek haberleri doğru bir şekilde
+linklendirelim:
 
 .. configuration-block::
 
@@ -738,28 +743,29 @@ correctly:
 
 .. tip::
 
-    You can also generate an absolute URL by using the ``url`` Twig function:
+    Ayrıca mutlak URL adresini ``url`` Twig fonksiyonu ile de yaratabilirsiniz:
 
     .. code-block:: html+jinja
 
         <a href="{{ url('_welcome') }}">Home</a>
 
-    The same can be done in PHP templates by passing a third argument to
-    the ``generate()`` method:
+    Aynısı ``generate()`` metodunun üç parametresini ayarlayarak da
+    PHP şablonu içerisinde yapılabilir:
 
     .. code-block:: html+php
 
         <a href="<?php echo $view['router']->generate('_welcome', array(), true) ?>">Home</a>
 
 .. index::
-   single: Templating; Linking to assets
+   single: Templating; Varlıklara (asset) Link Vermek
 
-Linking to Assets
-~~~~~~~~~~~~~~~~~
+Varlıklara (asset) Link Vermek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Templates also commonly refer to images, Javascript, stylesheets and other
-assets. Of course you could hard-code the path to these assets (e.g. ``/images/logo.png``),
-but Symfony2 provides a more dynamic option via the ``asset`` Twig function:
+Şablonlar genel olarak resimlere, Javascript'e, stil şablonlarına ve diğer
+varlıkları da kullanır. Elbette bu varlıkların yollarını direkt olarak 
+yazarak da (Örn. ``/images/logo.png``) kullanabilirsiniz ancak Symfony2 
+``asset`` Twig fonksiyonu üzerinden daha dinamik bir seçenek sağlar.
 
 .. configuration-block::
 
@@ -775,45 +781,49 @@ but Symfony2 provides a more dynamic option via the ``asset`` Twig function:
 
         <link href="<?php echo $view['assets']->getUrl('css/blog.css') ?>" rel="stylesheet" type="text/css" />
 
-The ``asset`` function's main purpose is to make your application more portable.
-If your application lives at the root of your host (e.g. http://example.com),
-then the rendered paths should be ``/images/logo.png``. But if your application
-lives in a subdirectory (e.g. http://example.com/my_app), each asset path
-should render with the subdirectory (e.g. ``/my_app/images/logo.png``). The
-``asset`` function takes care of this by determining how your application is
-being used and generating the correct paths accordingly.
+``asset``  fonksiyonunun asıl görevi uygulamayı daha taşınabilir yapmaktır.
+Eğer uygulamanız host'unuzun kök'ünde ise (Örn: http://example.com), 
+bu durumda ekrana bir varlık ``/images/logo.png`` şeklinde olacaktır. Ancak
+eğer uygulamanız bir alt klasörde tutuluyorsa (Örn: http://example.com/my_app),
+bu durumda her varlık alt klasör ile birlikte ekrana basılacaktır
+(örn: ``/my_app/images/logo.png``).
+``asset`` fonksiyonu uyglamanızın nasıl kullanıldığına bakarak doğru yollara
+(path) göre bu varlıkların yollarını belirler. 
 
-Additionally, if you use the ``asset`` function, Symfony can automatically
-append a query string to your asset, in order to guarantee that updated static
-assets won't be cached when deployed. For example, ``/images/logo.png`` might
-look like ``/images/logo.png?v2``. For more information, see the :ref:`ref-framework-assets-version`
-configuration option.
+Ayrıca eğer ``asset`` fonksiyonunu kullanırsanız, Symfony otomatik olarak,
+bu güncellenen statik varlıkların uygulamayı aktarma (deploy) esnasında ön belleğe
+alınmaması için , bir sorgu stringini (query string) varlığınıza (asset) ekler.
+Örneğin ``/images/logo.png`` , ``/images/logo.png?v2`` şeklinde gözükebilir. 
+Daha fazla bilgi için :ref:`ref-framework-assets-version` konfigürasyon seçeneğine
+bakın.
 
 .. index::
-   single: Templating; Including stylesheets and Javascripts
-   single: Stylesheets; Including stylesheets
-   single: Javascripts; Including Javascripts
+   single: Templating; Javascript ve Stil Şablonlarını Aktarmak (Include)
+   single: Stylesheets; Stil Şablonlarını Aktarmak (Include)
+   single: Javascripts; Javascript Aktarmak (Include)
 
-Including Stylesheets and Javascripts in Twig
----------------------------------------------
+Twig içerisinde Javascript ve Stil Şablonlarını Aktarmak (Include)
+------------------------------------------------------------------
 
-No site would be complete without including Javascript files and stylesheets.
-In Symfony, the inclusion of these assets is handled elegantly by taking
-advantage of Symfony's template inheritance.
+Hiç bir site Javascript ve Stil Şablonları olmadan bitmiş sayılmaz.
+Symfony'de bu varlıkların dahil edilmesi zarif bir şekilde Symfony'in
+şablon kalıtım özelliği ile yapılır.
 
 .. tip::
 
-    This section will teach you the philosophy behind including stylesheet
-    and Javascript assets in Symfony. Symfony also packages another library,
-    called Assetic, which follows this philosophy but allows you to do much
-    more interesting things with those assets. For more information on 
-    using Assetic see :doc:`/cookbook/assetic/asset_management`.
+    Bu kısım size strin şablonları ve Javascript varlıklarının Symfony
+    içerisine aktarılmasının (include) felsefesini öğretecek.
+    Symfony ayrıca Assetic adında bu felsefeyi izleyen fakat bu varlıklar
+    ile çok daha fazla ilginç sey yapmaya olanak veren bir kütüphane
+    ile birlikte gelir. Assetic kullanımı hakkında daha fazla bilgi için
+    :doc:`/cookbook/assetic/asset_management` belgesine bakın.
 
 
-Start by adding two blocks to your base template that will hold your assets:
-one called ``stylesheets`` inside the ``head`` tag and another called ``javascripts``
-just above the closing ``body`` tag. These blocks will contain all of the
-stylesheets and Javascripts that you'll need throughout your site:
+Varlıklarımızı barındırmak için ana şablonumuza ``head`` etiketi arasında 
+olacak olan ``stylesheets`` adında ve diğeri de ``javascripts`` adında 
+olan, ``body`` tagının hemen üzerinde,iki adet blok ekleyerek başlayalım.
+Bu bloklar sitemizin tamamında ihtiyacımız olacak stil şablonlarını ve
+javscript'leri barındırıcaklar:
 
 .. code-block:: html+jinja
 
@@ -835,10 +845,10 @@ stylesheets and Javascripts that you'll need throughout your site:
         </body>
     </html>
 
-That's easy enough! But what if you need to include an extra stylesheet or
-Javascript from a child template? For example, suppose you have a contact
-page and you need to include a ``contact.css`` stylesheet *just* on that
-page. From inside that contact page's template, do the following:
+Ne kadar kolay! Fakat eğer alt şablonda ekstra stilşablonu ya da Javascripte
+ihtiyaç olursa ne olacak ? Örneğin, varsayalımki bir iletişim sayfanız var
+ve *sadece* bu sayfada ``contact.css`` 'i kullanmanız gerekiyor.
+İletişim sayfası şablonu içerisine aşağıdaki gösterilen kodu yazın :
 
 .. code-block:: html+jinja
 
@@ -853,39 +863,41 @@ page. From inside that contact page's template, do the following:
     
     {# ... #}
 
-In the child template, you simply override the ``stylesheets`` block and 
-put your new stylesheet tag inside of that block. Of course, since you want
-to add to the parent block's content (and not actually *replace* it), you
-should use the ``parent()`` Twig function to include everything from the ``stylesheets``
-block of the base template.
+Alt şablonda basitçe ``stylesheets`` bloku'na hükmettiniz (override) ve
+yeni stilşablonu etiketini bu blok içerisine koydunuz. Elbette üst
+blokun içeriğinin değiştirilmesini istediğinizde (*replace* (değiştirme)
+yapmadan), ``parent()`` Twig fonksiyonunu kullanarak ana şablondaki tanımlanan
+``stylesheets`` blokunun içerisindeki herşeyi akatarabilirsiniz(include).
 
-You can also include assets located in your bundles' ``Resources/public`` folder.
-You will need to run the ``php app/console assets:install target [--symlink]``
-command, which moves (or symlinks) files into the correct location. (target
-is by default "web").
+Ayrıca varlıkları bundle'ınız içerisindeki ``Resources/public`` klasöründen de
+aktarabilirsiniz. Bunun için konsol üzerinden ``php app/console assets:install target [--symlink]``
+komutunu çalıştırarak dosyalarınızı (ya da sembolink linklerini) doğru
+konuma taşıyabilirsiniz. (target parametresindeki değer varsayılan olarak
+"web" dir).
 
 .. code-block:: html+jinja
 
    <link href="{{ asset('bundles/acmedemo/css/contact.css') }}" type="text/css" rel="stylesheet" />
 
-The end result is a page that includes both the ``main.css`` and ``contact.css``
-stylesheets.
+Son olarak sonuç sayfası ``main.css`` ve ``contact.css`` stil şablonlarını
+içeriye aktarmıştır.
 
-Global Template Variables
--------------------------
+Global Şablon Değişkenleri
+---------------------------
 
-During each request, Symfony2 will set a global template variable ``app``
-in both Twig and PHP template engines by default.  The ``app`` variable
-is a :class:`Symfony\\Bundle\\FrameworkBundle\\Templating\\GlobalVariables`
-instance which will give you access to some application specific variables
-automatically:
+Her istek esnasında Symfony2 Twig ve PHP şablon motorlarında 
+varsayılan olarak ``app`` adındaki bir şablon global değişkenine değer 
+atayacaktır. ``app`` değişkeni bazı uygulamaya özel değişkenleri
+otomatik olarak veren  
+:class:`Symfony\\Bundle\\FrameworkBundle\\Templating\\GlobalVariables`
+sınıfından türer:
 
-* ``app.security`` - The security context.
-* ``app.user`` - The current user object.
-* ``app.request`` - The request object.
-* ``app.session`` - The session object.
-* ``app.environment`` - The current environment (dev, prod, etc).
-* ``app.debug`` - True if in debug mode. False otherwise.
+* ``app.security`` - Güvenlik konusundaki içerik.
+* ``app.user`` - Geçerli kullanıcı nesnesi.
+* ``app.request`` - request nesnesi.
+* ``app.session`` - oturum nesnesi.
+* ``app.environment`` - Geçerli ortam (dev, prod, vs).
+* ``app.debug`` - Hata Ayıklama Modu aktif ise True aksi halde False.
 
 .. configuration-block::
 
@@ -907,25 +919,27 @@ automatically:
 
 .. tip::
 
-    You can add your own global template variables. See the cookbook example
-    on :doc:`Global Variables</cookbook/templating/global_variables>`.
+    Eğer isterseniz kendi global şablon değişkenlerinizi de atayabilirsiniz.
+    Bunun için :doc:`Global Değişkenler</cookbook/templating/global_variables>`
+    adındaki tarif kitabı örneğine bakın.
 
 .. index::
-   single: Templating; The templating service
+   single: Templating; Şablon Servisi
 
-Configuring and using the ``templating`` Service
-------------------------------------------------
+``templating`` Servisini Kullanmak ve Konfigüre etmek
+------------------------------------------------------
 
-The heart of the template system in Symfony2 is the templating ``Engine``.
-This special object is responsible for rendering templates and returning
-their content. When you render a template in a controller, for example,
-you're actually using the templating engine service. For example:
+Symfony2'nin şablon sisteminin kalbi templating ``Motoru`` dur.
+Bu özel nesne şablonların ekrana basılması ve onların değerlerini
+döndürmekten sorumlıdur. Örneğin bir controller içerisinden bir şablon 
+ekrana bastığınızda, gerçekte şablon motor servisini kullanırsınız.
+Örneğin:
 
 .. code-block:: php
 
     return $this->render('AcmeArticleBundle:Article:index.html.twig');
 
-is equivalent to
+ifadesi şuna eşittir.
 
 .. code-block:: php
 
@@ -936,9 +950,9 @@ is equivalent to
 
 .. _template-configuration:
 
-The templating engine (or "service") is preconfigured to work automatically
-inside Symfony2. It can, of course, be configured further in the application
-configuration file:
+Şablon motoru (ya da "servisi") Symfony2 içerisinde otomatik olarak çalışması
+için önceden ayarlanmıştır. Elbette bu başka bir uygulama konfigürasyon dosyasından da
+ayarlanabilir:
 
 .. configuration-block::
 
@@ -966,21 +980,22 @@ configuration file:
             ),
         ));
 
-Several configuration options are available and are covered in the
-:doc:`Configuration Appendix</reference/configuration/framework>`.
+
+Bazı konfigüraston seçenekekleri :doc:`Konfigürasyon Ekinde</reference/configuration/framework>`.
+gösterilmiştir.
 
 .. note::
 
-   The ``twig`` engine is mandatory to use the webprofiler (as well as many
-   third-party bundles).
+   webprofiler kullanmak için ``twig`` motoru zorunludur (ve bazı 3. parti
+   bundle'larda da bu olabilir).
 
 .. index::
-    single; Template; Overriding templates
+    single; Template; Şablonlara hükmetmek (override)
 
 .. _overriding-bundle-templates:
 
-Overriding Bundle Templates
----------------------------
+Bundle Şablonlarına Hükmetmek (override)
+----------------------------------------
 
 The Symfony2 community prides itself on creating and maintaining high quality
 bundles (see `KnpBundles.com`_) for a large number of different features.
@@ -1029,11 +1044,6 @@ template doesn't exist there, it continues by checking inside the
 ``Resources/views`` directory of the bundle itself. This means that all bundle
 templates can be overridden by placing them in the correct ``app/Resources``
 subdirectory.
-
-.. note::
-
-    You can also override templates from within a bundle by using bundle
-    inheritance. For more information, see :doc:`/cookbook/bundles/inheritance`.
 
 .. _templating-overriding-core-templates:
 
@@ -1345,6 +1355,6 @@ Learn more from the Cookbook
 .. _`KnpBundles.com`: http://knpbundles.com
 .. _`Cross Site Scripting`: http://en.wikipedia.org/wiki/Cross-site_scripting
 .. _`Output Escaping`: http://twig.sensiolabs.org/doc/api.html#escaper-extension
-.. _`tags`: http://twig.sensiolabs.org/doc/tags/index.html
-.. _`filters`: http://twig.sensiolabs.org/doc/filters/index.html
-.. _`add your own extensions`: http://twig.sensiolabs.org/doc/advanced.html#creating-an-extension
+.. _`etiketler`: http://twig.sensiolabs.org/doc/tags/index.html
+.. _`filitreler`: http://twig.sensiolabs.org/doc/filters/index.html
+.. _`kendi eklentinizi dahi -yazabilirsiniz`: http://twig.sensiolabs.org/doc/extensions.html
