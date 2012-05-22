@@ -1,14 +1,14 @@
 Symfony Belgesi
 =====================
 
-Bu belge internet ortamında http://symfony.com/doc/current/ 
+Bu belge internet ortamında http://symfony.com/doc/current/  adresinde
 yayınlanmaktadır
 
 Desteklemek
 ------------
 
 >**Note** 
->Belge yazımınız yeni Symfony 2.1 olmadıkça tüm gönderileriniz **2.0** branch 
+>Belge yazımınız yeni Symfony 2.1 olmadıkça tüm gönderileriniz **2.0** branch'ı 
 >üzerine olmalıdır. **master branch** üzerine olmamalıdır.
 
 
