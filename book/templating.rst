@@ -1328,7 +1328,7 @@ içerisine  ``_format`` değişkenini eklemelisiniz:
             PDF Version
         </a>
 
-Sön Düşünceler
+Son Düşünceler
 --------------
 
 Şablon motoru Symfony de HTML, XML ya da diğer formattaki içeriği istediğiniz
