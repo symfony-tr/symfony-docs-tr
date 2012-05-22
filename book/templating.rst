@@ -996,87 +996,88 @@ gösterilmiştir.
 
 Bundle Şablonlarına Hükmetmek (override)
 ----------------------------------------
+Symfony2 topluluğu kendisiyle faklı özellikteki bir çok bundle'ı 
+(bkz `KnpBundles.com`_) yarattığı ve destek sağladığı için gurur duyuyor.
 
-The Symfony2 community prides itself on creating and maintaining high quality
-bundles (see `KnpBundles.com`_) for a large number of different features.
-Once you use a third-party bundle, you'll likely need to override and customize
-one or more of its templates.
+Bir kere 3. parti bir bunle kullandınız mı muhtemelen bu bundle'in
+bir ya da daha fazla şablonunu düzenlemek ihtiyacı hissedeceksiniz.
 
-Suppose you've included the imaginary open-source ``AcmeBlogBundle`` in your
-project (e.g. in the ``src/Acme/BlogBundle`` directory). And while you're
-really happy with everything, you want to override the blog "list" page to
-customize the markup specifically for your application. By digging into the
-``Blog`` controller of the ``AcmeBlogBundle``, you find the following::
+Varsayalım ki açık kaynak kodlu ``AcmeBlogBundle``  adlı hayali bir
+bundle'ı uygulamanızda kullancaksınız(``src/Acme/BlogBundle`` klasöründeki).
+Herşeyden mutlu bir durumda iken blog'un "liste" sayfasını uygulamanıza
+göre değiştirmek istediniz. ``AcmeBlogBundle`` 'ın ``Blog``  controller'ini
+kurcalarken şunu buldunuz::
 
     public function indexAction()
     {
-        $blogs = // some logic to retrieve the blogs
+        $blogs = // blogları getiren bazı mantıksal süreçler.
 
         $this->render('AcmeBlogBundle:Blog:index.html.twig', array('blogs' => $blogs));
     }
 
-When the ``AcmeBlogBundle:Blog:index.html.twig`` is rendered, Symfony2 actually
-looks in two different locations for the template:
+
+``AcmeBlogBundle:Blog:index.html.twig`` ekrana basıldığındı, Symfony2 
+gerçekte şablon için iki farklı yere bakar:
 
 #. ``app/Resources/AcmeBlogBundle/views/Blog/index.html.twig``
 #. ``src/Acme/BlogBundle/Resources/views/Blog/index.html.twig``
 
-To override the bundle template, just copy the ``index.html.twig`` template
-from the bundle to ``app/Resources/AcmeBlogBundle/views/Blog/index.html.twig``
-(the ``app/Resources/AcmeBlogBundle`` directory won't exist, so you'll need
-to create it). You're now free to customize the template.
 
-This logic also applies to base bundle templates. Suppose also that each
-template in ``AcmeBlogBundle`` inherits from a base template called
-``AcmeBlogBundle::layout.html.twig``. Just as before, Symfony2 will look in
-the following two places for the template:
+Bundle şablonuna hükmetmek (override) için sadece bundle'daki 
+``index.html.twig`` dosyasını ``app/Resources/AcmeBlogBundle/views/Blog/index.html.twig``
+(eğer ``app/Resources/AcmeBlogBundle`` klasörü yoksa bunu yaratmanız gerekecek.)
+kopyalamanız yeterlidir. Artık şablonu dilediğiniz gibi değiştirebilirsiniz.
+
+Bu mantık ayrıca temel bundle şablonlarına da uygulanabilir. Yine varsayalım 
+ki ``AcmeBlogBundle`` bundle'ının içindeki her şablon ``AcmeBlogBundle::layout.html.twig``
+den kalıtımla(inherit) türetiliyor. Az önceki gibi Symfony2 şablon için iki
+ayrı yere bakacaktır:
 
 #. ``app/Resources/AcmeBlogBundle/views/layout.html.twig``
 #. ``src/Acme/BlogBundle/Resources/views/layout.html.twig``
 
-Once again, to override the template, just copy it from the bundle to
-``app/Resources/AcmeBlogBundle/views/layout.html.twig``. You're now free to
-customize this copy as you see fit.
+Yine, şablona hükmetmek için (override) sadece bunu bundle içerisinden
+``app/Resources/AcmeBlogBundle/views/layout.html.twig`` kopyalamanız
+yeterlidir. Artık şablonu dilediğiniz gibi değiştirebilirsiniz.
 
-If you take a step back, you'll see that Symfony2 always starts by looking in
-the ``app/Resources/{BUNDLE_NAME}/views/`` directory for a template. If the
-template doesn't exist there, it continues by checking inside the
-``Resources/views`` directory of the bundle itself. This means that all bundle
-templates can be overridden by placing them in the correct ``app/Resources``
-subdirectory.
+Bir adım geri gittiğimizde Symfony2'nin her zaman şablon için 
+``app/Resources/{BUNDLE_NAME}/views/`` klasörüne baktığını göreceksiniz.
+Eğer burada şablon yok ise bundle içerisinde bulunan ``Resources/views``
+klasörüne bakılacaktır. Bunun anlamı tüm bundle şablonları doğru
+``app/Resources`` alt dizinleri içerisinden hükmedilebilir(override).
 
 .. _templating-overriding-core-templates:
 
 .. index::
-    single; Template; Overriding exception templates
+    single; Template; İstisna Şablonlarına Hükmetmek (override)
 
-Overriding Core Templates
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Çekirdek Şablonlara Hükmetmek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since the Symfony2 framework itself is just a bundle, core templates can be
-overridden in the same way. For example, the core ``TwigBundle`` contains
-a number of different "exception" and "error" templates that can be overridden
-by copying each from the ``Resources/views/Exception`` directory of the
-``TwigBundle`` to, you guessed it, the
-``app/Resources/TwigBundle/views/Exception`` directory.
+Symfony2 frameworkunun kendisinin sadece bir bundle olmasından dolayı,
+çekirdek şablonlar aynı yolla değiştirilebilir. Örneğin ``TwigBundle`` çekirdeği'nin
+birden fazla farklı "istisna(exception)" ve "hata" şablonunu değiştirmek için 
+her birisini ``TwigBundle`` 'ın ``Resources/views/Exception``  klasöründen alıp
+sizinde tahmin ettiğiniz gibi ``app/Resources/TwigBundle/views/Exception``  
+içerisine koyabilir, buradan değişikliklerinizi yapabilirsiniz.
 
 .. index::
-   single: Templating; Three-level inheritance pattern
+   single: Templating; Üç düzeyli kalıtım şablonu(inheritance pattern)
 
-Three-level Inheritance
------------------------
+Üç düzeyli kalıtım(inheritance)
+-------------------------------
 
-One common way to use inheritance is to use a three-level approach. This
-method works perfectly with the three different types of templates we've just
-covered:
+Kalıtımı kullanmak için genel bir yol, üç düzeyli yaklaşımı kullanmaktır.
+Bu metod birazdan değineceğimiz üç farklı tipteki şablon için mükemmel
+şekilde çalışır:
 
-* Create a ``app/Resources/views/base.html.twig`` file that contains the main
-  layout for your application (like in the previous example). Internally, this
-  template is called ``::base.html.twig``;
+* Uygulamanızın ana planını (önceki örnekteki gibi)
+  içeren (layout) bir ``app/Resources/views/base.html.twig`` dosyası yaratın.
+  İçsel olarak bu şablon ``::base.html.twig`` olarak adlandırılır;
 
-* Create a template for each "section" of your site. For example, an ``AcmeBlogBundle``,
-  would have a template called ``AcmeBlogBundle::layout.html.twig`` that contains
-  only blog section-specific elements;
+* Sitenizin her "kısmı" için bi şablon yaratın. Örneğin ``AcmeBlogBundle``
+  için sadece bloga özel nesneleri içeren ``AcmeBlogBundle::layout.html.twig``
+  adında bir şablon;
 
     .. code-block:: html+jinja
 
@@ -1089,9 +1090,9 @@ covered:
             {% block content %}{% endblock %}
         {% endblock %}
 
-* Create individual templates for each page and make each extend the appropriate
-  section template. For example, the "index" page would be called something
-  close to ``AcmeBlogBundle:Blog:index.html.twig`` and list the actual blog posts.
+* Her sayfa için bağımsız şablonlar yaratın ve uygun kısım şablonu ile genişletin.
+  Örneğin güncel blog girdilerini gösteren, ``AcmeBlogBundle:Blog:index.html.twig`` 
+  gibi bir isimde olan bir "index" sayfası.
 
     .. code-block:: html+jinja
 
@@ -1105,28 +1106,29 @@ covered:
             {% endfor %}
         {% endblock %}
 
-Notice that this template extends the section template -(``AcmeBlogBundle::layout.html.twig``)
-which in-turn extends the base application layout (``::base.html.twig``).
-This is the common three-level inheritance model.
+Dikkat ederseniz bu şablon sırasıyla ilgili kısım şablonundan, 
+(``AcmeBlogBundle::layout.html.twig``) o da ana uygulama şablonu (``::base.html.twig``)
+üzerinden türetilmiştir. İşte bu genel olarak üç düzeyli kalıtım modeli olarak
+adlandırılır.
 
-When building your application, you may choose to follow this method or simply
-make each page template extend the base application template directly
-(e.g. ``{% extends '::base.html.twig' %}``). The three-template model is
-a best-practice method used by vendor bundles so that the base template for
-a bundle can be easily overridden to properly extend your application's base
-layout.
+Bir uygulama geliştirirken, bu metodu kullanabilirsiniz ya da basitçe
+her sayfayı ana uygulama şablonundan direkt genişletirsiniz
+(Örn: ``{% extends '::base.html.twig' %}``).Üç-Şablon modeli 
+ana şablonun kolaylıkla değiştirilebildiği , bundle'ın şablonlarının 
+uygulama'nın ana şablonuna basitçe adapte edilebildiği vendor bundle'larında kullanılan
+bir metodtur.
 
 .. index::
-   single: Templating; Output escaping
+   single: Templating; Çıktıyı temizlemek (Output escaping)
 
-Output Escaping
----------------
+Çıktıyı temizlemek (Output escaping)
+------------------------------------
 
-When generating HTML from a template, there is always a risk that a template
-variable may output unintended HTML or dangerous client-side code. The result
-is that dynamic content could break the HTML of the resulting page or allow
-a malicious user to perform a `Cross Site Scripting`_ (XSS) attack. Consider
-this classic example:
+Şablon üzerinden HTML yaratımında her zaman şablon değişkenlerinin istenmeyen
+HTML ya da tehlikeli istemci-tarafı(client-side) kod olarak çıktı vermesi 
+riski vardır. Bunun sonucunda dinamik içeriğin çıktısı olan HTML bozulabilir ya da
+kötü niyetli bir kullanıcı `Cross Site Scripting`_ (XSS) atağı deneyebilir.
+Şu klasik örneği inceleyelim:
 
 .. configuration-block::
 
@@ -1138,82 +1140,89 @@ this classic example:
 
         Hello <?php echo $name ?>
 
-Imagine that the user enters the following code as his/her name::
+Eğer kullanıcı kendi adı olarak aşağıdaki kodu girerse ne olur?::
 
     <script>alert('hello!')</script>
 
-Without any output escaping, the resulting template will cause a JavaScript
-alert box to pop up::
+Eğer çıktıyı herhangi bir şekilde temizlemezsek (escaping) şablonda sonuç
+olarak bir Javascript dikkat penceresi belirecektir:
+
 
     Hello <script>alert('hello!')</script>
 
-And while this seems harmless, if a user can get this far, that same user
-should also be able to write JavaScript that performs malicious actions
-inside the secure area of an unknowing, legitimate user.
+Bu belki zararsız gibi gözükebilir ancak aynı kötü niyetli kullanıcı
+kullanıcı eğer isterse bu güvenli alanda kötü niyetli bir kod yazarak 
+meşru bir kullanıcı gibi bilinmeyen bir şeyler yapabilir.
 
-The answer to the problem is output escaping. With output escaping on, the
-same template will render harmlessly, and literally print the ``script``
-tag to the screen::
+Bu problemin cevabı çıktıyı temizlemektir (output escaping).
+Çıktıyı temizleme esnasında şablon zararsız bir şekilde ekrana basılacak
+ve ``script`` etiketi harfi harfine gözükecektir::
 
     Hello &lt;script&gt;alert(&#39;helloe&#39;)&lt;/script&gt;
 
-The Twig and PHP templating systems approach the problem in different ways.
-If you're using Twig, output escaping is on by default and you're protected.
-In PHP, output escaping is not automatic, meaning you'll need to manually
-escape where necessary.
+Twig ve PHP şablonlama sistemleri bu konuya farklı açılardan yaklaşır.
+Eğer Twig kullanıyorsanız çıktı temizlenmesi varsayılan olarak yapılır
+ve güvende olursunuz. PHP'de çıktı gtemizlenmesi otomatik olmadığından bunu
+gerektiği yerde manuel olarak yapmanız gerekir.
 
-Output Escaping in Twig
-~~~~~~~~~~~~~~~~~~~~~~~
+Twig'de Çıktıyı Temizleme
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you're using Twig templates, then output escaping is on by default. This
-means that you're protected out-of-the-box from the unintentional consequences
-of user-submitted code. By default, the output escaping assumes that content
-is being escaped for HTML output.
+Eğer Twig kullanıyorsanız çıktı temizlenmesi varsayılan olarak yapılır.
+Bunun anlamı, kullanıcının gönderdiği kod yüzünden ortaya çıkacak istenmeyen
+sonuçlardan her zaman korunmanızdır. Genel olarak çıktı temizleme
+içeriğin HTML çıkışı için temizlenmesi olarak anlaşılmalıdır.
 
-In some cases, you'll need to disable output escaping when you're rendering
-a variable that is trusted and contains markup that should not be escaped.
-Suppose that administrative users are able to write articles that contain
-HTML code. By default, Twig will escape the article body. To render it normally,
-add the ``raw`` filter: ``{{ article.body|raw }}``.
+Bazı durumlasrda çıktı temizlemeyi bir değişkenin değerini gerçekten güvenip
+temiz olduğuna inandığınız için iptal etmet isteyebilirsiniz. Varsayalımki
+yönetici özelliğindeki kullanıcılar HTML kodu içeren haberler yazabilsinler.
+Varsayılan olarak, Twig haber metninin gövdesinde bunları temizleyecektir.
+Bunların normal halleri ile ekrana basılması için ``raw`` filitresi kullanılır:
+``{{ article.body|raw }}`` .
 
-You can also disable output escaping inside a ``{% block %}`` area or
-for an entire template. For more information, see `Output Escaping`_ in
-the Twig documentation.
+Ayrıca çıktı temizlemeyi ``{% block %}``  alanı içerisinde ya da tüm
+şablon için kapatabilirsiniz. Bu konuda daha fazla bilgi için Twig
+dokümanları içerisindeki `Çıktı Temizleme`_  kısmına bakın
 
-Output Escaping in PHP
+PHP'de Çıktı Temizleme
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Output escaping is not automatic when using PHP templates. This means that
-unless you explicitly choose to escape a variable, you're not protected. To
-use output escaping, use the special ``escape()`` view method::
+PHP şablonlarında çıktı temizleme otomatik olarak yapılmaz. Bunun anlamı
+bir değişkenin değerini temizleme ihtiyacı hissetmedikçe korumalı değilsiniz 
+demektir. Çıktı temizlemeyi kullanmak için ``escape()`` görünüm metodunu
+kullanırsınız::
+
 
     Hello <?php echo $view->escape($name) ?>
 
-By default, the ``escape()`` method assumes that the variable is being rendered
-within an HTML context (and thus the variable is escaped to be safe for HTML).
-The second argument lets you change the context. For example, to output something
-in a JavaScript string, use the ``js`` context:
+
+Varsayılan olarak ``escape()`` metodu bu değişkenin HTML içeriği ile ekrana
+basılacağını varsayar (ve bu değişklen HTML için güvenli hale getirilecek
+şekilde temizlenir). 
+
+İkinci argüman ise ise içeriği değiştirmeye izin verir. Örneğin içeriğinizde
+``js`` içeriğini kullanan bir kaç Javascript çıktısı için ::
 
 .. code-block:: js
 
     var myMsg = 'Hello <?php echo $view->escape($name, 'js') ?>';
 
 .. index::
-   single: Templating; Formats
+   single: Templating; Formatlar
 
 .. _template-formats:
 
-Debugging
----------
+Hata Ayıklama
+--------------
 
 .. versionadded:: 2.0.9
-    This feature is available as of Twig ``1.5.x``, which was first shipped
-    with Symfony 2.0.9.
+    Bu özellik Symfony 2.0.9 ile birlikte gelen Twig ``1.5.x`` sürümleri
+    için geçerlidir.
 
-When using PHP, you can use ``var_dump()`` if you need to quickly find the
-value of a variable passed. This is useful, for example, inside your controller.
-The same can be achieved when using Twig by using the debug extension. This
-needs to be enabled in the config:
+PHP kullanırken değişkene atanan değeri hızlı bir şekilde görebilmek için
+``var_dump()`` fonksiyonunu kullanabilirsiniz. Örneğin controller içerisinde
+Bu kullanışlıdır. Aynı şeyi Twig içerisinde hata ayıklama eklentisi ile de
+yapabilirsiniz. Bunun için konfigürasyon içerisinden bu özelliği aktif etmelisiniz:
 
 .. configuration-block::
 
@@ -1244,7 +1253,7 @@ needs to be enabled in the config:
         $definition->addTag('twig.extension');
         $container->setDefinition('acme_hello.twig.extension.debug', $definition);
 
-Template parameters can then be dumped using the ``dump`` function:
+Şablon parametreleri ``dump`` fonksiyonu ile içerikleri görülebilir:
 
 .. code-block:: html+jinja
 
@@ -1259,30 +1268,31 @@ Template parameters can then be dumped using the ``dump`` function:
     {% endfor %}
 
 
-The variables will only be dumped if Twig's ``debug`` setting (in ``config.yml``)
-is ``true``. By default this means that the variables will be dumped in the
-``dev`` environment but not the ``prod`` environment.
+Değişkenler sadece eğer Twig'in ``debug`` ayarı (``config.yml`` deki) ``true``
+olursa içerikleri gösterilecektir. Varsayılan olarak bunun anlamı değşkenler
+``dev`` ortamında içerikleri gözükebilir, ``prod`` ortamında değil.
 
-Template Formats
-----------------
+Şablon Formatları
+-----------------
 
-Templates are a generic way to render content in *any* format. And while in
-most cases you'll use templates to render HTML content, a template can just
-as easily generate JavaScript, CSS, XML or any other format you can dream of.
+Şablonlar içeriği *herhangi bir * formatta ekrana basmak için kullanılan
+genel bir yoldur. Bir şablon sadece kolay bir şekilde JavaScript, CSS, XML
+ya da düşünebildiğiniz her hanhangi bir formatta içerik yaratmaktan çok,
+çoğu durumlarda HTML içeriğini basmak için kullanılır. 
 
-For example, the same "resource" is often rendered in several different formats.
-To render an article index page in XML, simply include the format in the
-template name:
+Örneğin, aynı "kaynak" sıklıkla farkı formatlarda ekrana basılır. Haberlerin
+index sayfasını XML'de ekrana basmak için basitçe şablon ismine formatın ismi
+eklenir:
 
-* *XML template name*: ``AcmeArticleBundle:Article:index.xml.twig``
-* *XML template filename*: ``index.xml.twig``
+* *XML şablon adı*: ``AcmeArticleBundle:Article:index.xml.twig``
+* *XML şablon dosyası adı*: ``index.xml.twig``
 
-In reality, this is nothing more than a naming convention and the template
-isn't actually rendered differently based on its format.
+Gerçekte, bu bir isimlendirme kuralından başka bir şey değildir ve bunun
+böyle olması onun ilgili formatta olacağı anlamına gelmez.
 
-In many cases, you may want to allow a single controller to render multiple
-different formats based on the "request format". For that reason, a common
-pattern is to do the following:
+Bek çok durumda "istek format" 'ına göre tek bir controller kullanarak
+farklı tipteki fomatları ekrana basmak isteyebilirsiniz. Bu yüzden 
+aşağıdaki genel bir şablon(pattern) bu işlemi gerçekleştirir:
 
 .. code-block:: php
 
@@ -1293,15 +1303,16 @@ pattern is to do the following:
         return $this->render('AcmeBlogBundle:Blog:index.'.$format.'.twig');
     }
 
-The ``getRequestFormat`` on the ``Request`` object defaults to ``html``,
-but can return any other format based on the format requested by the user.
-The request format is most often managed by the routing, where a route can
-be configured so that ``/contact`` sets the request format to ``html`` while
-``/contact.xml`` sets the format to ``xml``. For more information, see the
-:ref:`Advanced Example in the Routing chapter <advanced-routing-example>`.
+``Request``  nesnesinin ``getRequestFormat`` da varsayılan ``html``
+ dir ancak , kullanıcının isteğine göre başka format'ta dönebilir.
 
-To create links that include the format parameter, include a ``_format``
-key in the parameter hash:
+İstek formatı (request format) genellikle route tarafından kontrol edilir.
+Bu yüzden  ``/contact`` değeri request format'ı ``html`` yaparken 
+``/contact.xml`` değeri request formatı ``xml`` yapar. 
+Daha fazla bilgi için :ref:`Routing kısmındaki ileri düzey örneklere bakın <advanced-routing-example>`.
+
+Format parametresini içeren bir link yaratmak için parametre öbeğinin 
+içerisine  ``_format`` değişkenini eklemelisiniz:
 
 .. configuration-block::
 
@@ -1317,35 +1328,36 @@ key in the parameter hash:
             PDF Version
         </a>
 
-Final Thoughts
+Sön Düşünceler
 --------------
 
-The templating engine in Symfony is a powerful tool that can be used each time
-you need to generate presentational content in HTML, XML or any other format.
-And though templates are a common way to generate content in a controller,
-their use is not mandatory. The ``Response`` object returned by a controller
-can be created with our without the use of a template:
+Şablon motoru Symfony de HTML, XML ya da diğer formattaki içeriği istediğiniz
+her zaman yaratabilecek güçlü bir araçtır. Şablonlar controller içerisinden
+içeriği yaratmadaki en sık kullanılan yol olsa da şablonların kullanımı 
+zorunlu değildir. Controller tarafından döndürülen ``Response`` nesnesi 
+bizim şablon kullanmamıza ihtiyaç bırakmadan da bu içeriği yaratabilir:
 
 .. code-block:: php
 
-    // creates a Response object whose content is the rendered template
+    // ekrana basılacak bir şablonla birlikte yaratılan bir Response Nesnesi
     $response = $this->render('AcmeArticleBundle:Article:index.html.twig');
 
-    // creates a Response object whose content is simple text
+    //Basit bir içeriğe sahip olan bir Response Nesnesi
     $response = new Response('response content');
 
-Symfony's templating engine is very flexible and two different template
-renderers are available by default: the traditional *PHP* templates and the
-sleek and powerful *Twig* templates. Both support a template hierarchy and
-come packaged with a rich set of helper functions capable of performing
-the most common tasks.
 
-Overall, the topic of templating should be thought of as a powerful tool
-that's at your disposal. In some cases, you may not need to render a template,
-and in Symfony2, that's absolutely fine.
+Symfony'nin şablon motoru iki adet farklı tipte olan ,
+geleneksel *PHP* şablonları ve zarif ve güçlü *Twig* şablonlarını varsayılan 
+olarak ekrana basabilen oldukça esnek bir motordur.
+İkiside pek çok genel işi kolaylıkla halledebilecek yardımcı metodlar ve
+zengin bir fonksiyon seti ile birlikte gelmektedir.
 
-Learn more from the Cookbook
-----------------------------
+Sonuç olarak şablon konusu kullanmayabileceğiniz ancak güçlü bir araç
+olarak bilmeniz gereken bir konudur. Bazı durumlarda Symfony2'de hiç
+şablon kullanma ihtiyacını hissetmeyebilirsiniz. Bu da çok doğaldır.
+
+Tarif Kitabından Daha Fazlasını Öğrenin
+---------------------------------------
 
 * :doc:`/cookbook/templating/PHP`
 * :doc:`/cookbook/controller/error_pages`
@@ -1354,7 +1366,7 @@ Learn more from the Cookbook
 .. _`Twig`: http://twig.sensiolabs.org
 .. _`KnpBundles.com`: http://knpbundles.com
 .. _`Cross Site Scripting`: http://en.wikipedia.org/wiki/Cross-site_scripting
-.. _`Output Escaping`: http://twig.sensiolabs.org/doc/api.html#escaper-extension
+.. _`Çıktı Temizleme`: http://twig.sensiolabs.org/doc/api.html#escaper-extension
 .. _`etiketler`: http://twig.sensiolabs.org/doc/tags/index.html
 .. _`filitreler`: http://twig.sensiolabs.org/doc/filters/index.html
 .. _`kendi eklentinizi dahi -yazabilirsiniz`: http://twig.sensiolabs.org/doc/extensions.html
