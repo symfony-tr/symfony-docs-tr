@@ -433,7 +433,7 @@ ve hızlı bir şekilde geliştirdiğini gördünüz. Eğer Symfony2 hakkında d
 
 
 .. _Symfony2 Standard Edition:      http://symfony.com/download
-.. _Symfony in 5 minutes:           http://symfony.com/symfony-in-five-minutes
+.. _5 dakikada Symfony:             http://symfony.com/symfony-in-five-minutes
 .. _Separation of Concerns:         http://en.wikipedia.org/wiki/Separation_of_concerns
 .. _YAML:                           http://www.yaml.org/
 .. _annotations in controllers:     http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html#annotations-for-controllers

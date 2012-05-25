@@ -1,56 +1,56 @@
-Text Fields
-~~~~~~~~~~~
-
-* :doc:`text</reference/forms/types/text>`
-* :doc:`textarea</reference/forms/types/textarea>`
-* :doc:`email</reference/forms/types/email>`
-* :doc:`integer</reference/forms/types/integer>`
-* :doc:`money</reference/forms/types/money>`
-* :doc:`number</reference/forms/types/number>`
-* :doc:`password</reference/forms/types/password>`
-* :doc:`percent</reference/forms/types/percent>`
-* :doc:`search</reference/forms/types/search>`
-* :doc:`url</reference/forms/types/url>`
-
-Choice Fields
-~~~~~~~~~~~~~
-
-* :doc:`choice</reference/forms/types/choice>`
-* :doc:`entity</reference/forms/types/entity>`
-* :doc:`country</reference/forms/types/country>`
-* :doc:`language</reference/forms/types/language>`
-* :doc:`locale</reference/forms/types/locale>`
-* :doc:`timezone</reference/forms/types/timezone>`
-
-Date and Time Fields
+Metin(Text) Alanları
 ~~~~~~~~~~~~~~~~~~~~
 
-* :doc:`date</reference/forms/types/date>`
-* :doc:`datetime</reference/forms/types/datetime>`
-* :doc:`time</reference/forms/types/time>`
-* :doc:`birthday</reference/forms/types/birthday>`
+* :doc:`metin(text)</reference/forms/types/text>`
+* :doc:`metin alanı(textarea)</reference/forms/types/textarea>`
+* :doc:`e-posta</reference/forms/types/email>`
+* :doc:`sayı(integer)</reference/forms/types/integer>`
+* :doc:`para</reference/forms/types/money>`
+* :doc:`rakam</reference/forms/types/number>`
+* :doc:`parola</reference/forms/types/password>`
+* :doc:`yüzdelik</reference/forms/types/percent>`
+* :doc:`arama</reference/forms/types/search>`
+* :doc:`url</reference/forms/types/url>`
 
-Other Fields
+Seçim Alanları
+~~~~~~~~~~~~~~
+
+* :doc:`seçim listesi</reference/forms/types/choice>`
+* :doc:`veritabanından seçim listesi(entity)</reference/forms/types/entity>`
+* :doc:`ülke</reference/forms/types/country>`
+* :doc:`dil</reference/forms/types/language>`
+* :doc:`yerel</reference/forms/types/locale>`
+* :doc:`saatkuşağı(timezone)</reference/forms/types/timezone>`
+
+Tarih ve Zaman Alanları
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* :doc:`tarih</reference/forms/types/date>`
+* :doc:`tarih ve saat (datetime)</reference/forms/types/datetime>`
+* :doc:`saat</reference/forms/types/time>`
+* :doc:`doğum günü</reference/forms/types/birthday>`
+
+Diğer Alanlar
 ~~~~~~~~~~~~
 
 * :doc:`checkbox</reference/forms/types/checkbox>`
-* :doc:`file</reference/forms/types/file>`
+* :doc:`dosya</reference/forms/types/file>`
 * :doc:`radio</reference/forms/types/radio>`
 
-Field Groups
-~~~~~~~~~~~~
+Alan Gurupları
+~~~~~~~~~~~~~~
 
-* :doc:`collection</reference/forms/types/collection>`
-* :doc:`repeated</reference/forms/types/repeated>`
+* :doc:`kolleksiyon</reference/forms/types/collection>`
+* :doc:`tekrarlı (repeated)</reference/forms/types/repeated>`
 
-Hidden Fields
+Gizli Alanlar
 ~~~~~~~~~~~~~
 
 * :doc:`hidden</reference/forms/types/hidden>`
 * :doc:`csrf</reference/forms/types/csrf>`
 
-Base Fields
-~~~~~~~~~~~
+Temel Alanlar
+~~~~~~~~~~~~~
 
-* :doc:`field</reference/forms/types/field>`
+* :doc:`alan(field)</reference/forms/types/field>`
 * :doc:`form</reference/forms/types/form>`
