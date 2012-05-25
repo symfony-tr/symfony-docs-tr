@@ -1,5 +1,5 @@
 Büyük Resim
-===============
+===========
 
 Symfony2 'yi kulanmaya 10 dakikada başlayın! Bu bölüm Symfony2 'nin 
 arkasındaki en önemli temelleri öğretecek ve basitçe bir projeye çabucak
@@ -15,7 +15,7 @@ hoş geldiniz!
     "`5 dakikada Symfony`_" belgesini okuyun.
 
 Symfony2'yi İnternetten İndirmek
---------------------
+--------------------------------
 
 Öncelikle bir web sunucusunun PHP 5.3.2 veya daha üstü sürümü ile kurulu
 ve yapılandırılmış olduğunu kontrol edin. (Örneğin Apache gibi)
@@ -63,7 +63,7 @@ adında bir dizine sahip olmalısınız. Bu dizinin içeriği aşağıdaki gibid
         php bin/vendors install
 
 Konfigürasyon Kontrolü
---------------------------
+-----------------------
 Symfony2 Web sunucunuzun ya da PHP'nin yanlış ayarlanması dolayısıyla 
 oluşacak baş ağrılarından kurtaracak görsel bir konfigürasyon test aracı 
 ile birlikte gelir. Makinanızı şu URL üzerinden test edebilirsiniz:
@@ -86,7 +86,7 @@ Symfony2 sizin bu sıkı çalışmanızı tebrik ederek size Hoşgeldiniz diyece
    :align: center
 
 Temelleri Anlamak
-------------------------------
+-----------------
 
 Bir framework'un ana amaçlarından bir tanesi şunu sağlamaktır. 
 `Endişeleri Ayırmak`_.
@@ -119,18 +119,22 @@ tüm isteklerine cevap veren tek yer.;
 
 * ``/demo/hello/Fabien``: Bu *virtual path* kullanıcının erişmek istediği yer.
 
-Geliştirici olarak sorumluluğunuz kullanıcıların isteklerini (*request* (``/demo/hello/Fabien``) ) kaynaklarla (*resource*) )
+Geliştirici olarak sorumluluğunuz kullanıcıların isteklerini 
+(*request* (``/demo/hello/Fabien``) ) kaynaklarla (*resource*) )
 (``Hello Fabien!`` HTML sayfası) birleştirmektir.
 
 Yönlendirme (Routing)
-~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+
 Symfony2 kod üzerinde önceden belirlenmiş URL pattern (desenleri) ile 
 kullanıcının istek (request) 'lerini eşleştirmeye çalışır.
 
 Varsayılan olarak bu desenler(pattern) (yönlendirme olarak adlandırılır)
 ``app/config/routing.yml`` dosyasında tanımlanmıştır.
-Eğer siz  app_**dev**.php front controller 'nın işaret ettiği ``dev`` :ref:`ortamındaysanız<quick-tour-big-picture-environments>` 
-``app/config/routing_dev.yml`` dosyası yüklenir. Standart Sürümdeki demoda yönlendirmelerşu dosyadadır::
+Eğer siz  app_**dev**.php front controller 'nın işaret ettiği 
+``dev`` :ref:`ortamındaysanız<quick-tour-big-picture-environments>` 
+``app/config/routing_dev.yml`` dosyası yüklenir. Standart Sürümdeki 
+demoda yönlendirmeler şu dosyadadır::
 
 .. code-block:: yaml
 
@@ -160,14 +164,16 @@ Sonraki bölümde bunun ne manaya geldiğini daha ayrıntılı olarak göreceksi
 	etki etmez.Çünki herşey daha ilk istekte ön belleğe zaten alınmaktadır.
 
 Controller'lar
-~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 Controller, gelen istek *request* leri cevap *response* (genellikle HTML kodu) 
 olarak çeviren bir PHP fonksiyonu ya da metodunun fantastik bir ismidir. 
 
 PHP global değişkenleri ya da fonksiyonlarını (``$_GET`` ya da  ``header()`` gibi)
-kullanmak yerine Bu HTTP mesajlarını Symfony2 :class:`Symfony\\Component\\HttpFoundation\\Request`
-ve :class:`Symfony\\Component\\HttpFoundation\\Response` sınıflarını kullanarak yönetir.
+kullanmak yerine Bu HTTP mesajlarını Symfony2 
+:class:`Symfony\\Component\\HttpFoundation\\Request`
+ve :class:`Symfony\\Component\\HttpFoundation\\Response` sınıflarını 
+kullanarak yönetir.
 
 Gelen isteği cevaplandırabilecek mümkün olan en basit controller yapısı 
 şu şekildedir::
@@ -239,8 +245,10 @@ oluşturabilir iken aynı zamanda bir yeniden yönlendirme (redirect) işleminid
    ":doc:`The Controller</book/controller>`" bölümü Symfony2 Controller'ları hakkındaki
    herşeyi anlatmaktadır.
 
-``AcmeDemoBundle:Welcome:index.html.twig`` isimli şablon adı ``AcmeDemoBundle`` (``src/Acme/DemoBundle`` da bulunan)
-içerisindeki ``Resources/views/Welcome/index.html.twig`` dosyasını işaret eden mantıksal bir addır.
+``AcmeDemoBundle:Welcome:index.html.twig`` isimli şablon adı 
+``AcmeDemoBundle`` (``src/Acme/DemoBundle`` da bulunan)
+içerisindeki ``Resources/views/Welcome/index.html.twig`` 
+dosyasını işaret eden mantıksal bir addır.
  
 Bunun neden çok kullanışlı olduğu Bundle kısmında açıklanacaktır.
 
@@ -261,9 +269,10 @@ ya da PHP kodunun içerisine gömülmüş Annotation (belirteç)
 lardan yönlendirme ayarlarını okuyabilir / içeri aktarabilir (import).
 
 Burada ``@AcmeDemoBundle/Controller/DemoController.php`` dosyasının
-*mantıksal* (logical) isimi ile işaret ettiği ``src/Acme/DemoBundle/Controller/DemoController.php``
-dosyası verilmiştir. Bu dosyadada yönlendirmeler action metodları için yönlendirmeler
-belirteç(Annotation) olarak verilmiştir:: 
+*mantıksal* (logical) isimi ile işaret ettiği 
+``src/Acme/DemoBundle/Controller/DemoController.php``
+dosyası verilmiştir. Bu dosyadada yönlendirmeler action metodları 
+için yönlendirmeler belirteç(Annotation) olarak verilmiştir:: 
 
     // src/Acme/DemoBundle/Controller/DemoController.php
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -304,7 +313,7 @@ Bu yüzden bu örnekte ``AcmeDemoBundle:Demo:hello.html.twig`` şablonu render e
 .. tip::
 
     ``@Route()`` ve ``@Template()`` belirteçleri bu öğreticide gösterilen örneklerdekinden
-    çok daha fazlasını yapabilir. Bunun için resmi dokümanlardaki "`annotations in controllers`_" başlıklı bölümü
+    çok daha fazlasını yapabilir. Bunun için resmi dokümanlardaki "`controller içinde belirteçler`_" başlıklı bölümü
     okuyun.
 
 Şablonlar
@@ -330,7 +339,7 @@ geleneksel PHP şablonlarını da kullabilirsiniz. Sonraki bölümde şablonlar�
 nasıl kullanılacağına bir giriş yapılacaktır.
 
 Bundle'lar
-~~~~~~~
+~~~~~~~~~~
 
 :term:`bundle` kelimesi neden çok fazla kullandığımızı merak etmiş olabilirsiniz.
 Uygulamanızı oluşturan yazdığınız tüm kodlar bundle yapısı içerisinde organize olurlar.
@@ -345,8 +354,9 @@ Bundle'lar hakkında daha fazla bilgiyi bu öğretiinin son bölümünde öğren
 
 .. _quick-tour-big-picture-environments:
 
-Environments (Çevrelerle Çalışmak)
--------------------------
+Environments (Ortamlar)
+-----------------------
+-----------------------
 
 Symfony2'nin çıktı sayfasına daha dikkatli bakarsanız Symfony2'nin nasıl
 çalıştığını daha iyi anlayabilirsiniz.Symfony2 logosunun altındaki küçük
@@ -403,11 +413,9 @@ boşaltılır. Ancak uygulama ortamında (``app.php``) performans ana unsur
 olduğu için bu yapılmaz. Buda neden geliştirme ortamında çalışmanız 
 gerektiğini açıklar.
 
-
-
-Different :term:`environments<environment>` of a given application differ
-only in their configuration. In fact, a configuration can inherit from another
-one:
+Verilen uygulamanın farklı :term:`ortamları<environment>` sadece kendi
+konfigürasyonlarında ayrılırlar. Aslında bir konfigürasyon diğer birinden
+kalıtım sağlayabilir:
 
 .. code-block:: yaml
 
@@ -419,12 +427,12 @@ one:
         toolbar: true
         intercept_redirects: false
 
-The ``dev`` environment (which loads the ``config_dev.yml`` configuration file)
-imports the global ``config.yml`` file and then modifies it by, in this example,
-enabling the web debug toolbar.
+``dev`` çevresi (``config_dev.yml konfigürasyon dosyasını yükler) genel
+``config.yml`` dosyasını içeri aktarır (import) ve onu bu örnekte web debug toolbar
+'ı açık olacak şekilde değiştirir.
 
 Son Söz
---------------
+-------
 
 Tebrikler!  Symfony2 kodundaki ilk lezzeti tattınız. O kadar zor değil değil mi ?
 Daha çok araştırılacak şey var ancak Symfony2'nin nasıl web sitelerini çabuk
@@ -433,8 +441,8 @@ ve hızlı bir şekilde geliştirdiğini gördünüz. Eğer Symfony2 hakkında d
 
 
 .. _Symfony2 Standard Edition:      http://symfony.com/download
-.. _Symfony in 5 minutes:           http://symfony.com/symfony-in-five-minutes
+.. _5 dakikada Symfony:             http://symfony.com/symfony-in-five-minutes
 .. _Separation of Concerns:         http://en.wikipedia.org/wiki/Separation_of_concerns
 .. _YAML:                           http://www.yaml.org/
-.. _annotations in controllers:     http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html#annotations-for-controllers
+.. _controller içinde belirteçler:  http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html#annotations-for-controllers
 .. _Twig:                           http://twig.sensiolabs.org/
