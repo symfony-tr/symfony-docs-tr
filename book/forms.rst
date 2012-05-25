@@ -1,30 +1,29 @@
 .. index::
-   single: Forms
+   single: Formlar
 
-Forms
-=====
-
-Dealing with HTML forms is one of the most common - and challenging - tasks for
-a web developer. Symfony2 integrates a Form component that makes dealing with
-forms easy. In this chapter, you'll build a complex form from the ground-up,
-learning the most important features of the form library along the way.
+Formlar
+=======
+HTML formları ile uğraşmak bir web geliştiricisinin en sık yaptığı -ve
+cebelleştiği- işlerden birisidir. Symfony2 formlarla uğraşmayı kolaylaştıracak
+bir Form bileşeni ile birlikte gelir. Bu bölüm boyunca sıfırdan form kütüphanesinin
+en önemli özellikleri ile karmaşık formlar yapmayı öğreneceksiniz.
 
 .. note::
 
-   The Symfony form component is a standalone library that can be used outside
-   of Symfony2 projects. For more information, see the `Symfony2 Form Component`_
-   on Github.
+   Symfony form bileşeni Smfony2 projeleri haricinde de kullanılabilecek
+   kendi başına çalışan bir kütüphanedir. Daha fazla bilgi için Github'daki
+   `Symfony2 Form Bileşeni`_ 'ne bakın.
 
 .. index::
-   single: Forms; Create a simple form
+   single: Forms; Basit bir form yaratmak
 
-Creating a Simple Form
-----------------------
-
-Suppose you're building a simple todo list application that will need to
-display "tasks". Because your users will need to edit and create tasks, you're
-going to need to build a form. But before you begin, first focus on the generic
-``Task`` class that represents and stores the data for a single task:
+Basit Bir Form Yaratmak
+-----------------------
+Varsayalımki ihtiyacımız doğrultusunda yapacağımız işleri gösteren
+basit bir yapılacaklar (todo) listesi uygulaması geliştireceksiniz. 
+Kullanıcılarınızın görevleri yaratacak ve düzenleyecek olmalarından ötürü
+sizin bir form geliştirmeniz gerekecek. Başlamadan önce tek bir "görevi"
+temsil eden ve saklayan ``Task`` adındaki bir sınıfa odaklanalım:
 
 .. code-block:: php
 
@@ -58,31 +57,31 @@ going to need to build a form. But before you begin, first focus on the generic
 
 .. note::
 
-   If you're coding along with this example, create the ``AcmeTaskBundle``
-   first by running the following command (and accepting all of the default
-   options):
+   Eğer bu örneği bütün bir örnek halinde kodlayacaksınız ``AcmeTaskBundle``
+   bundle'ını aşağıdaki komutu kullanarak yaratın(ve tüm varsayılan
+   ayarları kabul edin):
 
    .. code-block:: bash
 
         php app/console generate:bundle --namespace=Acme/TaskBundle
 
-This class is a "plain-old-PHP-object" because, so far, it has nothing
-to do with Symfony or any other library. It's quite simply a normal PHP object
-that directly solves a problem inside *your* application (i.e. the need to
-represent a task in your application). Of course, by the end of this chapter,
-you'll be able to submit data to a ``Task`` instance (via an HTML form), validate
-its data, and persist it to the database.
+Bu sınıf "düz-eski-PHP-nesnesi" olduğundan dolayı Symfony ile ya da 
+diğer bir kütüphane ile hiç bir şey yapmayacaktır. Bu oldukça basit normal
+bir PHP nesnesi uygulamanız içerisindeki sorunu *direkt* olarak çözer
+(öen: bir görevi uygulamanızda temsil etmesi açısından). Elbette bu 
+bölümün sonunda ``Task`` tipinde bir veriyi gönderecek, doğruluğunu
+kontrol edecek ve veritabanında saklayacaksınız.
 
 .. index::
-   single: Forms; Create a form in a controller
+   single: Forms; Controller içerisinde bir form yaratma
 
-Building the Form
-~~~~~~~~~~~~~~~~~
+Form Geliştirme
+~~~~~~~~~~~~~~~
 
-Now that you've created a ``Task`` class, the next step is to create and
-render the actual HTML form. In Symfony2, this is done by building a form
-object and then rendering it in a template. For now, this can all be done
-from inside a controller::
+Şimdi bir ``Task`` sınıfı yarattınız, diğer adım ise güncel bir HTML formu
+yaratmak ve ekrana basmak. Symfony2'de bu form objesini geliştirerek ve
+şablon içerisinde ekrana basarak olur. Şimdilik bunların tamamını
+controller içerisinden yapabiliriz::
 
     // src/Acme/TaskBundle/Controller/DefaultController.php
     namespace Acme\TaskBundle\Controller;
@@ -95,7 +94,7 @@ from inside a controller::
     {
         public function newAction(Request $request)
         {
-            // create a task and give it some dummy data for this example
+            // bir görev yarat ve bu örnek için bazı örnek veriler ver
             $task = new Task();
             $task->setTask('Write a blog post');
             $task->setDueDate(new \DateTime('tomorrow'));
@@ -113,34 +112,36 @@ from inside a controller::
 
 .. tip::
 
-   This example shows you how to build your form directly in the controller.
-   Later, in the ":ref:`book-form-creating-form-classes`" section, you'll learn
-   how to build your form in a standalone class, which is recommended as
-   your form becomes reusable.
+   Bu örnek size formların direkt controller içerisinden nasıl yaratılacağını
+   gösterir. Sonra  ":ref:`book-form-creating-form-classes`" kısmında 
+   form'ların kendi başına bir sınıf halinde nasıl geliştirilip yeniden 
+   kullanılabilir hale getirebileceğinizi öğreneceksiniz.
+   
 
-Creating a form requires relatively little code because Symfony2 form objects
-are built with a "form builder". The form builder's purpose is to allow you
-to write simple form "recipes", and have it do all the heavy-lifting of actually
-building the form.
+Bir formu yaratmak görece olarak Symfony2 form objesini yaratan
+bir "form yapıcı (builder)" ile olduğundan dolayı daha az kod yazılır.
+Form builder'lar basit form "reçeteleri" yazmak ve bir formu geliştirirken
+bütün ağır işleri kaldırmaktan sorumludur.
 
-In this example, you've added two fields to your form - ``task`` and ``dueDate`` -
-corresponding to the ``task`` and ``dueDate`` properties of the ``Task`` class.
-You've also assigned each a "type" (e.g. ``text``, ``date``), which, among
-other things, determines which HTML form tag(s) is rendered for that field.
+Bu örnekte formunuza ``task`` ve ``dueDate`` adında ``Task`` sınıfını
+``task`` ve ``dueDate`` değişkenleri ile ilişkili iki adet alan eklediniz.
+Ayrıca her birisine bu alanların ekrana basılması esnasında hangi HTML
+etiket(ler)'ini kullanılacağını belirlemek için bir tip atadınız
+(örn. ``text``, ``date``). 
 
-Symfony2 comes with many built-in types that will be discussed shortly
-(see :ref:`book-forms-type-reference`).
+Symfony2 burada kısaca değileceğimiz pek çok ön tanımlı hazır tip ile
+birlikte gelir (bkz :ref:`book-forms-type-reference`).  
 
 .. index::
-  single: Forms; Basic template rendering
+  single: Forms; Basit şablon renderi(ekrana basma)
 
-Rendering the Form
-~~~~~~~~~~~~~~~~~~
+Formu ekrana basma (render)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now that the form has been created, the next step is to render it. This is
-done by passing a special form "view" object to your template (notice the
-``$form->createView()`` in the controller above) and using a set of form
-helper functions:
+Madem ki form yaratıldı, sonraki adım onu ekrana basmak. Bu şablonunuz
+içerisindeki özel bir form "gösterm" nesnesine aktarılarak 
+(yukarıdaki controller içerisindeki ``$form->createView()`` ifadesine
+dikkat edin) ve bir dizi form yardımcı fonksiyonu aracılığı ile yapılır:
 
 .. configuration-block::
 
@@ -169,46 +170,48 @@ helper functions:
 
 .. note::
 
-    This example assumes that you've created a route called ``task_new``
-    that points to the ``AcmeTaskBundle:Default:new`` controller that
-    was created earlier.
+    Bu örnek önceden ``task_new`` adındaki bir route'u ve
+    ``AcmeTaskBundle:Default:new` 'ı işaret eden bir controller 
+    yarattığınızı varsayar.
 
-That's it! By printing ``form_widget(form)``, each field in the form is
-rendered, along with a label and error message (if there is one). As easy
-as this is, it's not very flexible (yet). Usually, you'll want to render each
-form field individually so you can control how the form looks. You'll learn how
-to do that in the ":ref:`form-rendering-template`" section.
+Bu kadar! ``form_widget(form)`` ile ekrana basarken her form alanı bir etiket
+ve bir hata mesajı ile (Eğer hata oluşursa) yaratılacaktır. Çok kolay olmasına
+rağmen bu çok esnek değil (henuz). Genellikle eyer form alanını formu nasıl
+görünmesini istediğiniz şekilde ayrı ayrı olarak ekrana basmak istersiniz.
+Bunun nasul yapılacağını ":ref:`form-rendering-template`" kısmında
+öğreneceksiniz.
 
-Before moving on, notice how the rendered ``task`` input field has the value
-of the ``task`` property from the ``$task`` object (i.e. "Write a blog post").
-This is the first job of a form: to take data from an object and translate
-it into a format that's suitable for being rendered in an HTML form.
+Devam etmeden önce ``$task`` (Örn "Write a blog post") 
+nesnesinin ``task`` değişkenindeki değerin ``task`` metin kutusu halinde 
+ekrana nasıl basıldığına dikkat edin.
+Formun ilk işi nesneden veriyi almak ve onu HTML formu olarak basmak için
+uygun bir formata çevirmektir.
 
 .. tip::
 
-   The form system is smart enough to access the value of the protected
-   ``task`` property via the ``getTask()`` and ``setTask()`` methods on the
-   ``Task`` class. Unless a property is public, it *must* have a "getter" and
-   "setter" method so that the form component can get and put data onto the
-   property. For a Boolean property, you can use an "isser" method (e.g.
-   ``isPublished()``) instead of a getter (e.g. ``getPublished()``).
-
+   Form sistemi ``Task``  sınıfından protected özellikteki  ``task`` değişkeninden
+   veriye ``getTask()`` ve ``setTask()`` metodları ile erişecek kadar zekidir.
+   Sınıf değişkeni public özellikte olmadıkça bunların form bileşeninin
+   veriyi alması ve vermesi için *mutlaka* "getter" ve "setter" fonksiyonlarının
+   olması gerekir. Mantıksal(boolean) bir değişken için "getter" 
+   (Örn. ``getPublished()``) metodu yerine "isser" (Örn. ``isPublished()``) 
+   metodunu kullanmanız gerekir.
+   
 .. index::
-  single: Forms; Handling form submission
+  single: Forms; Form gönderisini işlemek
 
-Handling Form Submissions
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Form Gönderilerini İşlemek
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The second job of a form is to translate user-submitted data back to the
-properties of an object. To make this happen, the submitted data from the
-user must be bound to the form. Add the following functionality to your
-controller::
+Formun ikinci görevi kullanıcının gönderdiği verileri nesnenin değişkenlerine
+aktarmaktır. Bunu gerçekleştirmek için, kullanıcının verilerini forma 
+girmesi gerekmektedir. Controller'ınıza aşağıdaki özelliği ekleyin::
 
     // ...
 
     public function newAction(Request $request)
     {
-        // just setup a fresh $task object (remove the dummy data)
+        // sadece temiz bir $task nesnesi yarat (yapay verileri temizle)
         $task = new Task();
 
         $form = $this->createFormBuilder($task)
@@ -220,7 +223,7 @@ controller::
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                // perform some action, such as saving the task to the database
+                // veritabanına "görev" verisini yazmak gibi bazı işlemleri yap
 
                 return $this->redirect($this->generateUrl('task_success'));
             }
@@ -229,53 +232,52 @@ controller::
         // ...
     }
 
-Now, when submitting the form, the controller binds the submitted data to the
-form, which translates that data back to the ``task`` and ``dueDate`` properties
-of the ``$task`` object. This all happens via the ``bindRequest()`` method.
+Şimdi form verisi gönderildiğinde (submit) controller gönderilen form verisini
+form üzerinden alır, ``$task`` nesnesinin ``task`` ve ``dueDate`` değişkenlerine
+aktarmak için çevirir. Bunların hepsi ``bindRequest()`` metodu ile olur.
 
 .. note::
 
-    As soon as ``bindRequest()`` is called, the submitted data is transferred
-    to the underlying object immediately. This happens regardless of whether
-    or not the underlying data is actually valid.
+    ``bindRequest()`` çağırılır çağırılmaz veri hemen temel nesneye transfer edilir.
+    Temel veri, gerçekte geçerli olsun ya da olmasın bu gerçekleşir.
 
-This controller follows a common pattern for handling forms, and has three
-possible paths:
+Bu controller formları işlerken genel olarak, olası üç yolla şu şablonu izler:
 
-#. When initially loading the page in a browser, the request method is ``GET``
-   and the form is simply created and rendered;
+#. Sayfa tarayıcıda yüklenmeye başladığında istek metodu ``GET`` tir ve form
+   basitçe yaratılır ve ekrana basılır
 
-#. When the user submits the form (i.e. the method is ``POST``) with invalid
-   data (validation is covered in the next section), the form is bound and
-   then rendered, this time displaying all validation errors;
+#. Kullanıcı form verilerini hatalı veriler ile gönderdiğinde 
+   (örn. ``POST`` metodu ile) form verileri alır ve daha sonra ekrana basılır. 
+   Bu esnada tüm doğrulama hataları gösterilir;
 
-#. When the user submits the form with valid data, the form is bound and
-   you have the opportunity to perform some actions using the ``$task``
-   object (e.g. persisting it to the database) before redirecting the user
-   to some other page (e.g. a "thank you" or "success" page).
+#. Kullanıcı form verilerini doğru veriler ile gönderdiğinde, form bunları alır
+   ve bu verileri bazı işlemler yapma fırsatı sağlamak amacıyla (örn: veriyi 
+   veritabanına yazmak gibi) ``$task`` nesnesine kullanıcı başka bir 
+   sayfaya yönlendirilmeden önce aktarılır(örn: "teşekkürler" ya da "başarılı" sayfası gibi).
 
 .. note::
 
-   Redirecting a user after a successful form submission prevents the user
-   from being able to hit "refresh" and re-post the data.
-
+   Kullanıcı başarılı form gönderisinden sonra yönlendirilmeden önce
+   kullanıcı veriyi yeniden göndermek için "refresh" özelliğine sahip olacaktır.
+   
 .. index::
-   single: Forms; Validation
+   single: Forms; Veri Doğrulama
 
-Form Validation
----------------
+Form Verisi Doğrulama
+----------------------
 
-In the previous section, you learned how a form can be submitted with valid
-or invalid data. In Symfony2, validation is applied to the underlying object
-(e.g. ``Task``). In other words, the question isn't whether the "form" is
-valid, but whether or not the ``$task`` object is valid after the form has
-applied the submitted data to it. Calling ``$form->isValid()`` is a shortcut
-that asks the ``$task`` object whether or not it has valid data.
+Önceki kısımda form verilerinin nasıl geçerli ya da yanlış verilerle 
+gönderilebileceğiniz gördünüz. Symfony2'de veri doğrulama temel 
+nesneye uygulanır (Örn: ``Task`` nesnesi). Diğer bir ifade ile soru
+"form"'un geçerli olup olmaması ya da ``$task`` nesnesinin 
+form verisi gönderildikten sonra nesne içerisindeki verinin kontrol 
+edilip edilmemesi değildir. ``$form->isValid()`` metodu çağırıldığında 
+``$task`` nesnesine bunun geçerli bir veri olup olmadığı sorulur.
 
-Validation is done by adding a set of rules (called constraints) to a class. To
-see this in action, add validation constraints so that the ``task`` field cannot
-be empty and the ``dueDate`` field cannot be empty and must be a valid \DateTime
-object.
+Veri doğrdulama sınıfa eklenen bir dizi kuralla (kısıtlar) yapılır.
+Bunu uygulamada görmek için ``task`` form alanına boş olamayacağını ve 
+``dueDate`` form alanına boş olamayacağı ve geçerli bir \DateTime 
+nesnesi türünde olmasını söyleyecek doğrulama kısıtını koyalım.
 
 .. configuration-block::
 
@@ -344,54 +346,58 @@ object.
             }
         }
 
-That's it! If you re-submit the form with invalid data, you'll see the
-corresponding errors printed out with the form.
+
+Bu kadar! Eğer formunuzu geçersiz veriler ile yeniden gönderirseniz form 
+üzerinde ilgili yerlerde hata mesajlarını göreceksiniz.
 
 .. _book-forms-html5-validation-disable:
 
-.. sidebar:: HTML5 Validation
+.. sidebar:: HTML5 Veri Doğrulaması
 
-   As of HTML5, many browsers can natively enforce certain validation constraints
-   on the client side. The most common validation is activated by rendering
-   a ``required`` attribute on fields that are required. For browsers that
-   support HTML5, this will result in a native browser message being displayed
-   if the user tries to submit the form with that field blank.
+   HTML5 ile birlikte pek çok tarayıcı belirli veri doğrulama kısıtlarını 
+   istemci tarafında doğal olarak yapabilmektedir. En çok kullanılan 
+   veri doğrulama türü gerekli form alanlarının ``required`` ifadesi
+   ile gösterilmesidir. HTML5 destekleye tarayıcılar için bunun sonucu 
+   eğer kullanıcı formun bu alanını boş bıraktığında bir tarayıcı
+   hatası gibi gözükecektir.
 
-   Generated forms take full advantage of this new feature by adding sensible
-   HTML attributes that trigger the validation. The client-side validation,
-   however, can be disabled by adding the ``novalidate`` attribute to the
-   ``form`` tag or ``formnovalidate`` to the submit tag. This is especially
-   useful when you want to test your server-side validation constraints,
-   but are being prevented by your browser from, for example, submitting
-   blank fields.
+   Yaratılan formlar bu yeni özelliğin tüm avantajlarını kullanarak
+   hassas HTML5 nitelikleri ile veri doğrulama özelliği eklenmektedir.
+   İstemci tarafı veri doğrulama aynı zamanda form etiketine ``novalidate`` 
+   niteliği eklemek ya da submit etiketine ``formnovalidate`` özelliği
+   eklemekle kapatılabilir.Bu özellikle sunucu tarafı veri doğrulama araçlarını
+   test etmek istediğinizde oldukça kullanışlıdır.
+   
 
-Validation is a very powerful feature of Symfony2 and has its own
-:doc:`dedicated chapter</book/validation>`.
+Veri doğrulama Symfony2'nin oldukça güçlü bir özelliğidir ve kendi
+:doc:`ayrılmış bir bölüm içerisinde anlatılmaktadır</book/validation>`. 
 
 .. index::
-   single: Forms; Validation Groups
+   single: Forms; Veri Doğrulama Gurupları
 
 .. _book-forms-validation-groups:
 
-Validation Groups
-~~~~~~~~~~~~~~~~~
+Veri Doğrulama Gurupları
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tip::
 
-    If you're not using :ref:`validation groups <book-validation-validation-groups>`,
-    then you can skip this section.
+    Eğer :ref:`veri doğrulama gurupları <book-validation-validation-groups>` 'nı
+    kullanmıyorsanız bu kısımı geçin.
 
-If your object takes advantage of :ref:`validation groups <book-validation-validation-groups>`,
-you'll need to specify which validation group(s) your form should use::
+Eğer nesneniz :ref:`veri doğrulama gurupları <book-validation-validation-groups>` 'nın
+avantajlarını kullanmasını istiyorsanız formunuz içerisinde kullanmanız gereken veri
+doğrulama gurup(lar)ını tanımlamanız gerekecektir::
 
     $form = $this->createFormBuilder($users, array(
         'validation_groups' => array('registration'),
     ))->add(...)
     ;
 
-If you're creating :ref:`form classes<book-form-creating-form-classes>` (a
-good practice), then you'll need to add the following to the ``getDefaultOptions()``
-method::
+Eğer :ref:`form sınıfları <book-form-creating-form-classes>` 
+yaratıyorsanız (en iyi uygulama), bu durumda ``getDefaultOptions()`` 
+metodunda bunları eklemeniz gerekir:: 
+
 
     public function getDefaultOptions(array $options)
     {
@@ -400,89 +406,93 @@ method::
         );
     }
 
-In both of these cases, *only* the ``registration`` validation group will
-be used to validate the underlying object.
+
+Her iki durumda da *sadece* ``registration`` veri doğrulama gurubu temel
+nesnede veri doğrulamak için kullanılacaktır.
 
 .. index::
-   single: Forms; Built-in Field Types
+   single: Forms; Hazır Alan Tipleri
 
 .. _book-forms-type-reference:
 
-Built-in Field Types
+Hazır Alan Tipleri
 --------------------
 
-Symfony comes standard with a large group of field types that cover all of
-the common form fields and data types you'll encounter:
+Symfony karşılaşacağınız tüm genel form alan ve veri tipleri için geniş
+bir alan tipi gurubu ile standart olarak gelir:
 
 .. include:: /reference/forms/types/map.rst.inc
 
-You can also create your own custom field types. This topic is covered in
-the ":doc:`/cookbook/form/create_custom_field_type`" article of the cookbook.
+Eğer isterseniz kendinize özel alan tipleri de yaratabilirsiniz. Bu konu
+tarif kitabının ":doc:`/cookbook/form/create_custom_field_type`" adlı 
+makalesinde işlenmiştir.
 
 .. index::
-   single: Forms; Field type options
+   single: Forms; Alan tipi seçenekleri
 
-Field Type Options
-~~~~~~~~~~~~~~~~~~
+Alan Tipi Seçenekleri
+~~~~~~~~~~~~~~~~~~~~~
 
-Each field type has a number of options that can be used to configure it.
-For example, the ``dueDate`` field is currently being rendered as 3 select
-boxes. However, the :doc:`date field</reference/forms/types/date>` can be
-configured to be rendered as a single text box (where the user would enter
-the date as a string in the box)::
+Her alan tipi konfigüre edebilmek için bir dizi seçeneğe sahiptir.
+Örneğin ``dueDate`` alanı normalde 3 seçim kutusu ile ekrana basılır.
+Ancak :doc:`tarih alanı</reference/forms/types/date>` tek bir giriş
+kutusu (input box) olacak şekilde(kullanıcı tarihi metin tipinde girmek
+isteyebilir) ayarlanabilir:
 
     ->add('dueDate', 'date', array('widget' => 'single_text'))
 
 .. image:: /images/book/form-simple2.png
     :align: center
 
-Each field type has a number of different options that can be passed to it.
-Many of these are specific to the field type and details can be found in
-the documentation for each type.
+Her alan tipinin aktarılabilecek bir dizi farklı seçeneği vardır.
+Bunların pek çoğu alan tipine özeldir ve her alan tipinin dokümantasyonu
+içerisinde bulunabilir.
 
-.. sidebar:: The ``required`` option
+.. sidebar:: ``required`` seçeneği
 
-    The most common option is the ``required`` option, which can be applied to
-    any field. By default, the ``required`` option is set to ``true``, meaning
-    that HTML5-ready browsers will apply client-side validation if the field
-    is left blank. If you don't want this behavior, either set the ``required``
-    option on your field to ``false`` or :ref:`disable HTML5 validation<book-forms-html5-validation-disable>`.
+    En genel seçenek olan ``required`` seçeneği herhangi bir alana uygyulanabilir.
+    Varsayılan olarak ``required`` seçeneği eğer alan boş ise bunu 
+    HTML5-hazır tarayıcıların istemci tarafı doğrulama yapması için
+    ``true`` değerine sahiptir.
+    Eğer bunun browser tarafından yapılmasını istemiyorsanız ya ``required``
+    alanının değerini ``false`` yapacaksınız ya da 
+    :ref:`HTML5 veri doğrulamasını kapatacaksınız<book-forms-html5-validation-disable>`.
 
-    Also note that setting the ``required`` option to ``true`` will **not**
-    result in server-side validation to be applied. In other words, if a
-    user submits a blank value for the field (either with an old browser
-    or web service, for example), it will be accepted as a valid value unless
-    you use Symfony's ``NotBlank`` or ``NotNull`` validation constraint.
+	Ayrıca ``required`` seçeneğinin ``true`` olması sunucu tarafı veri doğrulamada
+	geçerli **olmayacağını** unutmayın. Diğer bir ifade dile eğer kullanıcı bu alan
+	için boş bir değer verirse (örneğin, eski bir tarayıcı ya da bir web servisi ile)
+	bu değer ilgili alanda Symfony'nin ``NotBlank`` ya da  ``NotNull`` kısıtlarını 
+	kullanılmadıkça geçerli sayılacaktır.
 
-    In other words, the ``required`` option is "nice", but true server-side
-    validation should *always* be used.
+    Kısaca ``required`` seçeneği "güzel" ancak sunucu tarafı veri doğrulama
+    *daima* kullanılmalıdır.
 
-.. sidebar:: The ``label`` option
+.. sidebar:: ``label`` seçeneği
 
-    The label for the form field can be set using the ``label`` option,
-    which can be applied to any field::
+    Herhangi bir form alanının etiketi için ``label`` seçeneği kullanışabilir::
 
         ->add('dueDate', 'date', array(
             'widget' => 'single_text',
             'label'  => 'Due Date',
         ))
 
-    The label for a field can also be set in the template rendering the
-    form, see below.
+    Bu alan için etiket aşağıda görüldüğü gibi ,
+    ayrıca formun ekrana basıldığı şablonda da ayarlanabilir.
 
 .. index::
-   single: Forms; Field type guessing
+   single: Forms; Alan tipi tahmini
 
 .. _book-forms-field-guessing:
 
-Field Type Guessing
+Alan Tipi Tahmini
 -------------------
 
-Now that you've added validation metadata to the ``Task`` class, Symfony
-already knows a bit about your fields. If you allow it, Symfony can "guess"
-the type of your field and set it up for you. In this example, Symfony can
-guess from the validation rules that both the ``task`` field is a normal
-``text`` field and the ``dueDate`` field is a ``date`` field::
+Şimdi ``Task`` sınıfına veri doğrulama bilgisi eklediniz ve Symfony
+artık bu alan için bir şeyler biliyor. Eğer kabul ederseniz,
+Symfony alan tipinizi "tahmin edebilir" ve sizin için ayarlayabilir.
+Bu örnekte Symfony ``task`` ve ``dueDate`` alanlarının ikisi için
+tanımlanmış veri doğrulama kısıtlarından ne olduklarını tahmin ederek
+``metin`` ve  ``tarih`` alanlarını oluşturur::
 
     public function newAction()
     {
@@ -494,64 +504,72 @@ guess from the validation rules that both the ``task`` field is a normal
             ->getForm();
     }
 
-The "guessing" is activated when you omit the second argument to the ``add()``
-method (or if you pass ``null`` to it). If you pass an options array as the
-third argument (done for ``dueDate`` above), these options are applied to
-the guessed field.
+
+
+``add()`` metodunun ikinci argümanını atladığınız zaman (ya da 
+eğer ``null`` yaparsanız) "tahminleme" aktif olacaktır. Eğer üçüncü argüman
+olarak seçenekleri bir array değişkeni şeklinde verirseniz (bu seçenekler yukarıda
+``dueDate`` için yapılmıştır) bu seçenekler tahmin edilen
+alana uygulanacaktır.
 
 .. caution::
 
-    If your form uses a specific validation group, the field type guesser
-    will still consider *all* validation constraints when guessing your
-    field types (including constraints that are not part of the validation
-    group(s) being used).
+    Eğer formunuz özel bir veri doğrulama gurubu kullanıyorsa alan tipi
+    tahmincisi alan tiplerinin tahmin edildiğinde *tüm* diğer veri doğrulama kısıtlarını 
+    dikkate almıyor olacaktır(bu kısıtlar veri doğrulama gurubu tarafından
+    kullanılacak olan kısıtlara dahil olmayacaktır).
 
 .. index::
-   single: Forms; Field type guessing
+   single: Forms; Alan tipi tahmini
 
-Field Type Options Guessing
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alan Tipi Seçenekleri Tahmini
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to guessing the "type" for a field, Symfony can also try to guess
-the correct values of a number of field options.
+Alanın tipine  göre tahminlemeye ek olarak Symfony ayrıca alan bir dizi
+alan tipi seçeneğinin doğru değerlerini de tahmin edebilir.
 
 .. tip::
 
-    When these options are set, the field will be rendered with special HTML
-    attributes that provide for HTML5 client-side validation. However, it
-    doesn't generate the equivalent server-side constraints (e.g. ``Assert\MaxLength``).
-    And though you'll need to manually add your server-side validation, these
-    field type options can then be guessed from that information.
+    Bu seçeneklere değerleri atandığında alan, HTML5 'in istemci tarafı 
+    veri doğrulamasını içeren özel HTML nitelikleri ile ekrana basılacaktır.
+    Bu, sunucu tarafı veri doğrulama kısıtlarını da yaratmayacaktır
+    (Örn. ``Assert\MaxLength``). Sunucu tarafı veri doğrulamayı elden 
+    düzenlemek zorunda olmanıza rağmen bu alan tipi seçenekleri bu bilgi
+    kullanılarak tahmin edilebilecektir.
+    
 
-* ``required``: The ``required`` option can be guessed based off of the validation
-  rules (i.e. is the field ``NotBlank`` or ``NotNull``) or the Doctrine metadata
-  (i.e. is the field ``nullable``). This is very useful, as your client-side
-  validation will automatically match your validation rules.
+* ``required``: ``required`` seçeneği veri doğrulama kısıtlarından 
+   ya da doctrine tanımlama verisi üzerinden tahmin edilebilir 
+   (Örn. alan ``NotBlank`` ya da ``NotNull`` ise ) 
+   Eğer istemci tarafı veri doğrulama otomatik olarak veri doğrulama 
+   kurallarını eşleyecekse bu oldukça kullanışlıdır.
 
-* ``max_length``: If the field is some sort of text field, then the ``max_length``
-  option can be guessed from the validation constraints (if ``MaxLength`` or ``Max``
-  is used) or from the Doctrine metadata (via the field's length).
+* ``max_length``: Eğer alan bir dizi metin alanı ise , bu durumda 
+  ``max_length`` seçeneği veri doğrulama kısıtlarından (eğer ``MaxLength``
+  ya da ``Max`` kullanıldı ise) ya da Doctrine tanımlama verilerinden(metadata)
+  (alanın uzunluğu (length) üzerinden) tahmin edilebilir.
   
 .. note::
 
-  These field options are *only* guessed if you're using Symfony to guess
-  the field type (i.e. omit or pass ``null`` as the second argument to ``add()``).
+  Bu alan seçenekleri tahmini *sadece* eğer Symfony alan tiplerini
+  kullanıyorsanız olacaktır (Örn. ``add()`` metodunun ikinci argümanını es geçer ya da ``null`` yaparsanız)
 
-If you'd like to change one of the guessed values, you can override it by
-passing the option in the options field array::
+Eğer tahmin edilen bir değeri değiştirmek isterseniz bu değer için
+alan tanımlamalarındaki seçenekler array'ine değer bindirerek yapabilirsiniz::
 
     ->add('task', null, array('max_length' => 4))
 
 .. index::
-   single: Forms; Rendering in a Template
+   single: Forms; Şablonda Ekrana Basmak
 
 .. _form-rendering-template:
 
-Rendering a Form in a Template
-------------------------------
+Şablondan Bir Formu Ekrana Basmak
+---------------------------------
 
-So far, you've seen how an entire form can be rendered with just one line
-of code. Of course, you'll usually need much more flexibility when rendering:
+Şimdiye kadar tüm form'un nasul sadece bir satır kod ile ekrana  basılacağını
+gördünüz. Elbette genellikle ekrana basılma esnasında daha fazla esneklik 
+isteyeceksiniz:
 
 .. configuration-block::
 
@@ -585,32 +603,35 @@ of code. Of course, you'll usually need much more flexibility when rendering:
             <input type="submit" />
         </form>
 
-Let's take a look at each part:
+Her kısmı tek tek inceleyelim:
 
-* ``form_enctype(form)`` - If at least one field is a file upload field, this
-  renders the obligatory ``enctype="multipart/form-data"``;
+* ``form_enctype(form)`` - Eğer form içerisinde sadece bir alan bile dosya 
+  yükleme (upload) tipinde olsa bile bu alan zorunlu olarak 
+  ``enctype="multipart/form-data"`` şeklinde ekrana basılır;
 
-* ``form_errors(form)`` - Renders any errors global to the whole form
-  (field-specific errors are displayed next to each field);
+* ``form_errors(form)`` - Formun tamamı için genel hata mesajlarını gösterir
+  (Alana özel hata mesajları alandan hemen sonra gösterilir;
 
-* ``form_row(form.dueDate)`` - Renders the label, any errors, and the HTML
-  form widget for the given field (e.g. ``dueDate``) inside, by default, a
-  ``div`` element;
+* ``form_row(form.dueDate)`` - belirli bir form nesnesi için varsayılan olarak ``div``
+  elementi içerisinde, Etiketi , herhangi bir hata mesajı ve HTML kodu (Örn: ``dueDate``)
+  ekrana basılır.
 
-* ``form_rest(form)`` - Renders any fields that have not yet been rendered.
-  It's usually a good idea to place a call to this helper at the bottom of
-  each form (in case you forgot to output a field or don't want to bother
-  manually rendering hidden fields). This helper is also useful for taking
-  advantage of the automatic :ref:`CSRF Protection<forms-csrf>`.
+* ``form_rest(form)`` - Formun ekrana basılmamış kalan tüm öğelerini ekrana basar.
+  Bu helper (yardımcı) genellikle formun altında ekrana basılmayı unutulan 
+  tüm öğeleri ekrana bastığı için oldukça kullanışlıdır ( bazı durumlarda 
+  ekrana hidden (gizli) alanlarını kod içerisinde göstermek istemeyebilir ya da
+  unutabilirsiniz). Bu yardımcı aynı zamanda otomatik olarak :ref:`CSRF Korumasını<forms-csrf>`
+  da sağlar.
 
-The majority of the work is done by the ``form_row`` helper, which renders
-the label, errors and HTML form widget of each field inside a ``div`` tag
-by default. In the :ref:`form-theming` section, you'll learn how the ``form_row``
-output can be customized on many different levels.
+``form_row`` yardımcısı genel olarak her form alanı için, etiketi, hataları 
+ve HTML form nesnesinin kodunu varsayılan olarak ``div`` etiketi içerisinde 
+yapar. :ref:`form-theming` kısmında ``form_row`` çıktısının farklı düzeylerde
+nasıl özelleştirilebileceğini göreceksiniz.
 
 .. tip::
 
-    You can access the current data of your form via ``form.vars.value``:
+    ``form.vars.value`` değişkeni üzerinden formun güncel verisine de
+    erişebilirsiniz.
 
     .. configuration-block::
 
@@ -623,16 +644,16 @@ output can be customized on many different levels.
             <?php echo $view['form']->get('value')->getTask() ?>
 
 .. index::
-   single: Forms; Rendering each field by hand
+   single: Forms; Her alanı elden düzenlemek
 
-Rendering each Field by Hand
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The ``form_row`` helper is great because you can very quickly render each
-field of your form (and the markup used for the "row" can be customized as
-well). But since life isn't always so simple, you can also render each field
-entirely by hand. The end-product of the following is the same as when you
-used the ``form_row`` helper:
+Her Alanı Elden Düzenlemek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``form_row`` formunuzdaki her alanı cok çabuk bir şekilde 
+ekrana basabildiğinden dolayı mükemmel bir yardımcıdır("row" için
+bu işaretleme aynı zamanda özelleştirilebilir de)
+Fakat hayat bu kadar kolay olmadığından dolayı ayrıca her alanı
+elden de hazırlanamanız gerekebilir. Bu durum aşağıdaki ``form_row``
+helperi kullanılarak yapılan koda benzer:
 
 .. configuration-block::
 
@@ -672,8 +693,8 @@ used the ``form_row`` helper:
 
         <?php echo $view['form']->rest($form) ?>
 
-If the auto-generated label for a field isn't quite right, you can explicitly
-specify it:
+Eğer alan için otomatik yaratılan etiket tam olarak doğru değil ise 
+bunu açık bir şekilde belirleyebilirsiniz: 
 
 .. configuration-block::
 
@@ -685,11 +706,11 @@ specify it:
 
         <?php echo $view['form']->label($form['task'], 'Task Description') ?>
 
-Some field types have additional rendering options that can be passed
-to the widget. These options are documented with each type, but one common
-options is ``attr``, which allows you to modify attributes on the form element.
-The following would add the ``task_field`` class to the rendered input text
-field:
+Bazı alan tipleri ekrana basılırken ekstra seçeneklerin düzenlenmesine
+ihtiyaç duyabilir. Bu seçenekler her alan tipi belgesinden açıklanmıştır
+ancak en genel seçenek , form elementinin bir niteliğini değiştirmeye 
+izin veren ``attr`` seçeneğidir.
+Aşağıda ``task_filed``  adında , metin kutusuna bir css stili eklenecektir:
 
 .. configuration-block::
 
@@ -703,9 +724,9 @@ field:
             'attr' => array('class' => 'task_field'),
         )) ?>
 
-If you need to render form fields "by hand" then you can access individual
-values for fields such as the ``id``, ``name`` and ``label``. For example
-to get the ``id``:
+Eğer "manuel" olarak form alanlarını düzenlemeyi düşünüyorsanız her alan
+için ``id``, ``name`` ve ``label`` özelliklerinin değerlerine erişmeniz
+gerekebilir. Örneğin ``id`` değerini almak için :
 
 .. configuration-block::
 
@@ -717,8 +738,8 @@ to get the ``id``:
 
         <?php echo $form['task']->get('id') ?>
 
-To get the value used for the form field's name attribute you need to use
-the ``full_name`` value:
+Form nesnesinin name niteliğindeki veriyi almak için de ``full_name``
+değerini kullanmanız gerekir:
 
 .. configuration-block::
 
@@ -730,26 +751,27 @@ the ``full_name`` value:
 
         <?php echo $form['task']->get('full_name') ?>
 
-Twig Template Function Reference
+Twig Şablon Fonksiyon Referansı
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you're using Twig, a full reference of the form rendering functions is
-available in the :doc:`reference manual</reference/forms/twig_reference>`.
-Read this to know everything about the helpers available and the options
-that can be used with each.
+Eğer Twig kullanıyorsanız tüm ekrana basma fonksiyonları hakkında bir 
+:doc:`referans belgesi </reference/forms/twig_reference>` bulunmaktadır.
+Bunu okuyarak şablon yardımcıları hakkındaki herşeyi ve her birisinin
+kullandığı seçenekleri öğrenebilirsiniz.
 
 .. index::
-   single: Forms; Creating form classes
+   single: Forms; Form sınıfları yaratmak
 
 .. _book-form-creating-form-classes:
 
-Creating Form Classes
----------------------
+Form Sınıfları Yaratmak
+------------------------
 
-As you've seen, a form can be created and used directly in a controller.
-However, a better practice is to build the form in a separate, standalone PHP
-class, which can then be reused anywhere in your application. Create a new class
-that will house the logic for building the task form:
+Şimdiye kadar gördüğünüz üzere bir form direkt olarak controller içerisinden
+yaratılabiliyordu. Ancak bu konudaki en iyi uygulama ayrı, kendi başına çalışan
+uygulamanın herhangi bir yerinden erişebileceğiniz bir PHP sınıfıdır.
+Örneğimizdeki Görevler için yaratılacak formun mantığını barındıran bir sınıf
+yaratalım:
 
 .. code-block:: php
 
@@ -774,9 +796,10 @@ that will house the logic for building the task form:
         }
     }
 
-This new class contains all the directions needed to create the task form
-(note that the ``getName()`` method should return a unique identifier for this
-form "type"). It can be used to quickly build a form object in the controller:
+Bu yeni sınıf, görev formunun yaratılmasında gereken tüm talimatları kapsar
+(``getName()`` metodunun sadece bu form tipi için benzersiz bir ad döndürdüğüne
+dikkat edin).
+Bu artık controller içerisinde form nesnesi yaratırken kolaylıkla kullanılabilir:
 
 .. code-block:: php
 
@@ -793,21 +816,21 @@ form "type"). It can be used to quickly build a form object in the controller:
         // ...
     }
 
-Placing the form logic into its own class means that the form can be easily
-reused elsewhere in your project. This is the best way to create forms, but
-the choice is ultimately up to you.
+Form mantığının (logic) kendi sınıfının içerisinde olması, projeninizin
+herhangibir yerinde bunu kolaylıkla yeniden kullanabileceğiniz anlamına
+gelir. Bu formları yaratmanın en kolay yoludur fakat seçim size kalmış.
 
 .. _book-forms-data-class:
 
-.. sidebar:: Setting the ``data_class``
+.. sidebar:: ``data_class`` 'ını tanımlamak
 
-    Every form needs to know the name of the class that holds the underlying
-    data (e.g. ``Acme\TaskBundle\Entity\Task``). Usually, this is just guessed
-    based off of the object passed to the second argument to ``createForm``
-    (i.e. ``$task``). Later, when you begin embedding forms, this will no
-    longer be sufficient. So, while not always necessary, it's generally a
-    good idea to explicitly specify the ``data_class`` option by adding the
-    following to your form type class::
+    Her form nesnesi kendi içerisinde ilişkili olduğu veriyi tanımlayan sınıfın 
+    ismine ihtiyaç duyar (Örn. ``Acme\TaskBundle\Entity\Task``). Genellikle
+    bu sadece ``createForm`` metodunun ikinci argümanına bakılarak tahmin edilir
+    (Örn : ``task``). Fakat sonra formları gömülü hale getirmeye başladığınızda bu işlem
+    artık geçerliliğini yitirecektir.Her zaman gerekli olmamakla birlikte
+    genel olarak açık bir şekilde form tipi sınıfına ``data_class`` seçeneğini
+    kullanarak bu sınıfı tanıtmanız iyi bir fikirdir::
 
         public function getDefaultOptions(array $options)
         {
@@ -818,13 +841,14 @@ the choice is ultimately up to you.
 
 .. tip::
 
-    When mapping forms to objects, all fields are mapped. Any fields on the
-    form that do not exist on the mapped object will cause an exception to
-    be thrown.
+    Formları objeler olarak tanımlarken tüm alanlar da tanımlanır. 
+    Formun içerisindeki herhang bir alan nesne üzerinde eşleştirilemezse
+    bir istisna üretilir (exception)
 
-    In cases where you need extra fields in the form (for example: a "do you
-    agree with these terms" checkbox) that will not be mapped to the underlying
-    object, you need to set the property_path option to ``false``::
+    Form'a ekstra alanlar ekleme durumunda (mesela "tüm koşulları kabul 
+    ediyorum" işaret kutusu gibi) ilgili nesne içerisinde bu eksra alan
+    tanımlanmayacaktır. Bunun için property_path seçeneğini ``false``
+    yapmanız gereklidir::
 
         public function buildForm(FormBuilder $builder, array $options)
         {
@@ -832,22 +856,23 @@ the choice is ultimately up to you.
             $builder->add('dueDate', null, array('property_path' => false));
         }
 
-    Additionally, if there are any fields on the form that aren't included in
-    the submitted data, those fields will be explicitly set to ``null``.
+    Ayrıca eğer form içerisine kullanıcı tarafından aktarılmayan 
+    her veri gönderme esnasında ``null`` olarak kabul edilir.
 
 .. index::
    pair: Forms; Doctrine
 
-Forms and Doctrine
-------------------
+Formlar ve Doctrine
+-------------------
 
-The goal of a form is to translate data from an object (e.g. ``Task``) to an
-HTML form and then translate user-submitted data back to the original object. As
-such, the topic of persisting the ``Task`` object to the database is entirely
-unrelated to the topic of forms. But, if you've configured the ``Task`` class
-to be persisted via Doctrine (i.e. you've added
-:ref:`mapping metadata<book-doctrine-adding-mapping>` for it), then persisting
-it after a form submission can be done when the form is valid::
+Bir formun amacı nesneden (Örn. ``Task``) verileri çevirmek için HTML 
+formu kullanmak ve kullanıcının girdiği verileri tekrar orijinal 
+nesneye geri vermektir.
+Bunun gibi ``Task`` nesnesinin veri tabanına yazılma konusu tamamen 
+form konusu ile alakasıdır. Ancak eğer ``Task`` sınıfını Doctrine üzerinden 
+veri tabanına yazılacak şekilde ayarlarsanız (Örn: bu form için
+:ref:`eşleme verisi <book-doctrine-adding-mapping> eklerseniz)
+form verisi gönderildiğinde veriler doğrulanırsa veritabanına yazılabilir::
 
     if ($form->isValid()) {
         $em = $this->getDoctrine()->getEntityManager();
@@ -857,34 +882,37 @@ it after a form submission can be done when the form is valid::
         return $this->redirect($this->generateUrl('task_success'));
     }
 
-If, for some reason, you don't have access to your original ``$task`` object,
-you can fetch it from the form::
+
+Eğer bazı durumlarda orijinal ``$task`` nesnesine erişemiyorsanız bunu form
+üzerinden çekebilirsiniz::
 
     $task = $form->getData();
 
-For more information, see the :doc:`Doctrine ORM chapter</book/doctrine>`.
 
-The key thing to understand is that when the form is bound, the submitted
-data is transferred to the underlying object immediately. If you want to
-persist that data, you simply need to persist the object itself (which already
-contains the submitted data).
+Daha fazla bilgi için :doc:`Doctrine ORM kısmına</book/doctrine>` bakın.
+
+Anlaşılması gereken anahtar konu form bağlı olduğunda kullanıcı tarafından
+girilen verinin ilgili nesneye derhal aktarıldığıdır. Eğer bu veriyi
+veri tabanına yazmak istiyorsanız basitçe bu nesnenin veritabanına
+yazılması kendi nesnesi üzerinden gereklidir(gönderilen veriyi 
+önceden üzerinde taşıyan nesne).
 
 .. index::
-   single: Forms; Embedded forms
+   single: Forms; Gömülü formlar
 
-Embedded Forms
+Gömülü Formlar
 --------------
 
-Often, you'll want to build a form that will include fields from many different
-objects. For example, a registration form may contain data belonging to
-a ``User`` object as well as many ``Address`` objects. Fortunately, this
-is easy and natural with the form component.
+Sıklıkla pek çok farklı nesneden oluşan alanlara sahip bir form yaratmak 
+isteyeceksiniz. Örneğin bir kayıt formu ``User`` nesnesine ve ``Address``
+nesnesine ait alanlardan oluşabilir. Çok şükür ki bu form bileşeni ile 
+gayet basit ve kolay bir şekilde yapılır.
 
-Embedding a Single Object
+Tek Bir Nesne Gömmek
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Suppose that each ``Task`` belongs to a simple ``Category`` object. Start,
-of course, by creating the ``Category`` object::
+Varsayalım her ``Task`` basit bir ``Category`` nesnesine ait. Elbett
+öncelikle ``Categoty`` nesnesini yaratarak başlıyoruz::
 
     // src/Acme/TaskBundle/Entity/Category.php
     namespace Acme\TaskBundle\Entity;
@@ -899,7 +927,7 @@ of course, by creating the ``Category`` object::
         public $name;
     }
 
-Next, add a new ``category`` property to the ``Task`` class::
+Sonra ``Task`` sınıfına yeni bir ``category`` değişkeni ekliyoruz::
 
     // ...
 
@@ -925,8 +953,8 @@ Next, add a new ``category`` property to the ``Task`` class::
         }
     }
 
-Now that your application has been updated to reflect the new requirements,
-create a form class so that a ``Category`` object can be modified by the user::
+Şimdi uygulamanız, kullanıcı tarafından değiştirilebilen bir ``Category``
+form nesnesi yaratan bu yeni gerekiliklere göre güncellenmiştir.
 
     // src/Acme/TaskBundle/Form/Type/CategoryType.php
     namespace Acme\TaskBundle\Form\Type;
@@ -954,10 +982,11 @@ create a form class so that a ``Category`` object can be modified by the user::
         }
     }
 
-The end goal is to allow the ``Category`` of a ``Task`` to be modified right
-inside the task form itself. To accomplish this, add a ``category`` field
-to the ``TaskType`` object whose type is an instance of the new ``CategoryType``
-class:
+Son işimiz ise ``Task`` nesnesinin ``Category`` 'sini task form'u içerisinden
+düzenleyebilmek. Bunu yapabilmek için ``TaskType`` nesnesinin içerisine 
+yeni ``CategoryType`` sınıfının özelliklerine sahip yeni bir ``category`` 
+alanı eklemek gerekir::
+
 
 .. code-block:: php
 
@@ -968,9 +997,9 @@ class:
         $builder->add('category', new CategoryType());
     }
 
-The fields from ``CategoryType`` can now be rendered alongside those from
-the ``TaskType`` class. Render the ``Category`` fields in the same way
-as the original ``Task`` fields:
+``CategoryType`` taki alanlar şimdi ``TaskType`` sınıfı ekrana basılırken
+bu alanlarda ekrana basılabilir. ``Category`` alanlarının ekrana basılması
+aynı orijinal ``Task`` alanlarının ekrana basılması gibidir:
 
 .. configuration-block::
 
@@ -998,50 +1027,56 @@ as the original ``Task`` fields:
         <?php echo $view['form']->rest($form) ?>
         <!-- ... -->
 
-When the user submits the form, the submitted data for the ``Category`` fields
-are used to construct an instance of ``Category``, which is then set on the
-``category`` field of the ``Task`` instance.
 
-The ``Category`` instance is accessible naturally via ``$task->getCategory()``
-and can be persisted to the database or used however you need.
+Kullanıcı form verilerini gönderdiğinde ``Category`` alanları için gönderilen
+form verisi ``Category`` nesnesi şeklinde düzenlenir ve sonra ``Task`` içerisindeki
+``category`` alanına yüklenir.
 
-Embedding a Collection of Forms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``Category`` nesnesi şeklindeki veri doğal olarak ``$task->getCategory()``
+metodu ile erişilebilir ve eğer kullanıcının ihtiyacı durumunda veri tabanına
+yazılabilir.
 
-You can also embed a collection of forms into one form (imagine a ``Category``
-form with many ``Product`` sub-forms). This is done by using the ``collection``
-field type.
+Bir Form Kolleksiyonu Gömmek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For more information see the ":doc:`/cookbook/form/form_collections`" cookbook
-entry and  the :doc:`collection</reference/forms/types/collection>` field type reference.
+Eğer isterseniz bir form içerisinde bir formların kolleksiyonunu da gömebilirsiniz
+(``Category`` formunun bir çok ``Product`` alt formundan oluştuğunu hayal edin).
+Bunu ``collection`` alan tipini kullanarak yapabilirsiniz.
+
+Daha fazla bilgi için ":doc:`/cookbook/form/form_collections`" tarif kitabı
+girdisine ve :doc:`kolleksiyon</reference/forms/types/collection>` alan tipi
+referansına bakın.
 
 .. index::
-   single: Forms; Theming
-   single: Forms; Customizing fields
+   single: Forms; Tema uygulamak
+   single: Forms; Alanları özelleştirmek
 
 .. _form-theming:
 
-Form Theming
-------------
+Forma Tema Uygulamak
+--------------------
 
-Every part of how a form is rendered can be customized. You're free to change
-how each form "row" renders, change the markup used to render errors, or
-even customize how a ``textarea`` tag should be rendered. Nothing is off-limits,
-and different customizations can be used in different places.
+Nasıl form ekrana basılırken her parçasını özelleştirebiliyorsanız, her
+form "satırını" hataları gösteren işaretleri ya da hatta bir ``textarea``
+etiketinin bile nasıl ekrana basılabileceğini özelleştirebilirsiniz. Bunun
+herhangin bir limiti olmamakla beraber farklı yerlerde de bu özelleştirmeyi
+kullanabilirsiniz.
 
-Symfony uses templates to render each and every part of a form, such as
-``label`` tags, ``input`` tags, error messages and everything else.
+Symfony ``label`` etiketleri, ``input`` etiketleri, hata mesajları ya da
+herhangibir form parçası form parçası için bir şablon (template) kullanır.
 
-In Twig, each form "fragment" is represented by a Twig block. To customize
-any part of how a form renders, you just need to override the appropriate block.
+Twig içerisinde her form "parçası" bir Twig bloğu halinde ifade edilit. Formun
+bir parçasının  nasıl ekrana basılacağını düzenlemek isterseniz, sadece uygun
+blokun koduna hükmetmeniz (override) gerekir.
 
-In PHP, each form "fragment" is rendered via an individual template file.
-To customize any part of how a form renders, you just need to override the
-existing template by creating a new one.
+PHP'de her form "parçası" ayrı bir şablon dosyası tarafından ekrana basılır.
+Formun herhangi bir parçasının nasıl ekran basılacağını ayarlamak için sadece
+var olan şablonun üzerine yeni şablonu bindirmeniz yeterlidir.
 
-To understand how this works, let's customize the ``form_row`` fragment and
-add a class attribute to the ``div`` element that surrounds each row. To
-do this, create a new template file that will store the new markup:
+Bunun nasıl çalıştığını anlamak için ``form_row`` parçasını düzenleyerek 
+her form satırını ``div`` elementleri arasında ve bu elemente bir css sınıfı
+atayarak inceleyelim. Bunu yapmak için yeni bir şablon dosyarı yaratmamız
+gerekir:
 
 .. configuration-block::
 
@@ -1069,10 +1104,10 @@ do this, create a new template file that will store the new markup:
             <?php echo $view['form']->widget($form, $parameters) ?>
         </div>
 
-The ``field_row`` form fragment is used when rendering most fields via the
-``form_row`` function. To tell the form component to use your new ``field_row``
-fragment defined above, add the following to the top of the template that
-renders the form:
+``filed_row`` form parçası pek çok form alanını ``form_row`` fonksiyonu
+ile ekrana basar. Form bileşenine yeni ``field_row`` parçasının kullanılacağını
+tanımlamak için, aşağıda gösterilen, formu ekrana basan şablonun en üstüne
+şu satırı eklememiz gerekir:
 
 .. configuration-block:: php
 
@@ -1096,119 +1131,119 @@ renders the form:
 
         <form ...>
 
-The ``form_theme`` tag (in Twig) "imports" the fragments defined in the given
-template and uses them when rendering the form. In other words, when the
-``form_row`` function is called later in this template, it will use the ``field_row``
-block from your custom theme (instead of the default ``field_row`` block
-that ships with Symfony).
+``form_theme`` etiketi (Twig'de) verilen ve form ekrana basılırken kullanılacak
+olan şablon dosyasını "içeriye aktarır" (import). Başka bir ifade ile ``form_row``
+fonksiyonu şablon içerisinden çağırıldıktan sonra özelleştirilmiş tema şablonundaki
+``field_row``  bloku kullanılacaktır(Symfony ile birlikte gelen varsayılan ``field_row``
+yerine).
 
-Your custom theme does not have to override all the blocks. When rendering a block
-which is not overridden in your custom theme, the theming engine will fall back
-to the global theme (defined at the bundle level).
+Özelleştirdiğiniz temanız tüm bloklara hükmetmez. Bir bloğun ekrana basılması esnasında
+özelleştirilmiş temanız tarafından bu blok hükmedilmediyse tema motoru genel tema
+içerisindeki özelliği kullanacaktır (bundle düzeyinde tanımlanan tema).
 
-If several custom themes are provided they will be searched in the listed order
-before falling back to the global theme.
+Eğer çeşitli özelleştirişmiş temalar verildiyse önce genel tema ayarlarına geçilmeden
+önce sırasıyla araştırılacaktır.
 
-To customize any portion of a form, you just need to override the appropriate
-fragment. Knowing exactly which block or file to override is the subject of
-the next section.
+Formun herhangi bir kısmını özelleştirmek için sadece uygun kısmı düzenlemeniz
+(override) yeterlidir. Blok ya da dosya hükmetme konusu (override) sonraki
+kısımın konusudur.
 
-For a more extensive discussion, see :doc:`/cookbook/form/form_customization`.
+Daha geniş bir bilgi için :doc:`/cookbook/form/form_customization` belgesine bakın.
 
 .. index::
-   single: Forms; Template fragment naming
+   single: Forms; Şablon Parçalarının İsimlendirilmesi
 
 .. _form-template-blocks:
 
-Form Fragment Naming
-~~~~~~~~~~~~~~~~~~~~
+Form Parçalarının İsimlendirilmesi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In Symfony, every part of a form that is rendered - HTML form elements, errors,
-labels, etc - is defined in a base theme, which is a collection of blocks
-in Twig and a collection of template files in PHP.
+Symfonyde ekrana basılan formun her parçası - HTML form öğeleri, hatalar, etiketler, vs..-
+Twig içinde blokların kolleksiyonundan oluşan temel bir tema içerisinde ve PHP'de de
+şablon dosyaları kolleksiyonu içerisinde tanımlanır. 
 
-In Twig, every block needed is defined in a single template file (`form_div_layout.html.twig`_)
-that lives inside the `Twig Bridge`_. Inside this file, you can see every block
-needed to render a form and every default field type.
+Twig içerisinde her blok ayrı bir şablon dosyası (`form_div_layout.html.twig`_) 
+olarak `Twig Bridge`_ içerisinde bulunur.
+Bu dosyanın içerisinde her blokun bir form ve her varsayılan alan tipi'ni ekrana 
+basaması gerektiğini görebilirsiniz.
 
-In PHP, the fragments are individual template files. By default they are located in
-the `Resources/views/Form` directory of the framework bundle (`view on GitHub`_).
+PHP'de parçalar ayrı şablon dosyaları halindedir. Varsayılan olarak bu dosyalar 
+framework bundle (`GitHub üzerinden görebilirsiniz`_) içerisindeki 
+`Resources/views/Form` klasörü içerisinde bulunurlar.
 
-Each fragment name follows the same basic pattern and is broken up into two pieces,
-separated by a single underscore character (``_``). A few examples are:
+Her parça ismi bir adlandırma şablonu içerisinde iki parça halinde alt tire (``_``)
+sembolü ile ayrılır. Bazı örnekler:
 
-* ``field_row`` - used by ``form_row`` to render most fields;
-* ``textarea_widget`` - used by ``form_widget`` to render a ``textarea`` field
-  type;
-* ``field_errors`` - used by ``form_errors`` to render errors for a field;
+* ``field_row`` -  ``form_row`` tarafından pek çok alanı ekrana basmak için kullanılır;
+* ``textarea_widget`` - ``form_widget`` tarafından ``textarea`` alanını ekrana basmak için kullanılır;
+* ``field_errors`` -  ``form_errors`` tarafından hatalı alanları ekrana basmak için kullanılır;
 
+Her parça ``type_part`` şeklindeki basit bir şablona göre adlandırılır. ``type`` kısmı
+alanı (Örn. ``textarea``, ``checkbox``, ``date``, vs..) temsil ederken, ``part`` 
+kısmı ise *neyin* ekrana basılacağını belirler (Örn: ``label``, ``widget``, ``errors``, vs..).
 Each fragment follows the same basic pattern: ``type_part``. The ``type`` portion
-corresponds to the field *type* being rendered (e.g. ``textarea``, ``checkbox``,
-``date``, etc) whereas the ``part`` portion corresponds to *what* is being
-rendered (e.g. ``label``, ``widget``, ``errors``, etc). By default, there
-are 4 possible *parts* of a form that can be rendered:
+Varsayılan olarak 4 adet olası form *parçası* ekrana basılabilir:
 
 +-------------+--------------------------+---------------------------------------------------------+
-| ``label``   | (e.g. ``field_label``)   | renders the field's label                               |
+| ``label``   | (Örn: ``field_label``)   | Alanların Etiketlerini ekrana basar                     |
 +-------------+--------------------------+---------------------------------------------------------+
-| ``widget``  | (e.g. ``field_widget``)  | renders the field's HTML representation                 |
+| ``widget``  | (Örn: ``field_widget``)  | Alanın HTML kodunu ekrana basar                         |
 +-------------+--------------------------+---------------------------------------------------------+
-| ``errors``  | (e.g. ``field_errors``)  | renders the field's errors                              |
+| ``errors``  | (Örn: ``field_errors``)  | Alanın Hatalarını ekrana basar                          |
 +-------------+--------------------------+---------------------------------------------------------+
-| ``row``     | (e.g. ``field_row``)     | renders the field's entire row (label, widget & errors) |
+| ``row``     | (Örn: ``field_row``)     | alanın tüm satırını ekrana basar (label,widget& hatalar)|
 +-------------+--------------------------+---------------------------------------------------------+
 
 .. note::
 
-    There are actually 3 other *parts*  - ``rows``, ``rest``, and ``enctype`` -
-    but you should rarely if ever need to worry about overriding them.
+    Aslında 3 adet *parça* daha bulunmasına rağmen - ``rows``, ``rest``, ve ``enctype`` -
+    bunlar çok nadir şekilde hükmedilirler (override).
 
-By knowing the field type (e.g. ``textarea``) and which part you want to
-customize (e.g. ``widget``), you can construct the fragment name that needs
-to be overridden (e.g. ``textarea_widget``).
+Alan tipini (Örn: ``textarea``) ve hangi *parçasının* özelleştirilebileceğini
+(Örn: ``widget``) biliyor olmakla hükmetmeniz gereken(override)
+(örn: ``textarea_widget``) parçanın da ismini bilebilirsiniz.
 
 .. index::
-   single: Forms; Template Fragment Inheritance
+   single: Forms; Şablon Parçası Kalıtımı
 
-Template Fragment Inheritance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Şablon Parçası Kalıtımı
+~~~~~~~~~~~~~~~~~~~~~~~
 
-In some cases, the fragment you want to customize will appear to be missing.
-For example, there is no ``textarea_errors`` fragment in the default themes
-provided with Symfony. So how are the errors for a textarea field rendered?
+Bazı durumlarda, parçayı eksik olarak göstermek isteyebilirsiniz.
+Örneğin Symfony tarafından sağlanan varsayılan temalarda ``textarea_errors``
+kısmı bulunmaz. Peki bu alanlarda bir hata olduğunda hata mesajı nasıl çıkacak?
 
-The answer is: via the ``field_errors`` fragment. When Symfony renders the errors
-for a textarea type, it looks first for a ``textarea_errors`` fragment before
-falling back to the ``field_errors`` fragment. Each field type has a *parent*
-type (the parent type of ``textarea`` is ``field``), and Symfony uses the
-fragment for the parent type if the base fragment doesn't exist.
+Cevap ``field_errors`` parçası üzerinden verilir. Symfony textarea tipindeki alanın
+hatalarını ekrana basmadan önce ``textarea_errors`` 'a bakar bulamazsa ``field_
+errors`` kısmına döner. Her alan tipinin bir *üst (parent)* tipi vardır 
+(``textarea`` üst tipi ``field`` dır) ve Symfony tipin bu parçası yok ise
+üst tipin ilgili parçasını kullanır.
 
-So, to override the errors for *only* ``textarea`` fields, copy the
-``field_errors`` fragment, rename it to ``textarea_errors`` and customize it. To
-override the default error rendering for *all* fields, copy and customize the
-``field_errors`` fragment directly.
+Mesela *sadece* ``textarea`` alanlarının hatalarına hükmetmek için ``field_errors``
+parçasını kopyalarak, ``textarea_errors`` adı ile değiştirip içerisini istediğiniz
+gibi düzenleyin. *Tüm* alanların varsayılan hata mesajlarına hükmetmek (override) için
+``field_errors` parçasının direkt alın ve kopyalayarak düzenleyin.
 
 .. tip::
 
-    The "parent" type of each field type is available in the
-    :doc:`form type reference</reference/forms/types>` for each field type.
+    Her alan tipinin "üst" tipi :doc:`form tip referans</reference/forms/types>`
+    belgesinde tanımlanmıştır.
 
 .. index::
-   single: Forms; Global Theming
+   single: Forms; Genel Tema Uygulamak
 
-Global Form Theming
-~~~~~~~~~~~~~~~~~~~
-
-In the above example, you used the ``form_theme`` helper (in Twig) to "import"
-the custom form fragments into *just* that form. You can also tell Symfony
-to import form customizations across your entire project.
+Genel Form Teması Uygulamak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Yukarıdaki örnekte ``form_theme`` yardımcısını (Twig içerisinde) *sadece*
+bu form için özel form parçalarını "içeri aktarmakta" (import) kullandınız.
+Ayrıca Symfony2'ye tüm projenin formlarına düzenlemesini de söyleyebilirsiniz.
 
 Twig
 ....
 
-To automatically include the customized blocks from the ``fields.html.twig``
-template created earlier in *all* templates, modify your application configuration
-file:
+Otomatik olarak *tüm* şablonlar yaratılmadan önce ``fields.html.twig`` den 
+türeyen bloku değiştirmek istiyorsanız uygulama konfigürasyon dosyanızı
+şu şekilde değiştirmeniz gerekir:
 
 .. configuration-block::
 
@@ -1244,13 +1279,13 @@ file:
             // ...
         ));
 
-Any blocks inside the ``fields.html.twig`` template are now used globally
-to define form output.
+``fields.html.twig`` şablonu içerisindeki herhangi bir blok şimdi genel
+olarak tüm form'ların ekrana basılması esnasında tanımlanmıştır.
 
-.. sidebar::  Customizing Form Output all in a Single File with Twig
+.. sidebar::  Tek bir Twig Dosyası ile Tüm Form Çıktılarını Özelleştirmek
 
-    In Twig, you can also customize a form block right inside the template
-    where that customization is needed:
+    Twig'de ayrıca özelleştirme ihtiyacınıza göre form blogunu şablon içerisinde
+    uygun bir yer de de özelleştirebilirsiniz:
 
     .. code-block:: html+jinja
 
@@ -1270,17 +1305,17 @@ to define form output.
             {{ form_row(form.task) }}
         {% endblock %}
 
-    The ``{% form_theme form _self %}`` tag allows form blocks to be customized
-    directly inside the template that will use those customizations. Use
-    this method to quickly make form output customizations that will only
-    ever be needed in a single template.
+    ``{% form_theme form _self %}`` etiketi yapmak istediğiniz özelleştirmelere
+    göre  form bloglarını direkt şablon içerisinden özelleştirecektir. 
+    Bu metodu kullanarak tek bir şablon içerisinde form çıktısı özelleştirmelerini
+    kolaylıkla yapabileceksiniz.
 
 PHP
 ...
 
-To automatically include the customized templates from the ``Acme/TaskBundle/Resources/views/Form``
-directory created earlier in *all* templates, modify your application configuration
-file:
+``Acme/TaskBundle/Resources/views/Form`` içerisinde otomatik olarak özelleştirilmiş
+şablonları *tüm* şablonlar yaratılmadan önce almak (import) istiyorsanız 
+uygulama konfigürasyon dosyanızı şu şekilde düzenleyin:
 
 .. configuration-block::
 
@@ -1321,37 +1356,41 @@ file:
             // ...
         ));
 
-Any fragments inside the ``Acme/TaskBundle/Resources/views/Form`` directory
-are now used globally to define form output.
+
+``Acme/TaskBundle/Resources/views/Form`` içerisindeki herhangi bir parça
+artık form çıktılarına genel olarak kullanılabilir.
 
 .. index::
-   single: Forms; CSRF Protection
+   single: Forms; CSRF Koruması
 
 .. _forms-csrf:
 
-CSRF Protection
+CSRF Koruması
 ---------------
 
-CSRF - or `Cross-site request forgery`_ - is a method by which a malicious
-user attempts to make your legitimate users unknowingly submit data that
-they don't intend to submit. Fortunately, CSRF attacks can be prevented by
-using a CSRF token inside your forms.
+CSRF - ya da `Cross-site request forgery`_ - zararlı kullanıcıların ,
+zararsız kullanıcılar gibi verilerini bu kullanıcıların haberi olmadan
+gönderilmesini sağlayan bir metoddur. Çok şükür ki bu ataklar form'larda
+kullanılan CSRF biletleri (token) sayesinde önlenebilir.
 
-The good news is that, by default, Symfony embeds and validates CSRF tokens
-automatically for you. This means that you can take advantage of the CSRF
-protection without doing anything. In fact, every form in this chapter has
-taken advantage of the CSRF protection!
+Bu konudaki iyi haber, vasrsayılan olarak Symfony CSRF biletlerini otomatik
+olarak formlara gömer ve doğruluğunu kontrol eder. Bunun anlamı CSRF Koruması
+'nı hiç bir şey yapmadan otomatik olarak kullanabilirsimniz.  Aslında
+bu kısımdaki her form CSRF koruması tarafından korunmaktadır!
 
-CSRF protection works by adding a hidden field to your form - called ``_token``
-by default - that contains a value that only you and your user knows. This
-ensures that the user - not some other entity - is submitting the given data.
-Symfony automatically validates the presence and accuracy of this token.
 
-The ``_token`` field is a hidden field and will be automatically rendered
-if you include the ``form_rest()`` function in your template, which ensures
-that all un-rendered fields are output.
+CSRF koruması form içerisinde varsayılan olarak ``_token`` adıyla çağrılan
+sadece siz ve kullanıcının bildiği bir veriden oluşan bir gizli alanın 
+forma eklenmesi ile çalışır.
+Bu kullanıcının forma verdiği -başka bir girdiyi değil- veriyi korur.
+Symfony otomatik olarak bu biletin varlığını ve doğruluğunu kontrol eder.
 
-The CSRF token can be customized on a form-by-form basis. For example::
+``_token`` alanı eğer şablonunuz içerisinden ``form_rest()`` ile çağırırsanız
+forma otomatik olarak eklenecek ve çıktıda gösterilmeyen tüm verileri içeren
+gizli bir alandır (hidden field).
+
+
+CSRF bileti form dan forma  kuralı ile özelleştirilebilir. Örneğin::
 
     class TaskType extends AbstractType
     {
@@ -1371,30 +1410,33 @@ The CSRF token can be customized on a form-by-form basis. For example::
         // ...
     }
 
-To disable CSRF protection, set the ``csrf_protection`` option to false.
-Customizations can also be made globally in your project. For more information,
-see the :ref:`form configuration reference <reference-framework-form>`
-section.
+
+CSRF korumasını kapatmak için ``csrf_protection`` seçeneğini false
+yapmanız gereklidir. Özelleştirmeler ayıca projeniz içerisinden 
+genel olarak da yapılabilir. Bunun için 
+:ref:`form konfigürasyon referansı <reference-framework-form>` 
+kısmına bakın.
 
 .. note::
 
-    The ``intention`` option is optional but greatly enhances the security of
-    the generated token by making it different for each form.
+    ``intention``  seçeneği seçimlik olmasına rağmen her form için
+    yaratılan bilet değerini değişirtirir ve bu ciddi bir güvenlik artışı sağlar.
 
 .. index:
-   single: Forms; With no class
+   single: Forms; Sınıf olmadan 
 
-Using a Form without a Class
-----------------------------
+Bir Formu Sınıf olmadan kullanmak
+---------------------------------
 
-In most cases, a form is tied to an object, and the fields of the form get
-and store their data on the properties of that object. This is exactly what
-you've seen so far in this chapter with the `Task` class.
+Çoğu durumda bir form bir objeye bağlanır ve alanlar bu nesnenin değişkenleri
+içerisinden değerleri yönetilir. Bunu açıkça bu bölümün `Task` sınıfında
+görmüştünüz.
 
-But sometimes, you may just want to use a form without a class, and get back
-an array of the submitted data. This is actually really easy::
+Fakat bazen formu bir sınıf olmadan kullanmak ve gönderilen
+veriyi bir array (dize) içerisinden almak isteyebilirsiniz. Bu gerçekten
+çok kolaydır::
 
-    // make sure you've imported the Request namespace above the class
+    // Request namespace 'inin sınıfın üzerinde tanımlandığına emin olun
     use Symfony\Component\HttpFoundation\Request
     // ...
 
@@ -1410,53 +1452,53 @@ an array of the submitted data. This is actually really easy::
             if ($request->getMethod() == 'POST') {
                 $form->bindRequest($request);
 
-                // data is an array with "name", "email", and "message" keys
+                // data vei "name", "email", ve "message" anahtarları ile bir dize 
+                // içerisindedir.
                 $data = $form->getData();
             }
 
-        // ... render the form
+        // ... formu ekrana bas
     }
 
-By default, a form actually assumes that you want to work with arrays of
-data, instead of an object. There are exactly two ways that you can change
-this behavior and tie the form to an object instead:
+Varsayılan olarak, bir form verisinin gerçekte bir nesne yerine verilerin bir
+dize ile çalışmak isteyebileceğinizi varsayar. Bu davranışı değiştirmek ve
+ve bunu bir nesne içerisinde aktarmak için iki yolunuz bulunmaktadır:
 
-1. Pass an object when creating the form (as the first argument to ``createFormBuilder``
-   or the second argument to ``createForm``);
+1. Form yaratılırken bir objeye aktarmak (``createFormBuilder`` 'ın ilk argümanı
+   ya da ``createForm`` 'un ikinci argümanında tanımlandığı gibi) 
 
-2. Declare the ``data_class`` option on your form.
+2. form seçenekleri içerisindeki ``data_class`` özelliğinde bunu tanımlamak.
 
-If you *don't* do either of these, then the form will return the data as
-an array. In this example, since ``$defaultData`` is not an object (and
-no ``data_class`` option is set), ``$form->getData()`` ultimately returns
-an array.
+Eğer bunların hiç birisini istmiyorsanız bu durumda form değeri bir array
+olarak dönecektir. Bu örnekte ``$defaultData`` bir nesne olmamasından dolayı 
+(bir ``data_class`` seçeneği atanmamasından dolayı), ``$form->getData()`` 
+nihayetinde bir array döndürecektir.
 
 .. tip::
 
-    You can also access POST values (in this case "name") directly through
-    the request object, like so:
+    Eğer isterseniz request nesnesinden POST değerlerini (bu durumda "name")
+    direkt olarak şu şekilde çekebilirsiniz:
 
     .. code-block:: php
 
         $this->get('request')->request->get('name');
 
-    Be advised, however, that in most cases using the getData() method is
-    a better choice, since it returns the data (usually an object) after
-    it's been transformed by the form framework.
+    Tavsiye olarak , getData() metodunun kullanımı pek çok durumda 
+    veri form framework tarafından çevrildikten sonra döndüğünden 
+    dolayı (genellikle bir nesne) en iyi yöntemdir.
 
-Adding Validation
-~~~~~~~~~~~~~~~~~
+Veri Doğrulama Eklemek
+~~~~~~~~~~~~~~~~~~~~~~
 
-The only missing piece is validation. Usually, when you call ``$form->isValid()``,
-the object is validated by reading the constraints that you applied to that
-class. But without a class, how can you add constraints to the data of your
-form?
+Kalan tek parça veri doğrulamak. Genellikle ``$form->isValid()`` olarak
+bilen metod, sınıfa uyguladığınız kısıtları okuyarak işletir. Ancak
+formunuz bir sınıf değilse verilerin doğruluğunu nasıl belirleyeceksiniz?
 
-The answer is to setup the constraints yourself, and pass them into your
-form. The overall approach is covered a bit more in the :ref:`validation chapter<book-validation-raw-values>`,
-but here's a short example::
+Cevap, kendi kısıtlarınızı düzenlemek ve onları forma adapte etmektir.
+Bu konudaki genel bir yaklaşım bir parça :ref:`veri doğrulama kısmında<book-validation-raw-values>`, 
+işlenmiştir olmasına rağmen aşağıda kısa bir örnek verilmiştir::
 
-    // import the namespaces above your controller class
+    // controller sınıfının üzerinde namespace'leri aktar
     use Symfony\Component\Validator\Constraints\Email;
     use Symfony\Component\Validator\Constraints\MinLength;
     use Symfony\Component\Validator\Constraints\Collection;
@@ -1466,16 +1508,16 @@ but here's a short example::
         'email' => new Email(array('message' => 'Invalid email address')),
     ));
 
-    // create a form, no default values, pass in the constraint option
+    // varsayılan değerleri olmadan bir form yarat ve kısıt seçeneklerini aktar
     $form = $this->createFormBuilder(null, array(
         'validation_constraint' => $collectionConstraint,
     ))->add('email', 'email')
         // ...
     ;
 
-Now, when you call `$form->bindRequest($request)`, the constraints setup here are run
-against your form's data. If you're using a form class, override the ``getDefaultOptions``
-method to specify the option::
+Şimdi `$form->bindRequest($request)` 'i çağırdığınızda kısıtlar yapılacak ve
+form verisi üzerinde çalıştırılacaktır. Eğer bir form nesnesi kullanıyorsanız
+``getDefaultOptions`` metodu belirli bir seçeneğe hükmeder (override)::
 
     namespace Acme\TaskBundle\Form\Type;
 
@@ -1500,31 +1542,32 @@ method to specify the option::
         }
     }
 
-Now, you have the flexibility to create forms - with validation - that return
-an array of data, instead of an object. In most cases, it's better - and
-certainly more robust - to bind your form to an object. But for simple forms,
-this is a great approach.
+Şimdi formu -veri doğrulama ile- form verisinin nesne yerine
+bir array döndürülerek yaratma esnekliğine sahipsiniz.
+Çoğu durumda bu bir nesneye form verisini bindirme  yöntemi 
+en iyi -ve gerçekten sağlam- bir yöntemdir. 
+Fakat basit formlarda bu mükemmel bir yaklaşımdır.
 
-Final Thoughts
---------------
 
-You now know all of the building blocks necessary to build complex and
-functional forms for your application. When building forms, keep in mind that
-the first goal of a form is to translate data from an object (``Task``) to an
-HTML form so that the user can modify that data. The second goal of a form is to
-take the data submitted by the user and to re-apply it to the object.
+Son Sözler
+-----------
+Uygulamanızda karmaşık ve fonksiyonel formlar için blokların düzenlenmesinin
+gerekliliğini tamamen biliyorsunuz. Formlar yapılırken formun ilk amacının bir nesneden
+(``Task``) veriyi HTML formuna çevirdikten sonra kullanıcının veriyi düzenleyebilmesi olduğunu
+aklınızdan çıkarmayın. Formun ikinci amacı ise kullanıcının göndermiş olduğu form 
+verisini alıp yeninden nesnenin içerisine uygulamaktır.
 
-There's still much more to learn about the powerful world of forms, such as
-how to handle :doc:`file uploads with Doctrine
-</cookbook/doctrine/file_uploads>` or how to create a form where a dynamic
-number of sub-forms can be added (e.g. a todo list where you can keep adding
-more fields via Javascript before submitting). See the cookbook for these
-topics. Also, be sure to lean on the
-:doc:`field type reference documentation</reference/forms/types>`, which
-includes examples of how to use each field type and its options.
+Formların güçlü dünyası hakkında :doc:`Doctrine ile dosya yüklemeleri
+</cookbook/doctrine/file_uploads>` ya da dinamik olarak istenilen sayıda
+alt formlar eknenen bir form yaratmak (Örn: Javascript ile birden fazla
+alanı bir yapılacaklar listesi formuna kullanıcı form verisini göndermeden
+önce eklemek) gibi öğrenecek çok şey var. Bu konular için tarif kitabı b
+konularına bakın. Ayrıca :doc:`alan tipleri referans belgesindeki</reference/forms/types>`
+bu alan tiplerini ve seçeneklerinin nasıl kullanıldığı hakkındaki örneklere
+de göz atmadan geçmeyin.
 
-Learn more from the Cookbook
-----------------------------
+Tarif Kitabından Daha Fazlasını Öğrenin
+---------------------------------------
 
 * :doc:`/cookbook/doctrine/file_uploads`
 * :doc:`File Field Reference </reference/forms/types/file>`
@@ -1533,9 +1576,9 @@ Learn more from the Cookbook
 * :doc:`/cookbook/form/dynamic_form_generation`
 * :doc:`/cookbook/form/data_transformers`
 
-.. _`Symfony2 Form Component`: https://github.com/symfony/Form
+.. _`Symfony2 Form Bileşeni`: https://github.com/symfony/Form
 .. _`DateTime`: http://php.net/manual/en/class.datetime.php
 .. _`Twig Bridge`: https://github.com/symfony/symfony/tree/master/src/Symfony/Bridge/Twig
 .. _`form_div_layout.html.twig`: https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
 .. _`Cross-site request forgery`: http://en.wikipedia.org/wiki/Cross-site_request_forgery
-.. _`view on GitHub`: https://github.com/symfony/symfony/tree/master/src/Symfony/Bundle/FrameworkBundle/Resources/views/Form
+.. _`GitHub üzerinden görebilirsiniz`: https://github.com/symfony/symfony/tree/master/src/Symfony/Bundle/FrameworkBundle/Resources/views/Form
