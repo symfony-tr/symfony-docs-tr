@@ -1328,7 +1328,7 @@ içerisine  ``_format`` değişkenini eklemelisiniz:
             PDF Version
         </a>
 
-Sön Düşünceler
+Son Düşünceler
 --------------
 
 Şablon motoru Symfony de HTML, XML ya da diğer formattaki içeriği istediğiniz
@@ -1346,7 +1346,7 @@ bizim şablon kullanmamıza ihtiyaç bırakmadan da bu içeriği yaratabilir:
     $response = new Response('response content');
 
 
-Symfony'nin şablon motoru iki adet farklı tipte olan ,
+Symfony'nin şablon motoru iki adet farklı tipte olan,
 geleneksel *PHP* şablonları ve zarif ve güçlü *Twig* şablonlarını varsayılan 
 olarak ekrana basabilen oldukça esnek bir motordur.
 İkiside pek çok genel işi kolaylıkla halledebilecek yardımcı metodlar ve
