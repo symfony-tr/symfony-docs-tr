@@ -1,7 +1,7 @@
 Symfony2 Düz PHP'ye Karşı
 ========================
-** Neden Symfony2 sadece bir dosya açıp düz bir şekilde yazdığımız PHP dosyasından
-daha iyidir? **
+**Neden Symfony2 sadece bir dosya açıp düz bir şekilde yazdığımız PHP dosyasından
+daha iyidir?**
 
 Eğer hiç PHP framework kullanmadıysanız MVC felsefesine yabancısınızdır 
 ya da Symfony2 hakkındaki hurafelere inanıyorsunuzdur. Bu bölüm sizin için.

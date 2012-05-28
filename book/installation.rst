@@ -141,6 +141,12 @@ Eğer bazı sorunlar varsa onları düzeltip yeniden bunu çalıştırın.
         sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
         sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
 
+	
+    Şunu dikkate alın. Tüm web sunucular kullanıcıyı ``www-data`` olarak
+    çalıştırırlar. Web server kullanıcısı olarak hangi kullanıcının ç
+    çalıştırıldığını kontrol edip o kullanıcıyı ``www-data`` ya koyun.
+    Bu kullanıcının belirlenmesi süreç listenizi kontrol etmek ile belirlenebilir.
+
     **3. ACL Kullanmadan**
 	
 	Eğer ACL ile dizinleri değiştirmeye yetkiniz yoksa cache ve log dizinlerinin
@@ -218,4 +224,4 @@ alabilir.
 .. _`Git`: http://git-scm.com/
 .. _`GitHub Bootcamp`: http://help.github.com/set-up-git-redirect
 .. _`Apache`: http://httpd.apache.org/docs/current/mod/core.html#documentroot
-.. _`Nginx`: http://wiki.nginx.org/HttpCoreModule#root
+.. _`Nginx`: http://wiki.nginx.org/Symfony
