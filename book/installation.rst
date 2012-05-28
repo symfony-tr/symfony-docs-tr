@@ -141,7 +141,12 @@ Eğer bazı sorunlar varsa onları düzeltip yeniden bunu çalıştırın.
         sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
         sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
 
-<<<<<<< HEAD
+	
+    Şunu dikkate alın. Tüm web sunucular kullanıcıyı ``www-data`` olarak
+    çalıştırırlar. Web server kullanıcısı olarak hangi kullanıcının ç
+    çalıştırıldığını kontrol edip o kullanıcıyı ``www-data`` ya koyun.
+    Bu kullanıcının belirlenmesi süreç listenizi kontrol etmek ile belirlenebilir.
+
     **3. ACL Kullanmadan**
 	
 	Eğer ACL ile dizinleri değiştirmeye yetkiniz yoksa cache ve log dizinlerinin
@@ -150,21 +155,6 @@ Eğer bazı sorunlar varsa onları düzeltip yeniden bunu çalıştırın.
 	bağlı olarak) değişitirlmesi gereklidir.
 	Bunun gerçekleştirilmesi için ``app/console``, ``web/app.php`` ve 
 	``web/app_dev.php``dosyalarının başına şu satırları eklemelisiniz:
-=======
-    Note that not all web servers run as the user ``www-data``. You have to
-    check which user the web server is being run as and put it in for ``www-data``.
-    This can be done by checking your process list to see which user is running
-    your web server processes.
-
-    **3. Without using ACL**
-
-    If you don't have access to changing the ACL of the directories, you will
-    need to change the umask so that the cache and log directories will
-    be group-writable or world-writable (depending if the web server user
-    and the command line user are in the same group or not). To achieve
-    this, put the following line at the beginning of the ``app/console``,
-    ``web/app.php`` and ``web/app_dev.php`` files:
->>>>>>> original/2.0
 
     .. code-block:: php
 
