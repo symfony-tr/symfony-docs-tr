@@ -156,7 +156,7 @@ gözükecektir.
     Çoğu zaman, direk olarak ``validator`` servisi ile uğraşmak
     istemeyecek ya da bu hataları görmek istemeyeceksiniz. Çoğu
     zaman form verisini işlerken dolaylı olarak doğrulama kullanacaksınız.
-    bu konudaki daha fazla bilgi için :ref:`book-validation-forms` 
+    Bu konudaki daha fazla bilgi için :ref:`book-validation-forms` 
     belgesine bakınız.
 
 Ayrıca hataların bir kolleksiyonunu da şablona aktarabilirsiniz.
@@ -213,7 +213,7 @@ Veri Doğrulama ve Formlar
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 ``validator`` Servisi herhangi bir nesneyi doğrulamak için her zaman
 kullanılabilir. Gerçekte , genellikle ``validator`` ile formlarla çalışırken
-dolaylı olarak çalışacaksınız. Smyofny'nin form kütüphanesi ``validator``
+dolaylı olarak çalışacaksınız. Symfony'nin form kütüphanesi, ``validator``
 servisini igili nesne için veriler submit edildikten ve
 nesne değişkenine form verileri bindirildikten sonra içsel olarak çalıştırır.
 Nesnenin kısıt hataları ``FieldError`` nesnesine çevrilerek form içerisinde
@@ -234,7 +234,7 @@ kolaylıkla gösterilir.  Tipik form veri göndermesi akışı controller üzeri
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                // doğrulama geçti, $author nesnesiile bir şeyler yap.
+                // doğrulama geçti, $author nesnesi ile bir şeyler yap.
 
                 return $this->redirect($this->generateUrl('...'));
             }
@@ -259,9 +259,9 @@ Daha fazla bilgi için :doc:`Formlar</book/forms>` bölümüne bakın.
 Konfigürasyon
 -------------
 
-Symfony2 validator servisi varsayılan olarak açık gelir ancak eğer
-kısıtlama kurallarınız içerisinde belirteçleri kullandıysanız bu belirteçleri
-açmalısınız:
+Symfony2 validator servisi varsayılan olarak çalışır haldedir. Ancak eğer
+kısıtlama kurallarınız içerisinde belirteçleri(annotations) kullandıysanız 
+bu belirteçleri çalışır hale getirmelisiniz:
 
 .. configuration-block::
 
@@ -293,20 +293,21 @@ açmalısınız:
 Kısıtlar
 --------
 
-``validator`` nesneleri *kısıtlara* göre doğrulayacak şekilde tasarlanmıştır
+``validator`` Nesneleri *kısıtlara* göre doğrulayacak şekilde tasarlanmıştır
 (örn : kurallar). Nesnenin doğrulanmasına göre basitçe bir ya da daha
 fazla sınıfa ait olan kısıt eşleşir ve ``validator`` hizmetinden geçer.
 
 İşin mutfağında bir kısıt, araya bir ifade sıkıştıran basit bir PHP nesnesidir.
 Gerçekte bir kısıt "Kek yanmamalı" olabilir. Symfony2'deki 
-kısıtlarda aynırı. Araya sıkıştırdıkları bir şart doğrudur. Bir kısıt
+kısıtlarda aynıdır. Araya sıkıştırdıkları bir şart doğrudur. Bir kısıt
 verilen değer için bu değerin kısıt kuralları ile eşleştirilip eşleştirilmediğini
 söyleyecektir.
 
 Desteklenen Kısıtlar
 ~~~~~~~~~~~~~~~~~~~~
 
-Symfony2 geniş bir sayıda en çok gereken kısıt ile birlikte gelir:
+Symfony2 en sık kullanılan kısıtları barındıran geniş bir liste ile 
+birlikte gelir:
 
 .. include:: /reference/constraints/map.rst.inc
 
@@ -323,7 +324,8 @@ Kısıt Konfigürasyonu
 
 :doc:`NotBlank</reference/constraints/NotBlank>` gibi bazı kısıtlar 
 basit iken :doc:`Choice</reference/constraints/Choice>` gibi kısıtların
-pek çok ayar seçeneği bulunmaktadır.
+pek çok ayar seçeneği bulunmaktadır. 
+
 Varsayalım ki ``Author`` sınıfı ``gender`` adında bir değişkene sahip ve
 bu değişken ``male`` ya da ``female`` olarak ayarlanmalı::
 
@@ -395,10 +397,9 @@ bu değişken ``male`` ya da ``female`` olarak ayarlanmalı::
 
 .. _validation-default-option:
 
-The options of a constraint can always be passed in as an array. Some constraints,
-however, also allow you to pass the value of one, "*default*", option in place
-of the array. In the case of the ``Choice`` constraint, the ``choices``
-options can be specified in this way.
+Kısıtların seçenekleri daima bir array içerisinde aktarılır. Ancak bazı 
+aktaracağınız kısıtlar array içerisinde bir *default* seçeneği bulundururlar.
+``Choice`` kısıtı örneğinde ``choices`` seçeneği bu yolla belirlenir.
 
 .. configuration-block::
 
@@ -457,37 +458,36 @@ options can be specified in this way.
             }
         }
 
-This is purely meant to make the configuration of the most common option of
-a constraint shorter and quicker.
-
-If you're ever unsure of how to specify an option, either check the API documentation
-for the constraint or play it safe by always passing in an array of options
-(the first method shown above).
+Bu konfigürasyonun anlamı açık bir şekilde pek çok seçenek basitçe ve kısaca 
+konfigüre edilebilirdir.
+Eğer bir seçeneği nasıl belirleyeceğinize emin değilseniz ya bu kısıt için API dokümanına
+bakın ya da seçenekleri bir dize içerisinde vererek kurcalayın (yukarıda gösterilen ilk metod).
 
 .. index::
-   single: Veri Doğrulama; Constraint targets
+   single: Veri Doğrulama; Kısıt Hedefleri	
 
 .. _validator-constraint-targets:
 
-Constraint Targets
-------------------
+Kısıt Hedefleri
+---------------
 
-Constraints can be applied to a class property (e.g. ``name``) or a public
-getter method (e.g. ``getFullName``). The first is the most common and easy
-to use, but the second allows you to specify more complex validation rules.
+Kısıtlar bir nesne değişkenine (örn : ``name``) ya da getter metodlarına
+(örn: ``getFullName``) uygulanabilir. Birincisi en sık ve kolay kullanılan 
+olanıdır  ancak ikincisi size daha karmaşık doğrulama kurallarını 
+uygulamanızı sağlar.
 
 .. index::
-   single: Veri Doğrulama; Property constraints
+   single: Veri Doğrulama; Sınıf Değişkeni Kısıtları
 
 .. _validation-property-target:
 
-Properties
-~~~~~~~~~~
+Sınıf Değişkenleri (Properties)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Validating class properties is the most basic validation technique. Symfony2
-allows you to validate private, protected or public properties. The next
-listing shows you how to configure the ``$firstName`` property of an ``Author``
-class to have at least 3 characters.
+Sınıf değişkenlerini doğrulamak en basit veri doğrulama tekniğidir.
+Symfony2, private, protected ya da public sınıf değişkenlerini
+doğrulayabilir. Aşağıdaki liste ``Author`` sınıfındaki ``$firstName``
+değişkeninin nasıl en az 3 karakter olacağını göstermektedir.
 
 .. configuration-block::
 
@@ -543,21 +543,20 @@ class to have at least 3 characters.
         }
 
 .. index::
-   single: Veri Doğrulama; Getter constraints
+   single: Veri Doğrulama; Getter Kısıtları
 
-Getters
-~~~~~~~
+Getter'lar
+~~~~~~~~~~
 
-Constraints can also be applied to the return value of a method. Symfony2
-allows you to add a constraint to any public method whose name starts with
-"get" or "is". In this guide, both of these types of methods are referred
-to as "getters".
+Kısıtlar aynı zamanda metodun dönüş değerine de uygulanabilir. Symfony2
+"get" ya da "is" ile başlayan herhangi bir public metoda kısıt eklemenize
+izin verir. Bu klavuzda bu iki tip metodun genel adı "getters" olarak 
+ifade edilir.
 
-The benefit of this technique is that it allows you to validate your object
-dynamically. For example, suppose you want to make sure that a password field
-doesn't match the first name of the user (for security reasons). You can
-do this by creating an ``isPasswordLegal`` method, and then asserting that
-this method must return ``true``:
+Bu tekniğin avantajı, nesnenizi dinamik olarak veri doğrulama yapma imkanı
+sağlamasıdır. Örneğin, varsayalım, bir parola alanınındaki veriyi kullanıcının
+adı ile aynı olmamasını istiyorsunuz(güvenlik nedenleri ile). Bunu ``isPasswordLegal``
+metodu yaratarak bunun ``true`` dönmesini durumunda bir kısıt sağlayabilirsiniz:
 
 .. configuration-block::
 
@@ -567,7 +566,7 @@ this method must return ``true``:
         Acme\BlogBundle\Entity\Author:
             getters:
                 passwordLegal:
-                    - "True": { message: "The password cannot match your first name" }
+                    - "True": { message: "Parola isminiz ile aynı olamaz" }
 
     .. code-block:: php-annotations
 
@@ -577,11 +576,11 @@ this method must return ``true``:
         class Author
         {
             /**
-             * @Assert\True(message = "The password cannot match your first name")
+             * @Assert\True(message = "Parola isminiz ile aynı olamaz")
              */
             public function isPasswordLegal()
             {
-                // return true or false
+                // true ya da false döner
             }
         }
 
@@ -591,7 +590,7 @@ this method must return ``true``:
         <class name="Acme\BlogBundle\Entity\Author">
             <getter property="passwordLegal">
                 <constraint name="True">
-                    <option name="message">The password cannot match your first name</option>
+                    <option name="message">Parola isminiz ile aynı olamaz</option>
                 </constraint>
             </getter>
         </class>
@@ -607,12 +606,13 @@ this method must return ``true``:
             public static function loadValidatorMetadata(ClassMetadata $metadata)
             {
                 $metadata->addGetterConstraint('passwordLegal', new True(array(
-                    'message' => 'The password cannot match your first name',
+                    'message' => 'Parola isminiz ile aynı olamaz',
                 )));
             }
         }
 
-Now, create the ``isPasswordLegal()`` method, and include the logic you need::
+Şimdi, ``isPasswordLegal()`` metodu yaratarak gerekli algoritmayı içerisine
+ekleyelim::
 
     public function isPasswordLegal()
     {
@@ -621,36 +621,35 @@ Now, create the ``isPasswordLegal()`` method, and include the logic you need::
 
 .. note::
 
-    The keen-eyed among you will have noticed that the prefix of the getter
-    ("get" or "is") is omitted in the mapping. This allows you to move the
-    constraint to a property with the same name later (or vice versa) without
-    changing your validation logic.
+    Keskin bir gözünüz varsa hemen getter ön eklerinin ("get" ya da "is")
+    eşleştirmenin dışında olduğunu farkedecektir. Bu size sınıf değişkeni
+    kısıtının aynı isimle daha sonra doğrulama algoritmasını değiştirmeden
+    taşımanıza imkan sağlar.
 
 .. _validation-class-target:
 
-Classes
+Sınıflar
 ~~~~~~~
 
-Some constraints apply to the entire class being validated. For example,
-the :doc:`Callback</reference/constraints/Callback>` constraint is a generic
-constraint that's applied to the class itself. When that class is validated,
-methods specified by that constraint are simply executed so that each can
-provide more custom validation.
+Bazı kısıtlamalar veri doğrulama yapılacak sınıfın tamamına uygulanır.
+Örneğin :doc:`Callback</reference/constraints/Callback>` kısıtı,
+sınıfın kendisine uygulanan jenerik bir kısıttır. Sınıf doğrulandığında
+bu kısıtlar tarafından belirlenmiş metodlar çalışacak ve her birisi
+size daha fazla özelleştirilmiş bir veri doğrulama sağlayacaktır.
 
 .. _book-validation-validation-groups:
 
-Validation Groups
------------------
+Kısıt Gurupları
+---------------
 
-So far, you've been able to add constraints to a class and ask whether or
-not that class passes all of the defined constraints. In some cases, however,
-you'll need to validate an object against only *some* of the constraints
-on that class. To do this, you can organize each constraint into one or more
-"validation groups", and then apply validation against just one group of
-constraints.
+Buraya kadar sınıfa kısıtlar atayabilir ve bu sınıfın tüm belirlenen kısıtlardan
+geçip geçmediğini öğrenebilirsiniz. Ancak bazı durumlarda bir nesnenin sadece
+*bazı* kısıtlar ile doğrulanmasını isteyebilirsiniz. Bunu yapmak için her kısıtını bir
+ya da daha fazla "kısıt gurubu" (validation group) içerisine alıp nesneye
+sadece bu guruptaki kısıtları uygulayabilirsiniz. 
 
-For example, suppose you have a ``User`` class, which is used both when a
-user registers and when a user updates his/her contact information later:
+Örneğin, varsayalım ki kullanıcıların kayıt edilmesine ve kullanıcıların
+kayıtlarının sonradan güncellenebilmesine yarayan bir ``User`` sınıfınız var:
 
 .. configuration-block::
 
@@ -753,82 +752,83 @@ user registers and when a user updates his/her contact information later:
             }
         }
 
-With this configuration, there are two validation groups:
+Bu konfigürasyonda iki adet veri dogrulama gurubu vardır:
 
-* ``Default`` - contains the constraints not assigned to any other group;
+* ``Default`` - herhangi bir diğer guruba dahil edilmeyen kısıtlar;
 
-* ``registration`` - contains the constraints on the ``email`` and ``password``
-  fields only.
+* ``registration`` -  sadece ``email`` ve ``password`` alanlarını kapsayan
+  kısıtlar. 
 
-To tell the validator to use a specific group, pass one or more group names
-as the second argument to the ``validate()`` method::
+Validator'a (veri doğrulayıcı) belirli bir gurup kullanımasını söylemek için
+bir ya da daha fazla gurup adını ``validate()`` metodunun ikinci argümanında
+belirmek gerekilidir::
 
     $errors = $validator->validate($author, array('registration'));
 
-Of course, you'll usually work with validation indirectly through the form
-library. For information on how to use validation groups inside forms, see
-:ref:`book-forms-validation-groups`.
+Elbette, genellikle veri doğrulama ile form kütüphanelerinde dolaylı
+olarak çalışacaksınız. Veri doğrulama guruplarının formlar içerisinde
+kullanımı hakkındaki bilgiyi :ref:`book-forms-validation-groups` kısmından
+alabilirsiniz.
 
 .. index::
-   single: Veri Doğrulama; Validating raw values
+   single: Veri Doğrulama; İşlenmemiş Verileri Doğrulama
 
 .. _book-validation-raw-values:
 
-Validating Values and Arrays
-----------------------------
+Değerleri ve Dizeleri Doğrulamak
+--------------------------------
 
-So far, you've seen how you can validate entire objects. But sometimes, you
-just want to validate a simple value - like to verify that a string is a valid
-email address. This is actually pretty easy to do. From inside a controller,
-it looks like this::
+Buraya kadar tüm bir nesnenin nasıl doğrulanacağını gördünüz. Fakat
+bazen sadece bir metin ya da geçerli bir e-posta adresi gibi basit
+bir değeri doğrulatmak isteyebilirsiniz. Bunu yapmak gerçekten oldukça
+basittir. Controller içerisindeki form şu şekilde düzenlenmelidir::
 
-    // add this to the top of your class
+    // bunu sınıfınızın üzerine ekleyin
     use Symfony\Component\Validator\Constraints\Email;
     
     public function addEmailAction($email)
     {
         $emailConstraint = new Email();
-        // all constraint "options" can be set this way
-        $emailConstraint->message = 'Invalid email address';
+        // tüm kısıt "seçenekleri" bu yolla ayarlanabilir.
+        $emailConstraint->message = 'Geçersiz e-posta adresi';
 
-        // use the validator to validate the value
+        //  validator'u kullanarak değeri doğrula
         $errorList = $this->get('validator')->validateValue($email, $emailConstraint);
 
         if (count($errorList) == 0) {
-            // this IS a valid email address, do something
+            // eğer bu "geçerli" bir e-posta adresi ise
         } else {
-            // this is *not* a valid email address
+            // bu geçerli bir e-posta adresi "değil" ise
             $errorMessage = $errorList[0]->getMessage()
             
-            // do something with the error
+            // bu hata ile bir şeyler yap
         }
         
         // ...
     }
 
-By calling ``validateValue`` on the validator, you can pass in a raw value and
-the constraint object that you want to validate that value against. A full
-list of the available constraints - as well as the full class name for each
-constraint - is available in the :doc:`constraints reference</reference/constraints>`
-section .
+Validator'deki ``validateValue`` çağırılıp bir kısıt nesnesine bu 
+işlenmemiş değer ile birlikte verilerek değeri doğrulatabilirsiniz.
+Tüm mevcut kısıtların tam listesi için -ve her kısıtın tam nesne adları
+için :doc:`kısıt referansları</reference/constraints>` belgesine bakın.
 
-The ``validateValue`` method returns a :class:`Symfony\\Component\\Validator\\ConstraintViolationList`
-object, which acts just like an array of errors. Each error in the collection
-is a :class:`Symfony\\Component\\Validator\\ConstraintViolation` object,
-which holds the error message on its `getMessage` method.
+``validateValue`` metodu  tüm hataların bir dize değişkeni içerisinde 
+:class:`Symfony\\Component\\Validator\\ConstraintViolationList` sınıfı olarak 
+döndürür. Kolleksiyondaki her hata, :class:`Symfony\\Component\\Validator\\ConstraintViolation` 
+nesnesinde tutulur ve bu hata mesajlarına `getMessage` metodu ile erişirsiniz.
 
-Final Thoughts
+Son Düşünceler
 --------------
 
-The Symfony2 ``validator`` is a powerful tool that can be leveraged to
-guarantee that the data of any object is "valid". The power behind validation
-lies in "constraints", which are rules that you can apply to properties or
-getter methods of your object. And while you'll most commonly use the validation
-framework indirectly when using forms, remember that it can be used anywhere
-to validate any object.
+Symfony2 ``validator``  (veri doğrulayıcı) herhangi bir nesnenin verisinin
+"geçerli" olduğunu garantilemek için kullanılan güçlü bir araçtır. Veri
+doğrulamanın arkasında yatan güç, sınıf değişkenlerine ya da nesnenizin
+getter metodlarına uygulayabileceğiniz "kısıtlar" dır. Veri doğrulamada 
+en çok kullanılan yöntem formlardaki dolaylı kullanımdır. Şunu unutmayın ki
+veri doğrulama herhangibir nesne içerisinde kullanılabilir.
 
-Learn more from the Cookbook
-----------------------------
+Tarif Kitabından Daha Fazlasını Öğrenin
+---------------------------------------
 
 * :doc:`/cookbook/validation/custom_constraint`
 

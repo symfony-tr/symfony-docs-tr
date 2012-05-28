@@ -1,8 +1,8 @@
-Basic Constraints
+Temel Kısıtlar
 ~~~~~~~~~~~~~~~~~
 
-These are the basic constraints: use them to assert very basic things about
-the value of properties or the return value of methods on your object.
+Bunları kullanarak en temel kısıtları nesnenizin sınıf değişkenlerine
+ya da dönüş değerlerine uygulayabilirsiniz.
 
 * :doc:`NotBlank </reference/constraints/NotBlank>`
 * :doc:`Blank </reference/constraints/Blank>`
@@ -12,8 +12,8 @@ the value of properties or the return value of methods on your object.
 * :doc:`False </reference/constraints/False>`
 * :doc:`Type </reference/constraints/Type>`
 
-String Constraints
-~~~~~~~~~~~~~~~~~~
+Metin Kısıtları
+~~~~~~~~~~~~~~~
 
 * :doc:`Email </reference/constraints/Email>`
 * :doc:`MinLength </reference/constraints/MinLength>`
@@ -22,20 +22,20 @@ String Constraints
 * :doc:`Regex </reference/constraints/Regex>`
 * :doc:`Ip </reference/constraints/Ip>`
 
-Number Constraints
-~~~~~~~~~~~~~~~~~~
+Sayı Kısıtları
+~~~~~~~~~~~~~~
 
 * :doc:`Max </reference/constraints/Max>`
 * :doc:`Min </reference/constraints/Min>`
 
-Date Constraints
-~~~~~~~~~~~~~~~~
+Tarih Kısıtları
+~~~~~~~~~~~~~~~
 
 * :doc:`Date </reference/constraints/Date>`
 * :doc:`DateTime </reference/constraints/DateTime>`
 * :doc:`Time </reference/constraints/Time>`
 
-Collection Constraints
+Kolleksiyon Kısıtları
 ~~~~~~~~~~~~~~~~~~~~~~
 
 * :doc:`Choice </reference/constraints/Choice>`
@@ -45,14 +45,14 @@ Collection Constraints
 * :doc:`Locale </reference/constraints/Locale>`
 * :doc:`Country </reference/constraints/Country>`
 
-File Constraints
-~~~~~~~~~~~~~~~~
+Dosya ısıtları
+~~~~~~~~~~~~~~
 
 * :doc:`File </reference/constraints/File>`
 * :doc:`Image </reference/constraints/Image>`
 
-Other Constraints
-~~~~~~~~~~~~~~~~~
+Diğer Kısıtlar
+~~~~~~~~~~~~~~
 
 * :doc:`Callback </reference/constraints/Callback>`
 * :doc:`All </reference/constraints/All>`
