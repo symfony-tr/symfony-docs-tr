@@ -253,8 +253,9 @@ kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için
     
 .. caution::
 
-   Sınıf isimleri ve sınıfın değilken isimleri korunan SQL anahtar
-   kelimeleri ise bunlar eşleştirilmez(örn : ``group`` ya da ``user``).
+
+   Sınıf isimleri ve sınıfın değişken isimleri korunan SQL anahtar
+   kelimeleri eşleştirilmeyeceğine dikkat edin(örn : ``group`` ya da ``user``).
    Örneğin entity sınıfınızın ismi ``Group`` ise varsayılan olarak
    talo isminiz ``group`` olacaktır ve bazı motorlarda bu durum SQL
    hatasına yol açar. Bu konudaki geniş bilgi için
@@ -263,7 +264,6 @@ kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için
    eğer database şeması seçmekte özgür iseniz basitçe bu isimler için
    farklı tablo ya da sütün adı kullanabilirsiniz. Doctrine'nin   
    `Eşleştirme Tipleri Belgesi`_ ve `Kalıcı sınıflar`_ belgesine bakın.
-
 
 .. note::
 

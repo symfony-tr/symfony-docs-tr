@@ -143,7 +143,7 @@ parameter.ini by referencing the database-related parameters defined there:
             <argument>%database_password%</argument>
         </service>
 
-    .. code-block:: xml
+    .. code-block:: php
 
         $pdoDefinition = new Definition('PDO', array(
             'mysql:dbname=%database_name%',
@@ -180,5 +180,5 @@ For PostgreSQL, the statement should look like this:
         session_id character varying(255) NOT NULL,
         session_value text NOT NULL,
         session_time integer NOT NULL,
-        CONSTRAINT session_pkey PRIMARY KEY (session_id),
+        CONSTRAINT session_pkey PRIMARY KEY (session_id)
     );
