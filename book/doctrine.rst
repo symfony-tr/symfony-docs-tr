@@ -253,13 +253,17 @@ kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için
     
 .. caution::
 
-    Sınıf isimlerinde ve sınıfın değişkenlerinde korunan SQL anahtar kelimeleri
-    ni kullanmayınız(``group`` ya da ``user`` gibi).Bunlar eşleştirilmezler. 
-    Örneğin eğer entity sınıfınızın adı ``Group`` ise varsayılan tablo adınızda
-    ``group`` olacak ve SQL motorunda bu hataya neden olacaktır. Doctrine'nin
-    `Ayrılmış SQL anahtar kelimeleri belgesi`_  'ni okuyarak bunlardan nasıl
-    kaçınabileceğinizi öğrenebilirsiniz.
-   
+   Sınıf isimleri ve sınıfın değilken isimleri korunan SQL anahtar
+   kelimeleri ise bunlar eşleştirilmez(örn : ``group`` ya da ``user``).
+   Örneğin entity sınıfınızın ismi ``Group`` ise varsayılan olarak
+   talo isminiz ``group`` olacaktır ve bazı motorlarda bu durum SQL
+   hatasına yol açar. Bu konudaki geniş bilgi için
+   _`Ayrılmış SQL anahtar kelimeleri belgesi` be bakarak hangi isimleri
+   kullanmamanız gerektiğini görebilirsiniz. Alternatif olarak
+   eğer database şeması seçmekte özgür iseniz basitçe bu isimler için
+   farklı tablo ya da sütün adı kullanabilirsiniz. Doctrine'nin   
+   `Eşleştirme Tipleri Belgesi`_ ve `Kalıcı sınıflar`_ belgesine bakın.
+
 
 .. note::
 
@@ -1434,3 +1438,4 @@ Doctrine hakkında daha fazla bilgi için :doc:`tarif kitabı</cookbook/index>`
 .. _`Değişken Eşleme Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping
 .. _`Lifecycle Olayları belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/events.html#lifecycle-events
 .. _`Ayrılmış SQL anahtar kelimeleri belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#quoting-reserved-words
+.. _`Kalıcı sınıflar`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#persistent-classes
