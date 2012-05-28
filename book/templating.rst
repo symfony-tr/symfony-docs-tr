@@ -563,6 +563,7 @@ Bazı durumlarda bir şablonu çağırmaktan fazlasına ihtiyacınız olur.
 Varsayalım layout(plan) içerisinde en önemli üç haberi getiren bir sidebar(kenar bloku)
 var. Bu üç haberin getirilmesinde belki şablondan yapılamayacak kadar
 ağır bir işlem ya da bir veritabanı sorgusu gerekli olabilir.
+
 Çözüm ise basitçe şablonunuza sonucu getiren bir controller gömmektir.
 İlk önce belirli bir sayıdaki haberi ekrana getiren controlleri yapalım:
 
@@ -1290,8 +1291,8 @@ eklenir:
 Gerçekte, bu bir isimlendirme kuralından başka bir şey değildir ve bunun
 böyle olması onun ilgili formatta olacağı anlamına gelmez.
 
-Bek çok durumda "istek format" 'ına göre tek bir controller kullanarak
-farklı tipteki fomatları ekrana basmak isteyebilirsiniz. Bu yüzden 
+Pek çok durumda "istek format" 'ına göre tek bir controller kullanarak
+farklı tipteki formatları ekrana basmak isteyebilirsiniz. Bu yüzden 
 aşağıdaki genel bir şablon(pattern) bu işlemi gerçekleştirir:
 
 .. code-block:: php

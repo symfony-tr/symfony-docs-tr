@@ -253,8 +253,8 @@ kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için
     
 .. caution::
 
-   Sınıf isimleri ve sınıfın değilken isimleri korunan SQL anahtar
-   kelimeleri ise bunlar eşleştirilmez(örn : ``group`` ya da ``user``).
+   Sınıf isimleri ve sınıfın değişken isimleri korunan SQL anahtar
+   kelimeleri eşleştirilmeyeceğine dikkat edin(örn : ``group`` ya da ``user``).
    Örneğin entity sınıfınızın ismi ``Group`` ise varsayılan olarak
    talo isminiz ``group`` olacaktır ve bazı motorlarda bu durum SQL
    hatasına yol açar. Bu konudaki geniş bilgi için
@@ -1418,7 +1418,7 @@ ile veritabanının ilgili tablosu arasında eşleştirmesiyle mümkün olmaktad
 
 Doctrine basit bir düşünce etrafında dönmesine rağmen oldukça güçlü,
 karmaşık sorguları yaratma, nesleleri veritabanına yazma durumunda
-ortaya çıkan farklı lifecycle olaylarına karışmaya imkan sağlar.
+ortaya çıkan farklı lifecycle olaylarına müdahele etmenize imkan sağlar.
 
 Doctrine hakkında daha fazla bilgi için :doc:`tarif kitabı</cookbook/index>` 
 'nın *Doctrine* başlığı altındaki şu makalelere bakın:
@@ -1438,4 +1438,3 @@ Doctrine hakkında daha fazla bilgi için :doc:`tarif kitabı</cookbook/index>`
 .. _`Lifecycle Olayları belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/events.html#lifecycle-events
 .. _`Ayrılmış SQL anahtar kelimeleri belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#quoting-reserved-words
 .. _`Kalıcı sınıflar`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#persistent-classes
-.. _`Property Mapping`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping

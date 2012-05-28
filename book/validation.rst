@@ -1,27 +1,27 @@
 .. index::
-   single: Validation
+   single: Veri Doğrulama
 
-Validation
-==========
+Veri Doğrulama
+==============
+Veri doğrulama web uygulamalarındaki en yaygın işlerden bir tanesidir.
+Formdan gelen verinin doğrulanması gerekir. Veri ayrıca veritabanına 
+yazılmadan önce ya da bir web servisine gönderilmeden önce de doğrulanmalıdır.
 
-Validation is a very common task in web applications. Data entered in forms
-needs to be validated. Data also needs to be validated before it is written
-into a database or passed to a web service.
-
-Symfony2 ships with a `Validator`_ component that makes this task easy and transparent.
-This component is based on the `JSR303 Bean Validation specification`_. What?
-A Java specification in PHP? You heard right, but it's not as bad as it sounds.
-Let's look at how it can be used in PHP.
+Symfony2 bu işi basit ve şeffaf bir şekilde yapan ``Validator``_ bileşeni 
+ile birlikte gelir. Bu bileşen `JSR303 Bean Veri Doğrulama Şartnamesi`_ 
+baz alınarak geliştirilmiştir. Peki bir Java şarnamesinin PHP'de ne işi var?
+Doğru duydunuz fakat göründüğü kadar kötü değil. 
+Şimdi bunun PHP'de nasıl kullanıldığına bakalım.
 
 .. index:
-   single: Validation; The basics
+   single: Veri Doğrulama; Temeller
 
-The Basics of Validation
-------------------------
+Veri Doğrulamanın Temelleri
+---------------------------
 
-The best way to understand validation is to see it in action. To start, suppose
-you've created a plain-old-PHP object that you need to use somewhere in
-your application:
+Veri doğrulamayı en iyi şekilde anlamak için onu uygulamada görmelisiniz.
+Başlamak için, varsayalım uygulamanızın herhangi bir yerinde kullanmanız
+gereken düz-basit bir PHP nesneniz var:
 
 .. code-block:: php
 
@@ -32,16 +32,17 @@ your application:
     {
         public $name;
     }
+Şu ana kadar bu sıradan sınıf uygulamanız içerisinde bazı amaçlara hizmet
+ediyor. Veri doğrulamanın amacı verinin ya da sınıfın doğru olup olmadığını
+bildirmektir. Bu çalışmada konfigüre edeceğiniz kurallar 
+(:ref:`kısıtlar<validation-constraints>` olarak adlandırılır) nesnenin
+gerçerli olabilmesi için uyulması gereken kurallardır.
+Bu kurallar bir dizi farklı formatta tanımlanabilir 
+(YAML, XML, belirteçler(annotation), ya da  PHP).
 
-So far, this is just an ordinary class that serves some purpose inside your
-application. The goal of validation is to tell you whether or not the data
-of an object is valid. For this to work, you'll configure a list of rules
-(called :ref:`constraints<validation-constraints>`) that the object must
-follow in order to be valid. These rules can be specified via a number of
-different formats (YAML, XML, annotations, or PHP).
 
-For example, to guarantee that the ``$name`` property is not empty, add the
-following:
+Örneğin ``$name`` sınıf değişkeninin boş olmamasını garanti altına almak
+istiyorsanız şunu ekleyin:
 
 .. configuration-block::
 
@@ -100,21 +101,21 @@ following:
 
 .. tip::
 
-    Protected and private properties can also be validated, as well as "getter"
-    methods (see `validator-constraint-targets`).
+    Protected ve private özellikteki sınıf değişkenleri ayrıca "getter" 
+    metodları ile de doğrulanabilir (bkz `validator-constraint-targets`). 
 
 .. index::
-   single: Validation; Using the validator
+   single: Veri Doğrulama; Doğrulayıcı (Validator) kullanmak
 
-Using the ``validator`` Service
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``validator`` Servisini Kullanmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Next, to actually validate an ``Author`` object, use the ``validate`` method
-on the ``validator`` service (class :class:`Symfony\\Component\\Validator\\Validator`).
-The job of the ``validator`` is easy: to read the constraints (i.e. rules)
-of a class and verify whether or not the data on the object satisfies those
-constraints. If validation fails, an array of errors is returned. Take this
-simple example from inside a controller:
+Daha sonra, ``Author`` nesnesinin gerçekten doğrulanması için ``validator``
+servisinin ``validate`` metodunu kullanın (:class:`Symfony\\Component\\Validator\\Validator` sınıfı).
+``validator`` servisinin işi basittir. Sınıfın kısıtlarını oku (örn: kurallar)
+ve  verinin nesnenin bu kısıtlarını karşılayıp karşılamadığını kontrol et.
+Eğer doğrulama geçersiz ise bir hatalar array'i döndürülür. Bu basit örneği
+bir controller içerisinde görelim:
 
 .. code-block:: php
 
@@ -125,7 +126,7 @@ simple example from inside a controller:
     public function indexAction()
     {
         $author = new Author();
-        // ... do something to the $author object
+        // ... $author nesnesi ile bir şeyler yap.
 
         $validator = $this->get('validator');
         $errors = $validator->validate($author);
@@ -133,30 +134,33 @@ simple example from inside a controller:
         if (count($errors) > 0) {
             return new Response(print_r($errors, true));
         } else {
-            return new Response('The author is valid! Yes!');
+            return new Response('Yazar Geçerli! Evvet!');
         }
     }
 
-If the ``$name`` property is empty, you will see the following error
-message:
+
+Eğer ``$name`` sınıf değişkeni boş ise şu aşağıdaki hata mesajını
+göreceksiniz::
 
 .. code-block:: text
 
     Acme\BlogBundle\Author.name:
         This value should not be blank
 
-If you insert a value into the ``name`` property, the happy success message
-will appear.
+Eğer ``name`` sınıf değişkenine bir değer verilirse başarılı mesajı
+gözükecektir.
+
 
 .. tip::
 
-    Most of the time, you won't interact directly with the ``validator``
-    service or need to worry about printing out the errors. Most of the time,
-    you'll use validation indirectly when handling submitted form data. For
-    more information, see the :ref:`book-validation-forms`.
+    Çoğu zaman, direk olarak ``validator`` servisi ile uğraşmak
+    istemeyecek ya da bu hataları görmek istemeyeceksiniz. Çoğu
+    zaman form verisini işlerken dolaylı olarak doğrulama kullanacaksınız.
+    bu konudaki daha fazla bilgi için :ref:`book-validation-forms` 
+    belgesine bakınız.
 
-You could also pass the collection of errors into a template.
-
+Ayrıca hataların bir kolleksiyonunu da şablona aktarabilirsiniz.
+ 
 .. code-block:: php
 
     if (count($errors) > 0) {
@@ -167,7 +171,8 @@ You could also pass the collection of errors into a template.
         // ...
     }
 
-Inside the template, you can output the list of errors exactly as needed:
+Şablon içerisinde bu hataları ihtiyaç halinde açıkça şu şekilde
+gösterebilirsiniz.
 
 .. configuration-block::
 
@@ -175,7 +180,7 @@ Inside the template, you can output the list of errors exactly as needed:
 
         {# src/Acme/BlogBundle/Resources/views/Author/validate.html.twig #}
 
-        <h3>The author has the following errors</h3>
+        <h3>Yazar için şu hatalara rastlandı</h3>
         <ul>
         {% for error in errors %}
             <li>{{ error.message }}</li>
@@ -186,7 +191,7 @@ Inside the template, you can output the list of errors exactly as needed:
 
         <!-- src/Acme/BlogBundle/Resources/views/Author/validate.html.php -->
 
-        <h3>The author has the following errors</h3>
+        <h3>Yazar için şu hatalara rastlandı</h3>
         <ul>
         <?php foreach ($errors as $error): ?>
             <li><?php echo $error->getMessage() ?></li>
@@ -195,24 +200,25 @@ Inside the template, you can output the list of errors exactly as needed:
 
 .. note::
 
-    Each validation error (called a "constraint violation"), is represented by
-    a :class:`Symfony\\Component\\Validator\\ConstraintViolation` object.
+    Her doğrulama hatası ("constraint violation" olarak adlandırılır)
+    :class:`Symfony\\Component\\Validator\\ConstraintViolation` nesnesi
+    tarafından temsil edilir. 
 
 .. index::
-   single: Validation; Validation with forms
+   single: Veri Doğrulama; Formlar ile Veri Doğrulama
 
 .. _book-validation-forms:
 
-Validation and Forms
-~~~~~~~~~~~~~~~~~~~~
-
-The ``validator`` service can be used at any time to validate any object.
-In reality, however, you'll usually work with the ``validator`` indirectly
-when working with forms. Symfony's form library uses the ``validator`` service
-internally to validate the underlying object after values have been submitted
-and bound. The constraint violations on the object are converted into ``FieldError``
-objects that can easily be displayed with your form. The typical form submission
-workflow looks like the following from inside a controller::
+Veri Doğrulama ve Formlar
+~~~~~~~~~~~~~~~~~~~~~~~~~
+``validator`` Servisi herhangi bir nesneyi doğrulamak için her zaman
+kullanılabilir. Gerçekte , genellikle ``validator`` ile formlarla çalışırken
+dolaylı olarak çalışacaksınız. Smyofny'nin form kütüphanesi ``validator``
+servisini igili nesne için veriler submit edildikten ve
+nesne değişkenine form verileri bindirildikten sonra içsel olarak çalıştırır.
+Nesnenin kısıt hataları ``FieldError`` nesnesine çevrilerek form içerisinde
+kolaylıkla gösterilir.  Tipik form veri göndermesi akışı controller üzerinde
+şu şekilde gözükmektedir:: 
 
     use Acme\BlogBundle\Entity\Author;
     use Acme\BlogBundle\Form\AuthorType;
@@ -228,7 +234,7 @@ workflow looks like the following from inside a controller::
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                // the validation passed, do something with the $author object
+                // doğrulama geçti, $author nesnesiile bir şeyler yap.
 
                 return $this->redirect($this->generateUrl('...'));
             }
@@ -241,20 +247,21 @@ workflow looks like the following from inside a controller::
 
 .. note::
 
-    This example uses an ``AuthorType`` form class, which is not shown here.
+    Bu örnek burada gösterilmeyen ``AutorType`` form sınıfını kullanır.
 
-For more information, see the :doc:`Forms</book/forms>` chapter.
+Daha fazla bilgi için :doc:`Formlar</book/forms>` bölümüne bakın.
 
 .. index::
-   pair: Validation; Configuration
+   pair: Veri Doğrulama; Configuration
 
 .. _book-validation-configuration:
 
-Configuration
+Konfigürasyon
 -------------
 
-The Symfony2 validator is enabled by default, but you must explicitly enable
-annotations if you're using the annotation method to specify your constraints:
+Symfony2 validator servisi varsayılan olarak açık gelir ancak eğer
+kısıtlama kurallarınız içerisinde belirteçleri kullandıysanız bu belirteçleri
+açmalısınız:
 
 .. configuration-block::
 
@@ -279,46 +286,46 @@ annotations if you're using the annotation method to specify your constraints:
         )));
 
 .. index::
-   single: Validation; Constraints
+   single: Veri Doğrulama; Kısıtlar
 
 .. _validation-constraints:
 
-Constraints
------------
+Kısıtlar
+--------
 
-The ``validator`` is designed to validate objects against *constraints* (i.e.
-rules). In order to validate an object, simply map one or more constraints
-to its class and then pass it to the ``validator`` service.
+``validator`` nesneleri *kısıtlara* göre doğrulayacak şekilde tasarlanmıştır
+(örn : kurallar). Nesnenin doğrulanmasına göre basitçe bir ya da daha
+fazla sınıfa ait olan kısıt eşleşir ve ``validator`` hizmetinden geçer.
 
-Behind the scenes, a constraint is simply a PHP object that makes an assertive
-statement. In real life, a constraint could be: "The cake must not be burned".
-In Symfony2, constraints are similar: they are assertions that a condition
-is true. Given a value, a constraint will tell you whether or not that value
-adheres to the rules of the constraint.
+İşin mutfağında bir kısıt, araya bir ifade sıkıştıran basit bir PHP nesnesidir.
+Gerçekte bir kısıt "Kek yanmamalı" olabilir. Symfony2'deki 
+kısıtlarda aynırı. Araya sıkıştırdıkları bir şart doğrudur. Bir kısıt
+verilen değer için bu değerin kısıt kuralları ile eşleştirilip eşleştirilmediğini
+söyleyecektir.
 
-Supported Constraints
-~~~~~~~~~~~~~~~~~~~~~
+Desteklenen Kısıtlar
+~~~~~~~~~~~~~~~~~~~~
 
-Symfony2 packages a large number of the most commonly-needed constraints:
+Symfony2 geniş bir sayıda en çok gereken kısıt ile birlikte gelir:
 
 .. include:: /reference/constraints/map.rst.inc
 
-You can also create your own custom constraints. This topic is covered in
-the ":doc:`/cookbook/validation/custom_constraint`" article of the cookbook.
+Ayrıca kendi kısıtlarınızı da yaratabilisiniz. Bu konu tarif kitabının
+":doc:`/cookbook/validation/custom_constraint`" başlığı altında işlenmiştir.
 
 .. index::
-   single: Validation; Constraints configuration
+   single: Veri Doğrulama; Kısıtların Konfigürasyonu
 
 .. _book-validation-constraint-configuration:
 
-Constraint Configuration
+Kısıt Konfigürasyonu
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Some constraints, like :doc:`NotBlank</reference/constraints/NotBlank>`,
-are simple whereas others, like the :doc:`Choice</reference/constraints/Choice>`
-constraint, have several configuration options available. Suppose that the
-``Author`` class has another property, ``gender`` that can be set to either
-"male" or "female":
+:doc:`NotBlank</reference/constraints/NotBlank>` gibi bazı kısıtlar 
+basit iken :doc:`Choice</reference/constraints/Choice>` gibi kısıtların
+pek çok ayar seçeneği bulunmaktadır.
+Varsayalım ki ``Author`` sınıfı ``gender`` adında bir değişkene sahip ve
+bu değişken ``male`` ya da ``female`` olarak ayarlanmalı::
 
 .. configuration-block::
 
@@ -457,14 +464,8 @@ If you're ever unsure of how to specify an option, either check the API document
 for the constraint or play it safe by always passing in an array of options
 (the first method shown above).
 
-Translation Constraint Messages
--------------------------------
-
-For information on translating the constraint messages, see
-:ref:`book-translation-constraint-messages`.
-
 .. index::
-   single: Validation; Constraint targets
+   single: Veri Doğrulama; Constraint targets
 
 .. _validator-constraint-targets:
 
@@ -476,7 +477,7 @@ getter method (e.g. ``getFullName``). The first is the most common and easy
 to use, but the second allows you to specify more complex validation rules.
 
 .. index::
-   single: Validation; Property constraints
+   single: Veri Doğrulama; Property constraints
 
 .. _validation-property-target:
 
@@ -542,7 +543,7 @@ class to have at least 3 characters.
         }
 
 .. index::
-   single: Validation; Getter constraints
+   single: Veri Doğrulama; Getter constraints
 
 Getters
 ~~~~~~~
@@ -769,7 +770,7 @@ library. For information on how to use validation groups inside forms, see
 :ref:`book-forms-validation-groups`.
 
 .. index::
-   single: Validation; Validating raw values
+   single: Veri Doğrulama; Validating raw values
 
 .. _book-validation-raw-values:
 
@@ -832,4 +833,4 @@ Learn more from the Cookbook
 * :doc:`/cookbook/validation/custom_constraint`
 
 .. _Validator: https://github.com/symfony/Validator
-.. _JSR303 Bean Validation specification: http://jcp.org/en/jsr/detail?id=303
+.. _JSR303 Bean Veri Doğrulama Şartnamesi: http://jcp.org/en/jsr/detail?id=303
