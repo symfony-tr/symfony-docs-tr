@@ -1,65 +1,66 @@
 .. index::
-   single: Tests
+   single: Testler
 
-Performance
+Performans
 ===========
 
-Symfony2 is fast, right out of the box. Of course, if you really need speed,
-there are many ways that you can make Symfony even faster. In this chapter,
-you'll explore many of the most common and powerful ways to make your Symfony
-application even faster.
+İlk izlenim olarak Symfony2 hızlıdır. Elbette eğer gerçekten hıza ihtiyacınız
+var ise Symfony'yi gerçekten hızlı yapmak için pek çok yolunuz var. Bu 
+kısımda Smyonfy uygulamasını gerçekten hızlı yapmak için en sık ve 
+en güçlü yolları keşfedeceksiniz.
 
 .. index::
-   single: Performance; Byte code cache
+   single: Performans; Byte code ön belleklemesi
 
-Use a Byte Code Cache (e.g. APC)
---------------------------------
+Byte Code Ön Belleklemesi Kullanımı (Örn: APC)
+----------------------------------------------
 
-One the best (and easiest) things that you should do to improve your performance
-is to use a "byte code cache". The idea of a byte code cache is to remove
-the need to constantly recompile the PHP source code. There are a number of
-`byte code caches`_ available, some of which are open source. The most widely
-used byte code cache is probably `APC`_
+En iyi (ve en kolay) şey, "byte code cache" ile performansınızı arttırabilmenizdir.
+Byte Code önbellieklemesinin düşüncesi sık sık PHP kodunun sürekli derlenmesinin
+önüne geçilmesidir. Pek çok `byte code ön bellekleme`_  araçları bulunmaktadır.
+Bunların bazıları da açık kaynak kodludur. En çok kullanılan byte code ön belleklemesi
+muhtemelen `APC`_ dir.
+Byte code ön belleklemesi kullanmanın herhangi bir dezavantajı yoktur ve Symfony2
+bu tip bir ortamda en iyi çalışacak şekilde tasarlanmıştır.
 
-Using a byte code cache really has no downside, and Symfony2 has been architected
-to perform really well in this type of environment.
+Daha Fazla Optimizasyon
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Further Optimizations
-~~~~~~~~~~~~~~~~~~~~~
+Byte code ön belleklemesi genellikle değişiklikler için kaynak dosyaları 
+izler.Bu kaynak dosya değişikliklerinde, byte kodu otomatik olarak yeniden
+derlenerek sağlanır. Bu oldukça elverişli ancak bir sürü iş bindiren bir
+işlemdir. 
 
-Byte code caches usually monitor the source files for changes. This ensures
-that if the source of a file changes, the byte code is recompiled automatically.
-This is really convenient, but obviously adds overhead.
+Bu yüzden bazı byte code ön belleklemesi bu değişiklikleri kontrol etme
+mekanizmasını devreden çıkaracak bazı sistemler ile donatılmıştır. 
+Bu kontroller devre dışı bırakıldığında kaynak dosya değişikliklerini
+kontrol etme işi sunucu yönetcisinine kalır ve sunucu yöneticisi her dosya
+içeriği deişilkiğinde ön belleği temizlemesi gerekir. Aksi takdirde
+güncellemeler gözükmeyecektir.
 
-For this reason, some byte code caches offer an option to disable these checks.
-Obviously, when disabling these checks, it will be up to the server admin
-to ensure that the cache is cleared whenever any source files change. Otherwise,
-the updates you've made won't be seen.
-
-For example, to disable these checks in APC, simply add ``apc.stat=0`` to
-your php.ini configuration.
+Örneğin, APC'de kontrollerin devre dışı bırakılması için php.ini
+konfigürasyonuna ``apc.start=0`` satırının eklenmesi gerekir.
 
 .. index::
-   single: Performance; Autoloader
+   single: Performans; Autoloader
 
-Use an Autoloader that caches (e.g. ``ApcUniversalClassLoader``)
-----------------------------------------------------------------
+Bu ön belleklerde Autoloader kullanmak (Örn. ``ApcUniversalClassLoader``)
+-------------------------------------------------------------------------
 
-By default, the Symfony2 standard edition uses the ``UniversalClassLoader``
-in the `autoloader.php`_ file. This autoloader is easy to use, as it will
-automatically find any new classes that you've placed in the registered
-directories.
+Varsayılan olarak Symfony2 standart sürüm de `autoloader.php`_ 
+dosyasında ``UniversalClassLoader`` kullanır. Bu autoloader kolay
+bir şekilde otomatik olarak yeni sınıfları verilen dizinler içerisinde bulur.
 
-Unfortunately, this comes at a cost, as the loader iterates over all configured
-namespaces to find a particular file, making ``file_exists`` calls until it
-finally finds the file it's looking for.
+Malesef bu, loader tüm konfigüre edilmiş namespace'leri kapsayan dosyaları 
+bulması ve gerçekten bu dosyaları ``file_exist`` cağrısı yapana kadar
+araması gibi ekstra bir yük getirir.
 
-The simplest solution is to cache the location of each class after it's located
-the first time. Symfony comes with a class - ``ApcUniversalClassLoader`` -
-loader that extends the ``UniversalClassLoader`` and stores the class locations
-in APC.
+En basit çözüm her sınıfın yerini sınıf ilk kez yüklendikten sonra ön belleğe
+almaktır. Symfony sınıf konumlarını APC içerisinde  saklayan ``UniversalClassLoader``
+dan türetimiş bir ``ApcUniversalClassLoader`` sınıfı ile birlikte gelir.
 
-To use this class loader, simply adapt your ``autoloader.php`` as follows:
+Bu snıf yükleyicisini kullanmak için basitçe ``autoloader.php`` dosyasına
+şu şekilde adapte edin:
 
 .. code-block:: php
 
@@ -73,54 +74,55 @@ To use this class loader, simply adapt your ``autoloader.php`` as follows:
 
 .. note::
 
-    When using the APC autoloader, if you add new classes, they will be found
-    automatically and everything will work the same as before (i.e. no
-    reason to "clear" the cache). However, if you change the location of a
-    particular namespace or prefix, you'll need to flush your APC cache. Otherwise,
-    the autoloader will still be looking at the old location for all classes
-    inside that namespace.
+    APC autoloader'ini kullanırken eğer yeni sınıf eklediyseniz bu sınıf
+    otomatik olarak bulunur ve herşey aynı önceki gibi çalışır(yani 
+    ön belleği temizlemek için bir sebep yoktur). Ancak, eğer namespace'in
+    bir kısmını ya da ön ekini yer değiştiriseniz, bu durumda APC ön belleğini
+    boşaltmanız gerekir. Aksi takdirde autoloader hala ilgili namespace içerisindeki
+    tüm sınıfların eski yerlerine bakacaktır.
 
 .. index::
-   single: Performance; Bootstrap files
+   single: Performans; Bootstrap(Ön Yükleme) dosyaları
 
-Use Bootstrap Files
--------------------
+Bootstrap(Ön Yükleme) dosyalarını kullanmak
+-------------------------------------------
 
-To ensure optimal flexibility and code reuse, Symfony2 applications leverage
-a variety of classes and 3rd party components. But loading all of these classes
-from separate files on each request can result in some overhead. To reduce
-this overhead, the Symfony2 Standard Edition provides a script to generate
-a so-called `bootstrap file`_, consisting of multiple classes definitions
-in a single file. By including this file (which contains a copy of many of
-the core classes), Symfony no longer needs to include any of the source files
-containing those classes. This will reduce disc IO quite a bit.
+Optimal esneklik ve kod yeniden kullanımını sağlamak için Symfony2 
+uygulamaları pek çok sınıf  ve 3.parti bileşen ile birlikte bunu sağlar.
+Fakat ayrı dosyalar içerisinde bulunan tüm dosyaları her istek geldiğinde
+yüklemek ek bir yük getirecektir. Bu yükü azaltmak için Symfony2 Standart
+Sürüm çoklu sınıf tanımlarının tek bir dosyada oluşturulmasını sağlayan 
+`bootstrap file`_ script ile birlikte gelir. Bu dosyanın içindekiler ile
+(pek çok çekirdek sınıfın kopyalarını barındırır) artık Symfony2 bu sınıfları
+içeren dosyaları çağırmak zorunda kalmayacaktır. Bu disk IO'sunu epey bir
+azatlacaktır.
 
-If you're using the Symfony2 Standard Edition, then you're probably already
-using the bootstrap file. To be sure, open your front controller (usually
-``app.php``) and check to make sure that the following line exists::
+Eğer Symfony2 Standart Sürüm kullanıyorsanız muhtemelen zaten
+bir bootstrap dosyası kullanıyorsunuz. Emin olmak için front controller'inizi
+acın (genellikle ``app.php``) ve şu satırın varlığını kontrol edin::
 
     require_once __DIR__.'/../app/bootstrap.php.cache';
 
-Note that there are two disadvantages when using a bootstrap file:
+bootstrap Dosyasını kullanırken iki dez avantajınız olduğunu dikkate alın:
 
-* the file needs to be regenerated whenever any of the original sources change
-  (i.e. when you update the Symfony2 source or vendor libraries);
+* dosya herhangi bir orijinal kaynak değiştiğinde yeniden yaratılması gerekir.
+  (örn: Stmfony2'nin ya da vendor kütüphanelerinin dosyaları güncellenirse) 
 
-* when debugging, one will need to place break points inside the bootstrap file.
+* hata ayıklama sırasında bootstrap dosyası içerisinde bir break point
+  gereklidir. 
 
-If you're using Symfony2 Standard Edition, the bootstrap file is automatically
-rebuilt after updating the vendor libraries via the ``php bin/vendors install``
-command.
+Symfony2 Standart Sürüm kullanıyorsanız bootstrap dosyası vendor kütüphanelerini
+``php bin/vendors install`` komutu ile güncelledikten sonra otomatik olarak
+yeniden yapılacaktır.
 
-Bootstrap Files and Byte Code Caches
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bootstrap Dosyaları ve Byte Code Ön Bellekleri
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Byte code ön belleklemesi kullanılsa bile performans değişiklikler daha 
+az dosya da izleneceğinden dolayı bootsrap dosyası kullanıldığında artacaktır.
+Elbette eğer bu özellik devre dışı bırakılırsa (örn: APC'de ``apc.stat=0`` yapılırsa)
+bootstrap dosyasının kullanılmasınında bir anlamı kalmayacaktır.
 
-Even when using a byte code cache, performance will improve when using a bootstrap
-file since there will be less files to monitor for changes. Of course if this
-feature is disabled in the byte code cache (e.g. ``apc.stat=0`` in APC), there
-is no longer a reason to use a bootstrap file.
-
-.. _`byte code caches`: http://en.wikipedia.org/wiki/List_of_PHP_accelerators
+.. _`byte code ön bellekleme`: http://en.wikipedia.org/wiki/List_of_PHP_accelerators
 .. _`APC`: http://php.net/manual/en/book.apc.php
 .. _`autoloader.php`: https://github.com/symfony/symfony-standard/blob/master/app/autoload.php
 .. _`bootstrap file`: https://github.com/sensio/SensioDistributionBundle/blob/2.0/Resources/bin/build_bootstrap.php
