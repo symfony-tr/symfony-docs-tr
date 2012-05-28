@@ -1100,7 +1100,7 @@ göreceksiniz.
     
     .. code-block:: javascript
     
-        var url = Routing.generate('blog_show', { "slug": 'my-blog-post});
+        var url = Routing.generate('blog_show', { "slug": 'my-blog-post'});
 
     Daha fazla bilgi için bu bundle'ın dökümanlarına bakın.
 

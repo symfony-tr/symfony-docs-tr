@@ -1335,7 +1335,7 @@ Son Düşünceler
 her zaman yaratabilecek güçlü bir araçtır. Şablonlar controller içerisinden
 içeriği yaratmadaki en sık kullanılan yol olsa da şablonların kullanımı 
 zorunlu değildir. Controller tarafından döndürülen ``Response`` nesnesi 
-bizim şablon kullanmamıza ihtiyaç bırakmadan da bu içeriği yaratabilir:
+şablon kullanarak ya da kullanmayarak bu içeriği yaratabilir::
 
 .. code-block:: php
 
