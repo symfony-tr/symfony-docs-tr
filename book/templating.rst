@@ -557,6 +557,7 @@ ile aktarılır.
 
 .. _templating-embedding-controller:
 
+<<<<<<< HEAD
 Controller Gömmek (Embedding Controller)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Bazı durumlarda bir şablonu çağırmaktan fazlasına ihityacını olur.
@@ -567,6 +568,19 @@ ağır bir işlem ya da bir veritabanı sorgusu gereki olabilir.
 İlk önce belirli bir sayıdaki haberi ekrana getiren controlleri yapalım:
 
 .. code-block:: php
+=======
+Embedding Controllers
+~~~~~~~~~~~~~~~~~~~~~
+
+In some cases, you need to do more than include a simple template. Suppose
+you have a sidebar in your layout that contains the three most recent articles.
+Retrieving the three articles may include querying the database or performing
+other heavy logic that can't be done from within a template.
+
+The solution is to simply embed the result of an entire controller from your
+template. First, create a controller that renders a certain number of recent
+articles::
+>>>>>>> original/2.0
 
     // src/Acme/ArticleBundle/Controller/ArticleController.php
 
@@ -929,6 +943,7 @@ sınıfından türer:
 ``templating`` Servisini Kullanmak ve Konfigüre etmek
 ------------------------------------------------------
 
+<<<<<<< HEAD
 Symfony2'nin şablon sisteminin kalbi templating ``Motoru`` dur.
 Bu özel nesne şablonların ekrana basılması ve onların değerlerini
 döndürmekten sorumlıdur. Örneğin bir controller içerisinden bir şablon 
@@ -942,6 +957,16 @@ ekrana bastığınızda, gerçekte şablon motor servisini kullanırsınız.
 ifadesi şuna eşittir.
 
 .. code-block:: php
+=======
+The heart of the template system in Symfony2 is the templating ``Engine``.
+This special object is responsible for rendering templates and returning
+their content. When you render a template in a controller, for example,
+you're actually using the templating engine service. For example::
+
+    return $this->render('AcmeArticleBundle:Article:index.html.twig');
+
+is equivalent to:
+>>>>>>> original/2.0
 
     $engine = $this->container->get('templating');
     $content = $engine->render('AcmeArticleBundle:Article:index.html.twig');
@@ -1290,11 +1315,17 @@ eklenir:
 Gerçekte, bu bir isimlendirme kuralından başka bir şey değildir ve bunun
 böyle olması onun ilgili formatta olacağı anlamına gelmez.
 
+<<<<<<< HEAD
 Bek çok durumda "istek format" 'ına göre tek bir controller kullanarak
 farklı tipteki fomatları ekrana basmak isteyebilirsiniz. Bu yüzden 
 aşağıdaki genel bir şablon(pattern) bu işlemi gerçekleştirir:
 
 .. code-block:: php
+=======
+In many cases, you may want to allow a single controller to render multiple
+different formats based on the "request format". For that reason, a common
+pattern is to do the following::
+>>>>>>> original/2.0
 
     public function indexAction()
     {
@@ -1331,6 +1362,7 @@ içerisine  ``_format`` değişkenini eklemelisiniz:
 Son Düşünceler
 --------------
 
+<<<<<<< HEAD
 Şablon motoru Symfony de HTML, XML ya da diğer formattaki içeriği istediğiniz
 her zaman yaratabilecek güçlü bir araçtır. Şablonlar controller içerisinden
 içeriği yaratmadaki en sık kullanılan yol olsa da şablonların kullanımı 
@@ -1338,6 +1370,13 @@ zorunlu değildir. Controller tarafından döndürülen ``Response`` nesnesi
 şablon kullanarak ya da kullanmayarak bu içeriği yaratabilir::
 
 .. code-block:: php
+=======
+The templating engine in Symfony is a powerful tool that can be used each time
+you need to generate presentational content in HTML, XML or any other format.
+And though templates are a common way to generate content in a controller,
+their use is not mandatory. The ``Response`` object returned by a controller
+can be created with or without the use of a template::
+>>>>>>> original/2.0
 
     // ekrana basılacak bir şablonla birlikte yaratılan bir Response Nesnesi
     $response = $this->render('AcmeArticleBundle:Article:index.html.twig');

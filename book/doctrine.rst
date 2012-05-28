@@ -253,6 +253,7 @@ kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için
     
 .. caution::
 
+<<<<<<< HEAD
    Sınıf isimleri ve sınıfın değilken isimleri korunan SQL anahtar
    kelimeleri ise bunlar eşleştirilmez(örn : ``group`` ya da ``user``).
    Örneğin entity sınıfınızın ismi ``Group`` ise varsayılan olarak
@@ -264,6 +265,16 @@ kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için
    farklı tablo ya da sütün adı kullanabilirsiniz. Doctrine'nin   
    `Eşleştirme Tipleri Belgesi`_ ve `Kalıcı sınıflar`_ belgesine bakın.
 
+=======
+    Be careful that your class name and properties aren't mapped to a protected
+    SQL keyword (such as ``group`` or ``user``). For example, if your entity
+    class name is ``Group``, then, by default, your table name will be ``group``,
+    which will cause an SQL error in some engines. See Doctrine's
+    `Reserved SQL keywords documentation`_ on how to properly escape these
+    names. Alternatively, if you're free to choose your database schema,
+    simply map to a different table name or column name. See Doctrine's
+    `Persistent classes`_ and `Property Mapping`_ documentation.
+>>>>>>> original/2.0
 
 .. note::
 
@@ -1434,8 +1445,17 @@ Doctrine hakkında daha fazla bilgi için :doc:`tarif kitabı</cookbook/index>`
 .. _`Doctrine Sorgu Dili`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/dql-doctrine-query-language.html
 .. _`Birliktelik Eşleme Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/association-mapping.html
 .. _`DateTime`: http://php.net/manual/en/class.datetime.php
+<<<<<<< HEAD
 .. _`Eşleştirme Tipleri Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#doctrine-mapping-types
 .. _`Değişken Eşleme Belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping
 .. _`Lifecycle Olayları belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/events.html#lifecycle-events
 .. _`Ayrılmış SQL anahtar kelimeleri belgesi`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#quoting-reserved-words
 .. _`Kalıcı sınıflar`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#persistent-classes
+=======
+.. _`Mapping Types Documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#doctrine-mapping-types
+.. _`Property Mapping documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping
+.. _`Lifecycle Events documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/events.html#lifecycle-events
+.. _`Reserved SQL keywords documentation`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#quoting-reserved-words
+.. _`Persistent classes`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#persistent-classes
+.. _`Property Mapping`: http://docs.doctrine-project.org/projects/doctrine-orm/en/2.1/reference/basic-mapping.html#property-mapping
+>>>>>>> original/2.0
