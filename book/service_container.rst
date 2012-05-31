@@ -404,10 +404,9 @@ klasörleri yok ise bunları yaratmalısınız.
             array('%my_mailer.transport%')
         ));
 
-The definition itself hasn't changed, only its location. Of course the service
-container doesn't know about the new resource file. Fortunately, we can
-easily import the resource file using the ``imports`` key in the application
-configuration.
+Tanımlamanın kendisi değişmedi, sadece konumu değişti. Elbette servis
+container'ı yeni kaynak dosyasının konumunu bilmiyor. Çok şükür ki
+bunu uygulama konfigürasyon dosyasına ``imports`` anahtarı ile aktarabiliyoruz.
 
 .. configuration-block::
 
@@ -429,21 +428,21 @@ configuration.
         // app/config/config.php
         $this->import('@AcmeHelloBundle/Resources/config/services.php');
 
-The ``imports`` directive allows your application to include service container
-configuration resources from any other location (most commonly from bundles).
-The ``resource`` location, for files, is the absolute path to the resource
-file. The special ``@AcmeHello`` syntax resolves the directory path of
-the ``AcmeHelloBundle`` bundle. This helps you specify the path to the resource
-without worrying later if you move the ``AcmeHelloBundle`` to a different
-directory.
+``imports`` direktifi uygulamanız içerisindeki servis container konfigürasyon
+kaynaklarını başka bir lokasyondan yüklemenize olanak sağlar(genellikle 
+bundle'lar üzerinden). Dosyalar için ``resource`` konumu dosyaların tam
+yollarını tanımlar. ``@AcmeHell`` şeklindeki özel yazım ise ``AcmeHellBundle``
+adındaki bundle'uın yolunu otomatik olarak çözer. Bu size eğer ``AcmeHelloBundle``
+bundle'ını başka bir yere taşıdığınızda konumlarının değişmesinden kaynaklanacak
+sorunlar için endileşenmemenizi sağlar.
 
 .. index::
-   single: Servis Container; Extension configuration
+   single: Servis Container; Extension(Eklenti) konfigürasyonu
 
 .. _service-container-extension-configuration:
 
-Importing Configuration via Container Extensions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Container Extensionları üzerinden Konfigürasyon Aktarmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When developing in Symfony2, you'll most commonly use the ``imports`` directive
 to import container configuration from the bundles you've created specifically
