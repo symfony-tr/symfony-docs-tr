@@ -361,7 +361,7 @@ konfigürasyon dosyası içerisinden yaptık (Örn:  ``app/config/config.yml``).
 
 Öncelikle ``my_mailer`` container tanımlamasını ``AcmeHelloBundle`` içerisindeki
 yeni container kaynağına taşıyalım. Eğer ``Resources`` ya da ``Resources/config`` 
-klasörleri yok ise bunları yaratmalısınız.
+klasörleri yok ise bunları yaratmalısınız::
 
 .. configuration-block::
 
