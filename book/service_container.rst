@@ -450,21 +450,20 @@ container konfigürasyonlarını aktarırken en çok ``imports`` direktifini kul
 diğer metodu kullanarak yapılan yüklemede uygulamanız daha esnek ve kolay bir 
 şekilde konfigüre edilebilir.
 
-Here's how it works. Internally, each bundle defines its services very much
-like we've seen so far. Namely, a bundle uses one or more configuration
-resource files (usually XML) to specify the parameters and services for that
-bundle. However, instead of importing each of these resources directly from
-your application configuration using the ``imports`` directive, you can simply
-invoke a *service container extension* inside the bundle that does the work for
-you. A service container extension is a PHP class created by the bundle author
-to accomplish two things:
+Burada gösterildiği şekilde içsel olarak her bundle kendi servisini bu zamana
+kadar gördüğümüz şekile çok yakın olarak tanımlar. Yani bir bundle bir ya da 
+daha fazla konfigürasyon kaynak dosyasını (genellikle XML) kendisinin parametre
+ve servislerini tanımlamak için kullanır.Ancak bu kaynakları direk uygulama 
+konfigürasyonundan ``imports`` direktifi ile aktarmak yerine basitçe
+bundle içerisinde *servis container extension* çağırılarak bu sizin için yapılır.
+Bir servis container extension'u bundle yazarı tarafından iki şeyi başarmak
+amacıyla yapılan bir PHP sınıfıdır:
 
-* import all service container resources needed to configure the services for
-  the bundle;
+* bundle'ın servis konfigürasyonuna gereken tüm servis container kaynaklarını
+  içeri aktarmak 
 
-* provide semantic, straightforward configuration so that the bundle can
-  be configured without interacting with the flat parameters of the bundle's
-  service container configuration.
+* daha basit ve kolay anlaşılabilirliği sağladığından bundle, bundle 
+  container konfigürasyonundaki düz parametreleri ile etkileşime girmez.
 
 In other words, a service container extension configures the services for
 a bundle on your behalf. And as we'll see in a moment, the extension provides
