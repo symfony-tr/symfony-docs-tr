@@ -1,77 +1,86 @@
 .. index::
-   single: Service Container
-   single: Dependency Injection Container
+   single: Servis Kutusu (Container)
+   single: Dependency Injection Kutusu (Container)
 
-Service Container
+Servis Kutusu (Container)
 =================
 
-A modern PHP application is full of objects. One object may facilitate the
-delivery of email messages while another may allow you to persist information
-into a database. In your application, you may create an object that manages
-your product inventory, or another object that processes data from a third-party
-API. The point is that a modern application does many things and is organized
-into many objects that handle each task.
+Modern bir PHP uygulaması tamamen nesnedir. Bir nesne e-posta mesajlarını
+iletmeyi sağlayıp kolaylaştırır iken, diğeri belki bir bilgiyi veritabanına
+yazabilir. Uygulamanızda ürün envamnterinizi yönetecek bir nesne yaratabilir
+ya da başka bir nesne 3. parti API'den bir veri işleyebilir. Ana nokta, modern
+uygulamalar pek çok şey ile ilgili süreci organize edilmiş pek çok nesne ile
+yapmalarıdır. 
 
-In this chapter, we'll talk about a special PHP object in Symfony2 that helps
-you instantiate, organize and retrieve the many objects of your application.
-This object, called a service container, will allow you to standardize and
-centralize the way objects are constructed in your application. The container
-makes your life easier, is super fast, and emphasizes an architecture that
-promotes reusable and decoupled code. And since all core Symfony2 classes
-use the container, you'll learn how to extend, configure and use any object
-in Symfony2. In large part, the service container is the biggest contributor
-to the speed and extensibility of Symfony2.
+Bu bölümde size Symfony2'deki örneklemeye, organize etmeye ve uygulamanızdaki
+pek çok nesneyi getirmeye yarayapn özel bir PHP nesnesinden bahsedeceğiz.
+Servis Kutusu (container) olarak adlandırılan bu nesne, uygulamanızdaki
+yapılandırdığınız nesnelerin standardize edilmesi ve merkezileştirilmesinin
+bir yoludur. Bu kutu (container) hayatı kolaylaştırıcı, süper hızlı ve kodu ayrıştıran
+, yeniden kodun kullanılabilmesine imkan sağlayan bir mimariyi temsil eder. 
 
-Finally, configuring and using the service container is easy. By the end
-of this chapter, you'll be comfortable creating your own objects via the
-container and customizing objects from any third-party bundle. You'll begin
-writing code that is more reusable, testable and decoupled, simply because
-the service container makes writing good code so easy.
+Tüm Symfony2 çekirdek sınıfları kutu (container) kullanmasından dolayı,
+Symfony2'de herhangi bir nesneyi nasıl genişletebileceğinizi ve konfigüre
+edebileceğinizi öğreneceksiniz.
+
+Geniş bir kapsamda servis kutusu, Symfony2'nin hız ve genişletilebilirlik
+özelliklerine en büyük katkıyı yapar.
+
+Sonuç olarak, servis kutusunu konfigüre etmek ve kullanmak kolaydır. Bu 
+kısmın sonunda container vasıtası ile rahatça nesnelerinizi yaratabilecek ve
+herhangi bir 3.parti bundle nesnelerini özelleştirebileceksiniz. Servis
+container 'in iyi kod yazmayı kolaylaştırıp basitleştirmesi ile
+daha yeniden kullanılabilir, test edilebilir ve ayrıştırılabilir kod
+yazacaksınız.
 
 .. index::
-   single: Service Container; What is a service?
+   single: Servis Container; Servis nedir ?
 
-What is a Service?
-------------------
+Servis nedir ?
+--------------
 
-Put simply, a :term:`Service` is any PHP object that performs some sort of
-"global" task. It's a purposefully-generic name used in computer science
-to describe an object that's created for a specific purpose (e.g. delivering
-emails). Each service is used throughout your application whenever you need
-the specific functionality it provides. You don't have to do anything special
-to make a service: simply write a PHP class with some code that accomplishes
-a specific task. Congratulations, you've just created a service!
+:term:`Servis` basitçe, Uygulamada "genel"(global) bir dizi işlemi gerçekleştiren herhangibir
+PHP nesnesidir. Bilgisayar bilimlerinde bir terim olarak kullanılan bu isim 
+bir nesnenin özel bir amaç için yaratılmasını ifade eder (Örn: e-posta
+göndermek). Her servis uygulamanız içerisinde ne zaman isterseniz bu özel
+işlemi gerçekleştirmenizi sağlar. Bir servis yapmak için özel bir şey 
+yapmanıza gerek yok. Sadece bu belirli işlemi gerçekleştirecek kodu
+içeren br PHP sınıfı geliştirmelisiniz.
+
+Tebrikler!. Artık bir servisiniz var.
 
 .. note::
 
-    As a rule, a PHP object is a service if it is used globally in your
-    application. A single ``Mailer`` service is used globally to send
-    email messages whereas the many ``Message`` objects that it delivers
-    are *not* services. Similarly, a ``Product`` object is not a service,
-    but an object that persists ``Product`` objects to a database *is* a service.
+    Bir kural olarak, PHP nesnesi uygulamanızda genel olarak kullanılabiliyorsa
+    bir servistir. Tek bir ``Mailer`` servisi genel olarak e-posta mesajlarını
+    göndermekten sorumluysa bir servistir yoksa çok sayıda ``Message`` nesnesi
+    bunu yapıyorsa bu bir servis *değildir* . Aynı şekilde bir ``Product`` nesnesi
+    bir servis değildir ancak bir nesne ``Product`` nesnelerini veritabanına
+    yazıyorsa bir *servistir* . 
 
-So what's the big deal then? The advantage of thinking about "services" is
-that you begin to think about separating each piece of functionality in your
-application into a series of services. Since each service does just one job,
-you can easily access each service and use its functionality wherever you
-need it. Each service can also be more easily tested and configured since
-it's separated from the other functionality in your application. This idea
-is called `service-oriented architecture`_ and is not unique to Symfony2
-or even PHP. Structuring your application around a set of independent service
-classes is a well-known and trusted object-oriented best-practice. These skills
-are key to being a good developer in almost any language.
+E peki ne farkeder ? "Servis" 'lerin avantajlarını düşündüğümüzde uygulmanızın
+her özelliğini küçük parçalar halinde bir dizi servis'e dönüştürecek şekilde
+düşünmeye başlarsınız. Her servis sadece bir işi yapmasına rağmen, her servise
+kolaylıkla erişebilip bu servislerin özelliklerini istediğiniz her yerde
+kullanabilirsiniz. Her servis ayrıca uygulamanızın diğer işlevsel parçalarına
+göre daha kolay test edileblir ve konfigüre edilebilir. Bu yaklaşıma
+`servis tabanlı mimari`_ denir ve PHP de ya da Symfony2'ye özgü bir şey değildir.
+Uygulamanızı bir dizi bağımsız bir servis sınıfları etrafında toplamak 
+güvenli ve iyi olarak bilinen nesne yönelimli mimarinin iyi uygulamalarından
+birisidir. Bu şekilde yaklaşımlar herhangi bir dil üzerinde iyi bir geliştirci
+olmanın anahtarıdır.
 
 .. index::
-   single: Service Container; What is?
+   single: Servis Kutusu (Container); Nedir ?
 
-What is a Service Container?
-----------------------------
+Servis Kutusu (Container) Nedir ?
+---------------------------------
 
-A :term:`Service Container` (or *dependency injection container*) is simply
-a PHP object that manages the instantiation of services (i.e. objects).
-For example, suppose we have a simple PHP class that delivers email messages.
-Without a service container, we must manually create the object whenever
-we need it:
+:term:`Servis Kutusu (Container)` (ya da  *bağımlılık aşılama kutusu 
+(dependency injection container)*) basitçe servisin örneğini yöneten
+bir PHP nesnesidir. Örneğin varsayalım bizim e-postaları gönderen bir PHP
+nesnemiz var. Servis kutusu olmadan ne zaman bu nesne bize lazım olsa
+bunu manuel olarak yaratmamız gerekir:
 
 .. code-block:: php
 
@@ -80,24 +89,26 @@ we need it:
     $mailer = new Mailer('sendmail');
     $mailer->send('ryan@foobar.net', ... );
 
-This is easy enough. The imaginary ``Mailer`` class allows us to configure
-the method used to deliver the email messages (e.g. ``sendmail``, ``smtp``, etc).
-But what if we wanted to use the mailer service somewhere else? We certainly
-don't want to repeat the mailer configuration *every* time we need to use
-the ``Mailer`` object. What if we needed to change the ``transport`` from
-``sendmail`` to ``smtp`` everywhere in the application? We'd need to hunt
-down every place we create a ``Mailer`` service and change it.
+Bu yeterince basit. Örneğin hayali ``Mailer`` sınıfı bize e-posta mesajlarını 
+gönderecek metodu konfigüre etmemize izin versin (Örn.: ``sendmail``, ``smtp``, vs).
+Fakat acaba biz bu posta servisini başka yerde kullanmak istersek? Kuşkusuz
+mailer konfigürasyonunu ``Mailer`` objesini her kullanmak istediğimizde 
+tekrar tekrar konfigüre etmek istemeyiz. Acaba eğer gerektiğinde ``transport``
+'u ``sendmail`` den ``smtp`` ye uygulamamızın istediğimiz herhangi bir yerinde
+değiştirmemize ihtiyaç olsaydı ?  Bu durumda uygulamamız içerisindeki her 
+``Mailer`` servisini arayıp bulacak ve bunu uygun bir şekilde değiştirmemiz 
+gerekecekti.
 
 .. index::
-   single: Service Container; Configuring services
+   single: Servis Kutusu (Container); Servisleri Konfigüre Etmek
 
-Creating/Configuring Services in the Container
-----------------------------------------------
+Kutu (Container) içerisinde Servisleri Yaratmak / Konfigüre etmek
+------------------------------------------------------------------
 
-A better answer is to let the service container create the ``Mailer`` object
-for you. In order for this to work, we must *teach* the container how to
-create the ``Mailer`` service. This is done via configuration, which can
-be specified in YAML, XML or PHP:
+En iyi cevap, ``Mailer`` nesnesini sizin için yaratan bir servis kutusuna
+işi bırakmaktır. Bu çalışma sırasında container'in nasıl ``Mailer``
+servisi yarattığını *öğretmeliyiz*. Bu, YAML, XML ya da PHP olarak 
+tanımlanabilen konfigürasyon üzerinden yapılır:
 
 .. configuration-block::
 
@@ -130,17 +141,17 @@ be specified in YAML, XML or PHP:
 
 .. note::
 
-    When Symfony2 initializes, it builds the service container using the
-    application configuration (``app/config/config.yml`` by default). The
-    exact file that's loaded is dictated by the ``AppKernel::registerContainerConfiguration()``
-    method, which loads an environment-specific configuration file (e.g.
-    ``config_dev.yml`` for the ``dev`` environment or ``config_prod.yml``
-    for ``prod``).
+    Symfony2 başlarken, servis kutusunu uygulama kongirüasyonuna
+    bakarak yaratır(varsayılan olarak ``app/config/config.yml``).
+    Bu dosyanın yüklenmesini ortama göre 
+    `AppKernel::registerContainerConfiguration()``
+    metodu tarafından söyler 
+    (Örn : ``dev`` ortamı için ``config_dev.yml`` ya da  ``prod`` ortamı
+    için ``config_prod.yml``)
 
-An instance of the ``Acme\HelloBundle\Mailer`` object is now available via
-the service container. The container is available in any traditional Symfony2
-controller where you can access the services of the container via the ``get()``
-shortcut method::
+``Acme\HelloBundle\Mailer`` nesnesinin bir örneği şimdi servis kutusu tarafından
+mevcut hale getirilmiştir. Kutu'ya (container) herhangi bir geleneksel Symfony2 
+controlleri içerisinden ``get()`` kısayol metodu ile erişilebilir:
 
     class HelloController extends Controller
     {
@@ -154,26 +165,28 @@ shortcut method::
         }
     }
 
-When we ask for the ``my_mailer`` service from the container, the container
-constructs the object and returns it. This is another major advantage of
-using the service container. Namely, a service is *never* constructed until
-it's needed. If you define a service and never use it on a request, the service
-is never created. This saves memory and increases the speed of your application.
-This also means that there's very little or no performance hit for defining
-lots of services. Services that are never used are never constructed.
+``my_mailer`` servisini container üzerinden sorduğumuzda, container nesneyi
+kurar ve geri döndürür. Bu durum servis kutusunun başka büyük bir avantajıdır.
+Şöyle ki, bir servis *asla* gerekli olmadığı sürece başlatılmaz. Eğer
+bir servisi tanımlayıp hiç bir istek anında kullanmadıysanız servis asla
+yaratılmaz. Bu hafızadan yer kazandırır ve uygulamanızın hızını arttırır.
+Bunun anlamı ayrıca çok fazla servis tanımlansa bile performans da çok
+az ya da sıfır düzeyinde bir düşüşün yaşanmasıdır. Servisler kullanılmadıkları
+sürece asla başlatılmazlar.
 
-As an added bonus, the ``Mailer`` service is only created once and the same
-instance is returned each time you ask for the service. This is almost always
-the behavior you'll need (it's more flexible and powerful), but we'll learn
-later how you can configure a service that has multiple instances.
+Başka bir güzel yan ise ``Mailer`` servisi yaratıldığında istek anında sadece
+bir örnek (instance) üzerinden servis çalışır. Bu neredeyse tam olarak
+ihtiyacınız olan bir davranıştır (daha esnek ve güçlü) fakat daha sonra
+servisleri çoklu örneklerde (multiple instances)nasıl kullanılacağının 
+konfigürasyonunu da göreceğiz.
 
 .. _book-service-container-parameters:
 
-Service Parameters
-------------------
-
-The creation of new services (i.e. objects) via the container is pretty
-straightforward. Parameters make defining services more organized and flexible:
+Servis Parametreleri
+--------------------
+Yeni servisleri (Örn. nesneler) container aracılığı ile yaratmak
+oldukça kolaydır. Parametreler tanımlanan servisleri daha organize ve esnek 
+yaparlar:
 
 .. configuration-block::
 
@@ -216,44 +229,49 @@ straightforward. Parameters make defining services more organized and flexible:
             array('%my_mailer.transport%')
         ));
 
-The end result is exactly the same as before - the difference is only in
-*how* we defined the service. By surrounding the ``my_mailer.class`` and
-``my_mailer.transport`` strings in percent (``%``) signs, the container knows
-to look for parameters with those names. When the container is built, it
-looks up the value of each parameter and uses it in the service definition.
+Sonuç tamamen önceki ile aynı şekildedir -tek fark servisi *nasıl*
+tanımladığımızdır-. ``my_mailer.class`` ve ``my_mailer.transport`` 
+ifadeleri yüzdelik (``%``) işaretleri arasında tanımlanmıştır.
+Container bunların parametre isimleri olduğunu bilir. Bir container,
+yapılanma esnasında her parametrenin değerine bakar ve bunları servis
+tanımlamasında kullanır.
 
 .. note::
 
-    The percent sign inside a parameter or argument, as part of the string, must 
-    be escaped with another percent sign:
+    Parametre ya da argüman içerisindeki yüzde işareti metin değerinin bir 
+    parçası ise mutlaka diğer yüzde işaretinden farklı olarak kaçış 
+    karakterleri ile ayrı bir şekilde  ifade edilmelidir:
     
     .. code-block:: xml
 
         <argument type="string">http://symfony.com/?foo=%%s&bar=%%d</argument>
 
-The purpose of parameters is to feed information into services. Of course
-there was nothing wrong with defining the service without using any parameters.
-Parameters, however, have several advantages:
 
-* separation and organization of all service "options" under a single
-  ``parameters`` key;
+Parametrelerin amacı servise bilgileri göndermektir. Elbette
+bir servisin hiç bir parametre olmadan da tanımlanmasında bir hata yoktur.
+Ancak parametrelerin bazı avantajları da vardır:
 
-* parameter values can be used in multiple service definitions;
+* servisin seçenekleri tek bir ``parameters`` anahtarı altında
+  ayrılır ve organize edilir;
 
-* when creating a service in a bundle (we'll show this shortly), using parameters
-  allows the service to be easily customized in your application.
+* parametre değerleri çoklu servis tanımlamalarında da kullanılabilir
 
-The choice of using or not using parameters is up to you. High-quality
-third-party bundles will *always* use parameters as they make the service
-stored in the container more configurable. For the services in your application,
-however, you may not need the flexibility of parameters.
+* Bundle içerisinde bir servis yaratılırken (bunu kısaca göreceğiz), 
+  parametrelerin kullanımı, uygulamanız içerisinde servisin daha kolay
+  özelleştirilmesine olanak sağlar. 
 
-Array Parameters
-~~~~~~~~~~~~~~~~
+Parametreleri kullanıp kullanmama seçeneği size bağlıdır. Yüksek 
+kaliteli 3. parti bundle'lar *daima* container içerisinde saklanan 
+servisler için daha ayarlabilir olması açısından parametre kullanırlar.
+Ancak uygulamanızdaki servisler için parametrelerin esnekliğine çok da 
+ihtiyacınız olmayabilir.
 
-Parameters do not need to be flat strings, they can also be arrays. For the XML
-format, you need to use the type="collection" attribute for all parameters that are
-arrays.
+Array(Dize) Parametreleri
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Parametreler sadece düz metinler olmaktan çok array (dize) şeklinde de olabilir.
+XML formatı için type="collection"  niteliğini kullanarak tüm parametreleri
+bir dize olarak gösterebilirsiniz::
+
 
 .. configuration-block::
 
@@ -306,8 +324,8 @@ arrays.
                                 ));
 
 
-Importing other Container Configuration Resources
--------------------------------------------------
+Diğer Container Kaynaklarını Almak (Import)
+-------------------------------------------
 
 .. tip::
 
@@ -330,7 +348,7 @@ second method, which is the flexible and preferred method for importing service
 configuration from third-party bundles.
 
 .. index::
-   single: Service Container; imports
+   single: Servis Container; imports
 
 .. _service-container-imports-directive:
 
@@ -422,7 +440,7 @@ without worrying later if you move the ``AcmeHelloBundle`` to a different
 directory.
 
 .. index::
-   single: Service Container; Extension configuration
+   single: Servis Container; Extension configuration
 
 .. _service-container-extension-configuration:
 
@@ -531,9 +549,9 @@ If you want to expose user friendly configuration in your own bundles, read the
 ":doc:`/cookbook/bundles/extension`" cookbook recipe.
 
 .. index::
-   single: Service Container; Referencing services
+   single: Servis Container; Referencing services
 
-Referencing (Injecting) Services
+Referencing (Injecting) Serviss
 --------------------------------
 
 So far, our original ``my_mailer`` service is simple: it takes just one argument
@@ -788,7 +806,7 @@ allow for an optional dependency:
             // ...
         }
 
-Core Symfony and Third-Party Bundle Services
+Core Symfony and Third-Party Bundle Serviss
 --------------------------------------------
 
 Since Symfony2 and all third-party bundles configure and retrieve their services
@@ -877,7 +895,7 @@ the framework.
     ``SwiftmailerBundle``, which registers the ``mailer`` service.
 
 .. index::
-   single: Service Container; Advanced configuration
+   single: Servis Container; Advanced configuration
 
 Advanced Container Configuration
 --------------------------------
@@ -888,7 +906,7 @@ the container has several other tools available that help to *tag* services
 for special functionality, create more complex services, and perform operations
 after the container is built.
 
-Marking Services as public / private
+Marking Serviss as public / private
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When defining services, you'll usually want to be able to access these definitions
@@ -941,7 +959,7 @@ below) to access this service (via the alias).
 
 .. note::
 
-   Services are by default public.
+   Serviss are by default public.
 
 Aliasing
 ~~~~~~~~
@@ -1075,4 +1093,4 @@ Learn more
 * :doc:`/components/dependency_injection/parentservices`
 * :doc:`/cookbook/controller/service`
 
-.. _`service-oriented architecture`: http://wikipedia.org/wiki/Service-oriented_architecture
+.. _`servis tabanlı mimari`: http://wikipedia.org/wiki/Service-oriented_architecture
