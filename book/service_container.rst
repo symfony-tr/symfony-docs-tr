@@ -444,11 +444,11 @@ sorunlar için endileşenmemenizi sağlar.
 Container Extensionları üzerinden Konfigürasyon Aktarmak
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When developing in Symfony2, you'll most commonly use the ``imports`` directive
-to import container configuration from the bundles you've created specifically
-for your application. Third-party bundle container configuration, including
-Symfony2 core services, are usually loaded using another method that's more
-flexible and easy to configure in your application.
+Symfony2 de geliştirme yaparken uygulamanıza özel geliştirdiğiniz bundle'ların
+container konfigürasyonlarını aktarırken en çok ``imports`` direktifini kullanırız.
+3.Parti bundle configürasyonu, Symfony2 çekirdek servisleri dahil, genellikle 
+yüklenen diğer metodu kullanarak uygulamanızda daha esnek ve kolay bir 
+şekilde konfigüre edilebilir.
 
 Here's how it works. Internally, each bundle defines its services very much
 like we've seen so far. Namely, a bundle uses one or more configuration
