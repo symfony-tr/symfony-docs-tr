@@ -329,41 +329,39 @@ Diğer Container Kaynaklarını Almak (Import)
 
 .. tip::
 
-    In this section, we'll refer to service configuration files as *resources*.
-    This is to highlight that fact that, while most configuration resources
-    will be files (e.g. YAML, XML, PHP), Symfony2 is so flexible that configuration
-    could be loaded from anywhere (e.g. a database or even via an external
-    web service).
+    Bu kısımda servis konfigürasyon dosyalarını *kaynak* olarak nitelendireceğiz.
+    Bir konunun altını çizelim.Pekçok konfigürasyon kaynağı dosyalar 
+    şeklinde iken (Örn: YAML,XML,PHP) Symfony2 bu konfigürasyonları 
+    herhangi biryerden çağırabildiği için daha esnektir
+    (örn: veritabanı ya da başka bir web servisi aracılığı ile).
 
-The service container is built using a single configuration resource
-(``app/config/config.yml`` by default). All other service configuration
-(including the core Symfony2 and third-party bundle configuration) must
-be imported from inside this file in one way or another. This gives you absolute
-flexibility over the services in your application.
+Servis containerı tek bir konfigürasyon kaynağından yapılandırılır
+(varsayılanolarak ``app/config/config.yml``).Diğer tüm servis konfigürasyonları
+(Symfony2 çekirdek ve 3.parti bundle konfigürasyonları)
+bu dosya içerisine bir ya da daha fazla şekilde aktarılmalıdır. Bu uygulamanızdaki
+servisler üzerinde mutlak bir esneklik verir.
 
-External service configuration can be imported in two different ways. First,
-we'll talk about the method that you'll use most commonly in your application:
-the ``imports`` directive. In the following section, we'll introduce the
-second method, which is the flexible and preferred method for importing service
-configuration from third-party bundles.
+Dış servis konfigürasyonlarıda iki şekilde aktarılabilir (import). Birincisi
+uygulamalarızda daha sık kuyllandığınız metod olan ``imports`` direktifi.
+Sonraki kısımda 3.parti bundlelardan servis konfigürasyonlarını aktarmak konusunda 
+daha esnek ve tercih edilen ikinci yöntemi inceleyeceğiz.
 
 .. index::
-   single: Servis Container; imports
+   single: Servis Container; İçeri aktatmak(imports)
 
 .. _service-container-imports-directive:
 
-Importing Configuration with ``imports``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``imports`` ile Konfigürasyonları İçeri Aktarmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So far, we've placed our ``my_mailer`` service container definition directly
-in the application configuration file (e.g. ``app/config/config.yml``). Of
-course, since the ``Mailer`` class itself lives inside the ``AcmeHelloBundle``,
-it makes more sense to put the ``my_mailer`` container definition inside the
-bundle as well.
+Şimdiye kadar ``my_mailer`` servis container tanımlamasını direkt olarak uygulama
+konfigürasyon dosyası içerisinden yaptık (Örn:  ``app/config/config.yml``).
+``Mailer`` sınıfının kendisi ``AcmeHelloBundle`` içinde olduğundan dolayı 
+``my_mailer`` container tanımlamasını kendi yerinde yapmak daha mantıklı olacaktır.
 
-First, move the ``my_mailer`` container definition into a new container resource
-file inside ``AcmeHelloBundle``. If the ``Resources`` or ``Resources/config``
-directories don't exist, create them.
+Öncelikle ``my_mailer`` container tanımlamasını ``AcmeHelloBundle`` içerisindeki
+yeni container kaynağına taşıyalım. Eğer ``Resources`` ya da ``Resources/config`` 
+klasörleri yok ise bunları yaratmalısınız.
 
 .. configuration-block::
 
@@ -924,7 +922,7 @@ argument for another service.
 
     If you use a private service as an argument to more than one other service,
     this will result in two different instances being used as the instantiation
-    of the private service is done inline (e.g. ``new PrivateFooBar()``).
+    of the private service is done inline (Örn:  ``new PrivateFooBar()``).
 
 Simply said: A service will be private when you do not want to access it
 directly from your code.
