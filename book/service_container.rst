@@ -446,8 +446,8 @@ Container Extensionları üzerinden Konfigürasyon Aktarmak
 
 Symfony2 de geliştirme yaparken uygulamanıza özel geliştirdiğiniz bundle'ların
 container konfigürasyonlarını aktarırken en çok ``imports`` direktifini kullanırız.
-3.Parti bundle configürasyonu, Symfony2 çekirdek servisleri dahil, genellikle 
-yüklenen diğer metodu kullanarak uygulamanızda daha esnek ve kolay bir 
+3.Parti bundle konfigürasyonu, Symfony2 çekirdek servisleri dahil, genellikle 
+diğer metodu kullanarak yapılan yüklemede uygulamanız daha esnek ve kolay bir 
 şekilde konfigüre edilebilir.
 
 Here's how it works. Internally, each bundle defines its services very much
