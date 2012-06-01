@@ -536,23 +536,23 @@ görmek için bundle dökümanlarına bakın. Çekirdek bundle'lar için bu dök
 
 .. note::
 
-   Natively, the service container only recognizes the ``parameters``,
-   ``services``, and ``imports`` directives. Any other directives
-   are handled by a service container extension.
+   Doğal olarak, servis container'ı sadece ``parameters`` , ``services``
+   ve ``imports`` direktiflerini tanır. Bunlar dışında kalanları bir 
+   servis container extension' u tarafından işlenir.
 
-If you want to expose user friendly configuration in your own bundles, read the
-":doc:`/cookbook/bundles/extension`" cookbook recipe.
+Eğer kendi bunde'ınız için kullanıcı dostu bir konfigürasyon yapmak istiyorsanız,
+":doc:`/cookbook/bundles/extension`"  tarif kitabı reçetesini okuyun.
 
 .. index::
-   single: Servis Container; Referencing services
+   single: Servis Container; Servisleri İlişkilendirmek
 
-Referencing (Injecting) Serviss
---------------------------------
+Servisleri İlişkilendirmek (Injecting) 
+--------------------------------------
 
-So far, our original ``my_mailer`` service is simple: it takes just one argument
-in its constructor, which is easily configurable. As you'll see, the real
-power of the container is realized when you need to create a service that
-depends on one or more other services in the container.
+Şimdiye kadar bizim orijinal ``my_mailer`` servisimiz yapıcısı içerisinde 
+sadece bir argüman aracılığı ile kolaylıkla konfigüre edilebilen oldukça basit
+bir servisti.  İşte container'in gücü, container kendi içerisinde bir ya da daha 
+fazla farklı servis'e bağlı olduğu durumlarda ortaya çıkar.
 
 Let's start with an example. Suppose we have a new service, ``NewsletterManager``,
 that helps to manage the preparation and delivery of an email message to
