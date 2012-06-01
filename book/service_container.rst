@@ -903,36 +903,35 @@ servisine ulaşmıştır. Bu framework ile birlikte gelen servisleri kullanarak
 Gelişmiş Container Konfigürasyonu  
 ---------------------------------
 
-As we've seen, defining services inside the container is easy, generally
-involving a ``service`` configuration key and a few parameters. However,
-the container has several other tools available that help to *tag* services
-for special functionality, create more complex services, and perform operations
-after the container is built.
+Bu zamana kadar gördüğümüz kadarıyla container içerisinde servis tanımlamak
+kolay ve genel olarak ``servis`` konfigürasyon anahtarı bir kaç parametre
+içermekteydi. Ancak container özel bir çalışma sistemine sahip, daha karışık
+servisler yaratmak ve container yapıldıktan sonra işlemleri gerçekleştirecek
+*etiket* servislerine yardımcı olmak amacıyla bazı diğer araçlara da sahiptir.
 
-Marking Serviss as public / private
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+public / private Servisler Yapmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When defining services, you'll usually want to be able to access these definitions
-within your application code. These services are called ``public``. For example,
-the ``doctrine`` service registered with the container when using the DoctrineBundle
-is a public service as you can access it via::
+Servisleri tanımlarken genellikle bu tanımlamalara uygulama kodunuz içerisinden
+ulaşabilir olmayı istersiniz. Bu servisler ``public`` (açık) olarak adlandırılır.
+Örneğin DoctrineBundle'ı kullanırken container üzerinde kayıtlı olan ``doctrine``
+servisine şu şekilde erişebilirsiniz::
 
    $doctrine = $container->get('doctrine');
 
-However, there are use-cases when you don't want a service to be public. This
-is common when a service is only defined because it could be used as an
-argument for another service.
+Ancak servisin public(açık) bir servis olmasını istemediğiniz durumlar da vardır. Bu
+genellikle servis sadece başka bir servis tarafından bir argüman ile kullanıldığı 
+durumlarda olur.
 
 .. note::
 
-    If you use a private service as an argument to more than one other service,
-    this will result in two different instances being used as the instantiation
-    of the private service is done inline (Örn:  ``new PrivateFooBar()``).
+    Eğer bir private (özel) servisi bir argüman olarak bir ya da daha fazla
+    serviste kullanıyorsanız bu sonuçta içsel olarak iki farklı private servis örneği
+    (instance) olacaktır (Örn:  ``new PrivateFooBar()``)
 
-Simply said: A service will be private when you do not want to access it
-directly from your code.
-
-Here is an example:
+Basitçe söylersek, Bir servis kodunuzdan direkt olarak ulaşmak istemediğiniz
+durumlarda private olacaktır.
+Şu örneğe bakalım:
 
 .. configuration-block::
 
@@ -953,16 +952,16 @@ Here is an example:
         $definition->setPublic(false);
         $container->setDefinition('foo', $definition);
 
-Now that the service is private, you *cannot* call::
+Şimdi servis private (özel) 'dir ve siz onu *çağıramazsınız* ::
 
     $container->get('foo');
 
-However, if a service has been marked as private, you can still alias it (see
-below) to access this service (via the alias).
+Ancak, eğer servis private olarak işaretlenmişse ona alias (rumuz) 'layarak 
+(aşağıda gösterilmiştir) ulaşabilirsiniz(rumuz ile).
 
 .. note::
 
-   Serviss are by default public.
+   Servisler varsayılan olarak public 'tirler.
 
 Aliasing
 ~~~~~~~~
