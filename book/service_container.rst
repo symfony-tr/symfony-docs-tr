@@ -806,16 +806,16 @@ kabul edecek şekilde yazılmalıdır:
             // ...
         }
 
-Core Symfony and Third-Party Bundle Serviss
---------------------------------------------
+Symfony Çekirdek ve 3.Parti Bundle Servisleri
+---------------------------------------------
 
-Since Symfony2 and all third-party bundles configure and retrieve their services
-via the container, you can easily access them or even use them in your own
-services. To keep things simple, Symfony2 by default does not require that
-controllers be defined as services. Furthermore Symfony2 injects the entire
-service container into your controller. For example, to handle the storage of
-information on a user's session, Symfony2 provides a ``session`` service,
-which you can access inside a standard controller as follows::
+Smfony2 ve tüm 3.parti bundle ayarları ve servisleri container üzerinden sağlanmasına
+rağmen onlara ve hatta onların kullandıklarına kendi servisleriniz üzerinden 
+kolaylıkla ulaşabilirsiniz. Symfony2 varsayılan olarak servis olarak tanımlanacak
+controller'lara ihtiyaç duymayacağından bunu yapmak kolaydır. Örneğin bir 
+kullanıcı oturumu için saklanan bilgiyi işleyeceksiniz. Symfony2 bir ``session``
+servisi sağlar ve standart bir controller içerisinden buna şu şekilde
+ulaşabilirsiniz::
 
     public function indexAction($bar)
     {
@@ -825,15 +825,16 @@ which you can access inside a standard controller as follows::
         // ...
     }
 
-In Symfony2, you'll constantly use services provided by the Symfony core or
-other third-party bundles to perform tasks such as rendering templates (``templating``),
-sending emails (``mailer``), or accessing information on the request (``request``).
+Symfony2'de Symfony çekirdeği tarafından ya da diğer 3.parti bundle'ları tarafından
+sağlanan, şablonları ekrana basmak (``templating``), e-postaları göndermek (``mailer``)
+ya da istek bilgilerine erişmek (``request``) gibi işlemler için sık sık 
+servisleri kullanacaksınız.
 
-We can take this a step further by using these services inside services that
-you've created for your application. Let's modify the ``NewsletterManager``
-to use the real Symfony2 ``mailer`` service (instead of the pretend ``my_mailer``).
-Let's also pass the templating engine service to the ``NewsletterManager``
-so that it can generate the email content via a template::
+Yarattığınız uygulamada bu servisleri servis içinde kullanarak uygulamayı bir
+adım öteye taşıyabiliriz. Şimdi ``NewsletterManager`` 'ı Symfony2 'nin
+gerçek ``mailer`` servisini kullanacak şekilde değiştirelim (``my_mailer`` 'ın yerine).
+Aynı zamanda ``NewsletterManager`` 'a e-posta içeriğini şablondan yaratması 
+için şablonlama motoru servisini'de aktaralım.
 
     namespace Acme\HelloBundle\Newsletter;
 
@@ -854,7 +855,7 @@ so that it can generate the email content via a template::
         // ...
     }
 
-Configuring the service container is easy:
+Servis container'ını konfigüre etmek kolaydır:
 
 .. configuration-block::
 
