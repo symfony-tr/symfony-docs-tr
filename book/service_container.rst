@@ -963,12 +963,13 @@ Ancak, eğer servis private olarak işaretlenmişse ona alias (rumuz) 'layarak
 
    Servisler varsayılan olarak public 'tirler.
 
-Aliasing
-~~~~~~~~
+Rumuzlamak (Aliasing)
+~~~~~~~~~~~~~~~~~~~~~
 
-When using core or third party bundles within your application, you may want
-to use shortcuts to access some services. You can do so by aliasing them and,
-furthermore, you can even alias non-public services.
+Uygulamanızda çekirdek ya da 3.parti bundle'lar kullanırken, bazı servislere
+ulaşmak istediğinizde bunların kısa yollarını kullanmak isteyebilirsiniz. 
+Bunu, bu servisleri rumuzlayarak (aliasing) ve ayrıca public olmayan 
+servisleri'de rumuzlayarak yapabilirsiniz.
 
 .. configuration-block::
 
@@ -993,10 +994,10 @@ furthermore, you can even alias non-public services.
 
         $containerBuilder->setAlias('bar', 'foo');
 
-This means that when using the container directly, you can access the ``foo``
-service by asking for the ``bar`` service like this::
+Bunun anlamı container direkt olarak kullanılırken ``foo`` servisine  ``bar``
+servisini çağırarak şu şekilde ulaşabilirsiniz::
 
-    $container->get('bar'); // Would return the foo service
+    $container->get('bar'); // foo servisini döndürecektir
 
 Requiring files
 ~~~~~~~~~~~~~~~
