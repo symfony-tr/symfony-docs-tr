@@ -591,7 +591,8 @@ Bu yaklaşım iyi ancak acaba daha sonra ``NewsletterManage`` sınıfı ikinci
 ya da üçüncü bir yapıcı argümana ihtiyaç duyarsa? Acaba kodumuzu refactor
 yaparsak ve sınıfın ismini değiştirirsek ne olur ? Bu iki durumda ``NewsletterManager``
 sınıfının kullanıldığı her yeri tek tek araştırıp, düzeltmeniz gerekir. 
-Elbette servis container bize çok çekici bir seçenek sunmakta:
+
+Elbette servis container'ı bize çok çekici bir seçenek sunmakta::
 
 .. configuration-block::
 
