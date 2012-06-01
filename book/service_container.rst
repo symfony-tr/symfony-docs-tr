@@ -465,9 +465,10 @@ amacıyla yapılan bir PHP sınıfıdır:
 * daha basit ve kolay anlaşılabilirliği sağladığından bundle, bundle 
   container konfigürasyonundaki düz parametreler ile etkileşime girmez.
 
-In other words, a service container extension configures the services for
-a bundle on your behalf. And as we'll see in a moment, the extension provides
-a sensible, high-level interface for configuring the bundle.
+Başka bir ifade ile bir servis container extension 'u  bir bundle için
+servisleri sizin yerinize konfigüre eder. Ve birazdan göreceğimiz gibi
+extension, bundle 'ı konfigüre etmek için düzgün ve yüksek seviyeli
+bir arabirim sağlar.
 
 Take the ``FrameworkBundle`` - the core Symfony2 framework bundle - as an
 example. The presence of the following code in your application configuration
