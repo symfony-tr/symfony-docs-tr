@@ -649,19 +649,20 @@ olması gerekir. Eğer yoksa bir istisna (exception) yaratılacaktır. Bağıml�
 opsiyonel olarak işaretleyebilirsiniz (Bunu sonraki kısımda göreceğiz).
 
 İlişkilendirmeleri kullanmak bağımsız servisleri birbirleri ile bağımlı hale
-getirmede oldukça güçlü araçlardır. Bu örnete ``newsletter_manager`` servisi 
+getirmede oldukça güçlü araçlardır. Bu örnekte ``newsletter_manager`` servisi 
 çalışabilmesi için ``my_mailer`` servisine ihtiyaç duymaktadır. Servis container'ı
 içerisinde bu bağımlılığı tanımlarken, contaner tüm örneklenen objelerin 
 çalışabilir olmasına dikkat eder.
 
-Optional Dependencies: Setter Injection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Opsiyonel Bağımlılıklar : Setter Aşılaması (Injection)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Injecting dependencies into the constructor in this manner is an excellent
-way of ensuring that the dependency is available to use. If you have optional
-dependencies for a class, then "setter injection" may be a better option. This
-means injecting the dependency using a method call rather than through the
-constructor. The class would look like this::
+Bu şekilde yapıcı içerisine bağımlılık aşılamak kullanıma hazır bağımlılığı
+sağlamak için mükemmel bir yoldur. Eğer sınıf için opsiyonel bağımlılıklarınız
+vbarsa "setter aşılaması (injection)" en iyi seçenek olabilir. Bunun anlamı
+bir metod çağırısı kullanarak bağımlılık aşılaması (injection) yapıcı olmasına
+rağmen daha iyidir. Bu sınıf şu şekilde gözükecektir.
+
 
     namespace Acme\HelloBundle\Newsletter;
 
@@ -679,7 +680,8 @@ constructor. The class would look like this::
         // ...
     }
 
-Injecting the dependency by the setter method just needs a change of syntax:
+setter metodunu kullanarak bağımlılık aşılaması için sadece yazımı biraz 
+değiştirmek gerekir:
 
 .. configuration-block::
 
@@ -735,12 +737,13 @@ Injecting the dependency by the setter method just needs a change of syntax:
 
 .. note::
 
-    The approaches presented in this section are called "constructor injection"
-    and "setter injection". The Symfony2 service container also supports
-    "property injection".
+    Bu kısımda gösterilen yaklaşımlar "yapıcı aşılaması" (constructor injection)
+    ve "setter aşılaması" (setter injection) olarak adlandırılır. 
+    Symfony2 servis container'ı aynı zamanda "sınıf değişkeni aşılaması" 
+    (property injection) 'nı da destekler.
 
-Making References Optional
---------------------------
+Referansları Opsiyonel Yapmak
+------------------------------
 
 Sometimes, one of your services may have an optional dependency, meaning
 that the dependency is not required for your service to work properly. In
