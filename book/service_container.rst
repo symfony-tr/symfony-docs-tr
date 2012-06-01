@@ -745,12 +745,12 @@ değiştirmek gerekir:
 Referansları Opsiyonel Yapmak
 ------------------------------
 
-Sometimes, one of your services may have an optional dependency, meaning
-that the dependency is not required for your service to work properly. In
-the example above, the ``my_mailer`` service *must* exist, otherwise an exception
-will be thrown. By modifying the ``newsletter_manager`` service definition,
-you can make this reference optional. The container will then inject it if
-it exists and do nothing if it doesn't:
+Bazen, servislerinizden bir tanesi'nin opsiyonel bir bağımlılığı olabilir,
+bağımlılık servisin düzgün çalışması için gerekmez. Yukarıdaki örnekte
+``my_mailer`` servisi olmak *zorunda*. Aksi takdirde bir istisna (exception)
+oluşur. ``newsletter_manager`` servis tanımlaması değiştirildiğinde bu referansı
+opsiyonel yapabilirsiniz. Container eğer var ise bir aşılama (injection) yapacak
+eğer yoksa hiç bir şey yapmayacaktır:
 
 .. configuration-block::
 
@@ -794,9 +794,10 @@ it exists and do nothing if it doesn't:
             array(new Reference('my_mailer', ContainerInterface::IGNORE_ON_INVALID_REFERENCE))
         ));
 
-In YAML, the special ``@?`` syntax tells the service container that the dependency
-is optional. Of course, the ``NewsletterManager`` must also be written to
-allow for an optional dependency:
+
+YAML içerisindeki özel ``@?`` karakteri servis container'ına bu bağımlılığın
+opsiyonel olduğunu söyler. Elbette ``NewsletterManager`` bu opsiyonel bağımlılığı
+kabul edecek şekilde yazılmalıdır:
 
 .. code-block:: php
 
