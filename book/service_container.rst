@@ -969,7 +969,8 @@ Rumuzlamak (Aliasing)
 Uygulamanızda çekirdek ya da 3.parti bundle'lar kullanırken, bazı servislere
 ulaşmak istediğinizde bunların kısa yollarını kullanmak isteyebilirsiniz. 
 Bunu, bu servisleri rumuzlayarak (aliasing) ve ayrıca public olmayan 
-servisleri'de rumuzlayarak yapabilirsiniz.
+servisleri'de rumuzlayarak yapabilirsiniz::
+
 
 .. configuration-block::
 
@@ -999,11 +1000,11 @@ servisini çağırarak şu şekilde ulaşabilirsiniz::
 
     $container->get('bar'); // foo servisini döndürecektir
 
-Requiring files
-~~~~~~~~~~~~~~~
+Dosya Çağırmak (requiring)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There might be use cases when you need to include another file just before
-the service itself gets loaded. To do so, you can use the ``file`` directive.
+Belki bazı durumlarda servis yüklenmeden hemen önce bir dosyayı çağırmak 
+isteyebilirsiniz. Bunu yapmak için ``file`` direktifini kullanabilirsiniz.
 
 .. configuration-block::
 
@@ -1026,18 +1027,18 @@ the service itself gets loaded. To do so, you can use the ``file`` directive.
         $definition->setFile('%kernel.root_dir%/src/path/to/file/foo.php');
         $container->setDefinition('foo', $definition);
 
-Notice that symfony will internally call the PHP function require_once
-which means that your file will be included only once per request.
+Dikkat ederseniz, symfony içeride require_once PHP fonksiyonunu çağıracaktır.
+Bunun anlamı önce dosyanız yüklenecek demektir.
 
 .. _book-service-container-tags:
 
-Tags (``tags``)
-~~~~~~~~~~~~~~~
+Etiketler (``tags``)
+~~~~~~~~~~~~~~~~~~~~
 
-In the same way that a blog post on the Web might be tagged with things such
-as "Symfony" or "PHP", services configured in your container can also be
-tagged. In the service container, a tag implies that the service is meant
-to be used for a specific purpose. Take the following example:
+Aynı şekilde Web deki bir blog post'u "Symfony" ya da "PHP" gibi bir şeyle
+etiketlenmiş olabilir,container içindeki servisler bunları etiketleyebilir. 
+Servis container'ının içerisinde, bir etiket servis özel bir kural için 
+kullanılacak anlamına gelmektedir. Aşağıdaki örneği inceleyelim::
 
 .. configuration-block::
 
@@ -1061,18 +1062,20 @@ to be used for a specific purpose. Take the following example:
         $definition->addTag('twig.extension');
         $container->setDefinition('foo.twig.extension', $definition);
 
-The ``twig.extension`` tag is a special tag that the ``TwigBundle`` uses
-during configuration. By giving the service this ``twig.extension`` tag,
-the bundle knows that the ``foo.twig.extension`` service should be registered
-as a Twig extension with Twig. In other words, Twig finds all services tagged
-with ``twig.extension`` and automatically registers them as extensions.
+``twig.extension`` etiketi konfigürasyon esnasında ``TwigBundle`` kullanan
+özel bir etikettir. Bu servis ``twig.extension``  etiketliyle verildiğinde
+bundle ``foo.twig.extension`` servisinin Twig içerisinde bir Twig extensionu
+olarak kayıtlı olduğunu bilir. Diğer bir ifade ile Twig , ``twig.extension``
+ile etiketlenmiş tüm servisleri bulur ve onları extension olarak kayıt eder.
 
-Tags, then, are a way to tell Symfony2 or other third-party bundles that
-your service should be registered or used in some special way by the bundle.
+Böylece etiketler, Symfony2 'ye ya da diğer 3.parti bundle'lara 
+servisinizin kayıtlı olması ya da bundle tarafından özel bir 
+yolla kullanılması gerektiğini söyler.
 
-The following is a list of tags available with the core Symfony2 bundles.
-Each of these has a different effect on your service and many tags require
-additional arguments (beyond just the ``name`` parameter).
+Aşağıda çekirdek Symfony2 bundle'ları ile kullanılan etiketlerin bir listesi
+verilmiştir. Bunları her birisi servisinide farklı anlamlara sahiptir ve
+pek çok etiket bazı ekstra argümanlara ihtiyaç duyarlar (``name`` parametresinin
+hemen öncesinde).
 
 * assetic.filter
 * assetic.templating.php
@@ -1089,8 +1092,8 @@ additional arguments (beyond just the ``name`` parameter).
 * translation.loader
 * validator.constraint_validator
 
-Learn more
-----------
+Daha Fazlasını Öğrenin
+----------------------
 
 * :doc:`/components/dependency_injection/factories`
 * :doc:`/components/dependency_injection/parentservices`
