@@ -641,17 +641,17 @@ Elbette servis container bize çok çekici bir seçenek sunmakta:
             array(new Reference('my_mailer'))
         ));
 
-In YAML, the special ``@my_mailer`` syntax tells the container to look for
-a service named ``my_mailer`` and to pass that object into the constructor
-of ``NewsletterManager``. In this case, however, the specified service ``my_mailer``
-must exist. If it does not, an exception will be thrown. You can mark your
-dependencies as optional - this will be discussed in the next section.
+YAML içerisinde ``@my_mailer`` özel yazımı container'a ``my_mailer`` adında 
+bir servise bakmsını ve bu nesneyi ``NewsletterManager`` nesnesinin yapıcısına
+aktarmasını söyler.Ancak bu durumda ``my_mailer`` olarak belirtilen servisin
+olması gerekir. Eğer yoksa bir istisna (exception) yaratılacaktır. Bağımlıkları
+opsiyonel olarak işaretleyebilirsiniz (Bunu sonraki kısımda göreceğiz).
 
-Using references is a very powerful tool that allows you to create independent service
-classes with well-defined dependencies. In this example, the ``newsletter_manager``
-service needs the ``my_mailer`` service in order to function. When you define
-this dependency in the service container, the container takes care of all
-the work of instantiating the objects.
+İlişkilendirmeleri kullanmak bağımsız servisleri birbirleri ile bağımlı hale
+getirmede oldukça güçlü araçlardır. Bu örnete ``newsletter_manager`` servisi 
+çalışabilmesi için ``my_mailer`` servisine ihtiyaç duymaktadır. Servis container'ı
+içerisinde bu bağımlılığı tanımlarken, contaner tüm örneklenen objelerin 
+çalışabilir olmasına dikkat eder.
 
 Optional Dependencies: Setter Injection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
