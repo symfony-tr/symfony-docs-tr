@@ -554,12 +554,11 @@ sadece bir argüman aracılığı ile kolaylıkla konfigüre edilebilen oldukça
 bir servisti.  İşte container'in gücü, container kendi içerisinde bir ya da daha 
 fazla farklı servis'e bağlı olduğu durumlarda ortaya çıkar.
 
-Let's start with an example. Suppose we have a new service, ``NewsletterManager``,
-that helps to manage the preparation and delivery of an email message to
-a collection of addresses. Of course the ``my_mailer`` service is already
-really good at delivering email messages, so we'll use it inside ``NewsletterManager``
-to handle the actual delivery of the messages. This pretend class might look
-something like this::
+Şimdi bir örnek ile başlayalım. Varsayalım ``NewsletterManager`` adında 
+bir adres yığınına email mesajlarımızı göndermek ve hazırlamak işlerini
+yöneten yeni bir servisimiz var. Elbette ``my_mailer`` servisi gerçekten
+mesajları güzel bir şekilde gönderdiği için ``NewsletterManager`` içerisinde 
+mesajları gönderme işinde kullanıyoruz.  Bu işlemi yapan sınıf şu şekilde olabilir::
 
     namespace Acme\HelloBundle\Newsletter;
 
