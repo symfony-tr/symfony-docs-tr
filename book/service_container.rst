@@ -576,8 +576,9 @@ mesajları gönderme işinde kullanıyoruz.  Bu işlemi yapan sınıf şu şekil
         // ...
     }
 
-Without using the service container, we can create a new ``NewsletterManager``
-fairly easily from inside a controller::
+Servis container kullanmadan yeni ``NewsletterManager`` 'i controller
+içerisinden oldukça kolay bir şekilde yaratabiliriz::
+
 
     public function sendNewsletterAction()
     {
@@ -586,11 +587,11 @@ fairly easily from inside a controller::
         // ...
     }
 
-This approach is fine, but what if we decide later that the ``NewsletterManager``
-class needs a second or third constructor argument? What if we decide to
-refactor our code and rename the class? In both cases, you'd need to find every
-place where the ``NewsletterManager`` is instantiated and modify it. Of course,
-the service container gives us a much more appealing option:
+Bu yaklaşım iyi ancak acaba daha sonra ``NewsletterManage`` sınıfı ikinci 
+ya da üçüncü bir yapıcı argümana ihtiyaç duyarsa? Acaba kodumuzu refactor
+yaparsak ve sınıfın ismini değiştirirsek ne olur ? Bu iki durumda ``NewsletterManager``
+sınıfının kullanıldığı her yeri tek tek araştırıp, düzeltmeniz gerekir. 
+Elbette servis container bize çok çekici bir seçenek sunmakta:
 
 .. configuration-block::
 
