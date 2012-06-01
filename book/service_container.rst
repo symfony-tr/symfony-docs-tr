@@ -470,9 +470,9 @@ servisleri sizin yerinize konfigüre eder. Ve birazdan göreceğimiz gibi
 extension, bundle 'ı konfigüre etmek için düzgün ve yüksek seviyeli
 bir arabirim sağlar.
 
-Take the ``FrameworkBundle`` - the core Symfony2 framework bundle - as an
-example. The presence of the following code in your application configuration
-invokes the service container extension inside the ``FrameworkBundle``:
+``FrameworkBundle`` örneğine - çekirdek Symfony2 framework bundle - bakalım
+Uygulama konfigürasyon dosyasında bulunan aşağıdaki kod ``FrameworkBundle`` 
+içerisindeki servis extension container'ini çağırır ::
 
 .. configuration-block::
 
