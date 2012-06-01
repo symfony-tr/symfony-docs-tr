@@ -855,7 +855,7 @@ için şablonlama motoru servisini'de aktaralım.
         // ...
     }
 
-Servis container'ını konfigüre etmek kolaydır:
+Servis container'ını konfigüre etmek kolaydır::
 
 .. configuration-block::
 
@@ -883,23 +883,25 @@ Servis container'ını konfigüre etmek kolaydır:
             )
         ));
 
-The ``newsletter_manager`` service now has access to the core ``mailer``
-and ``templating`` services. This is a common way to create services specific
-to your application that leverage the power of different services within
-the framework.
+
+``newsletter_manager`` servisi şimdi çekirdek ``mailer`` ve ``templating``
+servisine ulaşmıştır. Bu framework ile birlikte gelen servisleri kullanarak
+özel servisleri geliştirmenin en sık kullanılan yoludur.
 
 .. tip::
 
-    Be sure that ``swiftmailer`` entry appears in your application
-    configuration. As we mentioned in :ref:`service-container-extension-configuration`,
-    the ``swiftmailer`` key invokes the service extension from the
-    ``SwiftmailerBundle``, which registers the ``mailer`` service.
+    ``swiftmailer`` girdisinin uygulama konfigürasyonunuzda olduğundan
+    emin olun. :ref:`service-container-extension-configuration` 
+    kısmında bahsettiğimiz ``swiftmailer`` anahtarı ``mailer`` servisi 
+    olarak kayıt edilen ``SwiftmailerBundle`` üzerinden servis extension'unu 
+    çağırır.
+    
 
 .. index::
-   single: Servis Container; Advanced configuration
-
-Advanced Container Configuration
---------------------------------
+   single: Servis Container; Gelişmiş Konfigürasyon
+   
+Gelişmiş Container Konfigürasyonu  
+---------------------------------
 
 As we've seen, defining services inside the container is easy, generally
 involving a ``service`` configuration key and a few parameters. However,
