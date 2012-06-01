@@ -509,32 +509,30 @@ içerisindeki servis extension container'ini çağırır ::
             // ...
         ));
 
-When the configuration is parsed, the container looks for an extension that
-can handle the ``framework`` configuration directive. The extension in question,
-which lives in the ``FrameworkBundle``, is invoked and the service configuration
-for the ``FrameworkBundle`` is loaded. If you remove the ``framework`` key
-from your application configuration file entirely, the core Symfony2 services
-won't be loaded. The point is that you're in control: the Symfony2 framework
-doesn't contain any magic or perform any actions that you don't have control
-over.
+Konfigürasyon yorumlandığında container bu extension'u idare edecek olan 
+``framework`` direktifini arar. Extension için sorun hangisi ``FrameworkBundle``
+'ı temsil eder ve ``FrameworkBundle`` yüklendiğinde hangisi çağırılacak
+sorusudur. Eğer ``framework`` anahtarını uygulama konfigürasyon dosyanızdan
+tamamen silerseniz çekirdek Symfony2 servisi yüklenemeyecektir. Bu noktada 
+kontrol sizdedir. Symfony2 framework asla bir şeyler yaparken bir sihir ya da
+sizin kontrolünüz dışında bir şey yapmaz.
 
-Of course you can do much more than simply "activate" the service container
-extension of the ``FrameworkBundle``. Each extension allows you to easily
-customize the bundle, without worrying about how the internal services are
-defined.
+Elbette ``FrameworkBundle`` servis container extension'unu daha basit
+olarak aktifleştirebilirsiniz. Her extension içsel servisilerin nasıl
+tanımlandığı endişesi olmadan kolaylıkla bundle'ın özelleştirmesine
+imkan sağlar.
 
-In this case, the extension allows you to customize the ``charset``, ``error_handler``,
-``csrf_protection``, ``router`` configuration and much more. Internally,
-the ``FrameworkBundle`` uses the options specified here to define and configure
-the services specific to it. The bundle takes care of creating all the necessary
-``parameters`` and ``services`` for the service container, while still allowing
-much of the configuration to be easily customized. As an added bonus, most
-service container extensions are also smart enough to perform validation -
-notifying you of options that are missing or the wrong data type.
+Bu durumda extension ``charset``, ``error_handler``,``csrf_protection``, 
+``router`` ve daha fazlasının konfigürasyonuna izin verir. İçsel olarak
+``FrameworkBundle`` burada tanımlanan ve konfigüre edilen seçenekleri 
+ver belirtilen servisleri kıllanır. Bundle servis containeri nın içerisinde
+kolaylıkla özelleştirilebilen tüm ``paremetre`` ve ``servis`` 'lere dikkat eder.
+Buna ek olarak pek şom servis container'ı ayrıca seçeneklerde belirttiğiniz
+verilerin doğrulamasını yanlış veri tipleri için de yaparlar.
 
-When installing or configuring a bundle, see the bundle's documentation for
-how the services for the bundle should be installed and configured. The options
-available for the core bundles can be found inside the :doc:`Reference Guide</reference/index>`.
+Bundle kurulumu ya da konfigürasyonunda servislerin nasıl kurulup ayarlandığını
+görmek için bundle dökümanlarına bakın. Çekirdek bundle'lar için bu dökümanlar
+:doc:`Referans Klavuzu</reference/index>` 'nda belirtilmiştir.
 
 .. note::
 
