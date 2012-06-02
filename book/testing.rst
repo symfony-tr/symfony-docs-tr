@@ -38,7 +38,7 @@ dosyasını inceleyin.
 	Kod kapsamı ``--coverage-html`` seçeneği ile yaratılabilir.
 
 .. index::
-   single: Tests; Unit Testleri
+   single: Testler; Unit Testleri
 
 Unit Testleri
 -------------
@@ -107,7 +107,7 @@ kolaydır:
     $ phpunit -c app src/Acme/DemoBundle/
 
 .. index::
-   single: Tests; Fonksiyonel Testler
+   single: Testler; Fonksiyonel Testler
 
 Fonksiyonel Testler
 -------------------
@@ -207,25 +207,24 @@ bazı form verileri değiştirilir ve ilgili form verisi gönderilir (submit)::
     form alanlarına sahiptir (Örn: ``select()`` ve ``tick()``). Detaylı bilgi
     için aşağıdaki `Formlar`_ kısmına bakın.
 
-Now that you can easily navigate through an application, use assertions to test
-that it actually does what you expect it to. Use the Crawler to make assertions
-on the DOM::
+Şimdi uygulamanızı baştan sonra gezebilirsiniz, bildirimleri (assertion) 
+kullanarak gerçekten istediğiniz şeyi verdiğini test edebilirsiniz. DOM 
+üzerinde bildirimleri (assertions) yapmak için Crawler kullanın::
 
-    // Assert that the response matches a given CSS selector.
+    // response'un verilen CSS seçicisiyle eşleştiğini bildir.
     $this->assertGreaterThan(0, $crawler->filter('h1')->count());
 
-Or, test against the Response content directly if you just want to assert that
-the content contains some text, or if the Response is not an XML/HTML
-document::
+Ya da testi, Response'u eğer sadece içeriği bazı metinler kapsayacak 
+şekilde de test etmek ya da eğer Response XML/HTML değilse de yapabilirsiniz::
 
     $this->assertRegExp('/Hello Fabien/', $client->getResponse()->getContent());
 
 .. _book-testing-request-method-sidebar:
 
-.. sidebar:: More about the ``request()`` method:
+.. sidebar:: ``request()`` metodu hakkında daha fazlası:
 
-    The full signature of the ``request()`` method is::
-
+	``request()`` metodunun tam açılımı::
+	
         request(
             $method,
             $uri, 
@@ -236,9 +235,9 @@ document::
             $changeHistory = true
         )
 
-    The ``server`` array is the raw values that you'd expect to normally
-    find in the PHP `$_SERVER`_ superglobal. For example, to set the `Content-Type`
-    and `Referer` HTTP headers, you'd pass the following::
+    ``server`` array'i kolaylıkla PHP'nin `$_SERVER` değişkenindeki değerleri
+    içerir. Örneğin `Content-Type` ve `Referer` HTTP başlıklarına değer atamak
+    için::
 
         $client->request(
             'GET',
@@ -252,42 +251,42 @@ document::
         );
 
 .. index::
-   single: Tests; Assertions
+   single: Testler; Bildirimler(Assertions) 
 
-.. sidebar:: Useful Assertions
+.. sidebar:: Faydalı Bildirimler
 
-    To get you started faster, here is a list of the most common and
-    useful test assertions::
+    Hızlıca başlamak için burada en sık kullanılan ve faydalı bildirimlerin
+    listesi verilmektedir::
 
-        // Assert that there is more than one h2 tag with the class "subtitle"
+        // bir den fazla "subtitle" css sınıfı ile h2 tagı olduğunu bildir.
         $this->assertGreaterThan(0, $crawler->filter('h2.subtitle')->count());
 
-        // Assert that there are exactly 4 h2 tags on the page
+        // Sayfada gerçekten 4 adet h2 tagı olduğunu bildir.
         $this->assertCount(4, $crawler->filter('h2')->count());
 
-        // Assert that the "Content-Type" header is "application/json"
+        // "Content-Type" başlığının "application/json" olduğunu bildir.
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'));
 
-        // Assert that the response content matches a regexp.
+        // Cevap (response) içeriğinin bir düzenli ifade ile eşleştiğini bildir.
         $this->assertRegExp('/foo/', $client->getResponse()->getContent());
 
-        // Assert that the response status code is 2xx
+        // Response durum kodunun 2xx olduğunu bildir
         $this->assertTrue($client->getResponse()->isSuccessful());
-        // Assert that the response status code is 404
+        // Response durum kodunun 404 olduğunu bildir
         $this->assertTrue($client->getResponse()->isNotFound());
-        // Assert a specific 200 status code
+        // Özel 200 durum kodunu bildir.
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        // Assert that the response is a redirect to /demo/contact
+        // response'un /demo/contact adresine yönlendirileceğini bildir.
         $this->assertTrue($client->getResponse()->isRedirect('/demo/contact'));
-        // or simply check that the response is a redirect to any URL
+        // ya da sadece cevabın herhangibir URL'ye yönlendirileceğini bildir.
         $this->assertTrue($client->getResponse()->isRedirect());
 
 .. index::
-   single: Tests; Client
+   single: Testler; İstemci (Client)
 
-Working with the Test Client
------------------------------
+Test istemcileri (Client) ile çalışmak
+--------------------------------------
 
 The Test Client simulates an HTTP client like a browser and makes requests
 into your Symfony2 application::
@@ -443,7 +442,7 @@ force him with the ``followRedirects()`` method::
     $client->followRedirects();
 
 .. index::
-   single: Tests; Crawler
+   single: Testler; Crawler
 
 .. _book-testing-crawler:
 
@@ -635,7 +634,7 @@ their type::
     ``my_form[subject]`` - to PHP arrays).
 
 .. index::
-   pair: Tests; Configuration
+   pair: Testler; Configuration
 
 Testing Configuration
 ---------------------
