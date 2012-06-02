@@ -112,26 +112,26 @@ kolaydır:
 Fonksiyonel Testler
 -------------------
 
-Functional tests check the integration of the different layers of an
-application (from the routing to the views). They are no different from unit
-tests as far as PHPUnit is concerned, but they have a very specific workflow:
+Fonksiyonel testler uygulamanızın farklı katmanlarının entegrasyonunu 
+test eder(routing'den views katmanına kadar). Bunların PHPUnit'in yaptığı
+unit testlerden hiç bir farkı yoktur ancak oldukça özel bir akışları vardır.
 
-* Make a request;
-* Test the response;
-* Click on a link or submit a form;
-* Test the response;
-* Rinse and repeat.
+* Bir istek yap (request);
+* Cevabı (response) test et;
+* Bir linke tıkla ya da bir form verisi gönder;
+* Cevabı (response) test et;
+* Başa al ve tekrarla;
 
-Your First Functional Test
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+İlk Fonksiyonel Tesiniz
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Functional tests are simple PHP files that typically live in the ``Tests/Controller``
-directory of your bundle. If you want to test the pages handled by your
-``DemoController`` class, start by creating a new ``DemoControllerTest.php``
-file that extends a special ``WebTestCase`` class.
+Fonksiyonel testler genel olarak bundle'ınızın ``Tests/Controller`` 
+dizininde bulunan basit PHP dosyalarıdır. Eğer ``DemoController`` class'ınızı
+işleten sayfanızı test etmek istiyorsanız yeni bir ``DemoControllerTest.php``
+dosyası yaratıp bunu özel ``WebTestCase`` sınıfından genişleterek başlayın.
 
-For example, the Symfony2 Standard Edition provides a simple functional test
-for its ``DemoController`` (`DemoControllerTest`_) that reads as follows::
+Örneğin Symfony2 Standart sürüm aşağıdaki gibi ``DemoController`` 
+için basit bir fonksiyonel test ile (`DemoControllerTest`_) birlikte gelir::
 
     // src/Acme/DemoBundle/Tests/Controller/DemoControllerTest.php
     namespace Acme\DemoBundle\Tests\Controller;
@@ -152,11 +152,11 @@ for its ``DemoController`` (`DemoControllerTest`_) that reads as follows::
 
 .. tip::
 
-    To run your functional tests, the ``WebTestCase`` class bootstraps the
-    kernel of your application. In most cases, this happens automatically.
-    However, if your kernel is in a non-standard directory, you'll need
-    to modify your ``phpunit.xml.dist`` file to set the ``KERNEL_DIR`` environment
-    variable to the directory of your kernel::
+    Fonksiyonel testleri çalıştırmak için uygulamanızın çekirdeğinde ``WebTestCase``
+    sınıfı başlatılma esnasında aktif durumda olmalıdır. Pek çok durumda bu otomatik
+    olarak olur. Ancak eğer çekirdeğiniz standart olmayan bir klasörde ise
+    ``phpunit.xml.dist`` dosyasındaki ``KERNEL_DIR`` çevre değişkenini kernelinizin
+    bulunduğu yere göre düzenlemeniz gerekir::
 
         <phpunit>
             <!-- ... -->
@@ -166,46 +166,46 @@ for its ``DemoController`` (`DemoControllerTest`_) that reads as follows::
             <!-- ... -->
         </phpunit>
 
-The ``createClient()`` method returns a client, which is like a browser that
-you'll use to crawl your site::
+``createClient()`` metodu bir tarayıcıdan sitenizden bilgi alıyormuş 
+gibi davranır::
 
     $crawler = $client->request('GET', '/demo/hello/Fabien');
 
-The ``request()`` method (see :ref:`more about the request method<book-testing-request-method-sidebar>`)
-returns a :class:`Symfony\\Component\\DomCrawler\\Crawler` object which can
-be used to select elements in the Response, click on links, and submit forms.
+``request()`` metodu (bkz :ref:`request metodu hakkında daha fazlası için<book-testing-request-method-sidebar>`)
+Response esnasında linklere tıklamak ve form verisi gönderme durumunda nesneleri seçmekte
+kullanılan bir  :class:`Symfony\\Component\\DomCrawler\\Crawler` nesnesini döndürür.
 
 .. tip::
 
-    The Crawler only works when the response is an XML or an HTML document.
-    To get the raw content response, call ``$client->getResponse()->getContent()``.
+    Crawler sadece response XML ya da HTML dokümanı ise çalışır.
+    İşlenmemiş response içeriği almak için ``$client->getResponse()->getContent()``
+    metodunu çağırın.
 
-Click on a link by first selecting it with the Crawler using either an XPath
-expression or a CSS selector, then use the Client to click on it. For example,
-the following code finds all links with the text ``Greet``, then selects
-the second one, and ultimately clicks on it::
+Crawler ile seçilen bir XPath ya da CSS seçiçisi kullanan bir linke tıklayın,
+sonra istemiciyi ona tıklamak için kullanın. Örneğin aşağıdaki kod, içinde
+``Greet`` geçen tüm linkleri bulur sonra ikincisini seçer ve ona tıklar::
 
     $link = $crawler->filter('a:contains("Greet")')->eq(1)->link();
 
     $crawler = $client->click($link);
 
-Submitting a form is very similar; select a form button, optionally override
-some form values, and submit the corresponding form::
+Form verisi göndermekte aynıdır. Bir form butonu seçilir, opsiyonel olarak
+bazı form verileri değiştirilir ve ilgili form verisi gönderilir (submit)::
 
     $form = $crawler->selectButton('submit')->form();
 
-    // set some values
+    // Bazı değerleri ata
     $form['name'] = 'Lucas';
     $form['form_name[subject]'] = 'Hey there!';
 
-    // submit the form
+    // formu gönder
     $crawler = $client->submit($form);
 
 .. tip::
 
-    The form can also handle uploads and contains methods to fill in different types
-    of form fields (e.g. ``select()`` and ``tick()``). For details, see the
-    `Forms`_ section below.
+    Form ayrıca dosya yüklemelerini işleyen ve bunları dolduran çeşitli tiplerdeki
+    form alanlarına sahiptir (Örn: ``select()`` ve ``tick()``). Detaylı bilgi
+    için aşağıdaki `Formlar`_ kısmına bakın.
 
 Now that you can easily navigate through an application, use assertions to test
 that it actually does what you expect it to. Use the Crawler to make assertions
