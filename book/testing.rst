@@ -518,40 +518,41 @@ rağmen düğüm sayınızı metod cağrılarını zincirleyerek daraltabilirsin
 Bilgileri Ayıklamak
 ~~~~~~~~~~~~~~~~~~~
 
-The Crawler can extract information from the nodes::
+Crawler düğümler üzerinden bilgileri ayıklayabilir::
 
-    // Returns the attribute value for the first node
+    // İlk düğüm için nitelik değerini döndürür.
     $crawler->attr('class');
 
-    // Returns the node value for the first node
+    // İlk düğümün düğüm değeri döner
     $crawler->text();
 
-    // Extracts an array of attributes for all nodes (_text returns the node value)
-    // returns an array for each element in crawler, each with the value and href
+    // tüm düğümlerin her href değerine uyan niteliklerinin değerlerini 
+    // bir array olarak crawler'da ayıkla  (_text nod değerini döndürür)
     $info = $crawler->extract(array('_text', 'href'));
 
-    // Executes a lambda for each node and return an array of results
+    // her düğüm için çalışacak ve sonucu bir array içerisinde döndürecek
+    // bir lambda fonksiyonu çalıştırır
     $data = $crawler->each(function ($node, $i)
     {
         return $node->attr('href');
     });
 
-Links
-~~~~~
+Linkler
+~~~~~~~
 
-To select links, you can use the traversing methods above or the convenient
-``selectLink()`` shortcut::
+Linkleri seçmek için ``selectLink()`` kısayolu ile ifade edilen yakalama
+metodu kullanılır::
 
     $crawler->selectLink('Click here');
 
-This selects all links that contain the given text, or clickable images for
-which the ``alt`` attribute contains the given text. Like the other filtering
-methods, this returns another ``Crawler`` object.
+Bu verilen metine uyan tüm linkleri seçer ya da ``alt`` niteliğinde verilen
+metine uyan tıklanabilen tüm resimleri seçer. Diğer filitreleme metodları 
+gibi buda başka bir ``Crawler`` nesnes döndürür.
 
-Once you've selected a link, you have access to a special ``Link`` object,
-which has helpful methods specific to links (such as ``getMethod()`` and
-``getUri()``). To click on the link, use the Client's ``click()`` method
-and pass it a ``Link`` object::
+Bir link seçtiğinizde linkler için özel metodlar barındıran bir ``Link``
+nesnesine erişebilirsiniz (``getMethod() ve ``getUri()`` metodları gibi).
+Linke tıklamak için istamcinin ``click()`` metodunu kullanın ve bunu
+``Link`` nesnesine gönderin::
 
     $link = $crawler->selectLink('Click here')->link();
 
@@ -560,44 +561,47 @@ and pass it a ``Link`` object::
 Formlar
 ~~~~~~~
 
-Just like links, you select forms with the ``selectButton()`` method::
+Linkler gibi formlarıda ``selectButton()`` metodu ile seçersiniz::
 
     $buttonCrawlerNode = $crawler->selectButton('submit');
 
 .. note::
 
-    Notice that we select form buttons and not forms as a form can have several
-    buttons; if you use the traversing API, keep in mind that you must look for a
-    button.
+    Bizim formları değilde form butonları seçtiğimize dikkat edin. Eğer bir 
+    yakalama (traversing) API'si kullanıyorsanız bunların sadece buton'lara
+    baktığını aklınızdan çıkartmayın.
 
-The ``selectButton()`` method can select ``button`` tags and submit ``input``
-tags. It uses several different parts of the buttons to find them:
+``selectButton()`` metodu ``button`` etiketini ve veri gönderen (submit) ``input``
+etiketini seçebilir. Bu metod butonları bulmak için butonların farklı
+parçalarını kullanır:
 
-* The ``value`` attribute value;
+* ``value`` niteliği değeri;
 
-* The ``id`` or ``alt`` attribute value for images;
+* resimler için ``id`` ya da ``alt`` nitelikleri değeri;
 
-* The ``id`` or ``name`` attribute value for ``button`` tags.
+* ``button`` etiketleri için ``id`` ya da ``name`` nitelik değerleri.
 
-Once you have a Crawler representing a button, call the ``form()`` method
-to get a ``Form`` instance for the form wrapping the button node::
+Butonu temsil eden bir Crawler'a sahip olduğunuzda ``form()`` metodunu
+çağırarak ayrıştılırılmış butonu içeren ``Form`` 'un bir örneğine 
+ulaşabilirsiniz.
+
 
     $form = $buttonCrawlerNode->form();
 
-When calling the ``form()`` method, you can also pass an array of field values
-that overrides the default ones::
+``form()`` metodu çağırıldığında alan değerlerinin varsayılan değerleri
+ile değiştirmek için bir array içerisinde de verilebilir::
 
     $form = $buttonCrawlerNode->form(array(
         'name'              => 'Fabien',
         'my_form[subject]'  => 'Symfony rocks!',
     ));
 
-And if you want to simulate a specific HTTP method for the form, pass it as a
-second argument::
+Ve eğer form için özel bir HTTP metodunu simüle etmek istiyorsanız bunu
+ikinci argüman olarak verin::
 
     $form = $buttonCrawlerNode->form(array(), 'DELETE');
 
-The Client can submit ``Form`` instances::
+İstemci ``Form`` örneklerini submit edebilir::
 
     $client->submit($form);
 
