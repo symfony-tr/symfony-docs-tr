@@ -288,16 +288,17 @@ Ya da testi, Response'u eğer sadece içeriği bazı metinler kapsayacak
 Test istemcileri (Client) ile çalışmak
 --------------------------------------
 
-The Test Client simulates an HTTP client like a browser and makes requests
-into your Symfony2 application::
+Test istemcisi tarayıcı gibi bir HTTP istemcisini taklit eder ve Symfony2
+uygulamanız içerisinden istekler yapar::
 
     $crawler = $client->request('GET', '/hello/Fabien');
 
-The ``request()`` method takes the HTTP method and a URL as arguments and
-returns a ``Crawler`` instance.
+``request()`` metodu HTTP metodunu alır ve arguman olarak bir URL 'yi bir 
+``Crawler`` 'a döndürür.
 
 Use the Crawler to find DOM elements in the Response. These elements can then
-be used to click on links and submit forms::
+Crawler kullanarak Response içerisindeki DOM elementleri bulunur. Bu elementler
+daha sonra link tıklaması ya da form göndermesinde kullanılır::
 
     $link = $crawler->selectLink('Go elsewhere...')->link();
     $crawler = $client->click($link);
@@ -305,23 +306,24 @@ be used to click on links and submit forms::
     $form = $crawler->selectButton('validate')->form();
     $crawler = $client->submit($form, array('name' => 'Fabien'));
 
-The ``click()`` and ``submit()`` methods both return a ``Crawler`` object.
-These methods are the best way to browse your application as it takes care
-of a lot of things for you, like detecting the HTTP method from a form and
-giving you a nice API for uploading files.
+``click()`` ve ``submit()`` metodlarının ikiside bir ``Crawler`` nesnesi
+çevirir. Bu metodlar formdan HTTP metodu tarama ve dosya yüklemekte
+kullanılan güzel API'ler gibi uygulamanızda takip etmeniz gereken pek
+çok şeyi sunar.
 
 .. tip::
 
-    You will learn more about the ``Link`` and ``Form`` objects in the
-    :ref:`Crawler<book-testing-crawler>` section below.
+    ``Link`` ve ``Form`` nesneleri hakkında daha fazla şeyi aşağıdaki
+    :ref:`Crawler<book-testing-crawler>` kısmında öğreneceksiniz.
+    
 
-The ``request`` method can also be used to simulate form submissions directly
-or perform more complex requests::
+``request`` metodu ayrıca form veri göndermelerini direkt olarak simule etmede
+ya da daha karmaşık istekleri yaratmada kullanılır::
 
-    // Directly submit a form (but using the Crawler is easier!)
+    // Direkt formu gönder(fakat Crawler kullanmak daha basit!)
     $client->request('POST', '/submit', array('name' => 'Fabien'));
 
-    // Form submission with a file upload
+    // Dosya yüklemesi
     use Symfony\Component\HttpFoundation\File\UploadedFile;
 
     $photo = new UploadedFile(
@@ -330,7 +332,7 @@ or perform more complex requests::
         'image/jpeg',
         123
     );
-    // or
+    // ya da
     $photo = array(
         'tmp_name' => '/path/to/photo.jpg',
         'name' => 'photo.jpg',
@@ -345,7 +347,7 @@ or perform more complex requests::
         array('photo' => $photo)
     );
 
-    // Perform a DELETE requests, and pass HTTP headers
+    // Bir DELETE isteği yap ve HTTP başlıklarına aktar
     $client->request(
         'DELETE',
         '/post/12',
@@ -354,46 +356,46 @@ or perform more complex requests::
         array('PHP_AUTH_USER' => 'username', 'PHP_AUTH_PW' => 'pa$$word')
     );
 
-Last but not least, you can force each request to be executed in its own PHP
-process to avoid any side-effects when working with several clients in the same
-script::
+Son fakat önemli, kendi PHP sürecinde çalışacak olan her isteği,aynı script
+içerisinde çeşitli istemcilerle çalışırken yaratacakları farklı etkilerden
+kaçınmak için zorlayabilirsiniz:
 
     $client->insulate();
 
-Browsing
-~~~~~~~~
+Taramak (Browsing)
+~~~~~~~~~~~~~~~~~~
 
-The Client supports many operations that can be done in a real browser::
+İstemci gerçek bir tarayıcıda yapılacak pek çok işlemi destekleyebilir::
 
     $client->back();
     $client->forward();
     $client->reload();
 
-    // Clears all cookies and the history
+    // Tüm geçmişi ve çerezleri temizler
     $client->restart();
 
-Accessing Internal Objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+İçsel Nesnelere Erişmek
+~~~~~~~~~~~~~~~~~~~~~~~
 
-If you use the client to test your application, you might want to access the
-client's internal objects::
+Eğer uygulamanızı test etmek için istemci kullanıyorsanız istemcinin içsel
+nesnelerine ulaşmak isteyebilirsiniz::
 
     $history   = $client->getHistory();
     $cookieJar = $client->getCookieJar();
 
-You can also get the objects related to the latest request::
+Ayrıca son istekle ilgili olan nesneleride alabilirsiniz::
 
     $request  = $client->getRequest();
     $response = $client->getResponse();
     $crawler  = $client->getCrawler();
 
-If your requests are not insulated, you can also access the ``Container`` and
-the ``Kernel``::
+Eğer istekleriniz izole edilmediyse ayrıca ``Container`` ve ``Kernel`` 'a
+da erişebilirsiniz::
 
     $container = $client->getContainer();
     $kernel    = $client->getKernel();
 
-Accessing the Container
+Container'a Erişmek
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 It's highly recommended that a functional test only tests the Response. But
@@ -553,8 +555,8 @@ and pass it a ``Link`` object::
 
     $client->click($link);
 
-Forms
-~~~~~
+Formlar
+~~~~~~~
 
 Just like links, you select forms with the ``selectButton()`` method::
 
