@@ -1,54 +1,54 @@
 .. index::
-   single: Tests
+   single: Testler
 
-Testing
+Testler
 =======
 
-Whenever you write a new line of code, you also potentially add new bugs.
-To build better and more reliable applications, you should test your code
-using both functional and unit tests.
+Yeni bir satır kod yazdığınızda potanstiyel olarak yeni hatalar (bug) eklemiş
+olursunuz. Daha iyi bir güvenilir uygulamalar geliştirmek için 
+kodunuzu fonksiyonel ve unit testleri ile test etmelisiniz.
 
-The PHPUnit Testing Framework
+PHPUnit Test Framework'u
 -----------------------------
 
-Symfony2 integrates with an independent library - called PHPUnit - to give
-you a rich testing framework. This chapter won't cover PHPUnit itself, but
-it has its own excellent `documentation`_.
+Symfony2 bağımsız bir kütüphane entegrasyonu ile - PHPUnit olarak adlandırılan -
+size zengin bir test framework'u sunar. Bu kısım kendsinin mükemmel bir `belge`_ 'si
+olduğundan PHPUnit'in kendisini incelemeyecektir.
 
 .. note::
 
-    Symfony2 works with PHPUnit 3.5.11 or later.
+    Symfony2 PHPUnit 3.5.11 ya da daha üst sürümü ile çalışır.
 
-Each test - whether it's a unit test or a functional test - is a PHP class
-that should live in the `Tests/` subdirectory of your bundles. If you follow
-this rule, then you can run all of your application's tests with the following
-command:
+Her test - unit testi  ya da fonksiyonel bir test - bundle'nızın `Tests/'
+klasöründe bulunması gereken bir PHP sınıfıdır. Eğer bu kurala uyarsanız,
+uygulamanızın tüm testlerini aşağıdaki komut yardımı ile yapabilirsiniz:
 
 .. code-block:: bash
 
-    # specify the configuration directory on the command line
+
+    # konfigürasyon dizininizi komut satırında belirle
     $ phpunit -c app/
 
-The ``-c`` option tells PHPUnit to look in the ``app/`` directory for a configuration
-file. If you're curious about the PHPUnit options, check out the ``app/phpunit.xml.dist``
-file.
+``-c`` seçeneği PHPUnit'e konfigürasyon dosyası için ``app/`` klasörüne bakmasını 
+söyler. Eğer PHPUnit seçenekleri hakkında meraklı iseniz ``app/phpunit.xml.dist`` 
+dosyasını inceleyin.
 
 .. tip::
 
-    Code coverage can be generated with the ``--coverage-html`` option.
+	Kod kapsamı ``--coverage-html`` seçeneği ile yaratılabilir.
 
 .. index::
-   single: Tests; Unit Tests
+   single: Tests; Unit Testleri
 
-Unit Tests
-----------
+Unit Testleri
+-------------
 
-A unit test is usually a test against a specific PHP class. If you want to
-test the overall behavior of your application, see the section about `Functional Tests`_.
+Bir unit testi genellikle belirli bir PHP sınıfına karşı kullanılır. Eğer
+tüm uygulamanıza test uygulamak istiyorsanız `Fonksiyonel Testler`_ kısmına bakın.
 
-Writing Symfony2 unit tests is no different than writing standard PHPUnit
-unit tests. Suppose, for example, that you have an *incredibly* simple class
-called ``Calculator`` in the ``Utility/`` directory of your bundle::
+Symfony2 unit test yazmak standart PHPUnit unit testi yazmaktak farklı değildir.
+Varsayalım bundle'ınız içerisindeki ``Utility/`` dizininde ``Calculator``
+adında *oldukça* basit bir sınıfınız var::
 
     // src/Acme/DemoBundle/Utility/Calculator.php
     namespace Acme\DemoBundle\Utility;
@@ -61,8 +61,8 @@ called ``Calculator`` in the ``Utility/`` directory of your bundle::
         }
     }
 
-To test this, create a ``CalculatorTest`` file in the ``Tests/Utility`` directory
-of your bundle::
+Bunu test etmek için bundle'ınız içerisinde ``Tests/Utility`` klasörü altında 
+``CalculatorTest`` adında bir dosya yaratın::
 
     // src/Acme/DemoBundle/Tests/Utility/CalculatorTest.php
     namespace Acme\DemoBundle\Tests\Utility;
@@ -76,39 +76,41 @@ of your bundle::
             $calc = new Calculator();
             $result = $calc->add(30, 12);
 
-            // assert that our calculator added the numbers correctly!
+            // iddia ediyoruz calculator rakkamları doğru bir şekilde ekliyor!
             $this->assertEquals(42, $result);
         }
     }
 
 .. note::
 
-    By convention, the ``Tests/`` sub-directory should replicate the directory
-    of your bundle. So, if you're testing a class in your bundle's ``Utility/``
-    directory, put the test in the ``Tests/Utility/`` directory.
+    Kural olarak ``Tests/`` alt dizini bundle'ınızın klasörünü kopyalamalıdır.
+    Bu yüzden eğer bundle'ınız içerisindeki ``Utility/`` klasörü altında 
+    bulunan bir sınıfı test etmek için bu testi ``Tests/Utility/`` klasörüne
+    koymalısınız.
 
-Just like in your real application - autoloading is automatically enabled
-via the ``bootstrap.php.cache`` file (as configured by default in the ``phpunit.xml.dist``
-file).
+Aynı gerçek uygulamanızdaki gibi autoloading ``bootstrap.php.cache`` dosyası
+tarafından otomatik olarak aktifleştirilir (eğer ``phpunit.xml.dist``
+içerisinde konfigüre edildi ise).
 
-Running tests for a given file or directory is also very easy:
+Veriken dosya ya da klasör için testleri çalıştırmak oldukça
+kolaydır:
 
 .. code-block:: bash
 
-    # run all tests in the Utility directory
+    # Utility klasöründeki tüm testleri çalıştır.
     $ phpunit -c app src/Acme/DemoBundle/Tests/Utility/
 
-    # run tests for the Calculator class
+    # Calculator sınıfı için testleri çalıştır.
     $ phpunit -c app src/Acme/DemoBundle/Tests/Utility/CalculatorTest.php
 
-    # run all tests for the entire Bundle
+    # Bundle'ın tamamında testleri çalıştır.
     $ phpunit -c app src/Acme/DemoBundle/
 
 .. index::
-   single: Tests; Functional Tests
+   single: Tests; Fonksiyonel Testler
 
-Functional Tests
-----------------
+Fonksiyonel Testler
+-------------------
 
 Functional tests check the integration of the different layers of an
 application (from the routing to the views). They are no different from unit
@@ -764,4 +766,4 @@ Learn more from the Cookbook
 
 .. _`DemoControllerTest`: https://github.com/symfony/symfony-standard/blob/master/src/Acme/DemoBundle/Tests/Controller/DemoControllerTest.php
 .. _`$_SERVER`: http://php.net/manual/en/reserved.variables.server.php
-.. _`documentation`: http://www.phpunit.de/manual/3.5/en/
+.. _`belge`: http://www.phpunit.de/manual/3.5/en/
