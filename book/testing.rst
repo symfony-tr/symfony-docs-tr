@@ -398,48 +398,49 @@ da erişebilirsiniz::
 Container'a Erişmek
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-It's highly recommended that a functional test only tests the Response. But
-under certain very rare circumstances, you might want to access some internal
-objects to write assertions. In such cases, you can access the dependency
-injection container::
+Fonksiyonel testi sadece Response'un testinde kullanılması şiddetle tavsiye
+olunur.Fakat bazı çok özel ve nadir durumlarda, bildirimler(assertion) yazmak
+için bazı içsel nesnelere erişmek isteyebilirsiniz. Bu gibi durumlarda
+bağımlılık aşısı container'ına erişebilirsiniz (dependency injection container)::
+
 
     $container = $client->getContainer();
 
-Be warned that this does not work if you insulate the client or if you use an
-HTTP layer. For a list of services available in your application, use the
-``container:debug`` console task.
+Dikkat edin!. Bu eğer istemciyi izole ettiyseniz ya da eğer HTTP katmanı
+kullandıysanız çalışmaz. uygulamanızda mevcut olan servislerin listesi için
+``container:debug`` konsol komutunu kullanın.
 
 .. tip::
 
-    If the information you need to check is available from the profiler, use
-    it instead.
+    Eğer kontrol etmek istediğiniz bilgi profiler'da ise o zaman onu kullanın.
 
-Accessing the Profiler Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Profiler Verisine Erişmek
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-On each request, the Symfony profiler collects and stores a lot of data about
-the internal handling of that request. For example, the profiler could be
-used to verify that a given page executes less than a certain number of database
-queries when loading.
+Her istekte Symfony profiler'ı bu isteğin içsel olarak işlenmesi ile ilgili
+pek çok bilgiyi toplar. Örneğin profiler, verilen sayfa çalıştırma sayısının
+ilk yüklenme esnasında belirli sayıdaki veritabanı sorgusundan küçük 
+olduğunu kontol etmekte kullanılabilir.
 
-To get the Profiler for the last request, do the following::
+
+Profiler'dan son isteği almak için şunu yapın::
 
     $profile = $client->getProfile();
 
-For specific details on using the profiler inside a test, see the
-:doc:`/cookbook/testing/profiling` cookbook entry.
+Test esnasında profiler'ı kullanmak hakkındaki özel bilgiler için 
+:doc:`/cookbook/testing/profiling` tarif kitabı girdisine bakın.
 
-Redirecting
-~~~~~~~~~~~
+Yönlendirme (Redirecting)
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a request returns a redirect response, the client does not follow
-it automatically. You can examine the response and force a redirection
-afterwards  with the ``followRedirect()`` method::
+Bir request bir yönlendirme cevabı döndürdüğünde istemci bunu
+otomatik olarak takip etmez. Response ve zorla yönlendirmeyi daha sonra
+``followRedirect()`` metoduyla test edebilirsiniz::
 
     $crawler = $client->followRedirect();
     
-If you want the client to automatically follow all redirects, you can 
-force him with the ``followRedirects()`` method::
+Eğer istemcinin tüm yönlendirmeleri takip etmesini istiyorsanız onu ``followRedirects()``
+metodu ile bunu yapmaya zorlayabilirsiniz::
 
     $client->followRedirects();
 
@@ -448,18 +449,19 @@ force him with the ``followRedirects()`` method::
 
 .. _book-testing-crawler:
 
-The Crawler
+Crawler
 -----------
 
-A Crawler instance is returned each time you make a request with the Client.
-It allows you to traverse HTML documents, select nodes, find links and forms.
+Bir Crawler örneği (instance) her seferinde istemci ile yaptığınız isteği
+çevirir. Bu  size HTML dokümanlarını , seçim düğümlerini linkleri ve
+formları bulmayı işlerini yakalamaya (travers) olanak sağlar.
 
-Traversing
-~~~~~~~~~~
+Yakalamak(Traversing)
+~~~~~~~~~~~~~~~~~~~~~
 
-Like jQuery, the Crawler has methods to traverse the DOM of an HTML/XML
-document. For example, the following finds all ``input[type=submit]`` elements,
-selects the last one on the page, and then selects its immediate parent element::
+jQuery gibi Crawler HTML/XML belgesinin DOM'larını yakalayan metodları vardır.
+Örneğin aşağıda tüm ``input[type=submit]`` elementi bulunur, sayfadaki en son
+olanı seçilir ve ilk üst elementi bulunur.
 
     $newCrawler = $crawler->filter('input[type=submit]')
         ->last()
@@ -467,36 +469,36 @@ selects the last one on the page, and then selects its immediate parent element:
         ->first()
     ;
 
-Many other methods are also available:
+Başka diğer metodlarda mmevcuttur:
 
 +------------------------+----------------------------------------------------+
-| Method                 | Description                                        |
+| Metod                  | Açıklaması                                         |
 +========================+====================================================+
-| ``filter('h1.title')`` | Nodes that match the CSS selector                  |
+| ``filter('h1.title')`` | Eşleşen CSS seçicisinin düğümleri                  |
 +------------------------+----------------------------------------------------+
-| ``filterXpath('h1')``  | Nodes that match the XPath expression              |
+| ``filterXpath('h1')``  | Eşleşen XPath ifadesinin düğümleri                 |
 +------------------------+----------------------------------------------------+
-| ``eq(1)``              | Node for the specified index                       |
+| ``eq(1)``              | belirlilen index'in düğümü                         |
 +------------------------+----------------------------------------------------+
-| ``first()``            | First node                                         |
+| ``first()``            | İlk düğüm                                          |
 +------------------------+----------------------------------------------------+
-| ``last()``             | Last node                                          |
+| ``last()``             | Son Düğüm                                          |
 +------------------------+----------------------------------------------------+
-| ``siblings()``         | Siblings                                           |
+| ``siblings()``         | Aynı Türden olanlar (siblings)                     |
 +------------------------+----------------------------------------------------+
-| ``nextAll()``          | All following siblings                             |
+| ``nextAll()``          | Takip eden tüm aynı türden olanlar                 |
 +------------------------+----------------------------------------------------+
-| ``previousAll()``      | All preceding siblings                             |
+| ``previousAll()``      | Önceki tüm aynı türden olanlar                     |
 +------------------------+----------------------------------------------------+
-| ``parents()``          | Returns the parent nodes                           |
+| ``parents()``          | Üst Düğümleri Döndür                               |
 +------------------------+----------------------------------------------------+
-| ``children()``         | Returns children nodes                             |
+| ``children()``         | Alt düğümleri Döndür                               |
 +------------------------+----------------------------------------------------+
-| ``reduce($lambda)``    | Nodes for which the callable does not return false |
+| ``reduce($lambda)``    | Çağırılabilen'in false döndürmediği düğümler       |
 +------------------------+----------------------------------------------------+
 
-Since each of these methods returns a new ``Crawler`` instance, you can
-narrow down your node selection by chaining the method calls::
+Bu metodların her birisi yeni bir ``Crawler`` örneği (instance) döndürmesine
+rağmen düğüm sayınızı metod cağrılarını zincirleyerek daraltabilirsiniz::
 
     $crawler
         ->filter('h1')
@@ -510,11 +512,11 @@ narrow down your node selection by chaining the method calls::
 
 .. tip::
 
-    Use the ``count()`` function to get the number of nodes stored in a Crawler:
-    ``count($crawler)``
+    Crawler içerisinde kaç adet düğüm olduğunu saymak
+    için ``count()`` fonksiyonunu kullanın: ``count($crawler)``
 
-Extracting Information
-~~~~~~~~~~~~~~~~~~~~~~
+Bilgileri Ayıklamak
+~~~~~~~~~~~~~~~~~~~
 
 The Crawler can extract information from the nodes::
 
