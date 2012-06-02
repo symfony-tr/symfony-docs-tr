@@ -605,56 +605,53 @@ ikinci argüman olarak verin::
 
     $client->submit($form);
 
-The field values can also be passed as a second argument of the ``submit()``
-method::
+Bu alan değerleri aynı zamanda ``submit()`` metodunun ikinci argümanı olarak da
+gönderilebilir::
 
     $client->submit($form, array(
         'name'              => 'Fabien',
         'my_form[subject]'  => 'Symfony rocks!',
     ));
 
-For more complex situations, use the ``Form`` instance as an array to set the
-value of each field individually::
+Daha karmaşık durumlar için ``Form`` örneğini bir array değeri içerisinde
+her alanı bagımsız olarak verebilirsiniz::
 
-    // Change the value of a field
+    // Alanın değerini değiştir
     $form['name'] = 'Fabien';
     $form['my_form[subject]'] = 'Symfony rocks!';
 
-There is also a nice API to manipulate the values of the fields according to
-their type::
+Ayrıca Alanların değerlerini kendi tiplerine göre değiştirmek için de güzel
+bir API vardır::
 
-    // Select an option or a radio
+    // bir option ya da radio seçer
     $form['country']->select('France');
 
-    // Tick a checkbox
+    // checkbox'u işaretler
     $form['like_symfony']->tick();
 
-    // Upload a file
+    // Bir dosya yükler
     $form['photo']->upload('/path/to/lucas.jpg');
 
 .. tip::
 
-    You can get the values that will be submitted by calling the ``getValues()``
-    method on the ``Form`` object. The uploaded files are available in a
-    separate array returned by ``getFiles()``. The ``getPhpValues()`` and
-    ``getPhpFiles()`` methods also return the submitted values, but in the
-    PHP format (it converts the keys with square brackets notation - e.g.
-    ``my_form[subject]`` - to PHP arrays).
+    ``Form`` nesnesinde gönderilen değerleri ``getValues()`` metodunu çağırarak
+    görebilirsiniz. Yüklenen dosyalar ``getFiles()`` ile bir array halinde döner.
+    ``getPhpValues() ve ``getPhpFiles()`` metodlarıda gönderilen(submit) değerleri
+    gösterebilir ancak bunları PHP formatında gösterir. (anahtarıları köşeli paranterz
+    notasyonuna çevirir Örn : ``my_form[subject]`` 'den PHP array'ına)
 
 .. index::
-   pair: Testler; Configuration
+   pair: Testler; Konfigürasyon
 
-Testing Configuration
----------------------
+Test Etme Konfigürasyonu
+------------------------
 
-The Client used by functional tests creates a Kernel that runs in a special
-``test`` environment. Since Symfony loads the ``app/config/config_test.yml``
-in the ``test`` environment, you can tweak any of your application's settings
-specifically for testing.
+İstemci fonksiyonel tesleri özel ``test`` çevresinde çalışan bir Kernel yaratarak
+kullanır. Symfony  ``test`` çevresinde ``app/config/config_test.yml`` dosyasını
+yüklemesine rağmen uygulamanızın ayarlarını test için de özelleştirebilirsiniz.
 
-For example, by default, the swiftmailer is configured to *not* actually
-deliver emails in the ``test`` environment. You can see this under the ``swiftmailer``
-configuration option:
+Örneğin varsayılan olarak, swiftmailer e-postaları ``test`` çevresinde göndermeye
+ayarlı değildir. Bunu ``swiftmailer`` konfigürasyon ayarları altında görebilirsiniz:
 
 .. configuration-block::
 
@@ -684,24 +681,25 @@ configuration option:
             'disable_delivery' => true
         ));
 
-You can also use a different environment entirely, or override the default
-debug mode (``true``) by passing each as options to the ``createClient()``
-method::
+Ayrıca tamamen farklı bir çevre kullanabilir ya da varsayılan hata ayıklama 
+modunu (``true`) yaparak her seçeneğin ``createClient()`` 'a aktarılmasını
+sağlayabilirsiniz:
+
 
     $client = static::createClient(array(
         'environment' => 'my_test_env',
         'debug'       => false,
     ));
 
-If your application behaves according to some HTTP headers, pass them as the
-second argument of ``createClient()``::
+Eğer uygulamanız bazı HTTP başlıklarına göre davranıyorsa bunları ``createClient()``
+'in ikinci argümanı olarak aktarabilirsiniz::
 
     $client = static::createClient(array(), array(
         'HTTP_HOST'       => 'en.example.com',
         'HTTP_USER_AGENT' => 'MySuperBrowser/1.0',
     ));
 
-You can also override HTTP headers on a per request basis::
+Ayrıca her istek için ayrı ayrı HTTP başlıklarını da değiştirebilirsiniz::
 
     $client->request('GET', '/', array(), array(), array(
         'HTTP_HOST'       => 'en.example.com',
@@ -710,32 +708,32 @@ You can also override HTTP headers on a per request basis::
 
 .. tip::
 
-    The test client is available as a service in the container in the ``test``
-    environment (or wherever the :ref:`framework.test<reference-framework-test>`
-    option is enabled). This means you can override the service entirely
-    if you need to.
+    Test istemcisi ``test`` çevresinde container içerisinde bir servis olarak
+    mevcuttur( ya da :ref:`framework.test<reference-framework-test>` seçeneği
+    nerede aktif edildiyse). Bunun anlamı eğer ihtiyaç duyarsanız bunu
+    olduğu gibi düzenleyebilirsiniz.
 
 .. index::
-   pair: PHPUnit; Configuration
+   pair: PHPUnit; Konfigürasyon
 
-PHPUnit Configuration
-~~~~~~~~~~~~~~~~~~~~~
+PHPUnit Konfigürasyonu
+~~~~~~~~~~~~~~~~~~~~~~
 
-Each application has its own PHPUnit configuration, stored in the
-``phpunit.xml.dist`` file. You can edit this file to change the defaults or
-create a ``phpunit.xml`` file to tweak the configuration for your local machine.
+Her uygulama kendi ``phpunit.xml.dist`` dosyasında saklanan PHPUnit konfigürasyonuna
+sahiptir. Bu dosyadaki varsayılan değerleri düzenleyebilir ya da ``phpunit.xml``
+dosyasını yerel bilgisayarınızda yaratarak kendinize göre özelleştirebilirsiniz.
 
 .. tip::
 
-    Store the ``phpunit.xml.dist`` file in your code repository, and ignore the
-    ``phpunit.xml`` file.
+    ``phpunit.xml.dist`` dosyasını kod deponuzda saklayın, ``phpunit.xml``
+    dosyasını görmezden gelin.
 
-By default, only the tests stored in "standard" bundles are run by the
-``phpunit`` command (standard being tests in the ``src/*/Bundle/Tests`` or
-``src/*/Bundle/*Bundle/Tests`` directories) But you can easily add more
-directories. For instance, the following configuration adds the tests from
-the installed third-party bundles:
-
+Varsayılan olarak sadece "standart" bundle'lar içerisinde saklanan testler 
+``phpunit`` komutu tarafından çalıştırılır(standart testler ``src/*/Bundle/Tests``
+ya da ``src/*/Bundle/*Bundle/Tests`` klasörlerinde olmalıdır). Fakat
+kolaylıkla daha farklı dizinler ekleyebilirsiniz. Mesela aşağıdaki konfigürasyon
+yüklenen 3.parti bundle üzerinden bir test eklemektedir:
+	
 .. code-block:: xml
 
     <!-- hello/phpunit.xml.dist -->
@@ -746,9 +744,9 @@ the installed third-party bundles:
         </testsuite>
     </testsuites>
 
-To include other directories in the code coverage, also edit the ``<filter>``
-section:
-
+Kod kapsayan diğer klasörleri içeri aktarmak için ayrıca ``<filter>`` kısmınıda
+düzenlemelisiniz:
+	
 .. code-block:: xml
 
     <filter>
@@ -763,8 +761,8 @@ section:
         </whitelist>
     </filter>
 
-Learn more from the Cookbook
-----------------------------
+Tarif Kitabından Daha Fazlasını Öğrenin
+----------------------------------------
 
 * :doc:`/cookbook/testing/http_authentication`
 * :doc:`/cookbook/testing/insulating_clients`
