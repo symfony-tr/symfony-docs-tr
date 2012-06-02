@@ -140,7 +140,7 @@ bir controller içerisinde görelim:
 
 
 Eğer ``$name`` sınıf değişkeni boş ise şu aşağıdaki hata mesajını
-göreceksiniz::
+göreceksiniz:
 
 .. code-block:: text
 
@@ -218,7 +218,7 @@ servisini igili nesne için veriler submit edildikten ve
 nesne değişkenine form verileri bindirildikten sonra içsel olarak çalıştırır.
 Nesnenin kısıt hataları ``FieldError`` nesnesine çevrilerek form içerisinde
 kolaylıkla gösterilir.  Tipik form veri göndermesi akışı controller üzerinde
-şu şekilde gözükmektedir:: 
+şu şekilde gözükmektedir:
 
     use Acme\BlogBundle\Entity\Author;
     use Acme\BlogBundle\Form\AuthorType;
@@ -327,7 +327,7 @@ basit iken :doc:`Choice</reference/constraints/Choice>` gibi kısıtların
 pek çok ayar seçeneği bulunmaktadır. 
 
 Varsayalım ki ``Author`` sınıfı ``gender`` adında bir değişkene sahip ve
-bu değişken ``male`` ya da ``female`` olarak ayarlanmalı::
+bu değişken ``male`` ya da ``female`` olarak ayarlanmalı:
 
 .. configuration-block::
 
@@ -612,7 +612,7 @@ metodu yaratarak bunun ``true`` dönmesini durumunda bir kısıt sağlayabilirsi
         }
 
 Şimdi, ``isPasswordLegal()`` metodu yaratarak gerekli algoritmayı içerisine
-ekleyelim::
+ekleyelim:
 
     public function isPasswordLegal()
     {
@@ -761,7 +761,7 @@ Bu konfigürasyonda iki adet veri dogrulama gurubu vardır:
 
 Validator'a (veri doğrulayıcı) belirli bir gurup kullanımasını söylemek için
 bir ya da daha fazla gurup adını ``validate()`` metodunun ikinci argümanında
-belirmek gerekilidir::
+belirmek gerekilidir:
 
     $errors = $validator->validate($author, array('registration'));
 
@@ -781,7 +781,7 @@ Değerleri ve Dizeleri Doğrulamak
 Buraya kadar tüm bir nesnenin nasıl doğrulanacağını gördünüz. Fakat
 bazen sadece bir metin ya da geçerli bir e-posta adresi gibi basit
 bir değeri doğrulatmak isteyebilirsiniz. Bunu yapmak gerçekten oldukça
-basittir. Controller içerisindeki form şu şekilde düzenlenmelidir::
+basittir. Controller içerisindeki form şu şekilde düzenlenmelidir:
 
     // bunu sınıfınızın üzerine ekleyin
     use Symfony\Component\Validator\Constraints\Email;

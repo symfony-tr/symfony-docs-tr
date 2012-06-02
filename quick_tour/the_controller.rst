@@ -27,7 +27,7 @@ parametresinin  ``_format`` değerini ``xml`` düzenlemek yeterlidir::
     }
 
 Request tipinin kullanımında (``_format`` değişkeninde tanımlanır) Symfony2
-otomatık olarak doğru şablon tipini seçecektir. Burada örneğin ``hello.xml.twig``::
+otomatık olarak doğru şablon tipini seçecektir. Burada örneğin ``hello.xml.twig``:
 
 .. code-block:: xml+php
 

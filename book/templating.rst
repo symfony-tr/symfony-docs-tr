@@ -557,12 +557,13 @@ ile aktarılır.
 
 .. _templating-embedding-controller:
 
+
 Controller Gömmek (Embedding Controller)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Bazı durumlarda bir şablonu çağırmaktan fazlasına ihtiyacınız olur.
+Bazı durumlarda bir şablonu çağırmaktan fazlasına ihityacını olur.
 Varsayalım layout(plan) içerisinde en önemli üç haberi getiren bir sidebar(kenar bloku)
 var. Bu üç haberin getirilmesinde belki şablondan yapılamayacak kadar
-ağır bir işlem ya da bir veritabanı sorgusu gerekli olabilir.
+ağır bir işlem ya da bir veritabanı sorgusu gereki olabilir.
 
 Çözüm ise basitçe şablonunuza sonucu getiren bir controller gömmektir.
 İlk önce belirli bir sayıdaki haberi ekrana getiren controlleri yapalım:
@@ -940,7 +941,7 @@ ekrana bastığınızda, gerçekte şablon motor servisini kullanırsınız.
 
     return $this->render('AcmeArticleBundle:Article:index.html.twig');
 
-ifadesi şuna eşittir:
+ifadesi şuna eşittir.
 
 .. code-block:: php
 
@@ -1297,6 +1298,7 @@ aşağıdaki genel bir şablon(pattern) bu işlemi gerçekleştirir:
 
 .. code-block:: php
 
+
     public function indexAction()
     {
         $format = $this->getRequest()->getRequestFormat();
@@ -1336,7 +1338,7 @@ Son Düşünceler
 her zaman yaratabilecek güçlü bir araçtır. Şablonlar controller içerisinden
 içeriği yaratmadaki en sık kullanılan yol olsa da şablonların kullanımı 
 zorunlu değildir. Controller tarafından döndürülen ``Response`` nesnesi 
-şablon kullanarak ya da kullanmayarak bu içeriği yaratabilir::
+şablon kullanarak ya da kullanmayarak bu içeriği yaratabilir:
 
 .. code-block:: php
 

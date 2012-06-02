@@ -346,8 +346,6 @@ Veritabanınız güncellendi ve uygulamanızı yazmaya devam edebilirsiniz.
             );
         }
     }
-
-
 Şimdi tek satırda ``category`` ve ``product`` tablolarıba satırlar eklendi.
 Yeni ürün için ``product.category.id`` sütünü yeni kategori'nin id no'su
 ne ise o değer olarak ayarlandı. Propel bu ilişkiyi veritabanına sizin içn yazar.

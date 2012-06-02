@@ -329,7 +329,7 @@ isimlendirme dizilimi ile ekrana basar::
     **/path/to/BundleName**/Resources/views/**ControllerAdi**/**ŞablonAdi**
 
 Bu durumda ``AcmeHelloBundle`` bundle ismi, ``Hello`` controller ismi 
-ve ``index.html.twig`` 'de şablon olmaktadır::
+ve ``index.html.twig`` 'de şablon olmaktadır:
 
 
 

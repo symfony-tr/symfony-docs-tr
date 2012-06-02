@@ -27,7 +27,7 @@ oluştuğu hazır bir pakettir. (Çok hızlı bir şekilde başlamak istiyorsan�
 *vendors* paketini içeren dağıtımı indirmelisiniz. )
 
 Paket dosyasını web sunucunuzun kök dizinine açtıktan sonra ``Symfony/`` 
-adında bir dizine sahip olmalısınız. Bu dizinin içeriği aşağıdaki gibidir :
+adında bir dizine sahip olmalısınız. Bu dizinin içeriği aşağıdaki gibidir:
 
 .. code-block:: text
 
@@ -134,7 +134,7 @@ Varsayılan olarak bu desenler(pattern) (yönlendirme olarak adlandırılır)
 Eğer siz  app_**dev**.php front controller 'nın işaret ettiği 
 ``dev`` :ref:`ortamındaysanız<quick-tour-big-picture-environments>` 
 ``app/config/routing_dev.yml`` dosyası yüklenir. Standart Sürümdeki 
-demoda yönlendirmeler şu dosyadadır::
+demoda yönlendirmeler şu dosyadadır:
 
 .. code-block:: yaml
 
