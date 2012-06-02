@@ -269,12 +269,11 @@ ihtiyacınız olmayabilir.
 Array(Dize) Parametreleri
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Parametreler sadece düz metinler olmaktan çok array (dize) şeklinde de olabilir.
-XML formatı için type="collection"  niteliğini kullanarak tüm parametreleri
-bir dize olarak gösterebilirsiniz::
-
-
+XML formatı için type="collection"  niteliğini kullanarak tüm parametreleri 
+bir dize olarak gösterebilirsiniz : 
+	
 .. configuration-block::
-
+	
     .. code-block:: yaml
 
         # app/config/config.yml
@@ -361,10 +360,10 @@ konfigürasyon dosyası içerisinden yaptık (Örn:  ``app/config/config.yml``).
 
 Öncelikle ``my_mailer`` container tanımlamasını ``AcmeHelloBundle`` içerisindeki
 yeni container kaynağına taşıyalım. Eğer ``Resources`` ya da ``Resources/config`` 
-klasörleri yok ise bunları yaratmalısınız::
-
+klasörleri yok ise bunları yaratmalısınız:
+	
 .. configuration-block::
-
+	
     .. code-block:: yaml
 
         # src/Acme/HelloBundle/Resources/config/services.yml
@@ -472,10 +471,10 @@ bir arabirim sağlar.
 
 ``FrameworkBundle`` örneğine - çekirdek Symfony2 framework bundle - bakalım
 Uygulama konfigürasyon dosyasında bulunan aşağıdaki kod ``FrameworkBundle`` 
-içerisindeki servis extension container'ini çağırır ::
-
+içerisindeki servis extension container'ini çağırır:
+	
 .. configuration-block::
-
+	
     .. code-block:: yaml
 
         # app/config/config.yml
@@ -592,10 +591,10 @@ ya da üçüncü bir yapıcı argümana ihtiyaç duyarsa? Acaba kodumuzu refacto
 yaparsak ve sınıfın ismini değiştirirsek ne olur ? Bu iki durumda ``NewsletterManager``
 sınıfının kullanıldığı her yeri tek tek araştırıp, düzeltmeniz gerekir. 
 
-Elbette servis container'ı bize çok çekici bir seçenek sunmakta::
+Elbette servis container'ı bize çok çekici bir seçenek sunmakta:
 
 .. configuration-block::
-
+		
     .. code-block:: yaml
 
         # src/Acme/HelloBundle/Resources/config/services.yml
@@ -855,7 +854,7 @@ için şablonlama motoru servisini'de aktaralım.
         // ...
     }
 
-Servis container'ını konfigüre etmek kolaydır::
+Servis container'ını konfigüre etmek kolaydır: 
 
 .. configuration-block::
 
@@ -969,7 +968,7 @@ Rumuzlamak (Aliasing)
 Uygulamanızda çekirdek ya da 3.parti bundle'lar kullanırken, bazı servislere
 ulaşmak istediğinizde bunların kısa yollarını kullanmak isteyebilirsiniz. 
 Bunu, bu servisleri rumuzlayarak (aliasing) ve ayrıca public olmayan 
-servisleri'de rumuzlayarak yapabilirsiniz::
+servisleri'de rumuzlayarak yapabilirsiniz:
 
 
 .. configuration-block::
@@ -1038,7 +1037,7 @@ Etiketler (``tags``)
 Aynı şekilde Web deki bir blog post'u "Symfony" ya da "PHP" gibi bir şeyle
 etiketlenmiş olabilir,container içindeki servisler bunları etiketleyebilir. 
 Servis container'ının içerisinde, bir etiket servis özel bir kural için 
-kullanılacak anlamına gelmektedir. Aşağıdaki örneği inceleyelim::
+kullanılacak anlamına gelmektedir. Aşağıdaki örneği inceleyelim:
 
 .. configuration-block::
 
