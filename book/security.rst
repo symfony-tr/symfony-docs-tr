@@ -263,29 +263,31 @@ ne olursa olsun istek akışı daima aynıdır:
 
 .. _book-security-form-login:
 
-Using a Traditional Login Form
-------------------------------
+Geleneksel Login Formu Kullanmak
+--------------------------------
 
 .. tip::
 
-    In this section, you'll learn how to create a basic login form that continues
-    to use the hard-coded users that are defined in the ``security.yml`` file.
+    Bu kısımda basit bir login formunun nasıl yaratıldığını öğrenecek, devamında
+    kullanıcıların detaylı bir şekilde tanımlandığı ``security.yml`` dosyasını
+    kullanacaksınız.
+    
+    Kullanıcıları veritabanından yüklemek için lütfen :doc:`/cookbook/security/entity_provider`
+    belgesini okuyun. Bu kısımı ve bu yazıyı okuyarak veritabanından kullanıcıların
+    çağırıldığı tam bir login sistemi yaratabilirsiniz.
 
-    To load users from the database, please read :doc:`/cookbook/security/entity_provider`.
-    By reading that article and this section, you can create a full login form
-    system that loads users from the database.
+Şimdiye kadar uygulamanızın güvenlik duvarı ile nasıl örteceğinizi ve
+daha sonra da roller ile belirli alanlarda nasıl koruma altına alacağınızı
+gördünüz. HTTP kimlik doğrulaması ile uğraşmadan bilgilerinizi tüm tarayıcılar
+tarafından sunulan doğal kullanıcı adı / parola kutusuna girebilirsiniz. Ancak
+Symfony bunlardan çok daha başka kimlik doğrulama mekanizmalarına da destek verir.
+Bunların hepsi için :doc:`Güvenlik Konfigürasyon Belgesi'ne</reference/configuration/security>`
+bakın.
 
-So far, you've seen how to blanket your application beneath a firewall and
-then protect access to certain areas with roles. By using HTTP Authentication,
-you can effortlessly tap into the native username/password box offered by
-all browsers. However, Symfony supports many authentication mechanisms out
-of the box. For details on all of them, see the
-:doc:`Security Configuration Reference</reference/configuration/security>`.
+Bu kısımda, bu süreci geleneksel HTML login formu ile kullanıcı kimlik doğrulaması
+yaparak geliştireceksiniz.
 
-In this section, you'll enhance this process by allowing the user to authenticate
-via a traditional HTML login form.
-
-First, enable form login under your firewall:
+Öncelikle form login'i güvenlik duvarı altında aktif hale getirelim:
 
 .. configuration-block::
 
@@ -338,9 +340,9 @@ First, enable form login under your firewall:
 
 .. tip::
 
-    If you don't need to customize your ``login_path`` or ``check_path``
-    values (the values used here are the default values), you can shorten
-    your configuration:
+    Eğer ``login_path`` ya da  ``check_path`` değerlerini (bu değerler
+    burada varsayılan halleri ile kullanılmıştır) değiştirmeye
+    ihtiyacınız yoksa konfigürasyonunuzu şu şekilde kısaltabilirsiniz:
 
     .. configuration-block::
 
@@ -356,11 +358,11 @@ First, enable form login under your firewall:
 
             'form_login' => array(),
 
-Now, when the security system initiates the authentication process, it will
-redirect the user to the login form (``/login`` by default). Implementing
-this login form visually is your job. First, create two routes: one that
-will display the login form (Örn:  ``/login``) and one that will handle the
-login form submission (Örn:  ``/login_check``):
+Şimdi güvenlik sistemi kimlik doğrulama sürecini başlattığında kullanıcı 
+login formuna yönlenecektir (varsayılan olarak ``/login``). Bu login
+formunu görsel olarak yapmak sizin işiniz. Öncelikle iki route yaratmalısınız.
+Bir tanesi login formu gösterecek route (Örn:  ``/login``) ve diğeride
+login form verisini işleyecek olan route (Örn:  ``/login_check``):
 
 .. configuration-block::
 
@@ -405,17 +407,19 @@ login form submission (Örn:  ``/login_check``):
 
 .. note::
 
-    You will *not* need to implement a controller for the ``/login_check``
-    URL as the firewall will automatically catch and process any form submitted
-    to this URL. It's optional, but helpful, to create a route so that you
-    can use it to generate the form submission URL in the login template below.
+    Güvenlik duvarı otomatik olarak bu işlemi bu URL üzerinden otomatik 
+    olarak yakalayıp işleyeceğinden ``/login_check`` URL 'si için bir 
+    controller yapmanıza gerek yok. Aşağıdaki form login şablonu ile isteğe 
+    bağlı, fakat faydalı, olarak kullanıcı bilgilerinin girileceği 
+    ekranı aşağıdaki gibi yapabilirsiniz.
 
-Notice that the name of the ``login`` route isn't important. What's important
-is that the URL of the route (``/login``) matches the ``login_path`` config
-value, as that's where the security system will redirect users that need
-to login.
+``login`` route'unun adının önemli olmadığına dikkat edin. Burada önemli
+olan şey, route URL'sinin (``/login``) ``login_path`` adındaki kullanıcıların
+güvenlik sistemi tarafından gerektiğinde giriş yapmaları için yönlendirileceği 
+konfigürasyondaki değeri ile eşleşmesidir. 
 
-Next, create the controller that will display the login form:
+
+Sonra login formunu gösterecek olan controller'i yaratın:
 
 .. code-block:: php
 
