@@ -436,7 +436,7 @@ Sonra login formunu gösterecek olan controller'i yaratın:
             $request = $this->getRequest();
             $session = $request->getSession();
 
-            // get the login error if there is one
+            // eğer bir hata var ise
             if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
                 $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
             } else {
@@ -445,24 +445,25 @@ Sonra login formunu gösterecek olan controller'i yaratın:
             }
 
             return $this->render('AcmeSecurityBundle:Security:login.html.twig', array(
-                // last username entered by the user
+                // kullanıcının girdiği son kullanıcı adı
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                 'error'         => $error,
             ));
         }
     }
 
-Don't let this controller confuse you. As you'll see in a moment, when the
-user submits the form, the security system automatically handles the form
-submission for you. If the user had submitted an invalid username or password,
-this controller reads the form submission error from the security system so
-that it can be displayed back to the user.
+Bu controller'in kafanızı karıştırmasına izin vermeyin. Şu anda göreceğiniz 
+üzere kullanıcı form verisi gönderdiğinde (submit) güvenlik sistemi, form
+verisi gönderimini (submission) sizin için otomatik olarak işler. 
+Eğer kullanıcı geçersiz kullanıcı adı ya da parola bilgisi gönderdiyse
+bu controller güvenlik sisteminden form verisi gönderme hatasını okuyarak
+bunu kullanıcıya gösterir.
 
-In other words, your job is to display the login form and any login errors
-that may have occurred, but the security system itself takes care of checking
-the submitted username and password and authenticating the user.
+Diğer bir ifade ile sizin işiniz login formunu göstermek ve login hataları
+oluştuğunda bunları göstermektir. Güvenlik sisteminin kendisi verilen 
+kullanıcı adı ve parolaya dikkat eder ve kullanıcıyı tanımlar.
 
-Finally, create the corresponding template:
+Son olarak ilgili şablonu yaratın:
 
 .. configuration-block::
 
@@ -474,18 +475,18 @@ Finally, create the corresponding template:
         {% endif %}
 
         <form action="{{ path('login_check') }}" method="post">
-            <label for="username">Username:</label>
+            <label for="username">Kullanıcı Adı:</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}" />
 
-            <label for="password">Password:</label>
+            <label for="password">Parola:</label>
             <input type="password" id="password" name="_password" />
 
             {#
-                If you want to control the URL the user is redirected to on success (more details below)
+                Eğer kullanıcının başarılı olduğunda gideceği URL'yi control etmek istiyorsanız (daha fazla detay aşağıda)
                 <input type="hidden" name="_target_path" value="/account" />
             #}
 
-            <button type="submit">login</button>
+            <button type="submit">Giriş Yap</button>
         </form>
 
     .. code-block:: html+php
@@ -496,14 +497,14 @@ Finally, create the corresponding template:
         <?php endif; ?>
 
         <form action="<?php echo $view['router']->generate('login_check') ?>" method="post">
-            <label for="username">Username:</label>
+            <label for="username">Kullanıcı Adı:</label>
             <input type="text" id="username" name="_username" value="<?php echo $last_username ?>" />
 
-            <label for="password">Password:</label>
+            <label for="password">Parola:</label>
             <input type="password" id="password" name="_password" />
 
             <!--
-                If you want to control the URL the user is redirected to on success (more details below)
+                Eğer kullanıcının başarılı olduğunda gideceği URL'yi control etmek istiyorsanız (daha fazla detay aşağıda)
                 <input type="hidden" name="_target_path" value="/account" />
             -->
 
@@ -512,22 +513,21 @@ Finally, create the corresponding template:
 
 .. tip::
 
-    The ``error`` variable passed into the template is an instance of
-    :class:`Symfony\\Component\\Security\\Core\\Exception\\AuthenticationException`.
-    It may contain more information - or even sensitive information - about
-    the authentication failure, so use it wisely!
+    ``error`` değişkeni :class:`Symfony\\Component\\Security\\Core\\Exception\\AuthenticationException`
+    sınıfının bir örneği olarak şablona aktarılır. Bu sınıf kimlik doğrulama hatası durumunda
+    daha fazla bilgi - ya da daha hassas bilgi - içerir. Oldukça akıllıca!
 
-The form has very few requirements. First, by submitting the form to ``/login_check``
-(via the ``login_check`` route), the security system will intercept the form
-submission and process the form for you automatically. Second, the security
-system expects the submitted fields to be called ``_username`` and ``_password``
-(these field names can be :ref:`configured<reference-security-firewall-form-login>`).
+Form çok az şeye ihtiyaç duyar. Birincisi, güvenlik sistemi form 
+gönderisini otomatik olarak yakalayıp işleyecek ``/login_check`` 'e gönderilecek 
+form. İkincisi güvenlik sisteminin ihtiyaç duyduğu ``_username`` ve ``_password``
+şeklinde adlandırılan form alanları (bu alanlar :ref:`konfigüre edilebilir<reference-security-firewall-form-login>`).
 
-And that's it! When you submit the form, the security system will automatically
-check the user's credentials and either authenticate the user or send the
-user back to the login form where the error can be displayed.
+Hepsi bu kadar. Form verisini gönderdiğinizde güvenlik sistemi otomatik olarak
+kullanıcı kimlik bilgilerini kontrol ederen kullanıcıyı doğrulayacak ya da 
+bir hata oluştuğunda kullanıcıyı hataları da gösterebilecek şekilde login
+formuna geri gönderecektir.
 
-Let's review the whole process:
+Tüm süreci değerlendirelim:
 
 #. The user tries to access a resource that is protected;
 #. The firewall initiates the authentication process by redirecting the
