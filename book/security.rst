@@ -1,40 +1,42 @@
 .. index::
-   single: Security
+   single: Güvenlik
 
-Security
+Güvenlik
 ========
 
-Security is a two-step process whose goal is to prevent a user from accessing
-a resource that he/she should not have access to.
+Güvenlik, amacı kullanıcının erişimi olmayan kaynaklara erişmesini engellemek olan 
+iki aşamalı bir süreçtir.
 
-In the first step of the process, the security system identifies who the user
-is by requiring the user to submit some sort of identification. This is called
-**authentication**, and it means that the system is trying to find out who
-you are.
+Birinci aşamada güvenlik sistemi kullanıcının kim olduğunu belirlemek amacıyla 
+br dizi tanımlamaya ihtiyaç duymasıdır. Adına **kimlik doğrulama** 
+(authentication) denen bu sistem, sizin kim olduğunuzu bulmaya çalışır.
 
-Once the system knows who you are, the next step is to determine if you should
-have access to a given resource. This part of the process is called **authorization**,
-and it means that the system is checking to see if you have privileges to
-perform a certain action.
+Sistem sizin kim olduğunuzu öğrendikten sonraki aşama verilen kaynağa erişim
+yetkinizin olup olmadığını belirlemektir. **Yetkilendirme** (authorization) 
+adı verilen bu ikinci süreç, belirli bir aksiyonu gerçekleştirmek için
+yetkinizi kontrol eder.
 
 .. image:: /images/book/security_authentication_authorization.png
    :align: center
 
-Since the best way to learn is to see an example, let's dive right in.
+Öğrenmenin en iyi yolu bir örnek görmek olduğundan hadi hemen başlayalım.
+
 
 .. note::
 
-    Symfony's `security component`_ is available as a standalone PHP library
-    for use inside any PHP project.
+    Symfony'in `güvenlik bileşeni`_ herhangi bir PHP projesinde kullanabileceğiniz
+    kendi başına çalışan bir PHP kütüphanesidir.
 
-Basic Example: HTTP Authentication
-----------------------------------
+Basit Bir Örnek : HTTP Kimlik Doğrulaması
+------------------------------------------
 
-The security component can be configured via your application configuration.
-In fact, most standard security setups are just a matter of using the right
-configuration. The following configuration tells Symfony to secure any URL
-matching ``/admin/*`` and to ask the user for credentials using basic HTTP
-authentication (i.e. the old-school username/password box):
+Güvenlik bileşeni uygulama konfigürasyonunuz üzerinden ayarlanabilir.
+Aslında çoğu standart güvenlik kurulumunun asıl sorunu doğru konfigürasyonu
+kullanmaları durumudur. Aşağıdaki konfigürasyon Symfony'ye ``/admin/*`` 
+ile eşleşen tüm URL adreslerini güenlik altına almasını ve 
+kullanıcı haklarını belirlemek için basit HTTP kimlik doğrulaması kullanmasını
+söyler (Örn: eski tip kullanıcı Adı / Parola kutusu):
+
 
 .. configuration-block::
 
@@ -122,60 +124,62 @@ authentication (i.e. the old-school username/password box):
 
 .. tip::
 
-    A standard Symfony distribution separates the security configuration
-    into a separate file (e.g. ``app/config/security.yml``). If you don't
-    have a separate security file, you can put the configuration directly
-    into your main config file (e.g. ``app/config/config.yml``).
+    Standart Symfony dağıtımı güvenlik konfigürasyonunu aytı bir dosyada
+    tutarak ayırır (Örn:  ``app/config/security.yml``). Eğer ayrı bir
+    güvenlik dosyası istemiyorsanız, konfigürasyonu direkt ana konfigürasyon
+    dosyasına koyabilirsiniz(Örn:  ``app/config/config.yml``).
 
-The end result of this configuration is a fully-functional security system
-that looks like the following:
+Bu konfigürasyonun sonunda tam fonksiyonel bir güvenlik sistemi şu şekilde
+gözükecektir:
 
-* There are two users in the system (``ryan`` and ``admin``);
-* Users authenticate themselves via the basic HTTP authentication prompt;
-* Any URL matching ``/admin/*`` is secured, and only the ``admin`` user
-  can access it;
-* All URLs *not* matching ``/admin/*`` are accessible by all users (and the
-  user is never prompted to login).
+* Sistemde iki kullanıcı vardır (``ryan`` ve ``admin``);
+* Kullanıcılar kendilerini basit HTTP kimlik doğrulama ile yetkilendirmelerini yaparlar;
+* ``/admin/*`` şeklinde eşleen herhangi bir URL güvenlik altına alınır ve 
+  sadece ``admin`` kullanıcısı buna erişebilir;
+* ``/admin/*`` ile *eşleşmeyen* herhangi bir URL tüm kullanıcılar tarafından
+  erişilebilir (kullanıcılara giriş bilgisi asla sorulmayacaktır).
 
-Let's look briefly at how security works and how each part of the configuration
-comes into play.
+Şimdi kısaca güvenlik nasıl çalışıyor ve konfigürasyonun her parçası bu sürece
+nasıl dahil oluyor bakalım.
 
-How Security Works: Authentication and Authorization
-----------------------------------------------------
+Güvenlik Nasıl Çalışır: Kimlik Doğrulama ve Yetkilendirme 
+---------------------------------------------------------
 
-Symfony's security system works by determining who a user is (i.e. authentication)
-and then checking to see if that user should have access to a specific resource
-or URL.
+Symfony'nin güvenlik sistemi, kullanıcının kim olduğunu belirler ve 
+sonra bu kullanıcının erişebileceği belirli kaynak ya da URL adreslerini 
+konrol ederek çalışır.
 
-Firewalls (Authentication)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Güvenlik Duvarları (Authentication)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a user makes a request to a URL that's protected by a firewall, the
-security system is activated. The job of the firewall is to determine whether
-or not the user needs to be authenticated, and if he does, to send a response
-back to the user initiating the authentication process.
+Kullanıcı güvenlik duvarı ile korunan bir URL'ye istek yaptığı zaman
+güvenlik sistemi devreye girer. Güvenlik duvarının görevi kullanıcının
+kimlik doğrulamaya ihtiyacı olup olmadığını belirlemek ve eğer öyleyse
+kullanıcının kimlik doğrulama sürecini başlatacak cevabı göndermektir.
 
-A firewall is activated when the URL of an incoming request matches the configured
-firewall's regular expression ``pattern`` config value. In this example, the
-``pattern`` (``^/``) will match *every* incoming request. The fact that the
-firewall is activated does *not* mean, however, that the HTTP authentication
-username and password box is displayed for every URL. For example, any user
-can access ``/foo`` without being prompted to authenticate.
+Bir güvenlik duvarı gelen isteğin URL'si ile güvenlik duvarının konfigürasyonunda
+düzenli ifadeler (regular expression) ile belirlenen ``şablon`` (pattern)
+eşleştiğinde aktif olur. Bu örnekte ``şablon`` (pattern) (``^/``) gelen
+*her* istek ile eşleşir. Aslında her URL için HTTP kimlik doğrulama kullanıcı
+adı ve parola ekranının gözükmesi güvenlik duvarının devrede olduğu anlamına 
+gelmez. Örneğin herhangi bir kullancı ``/foo`` kaynağına kimlik doğrulama
+olmadan da kolayca erişebilir.
 
 .. image:: /images/book/security_anonymous_user_access.png
    :align: center
 
-This works first because the firewall allows *anonymous users* via the ``anonymous``
-configuration parameter. In other words, the firewall doesn't require the
-user to fully authenticate immediately. And because no special ``role`` is
-needed to access ``/foo`` (under the ``access_control`` section), the request
-can be fulfilled without ever asking the user to authenticate.
+Güvenlik duvarı *anonim kullanıcı* ları ``anonymous`` konfigürasyon
+parametresi ile kabul ettiği için bu ilk olarak çalışır. Diğer bir ifade ile
+güvenlik duvarı kullanıcının doğrudan yetkili olmasına ihtiyaç duymaz. ``/foo``
+kaynağına ulaşmak için özel bir ``role`` tanımı olmadığından (``access_control``
+kısmı altında tanımlanan) istek, kullanıcı kimlik doğrulaması olmadan da
+gerçekleştirilir.
 
-If you remove the ``anonymous`` key, the firewall will *always* make a user
-fully authenticate immediately.
+Eğer ``anonymous`` anahtarı silinirse güvenlik duvarı *daima* kullanıcının
+tam yetkili olmasını isteyecektir.
 
-Access Controls (Authorization)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Erişim Kontrolleri (Authorization)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If a user requests ``/admin/foo``, however, the process behaves differently.
 This is because of the ``access_control`` configuration section that says
@@ -231,7 +235,7 @@ the request flow is always the same:
 
 #. A user accesses a protected resource;
 #. The application redirects the user to the login form;
-#. The user submits its credentials (e.g. username/password);
+#. The user submits its credentials (Örn:  username/password);
 #. The firewall authenticates the user;
 #. The authenticated user re-tries the original request.
 
@@ -239,10 +243,10 @@ the request flow is always the same:
 
     The *exact* process actually depends a little bit on which authentication
     mechanism you're using. For example, when using form login, the user
-    submits its credentials to one URL that processes the form (e.g. ``/login_check``)
-    and then is redirected back to the originally requested URL (e.g. ``/admin/foo``).
+    submits its credentials to one URL that processes the form (Örn:  ``/login_check``)
+    and then is redirected back to the originally requested URL (Örn:  ``/admin/foo``).
     But with HTTP authentication, the user submits its credentials directly
-    to the original URL (e.g. ``/admin/foo``) and then the page is returned
+    to the original URL (Örn:  ``/admin/foo``) and then the page is returned
     to the user in that same request (i.e. no redirect).
 
     These types of idiosyncrasies shouldn't cause you any problems, but they're
@@ -528,7 +532,7 @@ Let's review the whole process:
    user back to the login form if they are not.
 
 By default, if the submitted credentials are correct, the user will be redirected
-to the original page that was requested (e.g. ``/admin/foo``). If the user
+to the original page that was requested (Örn:  ``/admin/foo``). If the user
 originally went straight to the login page, he'll be redirected to the homepage.
 This can be highly customized, allowing you to, for example, redirect the
 user to a specific URL.
@@ -641,7 +645,7 @@ see :doc:`/cookbook/security/form_login`.
 
     **3. Be sure ``/login_check`` is behind a firewall**
 
-    Next, make sure that your ``check_path`` URL (e.g. ``/login_check``)
+    Next, make sure that your ``check_path`` URL (Örn:  ``/login_check``)
     is behind the firewall you're using for your form login (in this example,
     the single firewall matches *all* URLs, including ``/login_check``). If
     ``/login_check`` doesn't match any firewall, you'll receive a ``Unable
@@ -671,7 +675,7 @@ The process of authorization has two different sides:
 #. The user has a specific set of roles;
 #. A resource requires a specific role in order to be accessed.
 
-In this section, you'll focus on how to secure different resources (e.g. URLs,
+In this section, you'll focus on how to secure different resources (Örn:  URLs,
 method calls, etc) with different roles. Later, you'll learn more about how
 roles are created and assigned to users.
 
@@ -951,8 +955,8 @@ by Symfony (:class:`Symfony\\Component\\Security\\Core\\User\\User`).
 
 .. caution::
 
-    If your username is completely numeric (e.g. ``77``) or contains a dash
-    (e.g. ``user-name``), you should use that alternative syntax when specifying
+    If your username is completely numeric (Örn:  ``77``) or contains a dash
+    (Örn:  ``user-name``), you should use that alternative syntax when specifying
     users in YAML:
 
     .. code-block:: yaml
@@ -1055,7 +1059,7 @@ field of that class.
     This example is just meant to show you the basic idea behind the ``entity``
     provider. For a full working example, see :doc:`/cookbook/security/entity_provider`.
 
-For more information on creating your own custom provider (e.g. if you needed
+For more information on creating your own custom provider (Örn:  if you needed
 to load users via a web service), see :doc:`/cookbook/security/custom_provider`.
 
 .. _book-security-encoding-user-password:
@@ -1128,7 +1132,7 @@ do the following:
 By setting the ``iterations`` to ``1`` and the ``encode_as_base64`` to false,
 the password is simply run through the ``sha1`` algorithm one time and without
 any extra encoding. You can now calculate the hashed password either programmatically
-(e.g. ``hash('sha1', 'ryanpass')``) or via some online tool like `functions-online.com`_
+(Örn:  ``hash('sha1', 'ryanpass')``) or via some online tool like `functions-online.com`_
 
 If you're creating your users dynamically (and storing them in a database),
 you can use even tougher hashing algorithms and then rely on an actual password
@@ -1223,7 +1227,7 @@ method:
 Using Multiple User Providers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each authentication mechanism (e.g. HTTP Authentication, form login, etc)
+Each authentication mechanism (Örn:  HTTP Authentication, form login, etc)
 uses exactly one user provider, and will use the first declared user provider
 by default. But what if you want to specify a few users via configuration
 and the rest of your users in the database? This is possible by creating
@@ -1540,7 +1544,7 @@ a route so that you can use it to generate the URL:
         return $collection;
 
 Once the user has been logged out, he will be redirected to whatever path
-is defined by the ``target`` parameter above (e.g. the ``homepage``). For
+is defined by the ``target`` parameter above (Örn:  the ``homepage``). For
 more information on configuring the logout, see the
 :doc:`Security Configuration Reference</reference/configuration/security>`.
 
@@ -1733,7 +1737,7 @@ Security can be a deep and complex issue to solve correctly in your application.
 Fortunately, Symfony's security component follows a well-proven security
 model based around *authentication* and *authorization*. Authentication,
 which always happens first, is handled by a firewall whose job is to determine
-the identity of the user through several different methods (e.g. HTTP authentication,
+the identity of the user through several different methods (Örn:  HTTP authentication,
 login form, etc). In the cookbook, you'll find examples of other methods
 for handling authentication, including how to implement a "remember me" cookie
 functionality.
@@ -1754,7 +1758,7 @@ Learn more from the Cookbook
 * :doc:`Access Control Lists (ACLs) </cookbook/security/acl>`
 * :doc:`/cookbook/security/remember_me`
 
-.. _`security component`: https://github.com/symfony/Security
+.. _`güvenlik bileşeni`: https://github.com/symfony/Security
 .. _`JMSSecurityExtraBundle`: https://github.com/schmittjoh/JMSSecurityExtraBundle
 .. _`FOSUserBundle`: https://github.com/FriendsOfSymfony/FOSUserBundle
 .. _`implement the \Serializable interface`: http://php.net/manual/en/class.serializable.php
