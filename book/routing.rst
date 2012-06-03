@@ -87,8 +87,8 @@ Devam eden kalıp özel bir PHP sınıfı ve metodunu işaret eder:
     {
         public function showAction($slug)
         {
-            $blog = // $slug değişkenini veritabanı sorgusu için kullan
-            
+            $blog = //$slug değişkenini veritabanı sorgusu için kullan
+           
             return $this->render('AcmeBlogBundle:Blog:show.html.twig', array(
                 'blog' => $blog,
             ));
