@@ -181,81 +181,85 @@ tam yetkili olmasını isteyecektir.
 Erişim Kontrolleri (Authorization)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If a user requests ``/admin/foo``, however, the process behaves differently.
-This is because of the ``access_control`` configuration section that says
-that any URL matching the regular expression pattern ``^/admin`` (i.e. ``/admin``
-or anything matching ``/admin/*``) requires the ``ROLE_ADMIN`` role. Roles
-are the basis for most authorization: a user can access ``/admin/foo`` only
-if it has the ``ROLE_ADMIN`` role.
+Eğer kullanıcı ``/admin/foo`` isteğini yaparsa , süreç farklı davranır.
+Bunun nedeni ``access_control`` adlı konfigürasyon kısmında verilen 
+``^/admin`` düzenli ifadesi ile eşleşen her URL'nin 
+(Örn:  ``/admin`` ya da ``/admin/*`` ile eşleşen herhangibir URL) 
+``ROLE_ADMIN`` rolüne sahip olması gerektiğini söylediğinden dolayıdır. 
+Roller erişim kontrollerinin temelidir. Bir kullanıcı ``/admin/foo`` 
+adresine sadece ``ROLE_ADMIN`` rolüne sahipse erişebilir.
+
 
 .. image:: /images/book/security_anonymous_user_denied_authorization.png
    :align: center
 
-Like before, when the user originally makes the request, the firewall doesn't
-ask for any identification. However, as soon as the access control layer
-denies the user access (because the anonymous user doesn't have the ``ROLE_ADMIN``
-role), the firewall jumps into action and initiates the authentication process.
-The authentication process depends on the authentication mechanism you're
-using. For example, if you're using the form login authentication method,
-the user will be redirected to the login page. If you're using HTTP authentication,
-the user will be sent an HTTP 401 response so that the user sees the username
-and password box.
+Önceki gibi kullanıcı kendisi bir istek yaptığında güvenlik duvarı tanımlama
+için bir şey sormaz. Ancak erişim katmanına ulaşır ulaşmaz kullanıcı erişimi
+kısıtlanır (çünkü anonim kullanıcı ``ROLE_ADMIN`` rolüne sahip değildir),
+güvenlik duvarı kullanıcı tanımlama sürecinin başladığı aksiyona zıplar.
+Kimlik denetleme süreci kullandığınız kullanıcı yetkilendirme mekanizmasına
+bağlıdır. Örneğin eğer form login kimlik belirleme metodu kullanıyorsanız kullanıcı
+Kullanıcı Giriş sayfasına yönlenecektir. Eğer HTTP kimlik doğrulaması kullanıyorsanız
+kullanıcı bir HTTP 401 mesajı gönderdiği için kullanıcı , kullanıcı adı ve parola
+kutusunu görecektir.
 
-The user now has the opportunity to submit its credentials back to the application.
-If the credentials are valid, the original request can be re-tried.
+Kullanıcı şimdi uygulamaya kimlik bilgilerini gönderme fırsatına sahiptir. Eğer
+kimlik bilgileri doğru ise orijinal istek yeniden denenebilecektir.
 
 .. image:: /images/book/security_ryan_no_role_admin_access.png
    :align: center
 
-In this example, the user ``ryan`` successfully authenticates with the firewall.
-But since ``ryan`` doesn't have the ``ROLE_ADMIN`` role, he's still denied
-access to ``/admin/foo``. Ultimately, this means that the user will see some
-sort of message indicating that access has been denied.
+Bu örnekte ``ryan`` kullanıcısının güvenlik duvarı tarafından başarıyla kimliği
+doğrulanır (authenticate). Fakat ``ryan`` , ``ROLE_ADMIN`` rolüne sahip
+olmadığından dolayı hala ``admin/foo`` adresine erişimi engellidir. Nihayetinde
+bu kullanıcı erişimin kısıtlandığını içeren bir dizi mesaj görecektir.
 
 .. tip::
 
-    When Symfony denies the user access, the user sees an error screen and
-    receives a 403 HTTP status code (``Forbidden``). You can customize the
-    access denied error screen by following the directions in the
-    :ref:`Error Pages<cookbook-error-pages-by-status-code>` cookbook entry
-    to customize the 403 error page.
+    Symfony kullanıcı erişimini kısıtladığında kullanıcı bir hata mesaj ekranı
+    görecek ve bir 403 HTTP durum kodu alacaktır(``Forbidden`` (Yasaklandı)).
+    Erişim engellendi ekranını :ref:`Hata Sayfaları<cookbook-error-pages-by-status-code>`
+    başlıklı tarif kitabı girdisinde bulunan yönergelere göre 403 hata sayfasını
+    özeleştirebilirsiniz.
 
-Finally, if the ``admin`` user requests ``/admin/foo``, a similar process
-takes place, except now, after being authenticated, the access control layer
-will let the request pass through:
+Son olarak, eğer ``admin`` kullanıcısı ``/admin/foo`` adresine istekte bulunursa
+ynı süreç işleyecek yalnız kimlik doğrulandıktan sonra erişim kontrol katmanı
+bu isteğe izin verecektir:
 
 .. image:: /images/book/security_admin_role_access.png
    :align: center
 
-The request flow when a user requests a protected resource is straightforward,
-but incredibly flexible. As you'll see later, authentication can be handled
-in any number of ways, including via a form login, X.509 certificate, or by
-authenticating the user via Twitter. Regardless of the authentication method,
-the request flow is always the same:
+İstek akışı kullanıcı korunan kaynağa istekte bulunduğunda  açık fakat
+inanılmaz esnektir. Daha sonra göreceğiniz üzere kullanıcı kimlik doğrulama
+(authentication) form login, X.509 sertifikası ya da kullanıcıyı Twitter 
+üzerinden tanımlamak gibi pek çok yolla yapılabilir. Kimlik doğrulama metodu
+ne olursa olsun istek akışı daima aynıdır:
 
-#. A user accesses a protected resource;
-#. The application redirects the user to the login form;
-#. The user submits its credentials (Örn:  username/password);
-#. The firewall authenticates the user;
-#. The authenticated user re-tries the original request.
+#. Bir kullanıcı korunan bir kaynağa erişir;
+#. Uygulama  kullanıcıyı login formuna yönlendirir;
+#. Kullanıcı kimlik bilgilerini girer (Örn:  username/password);
+#. Güvenlik duvarı kullanıcının kimlik bilgilerini doğrular;
+#. Kimlik bilgileri doğrulanan kullanıcı için orijinal istek tekrarlanır.
 
 .. note::
 
-    The *exact* process actually depends a little bit on which authentication
-    mechanism you're using. For example, when using form login, the user
-    submits its credentials to one URL that processes the form (Örn:  ``/login_check``)
-    and then is redirected back to the originally requested URL (Örn:  ``/admin/foo``).
-    But with HTTP authentication, the user submits its credentials directly
-    to the original URL (Örn:  ``/admin/foo``) and then the page is returned
-    to the user in that same request (i.e. no redirect).
+    Süreç *aslında* biraz hangi kimlik doğrulama mekanizması kullandığınıza
+    bağlıdır. Örneğin kullanıcı, form login kullandığında kullanıcının kimlik bilgileri
+    kimlik bilgilerini denetleyen bir URL 'ye gönderilir (Örn:  ``/login_check``)
+    ve orijinal istek adresine geri yönlendirilir(Örn:  ``/admin/foo``).
+    Fakat HTTP kimlik doğrulama yöntemi kullanıldığında kullanıcı kimlik
+    bilgilerini direkt orijinal URL 'ye gönderir (Örn:  ``/admin/foo``) ve
+    daha sonra sayfa kullanıcının istek yaptığı aynı yere döner(no redirect).
 
-    These types of idiosyncrasies shouldn't cause you any problems, but they're
-    good to keep in mind.
-
+    Bu kimlik doğrulama mekanizmalarının bu karakteristik özellikleri 
+    herhangi bir probleme yol açmaz ancak bunları bu şekliyle akılda 
+    tutmakta fayda vardır.
+    
 .. tip::
 
-    You'll also learn later how *anything* can be secured in Symfony2, including
-    specific controllers, objects, or even PHP methods.
+    Daha sonra Symfony2 'de belirli controller'ların, nesnelerin hatta PHP 
+    metodları gibi *herhangi bir şeyin* nasıl güvenlik altına alınacağını
+    öğreneceksiniz.
 
 .. _book-security-form-login:
 
@@ -355,8 +359,8 @@ First, enable form login under your firewall:
 Now, when the security system initiates the authentication process, it will
 redirect the user to the login form (``/login`` by default). Implementing
 this login form visually is your job. First, create two routes: one that
-will display the login form (i.e. ``/login``) and one that will handle the
-login form submission (i.e. ``/login_check``):
+will display the login form (Örn:  ``/login``) and one that will handle the
+login form submission (Örn:  ``/login_check``):
 
 .. configuration-block::
 
@@ -729,7 +733,7 @@ You can define as many URL patterns as you need - each is a regular expression.
 
 For each incoming request, Symfony2 tries to find a matching access control
 rule (the first one wins). If the user isn't authenticated yet, the authentication
-process is initiated (i.e. the user is given a chance to login). However,
+process is initiated (Örn:  the user is given a chance to login). However,
 if the user *is* authenticated but doesn't have the required role, an
 :class:`Symfony\\Component\\Security\\Core\\Exception\\AccessDeniedException`
 exception is thrown, which you can handle and turn into a nice "access denied"
@@ -856,7 +860,7 @@ Securing other Services
 
 In fact, anything in Symfony can be protected using a strategy similar to
 the one seen in the previous section. For example, suppose you have a service
-(i.e. a PHP class) whose job is to send emails from one user to another.
+(Örn:  a PHP class) whose job is to send emails from one user to another.
 You can restrict use of this class - no matter where it's being used from -
 to users that have a specific role.
 
@@ -1175,7 +1179,7 @@ In this case, you're using the stronger ``sha512`` algorithm. Also, since
 you've simply specified the algorithm (``sha512``) as a string, the system
 will default to hashing your password 5000 times in a row and then encoding
 it as base64. In other words, the password has been greatly obfuscated so
-that the hashed password can't be decoded (i.e. you can't determine the password
+that the hashed password can't be decoded (Örn:  you can't determine the password
 from the hashed password).
 
 If you have some sort of registration form for users, you'll need to be able
