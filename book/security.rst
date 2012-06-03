@@ -678,29 +678,30 @@ Güvenliğin ilk adımı daima kullanıcının kim olduğunun doğrulandığı k
 Symfony2 ile kimlik doğrulama form login, basit HTTP kimlik denetimi ya da 
 hatta Facebook üzerinden bile herhangi bir yolla yapılabilir.
 
-Once the user has been authenticated, authorization begins. Authorization
-provides a standard and powerful way to decide if a user can access any resource
-(a URL, a model object, a method call, ...). This works by assigning specific
-roles to each user, and then requiring different roles for different resources.
+Kullanıcının bir kere kimliği doğrulandımı yetkilendirme başlar. Yetkilendirme (Authorization)
+eğer kullanıcının erişebileceği herhangi bir kaynak(bir URL, bir model nesnesi, bir
+metod çağrısı, ...) varsa bunun kararını vermede standart ve güçlü bir yoldur.
+Bu her kullanıcıya belirli roller atayarak ve farklı kaynakların farklı rollere
+gereksinim duymasıyla olur. 
 
-The process of authorization has two different sides:
+Yetkilendirme iki farklı tarafta gerçekleşir:
 
-#. The user has a specific set of roles;
-#. A resource requires a specific role in order to be accessed.
+#. Kullanıcının sahip olduğu belirli roller;
+#. Bir kaynağın erişilebilir olması için ihtiyaç duyduğu rol.
 
-In this section, you'll focus on how to secure different resources (Örn:  URLs,
-method calls, etc) with different roles. Later, you'll learn more about how
-roles are created and assigned to users.
+Bu kısımda farklı kaynakları (URL'ler, metod çağrıları vs...) farklı rollerle 
+nasıl güvenlik altına alabileceğimize bakacağız. Daha sonra rollerin nasıl yaratıldığı
+ve kullancılara atandığı konusunda daha fazla şey öğreneceksiniz.
 
-Securing Specific URL Patterns
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Belirli URL Şablonlarını Güvenlik Altına Almak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The most basic way to secure part of your application is to secure an entire
-URL pattern. You've seen this already in the first example of this chapter,
-where anything matching the regular expression pattern ``^/admin`` requires
-the ``ROLE_ADMIN`` role.
+Uygulamanızı güvenlik altına almanın en temel yolu tüm URL şablonlarını 
+güvenlik altına almaktır. Bunu bu kısmın en başında ``^/admin`` şablonunun
+``ROLE_ADMIN`` rolü ile eşleştirildiği örnekte zaten görmüştünüz.
 
-You can define as many URL patterns as you need - each is a regular expression.
+Pek çok URL şablonunda olduğu gibi ihtiyacınıza göre herbirisini bir düzenli
+ifade ile tanımlayabilirsiniz.
 
 .. configuration-block::
 
@@ -735,28 +736,28 @@ You can define as many URL patterns as you need - each is a regular expression.
 
 .. tip::
 
-    Prepending the path with ``^`` ensures that only URLs *beginning* with
-    the pattern are matched. For example, a path of simply ``/admin`` (without
-    the ``^``) would correctly match ``/admin/foo`` but would also match URLs
-    like ``/foo/admin``.
+    Yolu  ``^`` karakteri ile başlatmak bu URL'nin sadece  *başlangıcında*
+    desenin eşleşmesini sağlar. Örneğin basitçe ``/admin`` (``^`` karakteri olmadan)
+    doğru bir şekilde ``/admin/foo`` eşleşebilirken aynı zamanda ``/foo/admin`` 'de
+    eşleşecektir.
 
-For each incoming request, Symfony2 tries to find a matching access control
-rule (the first one wins). If the user isn't authenticated yet, the authentication
-process is initiated (Örn:  the user is given a chance to login). However,
-if the user *is* authenticated but doesn't have the required role, an
+Her gelen istekte Symfony2 erişim kontrol kuralı içerisinde bunları eşlemeye 
+çalışır(ilk bulunan kazanır). Eğer kullanıcı hala doğrulanmadıysa kimlik 
+doğrulama süreci başlatılır(Kullanıcıya login olma şansı verilir). 
+Ancak kullanıcı *doğrulanmış* fakat gerekli role sahip değilse 
 :class:`Symfony\\Component\\Security\\Core\\Exception\\AccessDeniedException`
-exception is thrown, which you can handle and turn into a nice "access denied"
-error page for the user. See :doc:`/cookbook/controller/error_pages` for
-more information.
+istisnası atılarak kullanıcıya güzel bir "Erişim Engellendi" sayfası gösterilir.
+Daha fazla bilgi için :doc:`/cookbook/controller/error_pages` belgesine bakınız.
 
-Since Symfony uses the first access control rule it matches, a URL like ``/admin/users/new``
-will match the first rule and require only the ``ROLE_SUPER_ADMIN`` role.
-Any URL like ``/admin/blog`` will match the second rule and require ``ROLE_ADMIN``.
+Symfony,  ``/admin/users/new`` gibi bir URL ile karşılaştığında ilk kural 
+ile eşleştirecek ve sadece ``ROLE_SUPER_ADMIN`` rolüne ihtiyaç duyacaktır. 
+``/admin/blog`` gibi herhangi bir URL, ``ROLE_ADMIN`` rol'üne ihtiyaç 
+duyan ikinci kural ile eşleşecektir.
 
 .. _book-security-securing-ip:
 
-Securing by IP
-~~~~~~~~~~~~~~
+IP ile Güvenlik Sağlamak
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Certain situations may arise when you may need to restrict access to a given
 route based on IP. This is particularly relevant in the case of :ref:`Edge Side Includes<edge-side-includes>`
