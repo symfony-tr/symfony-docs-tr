@@ -261,13 +261,8 @@ Ya da testi, Response'u eğer sadece içeriği bazı metinler kapsayacak
         // bir den fazla "subtitle" css sınıfı ile h2 tagı olduğunu bildir.
         $this->assertGreaterThan(0, $crawler->filter('h2.subtitle')->count());
 
-<<<<<<< HEAD
         // Sayfada gerçekten 4 adet h2 tagı olduğunu bildir.
-        $this->assertCount(4, $crawler->filter('h2')->count());
-=======
-        // Assert that there are exactly 4 h2 tags on the page
         $this->assertCount(4, $crawler->filter('h2'));
->>>>>>> original/2.0
 
         // "Content-Type" başlığının "application/json" olduğunu bildir.
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'));
