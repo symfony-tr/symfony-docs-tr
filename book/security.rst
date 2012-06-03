@@ -529,46 +529,48 @@ formuna geri gönderecektir.
 
 Tüm süreci değerlendirelim:
 
-#. The user tries to access a resource that is protected;
-#. The firewall initiates the authentication process by redirecting the
-   user to the login form (``/login``);
-#. The ``/login`` page renders login form via the route and controller created
-   in this example;
-#. The user submits the login form to ``/login_check``;
-#. The security system intercepts the request, checks the user's submitted
-   credentials, authenticates the user if they are correct, and sends the
-   user back to the login form if they are not.
+#. Kullanıcı korumalı alana ulaşmayı dener;
+#. Güvenlik duvarı kimlik doğrulama sürecini kullanıcıyı login formuna
+   (``/login``) yönlendirerek başlatır.
+#. ``/login`` sayfası login formunu bu örnekte yaptığımız controller ve
+   route aracılığı ile ekrana basar;
+#. Kullanıcı login formundan verileri ``/login_check`` 'e gönderir;
+#. Güvenlik sistemi isteği yakalar, kullanıcı kimlik bilgilerini kontrol eder,
+   eğer kullanıcı doğru ise kimlik bilgilerini doğrular ve eğer kullanıcı
+   doğrulanmadıysa logn formuna geri gönderilir.
 
-By default, if the submitted credentials are correct, the user will be redirected
-to the original page that was requested (Örn:  ``/admin/foo``). If the user
-originally went straight to the login page, he'll be redirected to the homepage.
-This can be highly customized, allowing you to, for example, redirect the
-user to a specific URL.
+Varsayılan olarak eğer gönderilen kimlik bilgileri doğru ise kullanıcı 
+istek yapılan orijinal sayfaya yönlendirilecektir (Örn:  ``/admin/foo``).
+Eğer kullanıcı kendisi direkt login sayfasına giderse, kullanıcı 
+ana sayfaya yönlendirilecektir. Bu istenildiği kadar, sizin izin 
+verdiğiniz ölçüde, örneğin belirlenen bir URL adresine yönlendirme gibi,
+geniş bir şekilde özelleştirilebilir.
 
-For more details on this and how to customize the form login process in general,
-see :doc:`/cookbook/security/form_login`.
+Bu konuda hakkında daha fazla detay ve login sürecini genel olarak
+nasıl düzenleyebileceğiniz konusunda daha fazla bilgi için 
+:doc:`/cookbook/security/form_login` belgesine bakın.
 
 .. _book-security-common-pitfalls:
 
-.. sidebar:: Avoid Common Pitfalls
+.. sidebar:: Tuzaklardan Kaçınmak
 
-    When setting up your login form, watch out for a few common pitfalls.
+    Login formu yaparken şu genel tuzaklara dikkat edin.
 
-    **1. Create the correct routes**
+    **1. Doğru route'ları yaratın.**
 
-    First, be sure that you've defined the ``/login`` and ``/login_check``
-    routes correctly and that they correspond to the ``login_path`` and
-    ``check_path`` config values. A misconfiguration here can mean that you're
-    redirected to a 404 page instead of the login page, or that submitting
-    the login form does nothing (you just see the login form over and over
-    again).
+    Öncelikle ``/login`` ve ``/login_check`` routelarını düzgün bir şekilde
+    ve ilgili ``login_path`` ve ``check_path`` konfigürasyon değerlerini 
+    de doğru bir şekilde tanımladığınıza emin olun. Yanlış yapılan
+    bir konfigüasyon login sayfası yerine 404 sayfasına yönlenecektir ya da
+    login formunun gönderilen form verisi hiç bir şey yapmayacaktır (login
+    formu tekrar tekrar gözükecektir).
 
-    **2. Be sure the login page isn't secure**
+    **2. login sayfasının korumalı olmadığına emin olun**
 
-    Also, be sure that the login page does *not* require any roles to be
-    viewed. For example, the following configuration - which requires the
-    ``ROLE_ADMIN`` role for all URLs (including the ``/login`` URL), will
-    cause a redirect loop:
+    Ayrıca login sayfasının herhangi bir rol gereksinimi olmadan görüntülenebildiğine
+    emin olun. Örneğin aşağıdaki konfigürasyon tüm URL'ler için (``/login`` URL'side dahil)
+    ``ROLE_ADMIN`` rolu ne gereksinim duyacak bir yeniden yönlendirme döngüsüne 
+    girecektir:
 
     .. configuration-block::
 
@@ -589,7 +591,8 @@ see :doc:`/cookbook/security/form_login`.
                 array('path' => '^/', 'role' => 'ROLE_ADMIN'),
             ),
 
-    Removing the access control on the ``/login`` URL fixes the problem:
+    
+    ``/login`` URL'sini erişim kontrolünden sildiğinizde sorun çözülür:
 
     .. configuration-block::
 
@@ -613,10 +616,10 @@ see :doc:`/cookbook/security/form_login`.
                 array('path' => '^/', 'role' => 'ROLE_ADMIN'),
             ),
 
-    Also, if your firewall does *not* allow for anonymous users, you'll need
-    to create a special firewall that allows anonymous users for the login
-    page:
-
+	Ayrıca eğer güvenlik duvarı anonim kullanıcılara izin *vermiyorsa* ,
+	özel bi güvenlik duvarı yaratarak bu kullanıcıların login sayfasına
+	erişimine izin verdirebilirsiniz:
+	
     .. configuration-block::
 
         .. code-block:: yaml
@@ -651,27 +654,29 @@ see :doc:`/cookbook/security/form_login`.
                 ),
             ),
 
-    **3. Be sure ``/login_check`` is behind a firewall**
+    **3. ``/login_check`` 'in bir güvenlik duvarı arkasında olduğuna emin olun**
 
-    Next, make sure that your ``check_path`` URL (Örn:  ``/login_check``)
-    is behind the firewall you're using for your form login (in this example,
-    the single firewall matches *all* URLs, including ``/login_check``). If
-    ``/login_check`` doesn't match any firewall, you'll receive a ``Unable
-    to find the controller for path "/login_check"`` exception.
+	``check_path`` URL değerinin (Örn:  ``/login_check``) login formu için
+	kullandığınız güvenlik duvarı arkasında olduğuna emin olun (bu örnekte
+	tek güvenlik duvarı ``/login_check`` de dahil *tüm* URL'leri kapsar).
+	Eğer ``/login_check`` bir güvenlik duvarı tarafından eşleşmezse 
+	``Unable to find the controller for path "/login_check"`` hatasını 
+	alırsınız.
+	
+    **4. Çoklu güvenlik duvarları, güvenlik içeriğini paylaşmaz**
 
-    **4. Multiple firewalls don't share security context**
+    Eğer çoklu güvenlik duvarı kullanıyor ve kimlik doğrulamayı bir 
+    güvenlik duvarında yapıyorsanız diğer güvenlik duvarları tarafından
+    otomatik olarak kimliğiniz *doğrulanmaz*. Farklı güvenlik duvarları
+    farklı güvenlik sistemleri gibidir. Bu yüzden çoğu uygulamaya 
+    bir güvenlik duvarı yeterli olmaktadır.
 
-    If you're using multiple firewalls and you authenticate against one firewall,
-    you will *not* be authenticated against any other firewalls automatically.
-    Different firewalls are like different security systems. That's why,
-    for most applications, having one main firewall is enough.
+Yetkilendirme (Authorization)
+-----------------------------
 
-Authorization
--------------
-
-The first step in security is always authentication: the process of verifying
-who the user is. With Symfony, authentication can be done in any way - via
-a form login, basic HTTP Authentication, or even via Facebook.
+Güvenliğin ilk adımı daima kullanıcının kim olduğunun doğrulandığı kimlik doğrulamadır.
+Symfony2 ile kimlik doğrulama form login, basit HTTP kimlik denetimi ya da 
+hatta Facebook üzerinden bile herhangi bir yolla yapılabilir.
 
 Once the user has been authenticated, authorization begins. Authorization
 provides a standard and powerful way to decide if a user can access any resource
