@@ -1007,17 +1007,19 @@ sistemlerde kullanıcıları veri tabanından çağırmak isteyeceksinizdir.
 Kullanıcıları Veritabanından Çağırmak
 .....................................
 
-If you'd like to load your users via the Doctrine ORM, you can easily do
-this by creating a ``User`` class and configuring the ``entity`` provider.
+Eğer kullanıcılarınızı Doctrine ORM aracılığı ile çağırmak istiyorsanız
+bunu ``User`` adında bir sınıf yaratıp konfigürasyonda ``entity``
+anahtarı altında belirterek kolaylıkla yapabilirsiniz.
 
 .. tip:
 
-    A high-quality open source bundle is available that allows your users
-    to be stored via the Doctrine ORM or ODM. Read more about the `FOSUserBundle`_
-    on GitHub.
+    Kullanıcıları Doctrine ORM ya da ODM altında saklamanıza izin veren
+    yüksek kaliteli açık kaynak kodlu bir bundle da bulunmaktadır. Bunun
+    hakkında daha fazla bilgi için GitHub üzerindeki `FOSUserBundle`_ 'a
+    bakın.
 
-With this approach, you'll first create your own ``User`` class, which will
-be stored in the database.
+Bu yaklaşımda öncelikle veritanabanındaki saklama işlemleri için 
+kullanılacak olan ``User`` sınıfınızı yaratın.
 
 .. code-block:: php
 
@@ -1040,20 +1042,20 @@ be stored in the database.
         // ...
     }
 
-As far as the security system is concerned, the only requirement for your
-custom user class is that it implements the :class:`Symfony\\Component\\Security\\Core\\User\\UserInterface`
-interface. This means that your concept of a "user" can be anything, as long
-as it implements this interface.
+Güvenlik sisteminin özel user sınıfınızda gerekli duyduğu tek şey,
+kullanıcı sınıfınızın :class:`Symfony\\Component\\Security\\Core\\User\\UserInterface`
+interface'i üzerinden türetilmesidir. Bunun anlamı, konsept olarak "user",
+bu interface üzerinden türetildiği takdirde her şey olabilir demektir.
 
 .. note::
 
-    The user object will be serialized and saved in the session during requests,
-    therefore it is recommended that you `implement the \Serializable interface`_
-    in your user object. This is especially important if your ``User`` class
-    has a parent class with private properties.
+    User nesnesi istek (request) halinde serileştirilip oturumda saklanacağından
+    dolayı nesnenizi `\Serializable interface 'i üzerinden yapılandırmanızı`_ 
+    tavsiye ederiz. Bu özellikle eğer ``User`` sınıfınızın private sınıf değişkenleri
+    olan bir üst sınıfı varsa önemli olacaktır.
 
-Next, configure an ``entity`` user provider, and point it to your ``User``
-class:
+Sonra, ``entity`` tipinde ``User`` sınıfınızı işaret eden bir kullanıcı
+sağlayıcısı konfigüre edin:
 
 .. configuration-block::
 
@@ -1085,21 +1087,22 @@ class:
             ),
         ));
 
-With the introduction of this new provider, the authentication system will
-attempt to load a ``User`` object from the database by using the ``username``
-field of that class.
+Bu yeni sağlayıcının başlangıcında, kimlik doğrulama sistemi veritabanından
+``User`` sınıfını bu sınıfın ``username`` alanı ile yüklemeye çalışacaktır.
 
 .. note::
-    This example is just meant to show you the basic idea behind the ``entity``
-    provider. For a full working example, see :doc:`/cookbook/security/entity_provider`.
+    Bu örneğin amacı sadece ``entity`` sağlayıcısının nasıl çalıştığı konusundaki
+    basit fikri göstermek içindir. Tam çalışan bir örnek için 
+    :doc:`/cookbook/security/entity_provider` belgesine bakın.
 
-For more information on creating your own custom provider (Örn:  if you needed
-to load users via a web service), see :doc:`/cookbook/security/custom_provider`.
+Kendi özel kullanıcı sağlayıcınızın nasıl yaratabileceğiniz konusunda 
+(Örn: Eğer kullanıcılarınızı bir web servisi aracılığı ile yükleyecekseniz)
+:doc:`/cookbook/security/custom_provider` belgesine bakın.
 
 .. _book-security-encoding-user-password:
 
-Encoding the User's Password
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kullanıcı Parolalarını Şifrelemek
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 So far, for simplicity, all the examples have stored the users' passwords
 in plain text (whether those users are stored in a configuration file or in
@@ -1795,5 +1798,5 @@ Learn more from the Cookbook
 .. _`güvenlik bileşeni`: https://github.com/symfony/Security
 .. _`JMSSecurityExtraBundle`: https://github.com/schmittjoh/JMSSecurityExtraBundle
 .. _`FOSUserBundle`: https://github.com/FriendsOfSymfony/FOSUserBundle
-.. _`implement the \Serializable interface`: http://php.net/manual/en/class.serializable.php
+.. _`\Serializable interface 'i üzerinden yapılandırmanızı`: http://php.net/manual/en/class.serializable.php
 .. _`functions-online.com`: http://www.functions-online.com/sha1.html
