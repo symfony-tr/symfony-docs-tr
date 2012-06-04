@@ -883,13 +883,13 @@ Uygulamanızda security bileşeninin farklı servis ve metodları nasıl
 koruduğu hakkındaki bilgi için :doc:`/cookbook/security/securing_services`
 belgesine bakın.
 
-Access Control Lists (ACLs): Securing Individual Database Objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Erişim Kontrol Listeleri (ACL'ler): Bağımsız Veritabanı Nesnelerini Güvenlik Altına Almak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Imagine you are designing a blog system where your users can comment on your
-posts. Now, you want a user to be able to edit his own comments, but not
-those of other users. Also, as the admin user, you yourself want to be able
-to edit *all* comments.
+Düşünün, kullanıcılarınızın yorumlar yapabildiği yeni bir blog sistemi 
+tasarlıyorsubuz. Kullanıcının kendi yorumlarını düzenlemesini istiyor
+ancak diğerlerininkileri düzenlemesini istemiyorsunuz. Ayrıca admin
+kullanıcısının kendininkileride dahil *tüm* yorumları düzenlemesi gerekiyor.
 
 The security component comes with an optional access control list (ACL) system
 that you can use when you need to control access to individual instances
@@ -897,34 +897,45 @@ of an object in your system. *Without* ACL, you can secure your system so that
 only certain users can edit blog comments in general. But *with* ACL, you
 can restrict or allow access on a comment-by-comment basis.
 
-For more information, see the cookbook article: :doc:`/cookbook/security/acl`.
+Security bileşeni isteğe bağlı olarak bir nesnenin bağımsız örneklerini (instance)
+gerektiğinde erişimini kontrol edecek bir erişim kontrol listesi (ACL) siste
+mi ile birlikte gelir. ACL *olmadan genel olarak sisteminizde sadece belirli 
+kullanıcıların blog yorumlarını düzenlemesini sağlayabilirsiniz. Fakat 
+ACL *kullanarak* yorumlar bazında erişimi engelleyebilir ya da izin
+verebilirsiniz.
 
-Users
------
+Daha fazla bilgi için tarif kitabındaki :doc:`/cookbook/security/acl` bölümünü
+okuyun.
 
-In the previous sections, you learned how you can protect different resources
-by requiring a set of *roles* for a resource. In this section we'll explore
-the other side of authorization: users.
+Kullanıcılar
+------------
 
-Where do Users come from? (*User Providers*)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Önceki bölümlerde farklı kaynakları belirlediğiniz *rol* tipleri ile 
+nasıl koruyabileceğinizi öğrendiniz. bu kısımda yetkilendirmenin diğer 
+tarafı olan kullanıcıları inceleyeceğiz.
 
-During authentication, the user submits a set of credentials (usually a username
-and password). The job of the authentication system is to match those credentials
-against some pool of users. So where does this list of users come from?
+Kullanıcılar Nereden Gelir (*Kullanıcı Sağlayıcıları*)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In Symfony2, users can come from anywhere - a configuration file, a database
-table, a web service, or anything else you can dream up. Anything that provides
-one or more users to the authentication system is known as a "user provider".
-Symfony2 comes standard with the two most common user providers: one that
-loads users from a configuration file and one that loads users from a database
-table.
+Kimlik doğrulama esnasında kullanıcı bir dizi kimlik bilgisini
+(genellikle kullanıcı adı ve parola) girer. Kimlik doğrulama sisteminin işi
+bu kimlik bilgilerinin bir kullanıcı havuzunda eşleşip eşleşmediğini bulmaktır.
+Peki bu kullanıcıların listesi nereden geliyor?
 
-Specifying Users in a Configuration File
-........................................
+Symfony2 'de kullanıcılar bir konfigürasyon dosyasından, bir veritabanı
+tablosundan, bir web servisinden yada düşünebildiğiniz herhangi bir yerden gelebilir.
+Bir ya da daha fazla kullanıcıyı kullanıcı yetkilendirme sistemine sağlayan
+herhangi bir şey "kullanıcı sağlayıcı" (user provider) olarak adlandırılır.
+Symfony2 iki adet en sık kullanılan kullanıcı sağlayıcısı ile birlikte gelir.
+bunlardan bir tanesi kullanıcıları konfigürasyon dostasından çağırır, diğeri
+ise veritabanı tablosundan çağırır.
 
-The easiest way to specify your users is directly in a configuration file.
-In fact, you've seen this already in the example in this chapter.
+Kullanıcıları Konfigürasyon Dosyasında Belirlemek
+.................................................
+
+Aslında kullanıcıları belirlemenin en kolay yolu, direkt olarak bu 
+kullanıcıları konfigürasyon dosyasında belirlemektir. Aslında bu örneği 
+bu bölümde önceden görmüştünüz.
 
 .. configuration-block::
 
@@ -965,19 +976,22 @@ In fact, you've seen this already in the example in this chapter.
             ),
         ));
 
-This user provider is called the "in-memory" user provider, since the users
-aren't stored anywhere in a database. The actual user object is provided
-by Symfony (:class:`Symfony\\Component\\Security\\Core\\User\\User`).
+Bu kullanıcı sağlayıcısı kullanıcıları veritabanı içerisinde herhangi bir 
+şekilde sağlamadığından "hafıza içi" (in-memory) kullanıcı sağlayıcısı
+olarak adlandırılır. Gerçek kullanıcı nesnesi Symfony tarafından sağlanır
+(:class:`Symfony\\Component\\Security\\Core\\User\\User`).
 
 .. tip::
-    Any user provider can load users directly from configuration by specifying
-    the ``users`` configuration parameter and listing the users beneath it.
+
+    Herhangi bir kullanıcı sağlayıcısı kullanıcıları direkt olarak 
+    konfigürasyon dosyasında ``users``    konfigürasyon parametresi ile listelenen
+    yerden direkt olarak çağırabilir.
 
 .. caution::
 
-    If your username is completely numeric (Örn:  ``77``) or contains a dash
-    (Örn:  ``user-name``), you should use that alternative syntax when specifying
-    users in YAML:
+    Eğer kullanıcı adınız tamamen sayılardan (Örn:  ``77``) ya da 
+    tire içeriyorsa (Örn:  ``user-name``) bu durumda kullanıcıları YAML
+    dosyası altında tanımlarken şu alternatif yazım şeklini kullanmalısınız:
 
     .. code-block:: yaml
 
@@ -985,13 +999,13 @@ by Symfony (:class:`Symfony\\Component\\Security\\Core\\User\\User`).
             - { name: 77, password: pass, roles: 'ROLE_USER' }
             - { name: user-name, password: pass, roles: 'ROLE_USER' }
 
-For smaller sites, this method is quick and easy to setup. For more complex
-systems, you'll want to load your users from the database.
+Küçük siteler için bu metod hızlı bir şekilde uygulanabilir. Daha karmaşık
+sistemlerde kullanıcıları veri tabanından çağırmak isteyeceksinizdir.
 
 .. _book-security-user-entity:
 
-Loading Users from the Database
-...............................
+Kullanıcıları Veritabanından Çağırmak
+.....................................
 
 If you'd like to load your users via the Doctrine ORM, you can easily do
 this by creating a ``User`` class and configuring the ``entity`` provider.
