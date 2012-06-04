@@ -1104,13 +1104,14 @@ Kendi özel kullanıcı sağlayıcınızın nasıl yaratabileceğiniz konusunda
 Kullanıcı Parolalarını Şifrelemek
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So far, for simplicity, all the examples have stored the users' passwords
-in plain text (whether those users are stored in a configuration file or in
-a database somewhere). Of course, in a real application, you'll want to encode
-your users' passwords for security reasons. This is easily accomplished by
-mapping your User class to one of several built-in "encoders". For example,
-to store your users in memory, but obscure their passwords via ``sha1``,
-do the following:
+Şimdiye kadar, kolaylık olması açısından, tüm örneklerde kullanıcı parolaları
+düz metinler olarak saklandı(bu kullanıcılar konfigürasyon dosyasında ya da 
+veri tabanında olup olmaması önemli değil). Elbette gerçek bir uygulamada
+kullanıcılarınızın parolalarını güvenlik nedeni ile şifrelemek isteyeceksiniz.
+Bu eşleştirdiğiniz ve tanımladığınız Kullanıcı sınıfınız için önceden 
+sağlanan hazır "encoder" 'lar aracılığı ile kolaylıkla yapılabilir. 
+Örneğin kullanıcılarınızı hafıza içinde tutuyorsunuz (in-memory). 
+Kullanıcı parolalarını ``sha1`` ile şu şekilde şifreleyebilirsiniz:
 
 .. configuration-block::
 
@@ -1166,16 +1167,16 @@ do the following:
             ),
         ));
 
-By setting the ``iterations`` to ``1`` and the ``encode_as_base64`` to false,
-the password is simply run through the ``sha1`` algorithm one time and without
-any extra encoding. You can now calculate the hashed password either programmatically
-(Örn:  ``hash('sha1', 'ryanpass')``) or via some online tool like `functions-online.com`_
+``iterations`` değerini ``1`` 'e ve ``encode_as_base64`` değerini false yaparak
+basitçe ``sha1`` algoritmasını bir kere ve ekstra şifreleme yapmadan çalıştırdık.
+Şimdi şifrelenmiş parolayı ya programsal olarak (Örn:  ``hash('sha1', 'ryanpass')``)
+ya da `functions-online.com`_ gibi bir online araçla hesaplayabilirsiniz.
 
-If you're creating your users dynamically (and storing them in a database),
-you can use even tougher hashing algorithms and then rely on an actual password
-encoder object to help you encode passwords. For example, suppose your User
-object is ``Acme\UserBundle\Entity\User`` (like in the above example). First,
-configure the encoder for that user:
+Eğer kullanıcıları dinamik olarak yaratıyorsanız (ve onları veri tabanında da 
+saklıyorsanız), daha zor şifreleme algoritmaları kullanabilir ve gerçek 
+parola şifreleme nesnenizin bu algoritmaları kullanmasını bekleyebilirsiniz. Örneğin
+varsayalım kullanıcı nesneniz ``Acme\UserBundle\Entity\User`` (yukarıdaki örnekteki gibi).
+Öncelikle bu kullanıcı için şifreleyiciyi (encoder) konfigüre edelim:
 
 .. configuration-block::
 
@@ -1208,17 +1209,17 @@ configure the encoder for that user:
             ),
         ));
 
-In this case, you're using the stronger ``sha512`` algorithm. Also, since
-you've simply specified the algorithm (``sha512``) as a string, the system
-will default to hashing your password 5000 times in a row and then encoding
-it as base64. In other words, the password has been greatly obfuscated so
-that the hashed password can't be decoded (Örn:  you can't determine the password
-from the hashed password).
+Böylece  daha güçlü ``sha512`` algoritmasını kullanmış oldunuz. Ayrıca,
+algoritmayı bir metin olarak (``sha512``) belirttiğinizden dolayı, sistem
+varsayılan olarak parolanızı bir satırda 5000 kez şifreleyecek ve sonra
+onu base64 olarak şifreyeleyecek. Diğer bir ifade ile parola oldukça fazla
+bir şekilde şifrelenerek geri açılamaz (decode) hale geldi(şifrelenmiş bir
+paroladan gerçek parolayı belirleyemezsiniz).
 
-If you have some sort of registration form for users, you'll need to be able
-to determine the hashed password so that you can set it on your user. No
-matter what algorithm you configure for your user object, the hashed password
-can always be determined in the following way from a controller:
+Eğer kullanıcı kaydı (register) için bir dizi form kullanıyorsanız, kullanıcı nesneniz
+içerisinde set edebileceğiniz bir şifrelenmiş parola kısmı belirlemeniz gereklidir. 
+Kullanıcı nesnesinde hangi şifreleme algoritması kullandığınız önemli değildir. 
+Şifrelenmiş bir parola her zaman controller içerisinde şu şekilde belirlenir:
 
 .. code-block:: php
 
@@ -1229,8 +1230,8 @@ can always be determined in the following way from a controller:
     $password = $encoder->encodePassword('ryanpass', $user->getSalt());
     $user->setPassword($password);
 
-Retrieving the User Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kullanıcı Nesnesini Almak
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After authentication, the ``User`` object of the current user can be accessed
 via the ``security.context`` service. From inside a controller, this will
