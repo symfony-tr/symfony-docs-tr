@@ -759,15 +759,17 @@ duyan ikinci kural ile eşleşecektir.
 IP ile Güvenlik Sağlamak
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Certain situations may arise when you may need to restrict access to a given
-route based on IP. This is particularly relevant in the case of :ref:`Edge Side Includes<edge-side-includes>`
-(ESI), for example, which utilize a route named "_internal". When
-ESI is used, the _internal route is required by the gateway cache to enable
-different caching options for subsections within a given page. This route
-comes with the ^/_internal prefix by default in the standard edition (assuming
-you've uncommented those lines from the routing file).
+Erişimi route'taki IP numarası üzerinden kısıtlamak istediğiniz durumlar
+olabilir. Bu kısmen :ref:`Edge Side Includes<edge-side-includes>` durumu
+ile ilgilidir. Örneğin,"_internal" olarak adlandırılan route'larda.
+ESI kullanıldığında _internal route'u verilen sayfanın altkısımları için farklı
+ön bellekleme seçeneklerini gateway ön belleği tarafından aktif edilmesi
+için gerekebilir. bu route ^/_internal ön eki ile varsayılan olarak 
+standart sürüm ile birlikte gelir (routing dosyasında bu satırların 
+aktif olduğu varsayılmıştır).
 
-Here is an example of how you might secure this route from outside access:
+Aşağıda bu route'u dışarıdan erişimlere karşı güvenli hale getirebileceğiniz
+bir örnek verilmiştir:
 
 .. configuration-block::
 
@@ -793,11 +795,12 @@ Here is an example of how you might secure this route from outside access:
 
 .. _book-security-securing-channel:
 
-Securing by Channel
-~~~~~~~~~~~~~~~~~~~
+Kanal Tarafından Güvenlik 
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Much like securing based on IP, requiring the use of SSL is as simple as
-adding a new access_control entry:
+IP tabanlı güvenliğe çok benzer olarak access_control başlığı altında
+yapacağınız küçük bir değişiklikle SSL kullanma durumunuda 
+gerçekleştirebilirsiniz:
 
 .. configuration-block::
 
@@ -823,12 +826,13 @@ adding a new access_control entry:
 
 .. _book-security-securing-controller:
 
-Securing a Controller
-~~~~~~~~~~~~~~~~~~~~~
+Controller'i Güvenlik Altına Almak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Protecting your application based on URL patterns is easy, but may not be
-fine-grained enough in certain cases. When necessary, you can easily force
-authorization from inside a controller:
+Uygulamanızı URL şablonları temelinde koruma altına almanız kolaydır ancak
+belirli durumlar için yeterli olmayabilir. Gerekli olduğunda
+kolaylıkla controller içerisinden kimlik doğrulamasına zorlanabilir:
+
 
 .. code-block:: php
 
@@ -846,8 +850,9 @@ authorization from inside a controller:
 
 .. _book-security-securing-controller-annotations:
 
-You can also choose to install and use the optional ``JMSSecurityExtraBundle``,
-which can secure your controller using annotations:
+Ayrıca opsiyonel olarak controller'larınızı belirteçler (annotation) ile
+güvenlik altına almak istiyorsanız ``JMSSecurityExtraBundle`` 'ı kurup
+kullanabilirsiniz:
 
 .. code-block:: php
 
@@ -861,21 +866,22 @@ which can secure your controller using annotations:
         // ...
     }
 
-For more information, see the `JMSSecurityExtraBundle`_ documentation. If you're
-using Symfony's Standard Distribution, this bundle is available by default.
-If not, you can easily download and install it.
+Daha fazla bilgi için `JMSSecurityExtraBundle`_  belgesini okuyun. Eğer
+Symfony Standart Sürüm kullanıyorsanız bu bundle varsayılan olarak gelmektedir.
+Eğer standart sürüm kullanmıyorsanız kolaylıkla download edebilir ve kurabilirsiniz.
 
-Securing other Services
-~~~~~~~~~~~~~~~~~~~~~~~
+Diğer Servisleri Güvenlik Altına Almak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In fact, anything in Symfony can be protected using a strategy similar to
-the one seen in the previous section. For example, suppose you have a service
-(Örn:  a PHP class) whose job is to send emails from one user to another.
-You can restrict use of this class - no matter where it's being used from -
-to users that have a specific role.
+Aslında Symfony'de hiç bir şey önceki kısımda gördüğünüz gibi bir strateji
+ile korunmaz. Örneğin varsayalım bir kullanıcıdan diğerine e-posta gönderen
+bir servisiniz(Örn: bir PHP sınıfı) var. Bu sınıfın kullanımını -nereden 
+kullanıldığının bir önemi yok- belirli rollerdeki kullanıcıların kullanımına
+kısıtlayabilirsiniz.
 
-For more information on how you can use the security component to secure
-different services and methods in your application, see :doc:`/cookbook/security/securing_services`.
+Uygulamanızda security bileşeninin farklı servis ve metodları nasıl
+koruduğu hakkındaki bilgi için :doc:`/cookbook/security/securing_services`
+belgesine bakın.
 
 Access Control Lists (ACLs): Securing Individual Database Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
