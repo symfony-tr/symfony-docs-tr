@@ -144,32 +144,33 @@ formatıdır:
 Şimdi eğer kullanıcı yereli Türkiye ise (örn: ``tr_TR``), bu mesaj ``Symfony2 harika``
 olarak tercüme edilecektir.
 
-The Translation Process
-~~~~~~~~~~~~~~~~~~~~~~~
+Tercüme Süreci
+~~~~~~~~~~~~~~
 
-To actually translate the message, Symfony2 uses a simple process:
+Gerçekte mesajı tercüme etmek için Symfony2 basit bir süreç kullanır:
 
-* The ``locale`` of the current user, which is stored in the session, is determined;
+* Geçerli kullanıcının oturumda (session) saklanan, ``yerel`` (locale) bilgisi belirlenir;
 
-* A catalog of translated messages is loaded from translation resources defined
-  for the ``locale`` (e.g. ``fr_FR``). Messages from the fallback locale are
-  also loaded and added to the catalog if they don't already exist. The end
-  result is a large "dictionary" of translations. See `Message Catalogues`_
-  for more details;
-
-* If the message is located in the catalog, the translation is returned. If
-  not, the translator returns the original message.
-
-When using the ``trans()`` method, Symfony2 looks for the exact string inside
-the appropriate message catalog and returns it (if it exists).
+* ``yerel`` (locale) için tanımlanan içerisinde tercüme edilmiş mesajların
+  bulunduğu bir katalog yüklenir(Örn : ``tr_TR``). Varsayılan(fallback) yerel
+  dili ayrıca katalog bulunamazsa ya da mevcut değilse yüklenir ve eklenir.
+  Sonuç geniş bir tercüme "sözlüğü" dür. Daha fazla detay için `Mesaj Katalogları`_
+  belgesine bakın;
+  
+* Eğer mesaj katalog içerisinde ise , tercümesi yapılır. Eğer yoksa çevirici
+  (translator) orijinal mesajı döndürür.
+  
+``trans()`` metodu kullanıldığında, Symfony2 ilgili içerisindeki karakter
+dizesini (string) araştırır ve katalog içerisindeki uygun mesajı döndürür 
+(eğer var ise).
 
 .. index::
-   single: Tercümeler; Message placeholders
+   single: Tercümeler; Mesaj Yer tutucuları (placeholders)
 
-Message Placeholders
+Mesaj Yer Tutucuları
 ~~~~~~~~~~~~~~~~~~~~
 
-Sometimes, a message containing a variable needs to be translated:
+Bazen içerisinde değişken olan bir mesaj çevrilmesi gerekebilir:
 
 .. code-block:: php
 
@@ -180,11 +181,11 @@ Sometimes, a message containing a variable needs to be translated:
         return new Response($t);
     }
 
-However, creating a translation for this string is impossible since the translator
-will try to look up the exact message, including the variable portions
-(e.g. "Hello Ryan" or "Hello Fabien"). Instead of writing a translation
-for every possible iteration of the ``$name`` variable, we can replace the
-variable with a "placeholder":
+Ancak bu karakter dizisi(string) için tercüme yaparken çevirici(translator),  
+içerisinde değişken değerinin olduğu bir mesajı tercüme etmesi imkansızdır
+(Örn : "Hello Ryan" ya da "Hello Fabien"). ``$name`` Değişkenin alabileceği 
+her değere göre bir tercüme yapmak yerine bu değişkeni bir "yer tutucu" 
+(placeholder) içerisinde tanımlarız:
 
 .. code-block:: php
 
@@ -195,22 +196,22 @@ variable with a "placeholder":
         new Response($t);
     }
 
-Symfony2 will now look for a translation of the raw message (``Hello %name%``)
-and *then* replace the placeholders with their values. Creating a translation
-is done just as before:
+Symfony2 şimdi işlenmemiş mesajın (``Hello %name%``) tercümesine bakacak
+ve *daha sonra* yer tutucuda berilenen değeri bu kısıma ekleyecektır. Bir
+tercüme yaratılması ise aynı önceki gibidir:
 
 .. configuration-block::
 
     .. code-block:: xml
 
-        <!-- messages.fr.xliff -->
+        <!-- messages.tr.xliff -->
         <?xml version="1.0"?>
         <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
             <file source-language="en" datatype="plaintext" original="file.ext">
                 <body>
                     <trans-unit id="1">
                         <source>Hello %name%</source>
-                        <target>Bonjour %name%</target>
+                        <target>Merhaba %name%</target>
                     </trans-unit>
                 </body>
             </file>
@@ -218,39 +219,38 @@ is done just as before:
 
     .. code-block:: php
 
-        // messages.fr.php
+        // messages.tr.php
         return array(
-            'Hello %name%' => 'Bonjour %name%',
+            'Hello %name%' => 'Merhaba %name%',
         );
 
     .. code-block:: yaml
 
-        # messages.fr.yml
-        'Hello %name%': Hello %name%
+        # messages.tr.yml
+        'Hello %name%': Merhaba %name%
 
 .. note::
 
-    The placeholders can take on any form as the full message is reconstructed
-    using the PHP `strtr function`_. However, the ``%var%`` notation is
-    required when translating in Twig templates, and is overall a sensible
-    convention to follow.
+    Yer tutucular uzun mesajlar gibi herhangi bir formu PHP `strtr fonksiyonu`_
+    ile yeniden yapılandırımış(reconstruction) şekilde alabilir. Bu yüzden
+    ``%var%`` notasyonu çeviri yaparken tutarlı bir yapı sağlanması için 
+    Twig şablonlarında bu gerekir.
 
-As we've seen, creating a translation is a two-step process:
+Gördüğünüz gibi bir çeviri yapmak iki adımdan oluşur:
 
-1. Abstract the message that needs to be translated by processing it through
-   the ``Translator``.
+1. ``Translator`` tarafından işlenecek, tercüme edilecek bir özet mesaj.
 
-2. Create a translation for the message in each locale that you choose to
-   support.
-
-The second step is done by creating message catalogues that define the translations
-for any number of different locales.
+2. Destek vermeyi istediğiniz her yerel(locale) için bu mesajın tercümesini
+   yaratmak.
+   
+İkinci adım tercümeleri barındıran, farklı sayıdaki farklı yerel için tercümeleri
+barındıran "mesaj katalogları" ile yapılır.
 
 .. index::
-   single: Tercümeler; Message catalogues
+   single: Tercümeler; Mesaj Katalogları
 
-Message Catalogues
-------------------
+Mesaj Katalogları
+-----------------
 
 When a message is translated, Symfony2 compiles a message catalogue for the
 user's locale and looks in it for a translation of the message. A message
@@ -955,7 +955,7 @@ steps:
 
 .. _`i18n`: http://en.wikipedia.org/wiki/Internationalization_and_localization
 .. _`L10n`: http://en.wikipedia.org/wiki/Internationalization_and_localization
-.. _`strtr function`: http://www.php.net/manual/en/function.strtr.php
+.. _`strtr fonksiyonu`: http://www.php.net/manual/en/function.strtr.php
 .. _`ISO 31-11`: http://en.wikipedia.org/wiki/Interval_%28mathematics%29#The_ISO_notation
 .. _`Translatable Extension`: https://github.com/l3pp4rd/DoctrineExtensions
 .. _`ISO3166 Alpha-2`: http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes
