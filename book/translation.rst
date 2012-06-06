@@ -321,29 +321,30 @@ Yükleyici olarak hangisini kullanacağınız sizin zevkinize kalmıştır.
 Tercümeleri Yaratmak
 ~~~~~~~~~~~~~~~~~~~~
 
-The act of creating translation files is an important part of "localization"
-(often abbreviated `L10n`_). Translation files consist of a series of
-id-translation pairs for the given domain and locale. The source is the identifier
-for the individual translation, and can be the message in the main locale (e.g.
-"Symfony is great") of your application or a unique identifier (e.g.
-"symfony2.great" - see the sidebar below):
+Tercüme dosyaları yaratma işinin önemli bir parçası "yerelleştirme" dir
+(sıklıkla `L10n'_ olarak kısaltılır). Tercüme dosyaları verilen ad ve
+yerel bilgisine göre bir dizi id-tercüme eşleşmesine sahiptir. Kaynak,
+özgün tercümenin tanımlayıcısı, ana yerelin mesajı (e.g.
+"Symfony is great") ya da benzersiz bir tanımlayıcı olabilir 
+(e.g."symfony2.great" - aşağıda kutu bilgisine bakın):
+
 
 .. configuration-block::
 
     .. code-block:: xml
 
-        <!-- src/Acme/DemoBundle/Resources/translations/messages.fr.xliff -->
+        <!-- src/Acme/DemoBundle/Resources/translations/messages.tr.xliff -->
         <?xml version="1.0"?>
         <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
             <file source-language="en" datatype="plaintext" original="file.ext">
                 <body>
                     <trans-unit id="1">
                         <source>Symfony2 is great</source>
-                        <target>J'aime Symfony2</target>
+                        <target>Symfony harika</target>
                     </trans-unit>
                     <trans-unit id="2">
                         <source>symfony2.great</source>
-                        <target>J'aime Symfony2</target>
+                        <target>Symfony harika</target>
                     </trans-unit>
                 </body>
             </file>
@@ -351,26 +352,26 @@ for the individual translation, and can be the message in the main locale (e.g.
 
     .. code-block:: php
 
-        // src/Acme/DemoBundle/Resources/translations/messages.fr.php
+        // src/Acme/DemoBundle/Resources/translations/messages.tr.php
         return array(
-            'Symfony2 is great' => 'J\'aime Symfony2',
-            'symfony2.great'    => 'J\'aime Symfony2',
+            'Symfony2 is great' => 'Symfony harika',
+            'symfony2.great'    => 'Symfony harika',
         );
 
     .. code-block:: yaml
 
-        # src/Acme/DemoBundle/Resources/translations/messages.fr.yml
-        Symfony2 is great: J'aime Symfony2
-        symfony2.great:    J'aime Symfony2
+        # src/Acme/DemoBundle/Resources/translations/messages.tr.yml
+        Symfony2 is great: Symfony harika
+        symfony2.great:    Symfony harika
 
-Symfony2 will discover these files and use them when translating either
-"Symfony2 is great" or "symfony2.great" into a French language locale (e.g.
-``fr_FR`` or ``fr_BE``).
+Symfony2 bu dosyaları araştıracak ve ya "Symfony2 is great" ya da 
+"symfony2.great" 'ı Türkçe diline tercümede kullanacaktır (örn: ``tr_TR``).
 
-.. sidebar:: Using Real or Keyword Messages
 
-    This example illustrates the two different philosophies when creating
-    messages to be translated:
+.. sidebar:: Gerçek ya da Anahtar Kelime Mesajlarını Kullanmak
+
+    Bu örnek çeviri olacak mesajların yaratımında iki ayrı felsefeyi açıklamaktadır:
+    
 
     .. code-block:: php
 
@@ -378,26 +379,26 @@ Symfony2 will discover these files and use them when translating either
 
         $t = $translator->trans('symfony2.great');
 
-    In the first method, messages are written in the language of the default
-    locale (English in this case). That message is then used as the "id"
-    when creating translations.
+    İlk metodda mesajlar varsayılan yerel dilde yazılmaktadır (Bu durumda
+    İngilizce). Bu mesaj tercümeler yaratılırken id olarak kullanılacaktır.
 
-    In the second method, messages are actually "keywords" that convey the
-    idea of the message. The keyword message is then used as the "id" for
-    any translations. In this case, translations must be made for the default
-    locale (i.e. to translate ``symfony2.great`` to ``Symfony2 is great``).
+    İkinci metodda mesajlar mesajı iletecek "anahtar kelimeler" olarak tanımlanır.
+    Anahtar mesaj herhangi bir tercüme için id olarak kullanılır.Bu durumda tercümeler
+    varsayışlan yerelde tercüme edilmelidir (örn. Ana yerel Türkçe ise 
+    ``symfony2.great`` , ``Symfony2 harika`` olarak tercüme edilmelidir).
 
-    The second method is handy because the message key won't need to be changed
-    in every translation file if we decide that the message should actually
-    read "Symfony2 is really great" in the default locale.
+    İkinci metod eğer mesajı ana yerel dilde "Symfony2 gerçekten harika"
+    olarak okunmasına karar verdiysek,anahtar kelimenin her tercüme dosyasında 
+    değiştirilmeye ihtiyacı olmadığından dolayı daha pratiktir. 
 
-    The choice of which method to use is entirely up to you, but the "keyword"
-    format is often recommended. 
+    Hangi metodu kullanacağınız tamamen size kalmış. Ancak "anahtar kelime"
+    metodu  daha çok önerilir.
 
-    Additionally, the ``php`` and ``yaml`` file formats support nested ids to
-    avoid repeating yourself if you use keywords instead of real text for your
-    ids:
-
+	Ayrıca ``php`` ve ``yaml`` dosya formatları eğer id'leriniz için
+	geçek metinler kullanıyorsanız kendinizi sürekli tekrarlamamak için
+	iç içe geçmiş (nested) id'lere destek verir:
+	
+	
     .. configuration-block::
 
         .. code-block:: yaml
@@ -428,9 +429,9 @@ Symfony2 will discover these files and use them when translating either
                 ),
             );
 
-    The multiple levels are flattened into single id/translation pairs by
-    adding a dot (.) between every level, therefore the above examples are
-    equivalent to the following:
+    Çoklu düzeyler  her düzey arasında tek bir id/tercüme çiftine nokta (.) ile
+    birleştirilebildiğinden dolayı aşağıdaki örnekler de aynı anlama gelir:
+    
 
     .. configuration-block::
 
@@ -456,36 +457,34 @@ Symfony2 will discover these files and use them when translating either
 Mesaj Domain'lerini Kullanmak
 -----------------------------
 
-As we've seen, message files are organized into the different locales that
-they translate. The message files can also be organized further into "domains".
-When creating message files, the domain is the first portion of the filename.
-The default domain is ``messages``. For example, suppose that, for organization,
-translations were split into three different domains: ``messages``, ``admin``
-and ``navigation``. The French translation would have the following message
-files:
+Gördüğümüz gibi mesaj dosyaları farklı yerellerde tercüme edilmiş şekilde
+organize olmuş dosyalardır. Mesaj dosyaları ayrıca "domain" 'ler içerisinde
+mesaj dosyaları yaratılırken domain dosyanın ilk kısmı olacak şekilde de 
+organize edilebilir. Varsayılan domain ``messages`` dır. Örneğin organize
+etmek amacıyla domainler üç ayrı formata bölünsün. ``messages``, ``admin``
+ve ``navigation`` . Türkçe tercüme dosyaları aşağıdaki şekilde olacaktır:
 
-* ``messages.fr.xliff``
-* ``admin.fr.xliff``
-* ``navigation.fr.xliff``
+* ``messages.tr.xliff``
+* ``admin.tr.xliff``
+* ``navigation.tr.xliff``
 
-When translating strings that are not in the default domain (``messages``),
-you must specify the domain as the third argument of ``trans()``:
+Karakter dizileri tercüme edilirken varsayılan domain (``messages``) içerisinde
+değilse bunu ``trans()`` 'ın üçüncü argümanı olarak tanımlamalısınız:
 
 .. code-block:: php
 
     $this->get('translator')->trans('Symfony2 is great', array(), 'admin');
 
-Symfony2 will now look for the message in the ``admin`` domain of the user's
-locale.
+Symfony2 şimdi kullanıcı yerelinde mesaj için ``admin`` domain'ine bakacaktır.
 
 .. index::
-   single: Tercümeler; User's locale
+   single: Tercümeler; Kullanıcının Yereli
 
-Handling the User's Locale
---------------------------
+Kullanıcının Yerel Bilgisini İşlemek
+-------------------------------------
 
-The locale of the current user is stored in the session and is accessible
-via the ``session`` service:
+Gerçerli kullanıcının yerel bilgisi oturum (session) içerisinde saklanır
+ve ``session`` servisi aracılığı ile erişilebilir:
 
 .. code-block:: php
 
@@ -494,17 +493,19 @@ via the ``session`` service:
     $this->get('session')->setLocale('en_US');
 
 .. index::
-   single: Tercümeler; Fallback and default locale
+   single: Tercümeler; Varsayılan Yerel
 
-Fallback and Default Locale
+Varsayılan Yerel Bilgisi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If the locale hasn't been set explicitly in the session, the ``fallback_locale``
-configuration parameter will be used by the ``Translator``. The parameter
-defaults to ``en`` (see `Configuration`_).
+Eğer yerel bilgisi oturum(session) içerisinde açıkça belirtilmediyse,
+``Translator`` tarafından ``fallback_locale`` konfigürasyon 
+parametresindeki değer kullanılır. Bu parametrenin varsayılan değeri ``en`` dir
+(`Konfigürasyon`_ 'a bakın).
 
-Alternatively, you can guarantee that a locale is set on the user's session
-by defining a ``default_locale`` for the session service:
+Alternatif olarak kullanıcının yerel bilgisini oturum içerisinde tanımlanmasını
+garanti altına almak istiyorsanız oturum servisi için ``default_locale``
+bilgisini tanımlamalısınız:
 
 .. configuration-block::
 
@@ -530,19 +531,20 @@ by defining a ``default_locale`` for the session service:
 
 .. _book-translation-locale-url:
 
-The Locale and the URL
-~~~~~~~~~~~~~~~~~~~~~~
+Yerel Bilgisi ve URL
+~~~~~~~~~~~~~~~~~~~~
 
-Since the locale of the user is stored in the session, it may be tempting
-to use the same URL to display a resource in many different languages based
-on the user's locale. For example, ``http://www.example.com/contact`` could
-show content in English for one user and French for another user. Unfortunately,
-this violates a fundamental rule of the Web: that a particular URL returns
-the same resource regardless of the user. To further muddy the problem, which
-version of the content would be indexed by search engines?
+Kullanıcının yerel bilgisi oturum (session) içerisinde saklandığından dolayı
+aynı URL'yi kullanıcının yerel bilgisine göre farklı kaynaklar kullanarak
+göstermek isteyebilirsiniz. Örneğin ``http://www.example.com/contact``
+içeriği bir kullanıcıda İngilizce, diğer bir kullanıcıda Türkçe
+olabilir. Maalesef bu Webin ana kuralını ihlal eder. Bu URL adresi,
+kullanıcıya dikkat etmeden tek kaynaktan kendini geri döndürür. Daha beter
+bir sorunsa içeriğin hangi sürümü arama motorları tarafından indeksleneceği
+sorunudur.
 
-A better policy is to include the locale in the URL. This is fully-supported
-by the routing system using the special ``_locale`` parameter:
+En iyi çözüm ise yerel bilgisini URL içerisine almaktır. Bu route sistemi
+tarafından desteklenen özel ``_locale`` parametresi ile sağlanır:
 
 .. configuration-block::
 
@@ -552,14 +554,14 @@ by the routing system using the special ``_locale`` parameter:
             pattern:   /{_locale}/contact
             defaults:  { _controller: AcmeDemoBundle:Contact:index, _locale: en }
             requirements:
-                _locale: en|fr|de
+                _locale: en|tr|de
 
     .. code-block:: xml
 
         <route id="contact" pattern="/{_locale}/contact">
             <default key="_controller">AcmeDemoBundle:Contact:index</default>
             <default key="_locale">en</default>
-            <requirement key="_locale">en|fr|de</requirement>
+            <requirement key="_locale">en|tr|de</requirement>
         </route>
 
     .. code-block:: php
@@ -572,24 +574,25 @@ by the routing system using the special ``_locale`` parameter:
             '_controller' => 'AcmeDemoBundle:Contact:index',
             '_locale'     => 'en',
         ), array(
-            '_locale'     => 'en|fr|de'
+            '_locale'     => 'en|tr|de'
         )));
 
         return $collection;
 
-When using the special `_locale` parameter in a route, the matched locale
-will *automatically be set on the user's session*. In other words, if a user
-visits the URI ``/fr/contact``, the locale ``fr`` will automatically be set
-as the locale for the user's session.
+Özel `_locale` parametreini route içerisinde kullanıldığında eşleşen
+yerel bilgisi *otomatik olarak kullanıcını oturumuna kayıt edilecektir*.
+Başka bir ifade ile eğer kullanıcı ``/tr/contact`` URI 'sini ziyaret ederse,
+yerel ``tr`` otomatik olarak kullanıcının yerel bilgisi olarak oturumuna
+kayıt edilecektir.
 
-You can now use the user's locale to create routes to other translated pages
-in your application.
+Şimdi uygulamanız içerisindeki diğer tercüme edilmiş sayfaları göstermek için 
+kullanıcının yerel bilgisini route üzerinde yaratabiliyorsunuz.
 
 .. index::
-   single: Tercümeler; Pluralization
+   single: Tercümeler; Çoğulluk
 
-Pluralization
--------------
+Çoğulluk (Pluralization)
+------------------------
 
 Message pluralization is a tough topic as the rules can be quite complex. For
 instance, here is the mathematic representation of the Russian pluralization
