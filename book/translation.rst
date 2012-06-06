@@ -701,17 +701,17 @@ can use ``-Inf`` and ``+Inf`` for the infinite.
 .. index::
    single: Tercümeler; In templates
 
-Tercümeler in Templates
--------------------------
+Şablonlar içerisinde Tercümeler
+-------------------------------
 
-Most of the time, translation occurs in templates. Symfony2 provides native
-support for both Twig and PHP templates.
+Çoğu zaman tercümeleri şablonlar içerisinde de görülür. Symfony2 Twig ve PHP
+şablonları için bunu doğal olarak destekler.
 
-Twig Templates
-~~~~~~~~~~~~~~
+Twig Şablonları
+~~~~~~~~~~~~~~~
 
-Symfony2 provides specialized Twig tags (``trans`` and ``transchoice``) to
-help with message translation of *static blocks of text*:
+Symfony2 *statik metin blokları* 'nın çevirisinde yardımcı olan özel Twig
+etiketleri(``trans`` ve ``transchoice``) sağlar:
 
 .. code-block:: jinja
 
@@ -721,16 +721,18 @@ help with message translation of *static blocks of text*:
         {0} There are no apples|{1} There is one apple|]1,Inf] There are %count% apples
     {% endtranschoice %}
 
-The ``transchoice`` tag automatically gets the ``%count%`` variable from
-the current context and passes it to the translator. This mechanism only
-works when you use a placeholder following the ``%var%`` pattern.
+
+``transchoice`` etiketi otomatik olarak ``%count%`` değişkenini geçerli
+içerikten alır ve translator'a gönderir. Bu mekanizma sadece ``%var%``
+deseninde tanımlanan yer tutucularda çalışır.
 
 .. tip::
 
-    If you need to use the percent character (``%``) in a string, escape it by
-    doubling it: ``{% trans %}Percent: %percent%%%{% endtrans %}``
+    Eğer bir metin dizesi (string) içerisinde yüzde (``%``) işaretini kullanmanız
+    gerekiyorsa bu karakteri çiftleyerek kullanabilirsiniz:
+    ``{% trans %}Yüzde: %percent%%%{% endtrans %}``
 
-You can also specify the message domain and pass some additional variables:
+Ayrıca mesaj domaini tanımlayarak bazı ek değişkenlerde aktarabilirsiniz:
 
 .. code-block:: jinja
 
@@ -742,8 +744,9 @@ You can also specify the message domain and pass some additional variables:
         {0} There is no apples|{1} There is one apple|]1,Inf] There are %count% apples
     {% endtranschoice %}
 
-The ``trans`` and ``transchoice`` filters can be used to translate *variable
-texts* and complex expressions:
+``trans`` and ``transchoice`` filitreleri *değişken metinleri* ve karmaşık
+ifadelerde de kullanılabilir:
+
 
 .. code-block:: jinja
 
@@ -757,32 +760,33 @@ texts* and complex expressions:
 
 .. tip::
 
-    Using the translation tags or filters have the same effect, but with
-    one subtle difference: automatic output escaping is only applied to
-    variables translated using a filter. In other words, if you need to
-    be sure that your translated variable is *not* output escaped, you must
-    apply the raw filter after the translation filter:
+    Tercüme etiketleri ya da filitreleri kullanmak bir ince farkla 
+    aynı etkiyi yaratır: otomatik kaçış(escaping) sadece bir filitre
+    kullanıldığında değişkenlere uygulanır. Başka bir ifade ile 
+    eğer tercüme edilen değişkenin çıktısın için *kaçış karakteri* 
+    kullanılmaması gerekiyorsa bu durumda tercüme yapıldıktan sonra
+    "raw" filitresi uygulanması gerekir:
 
     .. code-block:: jinja
 
-            {# text translated between tags is never escaped #}
+            {# etiketler (h3) içerisindeki metin ayıklanmayacak #}
             {% trans %}
                 <h3>foo</h3>
             {% endtrans %}
 
             {% set message = '<h3>foo</h3>' %}
 
-            {# a variable translated via a filter is escaped by default #}
+            {# varsayılan olarak değişken filitre ile tercüme edildiğinde ayıklanacak #}
             {{ message|trans|raw }}
 
-            {# but static strings are never escaped #}
+            {# fakat sabit karakter dizileri asla ayıklanmaz #}
             {{ '<h3>foo</h3>'|trans }}
 
-PHP Templates
-~~~~~~~~~~~~~
+PHP Şablonları
+~~~~~~~~~~~~~~
 
-The translator service is accessible in PHP templates through the
-``translator`` helper:
+PHP şablonlarından Translator servisi ``translator`` yardımcısı ile 
+ulaşılabilir:
 
 .. code-block:: html+php
 
@@ -794,12 +798,12 @@ The translator service is accessible in PHP templates through the
         array('%count%' => 10)
     ) ?>
 
-Forcing the Translator Locale
------------------------------
+Translator Yerelini Değiştirmek
+--------------------------------
 
-When translating a message, Symfony2 uses the locale from the user's session
-or the ``fallback`` locale if necessary. You can also manually specify the
-locale to use for translation:
+Symfony2 mesaj tercümesinde kullanıcı oturumundaki yerel bilgisini ya da
+gerekiyorsa ``fallback`` yerel bilgisini kullanır. Ancak kullanılacak 
+yerel bilgisini manuel olarak da ayarlayabilirsiniz:
 
 .. code-block:: php
 
@@ -818,21 +822,21 @@ locale to use for translation:
         'fr_FR',
     );
 
-Translating Database Content
-----------------------------
+Veritabanı İçeriğini Tercüme Etmek
+----------------------------------
 
-The translation of database content should be handled by Doctrine through
-the `Translatable Extension`_. For more information, see the documentation
-for that library.
+Veritabanı içeriğini Doctrine üzerinden tercüme etmek için `Translatable Extension`_
+'unu kullanmanız gerekir. Daha fazla bilhgi için bu kütüphanenin belgelerine
+bakın.
 
 .. _book-translation-constraint-messages:
 
-Translating Constraint Messages
+Kısıt Mesajlarını Tercüme Etmek
 -------------------------------
 
-The best way to understand constraint translation is to see it in action. To start,
-suppose you've created a plain-old-PHP object that you need to use somewhere in
-your application:
+Kısıtl mesajlarını tercüme etmeyi öğrenmenin yolu bunu bir uygulama üzerinde
+görmektir. Varsayalım uygulamanızın herhangi bir yerinde kullanmak üzere 
+düz bir PHP nesnesi yarattınız:
 
 .. code-block:: php
 
@@ -844,9 +848,9 @@ your application:
         public $name;
     }
 
-Add constraints though any of the supported methods. Set the message option to the
-translation source text. For example, to guarantee that the $name property is not
-empty, add the following:
+-Desteklenen metodlardan herhangi birisiyle kısıtları ekleyin. ``message`` seçeneğini
+tercüme kaynak metni olarak belirleyin. Örneğin $name sınıf değişkeninin boş
+geçilemeyeceğini belirlemek için şunu ekleyin:
 
 .. configuration-block::
 
@@ -907,20 +911,22 @@ empty, add the following:
             }
         }
 
-Create a translation file under the ``validators`` catalog for the constraint messages, typically in the ``Resources/translations/`` directory of the bundle. See `Message Catalogues`_ for more details.
+Kısıt mesajları için genelde bundle içerisinde ``Resources/translations/``
+klasörü altında bir ``validators`` tercüme kataloğu yaratın.
+Daha fazla bilgi için `Mesaj Katalogları`_ kısmına bakın.
 
 .. configuration-block::
 
     .. code-block:: xml
 
-        <!-- validators.fr.xliff -->
+        <!-- validators.tr.xliff -->
         <?xml version="1.0"?>
         <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
             <file source-language="en" datatype="plaintext" original="file.ext">
                 <body>
                     <trans-unit id="1">
                         <source>author.name.not_blank</source>
-                        <target>Please enter an author name.</target>
+                        <target>Yazar ismi boş olamaz.</target>
                     </trans-unit>
                 </body>
             </file>
@@ -928,32 +934,33 @@ Create a translation file under the ``validators`` catalog for the constraint me
 
     .. code-block:: php
 
-        // validators.fr.php
+        // validators.tr.php
         return array(
-            'author.name.not_blank' => 'Please enter an author name.',
+            'author.name.not_blank' => 'Yazar ismi boş olamaz.',
         );
 
     .. code-block:: yaml
 
-        # validators.fr.yml
-        author.name.not_blank: Please enter an author name.
+        # validators.tr.yml
+        author.name.not_blank: Yazar ismi boş olamaz.
 
-Summary
--------
+Özet
+----
 
-With the Symfony2 Translation component, creating an internationalized application
-no longer needs to be a painful process and boils down to just a few basic
-steps:
+Symfony2 Translation bileşeni ile uluslararası bir uygulama yaratmak bir kaç
+adımı kapsayan zahmetsiz, ağrısız bir süreçtir:
 
-* Abstract messages in your application by wrapping each in either the
-  :method:`Symfony\\Component\\Translation\\Translator::trans` or
-  :method:`Symfony\\Component\\Translation\\Translator::transChoice` methods;
+* Özet mesajlarınızı ya 
+  :method:`Symfony\\Component\\Translation\\Translator::trans` ile ya da
+  :method:`Symfony\\Component\\Translation\\Translator::transChoice` metodları
+  ile tanımlayın.
 
-* Translate each message into multiple locales by creating translation message
-  files. Symfony2 discovers and processes each file because its name follows
-  a specific convention;
+* Birden fazla yerel için her mesajın tercümesini yerel tercüme mesaj dosyaları yaratarak
+  sağlayın. Symfony2 özel bir isimlendirme kuralına göre arama yaptığından dosyaları
+  bu kurala göre adlandırın;
 
-* Manage the user's locale, which is stored in the session.
+* Kullanıcıların oturum (session) içerisinde yer alan yerel bilgisini 
+  yönetin.
 
 .. _`i18n`: http://en.wikipedia.org/wiki/Internationalization_and_localization
 .. _`L10n`: http://en.wikipedia.org/wiki/Internationalization_and_localization
