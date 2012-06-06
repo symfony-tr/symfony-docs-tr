@@ -1,14 +1,14 @@
 .. index::
-   single: Çeviriler
+   single: Tercümeler
 
-Çeviriler
+Tercümeler
 =========
 
 "Uluslararasılaştırma" terimi (genellikle `i18n`_ olarak kısaltılır) 
 özetlenmiş metinleri ve yerele özel uygulamanızdaki diğer parçaları işleme
-ve kullanıcıların kendi yerel özelliklerine çevirebileceği tercüme edebileceği
+ve kullanıcıların kendi yerel özelliklerine çevirebileceği,tercüme edebileceği
 bir katmanı ifade eder (Örn : Dil bve ülke). Metin için bu, kullanıcının
-dilinde çevirilme özelliği olan her metin (ya da "mesaj") 'i bir fonksiyon
+dilinde, tercüme özelliği olan her metin (ya da "mesaj") 'i bir fonksiyon
 ile paketlemeyi ifade eder::
 
 
@@ -34,21 +34,21 @@ yaratılacağını öğreneceksiniz. Tüm bu aşamalar bazı genel adımlara sah
 
 2. Özet karakter dizilerini ``Translator`` içerisinde çağırmak (örn : "mesajlar")  
 
-3. Desteklenecek her yerel için bir çeviri kaynağı yaratarak bu yereller
+3. Desteklenecek her yerel için bir tercüme kaynağı yaratarak bu yereller
    için her mesajı tercüme etmek;
 
-4. Kullanıcılara atanacak yerel bilgilerini oturum içerisine 
+4. Kullanıcılara atanacak yerel bilgilerini oturum(session) içerisine 
    aktarmak ve yönetme kısımlarını belirlemek.
 
 .. index::
-   single: Translations; Konfigürasyon
+   single: Tercümeler; Konfigürasyon
 
 Konfigürasyon
 -------------
 
-Çeviriler kullanıcıların yerellerini araştıran ve çevirilen mesajları 
+Tercümeler kullanıcıların yerellerini araştıran ve çevirilen mesajları 
 döndüren ``Translator`` :term:`servisi` tarafından işlenir. Bunu kullanmadan
-önce ``Translator`` 'u konfigürasyonnuz içerisinden aktif hale getirin:
+önce ``Translator`` 'u konfigürasyonunuz içerisinden aktif hale getirin:
 
 .. configuration-block::
 
@@ -72,29 +72,29 @@ döndüren ``Translator`` :term:`servisi` tarafından işlenir. Bunu kullanmadan
             'translator' => array('fallback' => 'en'),
         ));
 
-``fallback`` seçeneği eğer kullanıcının yerel'ine göre bir çeviri bulunamadıysa
+``fallback`` seçeneği, eğer kullanıcının yerel'ine göre bir çeviri bulunamadıysa
 uygulanacak varsayılan dili ayarlamaya yarar.
 
 .. tip::
 
-    Yerel için bir çeviri bulunamadığında çevirici (translator) ilk 
-    bulduğu dilin çevirisini deneyecektir (yerel örneğin ``tr`` ise
+    Yerel için bir tercüme bulunamadığında çevirici (translator) ilk 
+    bulduğu dilin tercümesini deneyecektir (yerel örneğin ``tr`` ise
     ``tr_TR`` gibi). Eğer bu da başarısz olursa fallback parametresinde
-    tanımlanan dil kullanılacaktır.
+    tanımlanan dili kullanacaktır.
 
-Çevirilerde kullanılan yerel bilgisi kullanıcı oturumunda saklanır.
+Tercümelerde kullanılan yerel bilgisi kullanıcı oturumunda(session) saklanır.
 
 .. index::
-   single: Çeviriler; Temel Çeviri
+   single: Tercümeler; Temel Tercüme
 
-Temel Çeviri
-------------
+Temel Tercüme
+-------------
 
-Metin çevirisi ``translator`` servisi ile yapılır
-(:class:`Symfony\\Component\\Translation\\Translator`). Bir blok metni çevirmek
+Metin tercümesi ``translator`` servisi ile yapılır
+(:class:`Symfony\\Component\\Translation\\Translator`). Bir blok metni tercüme etmek
 için (bu *mesaj* olarak adlandırılır) :method:`Symfony\\Component\\Translation\\Translator::trans`
 metodunu kullanın. Varsayalım controller içerisindeki basit bir mesajı
-çevireceksiniz:
+tercüme edeceksiniz:
  
 .. code-block:: php
 
@@ -106,24 +106,24 @@ metodunu kullanın. Varsayalım controller içerisindeki basit bir mesajı
     }
 
 Bu kod çalıştırıldığında, Symfony2, "Symfony2 is great" mesajını kullanıcının
-``locale`` bilgisine göre çevirmeye çalışacaktır. Bunun için Symfony2'ye 
+``locale`` bilgisine göre tercüme etmeye çalışacaktır. Bunun için Symfony2'ye 
 mesajı,verilen yerel bilgisinin mesaj tecümeleri kolleksiyonu olan
-"çeviri kaynağından" nasıl çeviri yapacağını söylememiz gereklidir. Bu 
-çeviri "sözlüğü" farkli formatlarda yartılabilir ancak tavsiye edilen XLIFF
+"tercüme kaynağından" nasıl tercüme edeceğini söylememiz gereklidir. Bu 
+tercüme "sözlüğü" farklı formatlarda yaratılabilir ancak tavsiye edilen XLIFF
 formatıdır:
 
 .. configuration-block::
 
     .. code-block:: xml
 
-        <!-- messages.fr.xliff -->
+        <!-- messages.tr.xliff -->
         <?xml version="1.0"?>
         <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
             <file source-language="en" datatype="plaintext" original="file.ext">
                 <body>
                     <trans-unit id="1">
                         <source>Symfony2 is great</source>
-                        <target>J'aime Symfony2</target>
+                        <target>Symfony2 harika</target>
                     </trans-unit>
                 </body>
             </file>
@@ -131,18 +131,18 @@ formatıdır:
 
     .. code-block:: php
 
-        // messages.fr.php
+        // messages.tr.php
         return array(
-            'Symfony2 is great' => 'J\'aime Symfony2',
+            'Symfony2 is great' => 'Symfony2 harika',
         );
 
     .. code-block:: yaml
 
-        # messages.fr.yml
-        Symfony2 is great: J'aime Symfony2
+        # messages.tr.yml
+        Symfony2 is great: Symfony2 harika
 
-Now, if the language of the user's locale is French (e.g. ``fr_FR`` or ``fr_BE``),
-the message will be translated into ``J'aime Symfony2``.
+Şimdi eğer kullanıcı yereli Türkiye ise (örn: ``tr_TR``), bu mesaj ``Symfony2 harika``
+olarak tercüme edilecektir.
 
 The Translation Process
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -164,7 +164,7 @@ When using the ``trans()`` method, Symfony2 looks for the exact string inside
 the appropriate message catalog and returns it (if it exists).
 
 .. index::
-   single: Translations; Message placeholders
+   single: Tercümeler; Message placeholders
 
 Message Placeholders
 ~~~~~~~~~~~~~~~~~~~~
@@ -247,7 +247,7 @@ The second step is done by creating message catalogues that define the translati
 for any number of different locales.
 
 .. index::
-   single: Translations; Message catalogues
+   single: Tercümeler; Message catalogues
 
 Message Catalogues
 ------------------
@@ -261,7 +261,7 @@ translation:
     Symfony2 is Great => J'aime Symfony2
 
 It's the responsibility of the developer (or translator) of an internationalized
-application to create these translations. Translations are stored on the
+application to create these translations. Tercümeler are stored on the
 filesystem and discovered by Symfony, thanks to some conventions.
 
 .. tip::
@@ -275,7 +275,7 @@ filesystem and discovered by Symfony, thanks to some conventions.
         php app/console cache:clear
 
 .. index::
-   single: Translations; Translation resource locations
+   single: Tercümeler; Translation resource locations
 
 Translation Locations and Naming Conventions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -317,9 +317,9 @@ taste.
     :class:`Symfony\\Component\\Translation\\Loader\\LoaderInterface` interface.
 
 .. index::
-   single: Translations; Creating translation resources
+   single: Tercümeler; Creating translation resources
 
-Creating Translations
+Creating Tercümeler
 ~~~~~~~~~~~~~~~~~~~~~
 
 The act of creating translation files is an important part of "localization"
@@ -452,7 +452,7 @@ Symfony2 will discover these files and use them when translating either
             );
 
 .. index::
-   single: Translations; Message domains
+   single: Tercümeler; Message domains
 
 Using Message Domains
 ---------------------
@@ -480,7 +480,7 @@ Symfony2 will now look for the message in the ``admin`` domain of the user's
 locale.
 
 .. index::
-   single: Translations; User's locale
+   single: Tercümeler; User's locale
 
 Handling the User's Locale
 --------------------------
@@ -495,7 +495,7 @@ via the ``session`` service:
     $this->get('session')->setLocale('en_US');
 
 .. index::
-   single: Translations; Fallback and default locale
+   single: Tercümeler; Fallback and default locale
 
 Fallback and Default Locale
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -587,7 +587,7 @@ You can now use the user's locale to create routes to other translated pages
 in your application.
 
 .. index::
-   single: Translations; Pluralization
+   single: Tercümeler; Pluralization
 
 Pluralization
 -------------
@@ -697,9 +697,9 @@ delimiter can be ``[`` (exclusive) or ``]`` (inclusive). Beside numbers, you
 can use ``-Inf`` and ``+Inf`` for the infinite.
 
 .. index::
-   single: Translations; In templates
+   single: Tercümeler; In templates
 
-Translations in Templates
+Tercümeler in Templates
 -------------------------
 
 Most of the time, translation occurs in templates. Symfony2 provides native
