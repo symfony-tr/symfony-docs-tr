@@ -105,7 +105,7 @@ metodunu kullanın. Varsayalım controller içerisindeki basit bir mesajı
         return new Response($t);
     }
 
-Bu kod çalıştırıldığında, Symfony2 "Symfony2 is great" mesajını kullanıcının
+Bu kod çalıştırıldığında, Symfony2, "Symfony2 is great" mesajını kullanıcının
 ``locale`` bilgisine göre çevirmeye çalışacaktır. Bunun için Symfony2'ye 
 mesajı,verilen yerel bilgisinin mesaj tecümeleri kolleksiyonu olan
 "çeviri kaynağından" nasıl çeviri yapacağını söylememiz gereklidir. Bu 
