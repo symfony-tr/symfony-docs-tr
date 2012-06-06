@@ -252,75 +252,74 @@ barındıran "mesaj katalogları" ile yapılır.
 Mesaj Katalogları
 -----------------
 
-When a message is translated, Symfony2 compiles a message catalogue for the
-user's locale and looks in it for a translation of the message. A message
-catalogue is like a dictionary of translations for a specific locale. For
-example, the catalogue for the ``fr_FR`` locale might contain the following
-translation:
+Bir mesajın tercümesinde Symfony2 mesaj katalogunu, kullanıcıların yereline
+göre ve mesajın tercümesi araştırılması için derler. Bir mesaj katalogu
+farklı yerel bilgisi için aynı bir sözlük gibidir. Örneğin. ``tr_TR``
+yereli için bir katalog şu şekilde mesajın çevirisini barındıabilir:
 
-    Symfony2 is Great => J'aime Symfony2
+    Symfony2 is Great => Symfony2 harika
 
-It's the responsibility of the developer (or translator) of an internationalized
-application to create these translations. Tercümeler are stored on the
-filesystem and discovered by Symfony, thanks to some conventions.
+Bu çok uluslu bir uygulamada yerelleştirme ile (ya da tercüme) ilgili 
+geliştiricinin sorumluluğudur. Tercümeler Symfony tarafından taranan,
+bazı kurallara göre oluşturulmuş bir dosya sistemi içerisinde saklanır.
 
 .. tip::
 
-    Each time you create a *new* translation resource (or install a bundle
-    that includes a translation resource), be sure to clear your cache so
-    that Symfony can discover the new translation resource:
+    *Yeni* yaratacağınız her tercüme (ya da içerisinde tercüme kaynağı
+    barındıran bir bundle kurulumu) kaynağında Symfony2'nin yeni
+    tercüme kaynaklarını bulabilmesi için ön belleği (cache) temizleyin:
     
     .. code-block:: bash
     
         php app/console cache:clear
 
 .. index::
-   single: Tercümeler; Translation resource locations
+   single: Tercümeler; Tercüme kaynak konumları
 
-Translation Locations and Naming Conventions
+Tercüme Konumları ve İsimlendirme Kuralları
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Symfony2 looks for message files (i.e. translations) in two locations:
+Symfony2 mesajlar için (tercümeler) iki konuma bakar:
 
-* For messages found in a bundle, the corresponding message files should
-  live in the ``Resources/translations/`` directory of the bundle;
+* Bundle içerisinde bulunan mesajlar için ilgili mesaj dosyaları
+  bundle'ın ``Resources/translations/`` klasöründe bulunmalıdır;
 
-* To override any bundle translations, place message files in the
-  ``app/Resources/translations`` directory.
+* Herhangibir bundle tercümesini değiştirmek(override) için mesaj
+  dosyalarını ``app/Resources/translations`` klasörüne yerleştirin.
 
-The filename of the translations is also important as Symfony2 uses a convention
-to determine details about the translations. Each message file must be named
-according to the following pattern: ``domain.locale.loader``:
+Symfony2'nin tercümelerin detaylarını belirlerken kullandığı kurallar yüzünden
+tercüme dosyalarının isimleri ayrıca önemlidir. Her mesaj dosyasının adı şu 
+şablona göre verilmelidir: ``domain.locale.loader`` :
 
-* **domain**: An optional way to organize messages into groups (e.g. ``admin``,
-  ``navigation`` or the default ``messages``) - see `Using Message Domains`_;
+* **domain**: Mesajların gurup halinde organize edilmesi için isteğe bağlı bir
+  kısımdır(Örn: ``admin``,  ``navigation`` ya da varsayılan olarak ``messages``).
+  bkz. `Mesaj Domain'lerini Kullanmak`_
+  
+* **locale**: tercümelerin yapılacağı yerel bilgisi (örn: ``en_GB``, ``en``, vs...)
 
-* **locale**: The locale that the translations are for (e.g. ``en_GB``, ``en``, etc);
+* **loader**: Symfony'nin dosyayı nasıl yorumlayacağını ve yükleyeceğini 
+  belirten kısım (örn: ``xliff``, ``php`` ya da ``yml``).
 
-* **loader**: How Symfony2 should load and parse the file (e.g. ``xliff``,
-  ``php`` or ``yml``).
+loader kısmı kayıtlı herhangi bir yükleyici ismi olabilir. Varsayılan olarak
+Symfony aşağıdaki yükleyicileri sağlar:
 
-The loader can be the name of any registered loader. By default, Symfony
-provides the following loaders:
+* ``xliff``: XLIFF dosyası;
+* ``php``:   PHP dosyası;
+* ``yml``:  YAML dosyası.
 
-* ``xliff``: XLIFF file;
-* ``php``:   PHP file;
-* ``yml``:  YAML file.
-
-The choice of which loader to use is entirely up to you and is a matter of
-taste.
+Yükleyici olarak hangisini kullanacağınız sizin zevkinize kalmıştır.
 
 .. note::
 
-    You can also store translations in a database, or any other storage by
-    providing a custom class implementing the
-    :class:`Symfony\\Component\\Translation\\Loader\\LoaderInterface` interface.
+    Ayrıca çevririleri bir veri tabanında ya da :class:`Symfony\\Component\\Translation\\Loader\\LoaderInterface` 
+    interface'inden türetilmiş özel bir sınıf aracılığı ile de kayıt altına alabilirsiniz.
+    
 
 .. index::
-   single: Tercümeler; Creating translation resources
+   single: Tercümeler; Tercüme kaynakları yaratmak
 
-Creating Tercümeler
-~~~~~~~~~~~~~~~~~~~~~
+Tercümeleri Yaratmak
+~~~~~~~~~~~~~~~~~~~~
 
 The act of creating translation files is an important part of "localization"
 (often abbreviated `L10n`_). Translation files consist of a series of
@@ -452,10 +451,10 @@ Symfony2 will discover these files and use them when translating either
             );
 
 .. index::
-   single: Tercümeler; Message domains
+   single: Tercümeler; Mesaj domain'leri
 
-Using Message Domains
----------------------
+Mesaj Domain'lerini Kullanmak
+-----------------------------
 
 As we've seen, message files are organized into the different locales that
 they translate. The message files can also be organized further into "domains".
