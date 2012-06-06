@@ -1233,9 +1233,8 @@ Kullanıcı nesnesinde hangi şifreleme algoritması kullandığınız önemli d
 Kullanıcı Nesnesini Almak
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After authentication, the ``User`` object of the current user can be accessed
-via the ``security.context`` service. From inside a controller, this will
-look like:
+Kimlik doğrulamasından sonra geçerli kullanıcının ``User`` nesnesi ``security.context``
+servisi tarafından erişilebilir. Controller içerisinden bu şu şekilde yapılır:
 
 .. code-block:: php
 
@@ -1246,14 +1245,16 @@ look like:
 
 .. note::
 
-    Anonymous users are technically authenticated, meaning that the ``isAuthenticated()``
-    method of an anonymous user object will return true. To check if your
-    user is actually authenticated, check for the ``IS_AUTHENTICATED_FULLY``
-    role.
+    Anonim kullanıcılar ''isAuthenticated()`` metodu
+    anonim kullanıcı nesnesini true olarak döndüreceği için teknik olarak
+    kimlikleri doğrulanır. Bir kullanıcının kimliğinin doğrulanma 
+    bilgisini almak için ``IS_AUTHENTICATED_FULLY`` rolünü kontrol
+    etmelisiniz.
     
-In a Twig Template this object can be accessed via the ``app.user`` key,
-which calls the :method:`GlobalVariables::getUser()<Symfony\\Bundle\\FrameworkBundle\\Templating\\GlobalVariables::getUser>`
-method:
+    
+Twig şsblonunda bu nesneye 
+:method:`GlobalVariables::getUser()<Symfony\\Bundle\\FrameworkBundle\\Templating\\GlobalVariables::getUser>`
+metodunu çağıran ``app.user`` anahtarı ile ulaşılabilir:
 
 .. configuration-block::
 
@@ -1262,14 +1263,15 @@ method:
         <p>Username: {{ app.user.username }}</p>
 
 
-Using Multiple User Providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Çoklu Kullanıcı Sağlayıcılarını Kullanmak
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each authentication mechanism (Örn:  HTTP Authentication, form login, etc)
-uses exactly one user provider, and will use the first declared user provider
-by default. But what if you want to specify a few users via configuration
-and the rest of your users in the database? This is possible by creating
-a new provider that chains the two together:
+Her kimlik doğrulama mekanizması (Örn: HTTP Kimlik doğrulaması, form login, vs...)
+sadece bir kullanıcı sağlayıcısı kullanır ve varsayılan olarak ilk belirtilen
+kullanıcı sağlayıcı mekanizması kullanılır. Fakat acaba birkaç kullanıcı 
+konfigürasyon dosyası üzerinden, geri kalanları da veritabanından sağlanacaksa
+ne olacak? Bu iki sağlayıcıyıda zincirleme olarak kullanabilen yeni
+bir sağlayıcı yaratmakla mümkün olabilir:
 
 .. configuration-block::
 
@@ -1321,15 +1323,17 @@ a new provider that chains the two together:
             ),
         ));
 
-Now, all authentication mechanisms will use the ``chain_provider``, since
-it's the first specified. The ``chain_provider`` will, in turn, try to load
-the user from both the ``in_memory`` and ``user_db`` providers.
+Şimdi ilk olarak tanımlandığından dolayı tüm kimlik doğrulama mekanizmaları 
+``chain_provider`` 'ı kullanacaklar. ``chain_provier`` kendi içerisinde 
+kullanıcıları ``in_memory`` ve ``user_db`` altında tanımlanan 
+sağlayıcıları kullanmaya çalışacaktır.
 
 .. tip::
 
-    If you have no reasons to separate your ``in_memory`` users from your
-    ``user_db`` users, you can accomplish this even more easily by combining
-    the two sources into a single provider:
+    Eğer kullanıcılarınızı ``in_memory`` kullanıcıları ve ``user_db``
+    kullanıcıları olarak ayırmak için bir nedeniniz yoksa bu iki kaynağı
+    oldukça kolay bir şekilde birleştirip, tek bir sağlayıcı olarak da 
+    kullanabilirsiniz:
 
     .. configuration-block::
 
@@ -1367,9 +1371,9 @@ the user from both the ``in_memory`` and ``user_db`` providers.
                 ),
             ));
 
-You can also configure the firewall or individual authentication mechanisms
-to use a specific provider. Again, unless a provider is specified explicitly,
-the first provider is always used:
+Ayrıca güvenlik duvarını ya da bağımsız kimlik doğrulama mekanizmalarınıda
+belirli bir sağlayıcı ile çalışacak şekilde konfigüre edebilirsiniz. 
+Yine bir sağlayıcı belirtilmedikçe ilk sağlayıcı her zaman kullanılan olacaktır:
 
 .. configuration-block::
 
@@ -1414,38 +1418,42 @@ the first provider is always used:
             ),
         ));
 
-In this example, if a user tries to login via HTTP authentication, the authentication
-system will use the ``in_memory`` user provider. But if the user tries to
-login via the form login, the ``user_db`` provider will be used (since it's
-the default for the firewall as a whole).
+Bu örnekte eğer kullanıcı HTTP kimlik doğrulamasıyla giriş yapmaya çalışırsa,
+kimlik doğrulama sistemi ``in_memory`` kullanıcı sağlayıcısını kullanacaktır.
+Ancak eğer kullanıcı login işlemini form login üzerinden yaparsa ``user_db``
+kullanıcı sağlayıcısı kullanılacaktır(tüm güvenlik duvarının tamamında
+varsayılan olmasına karşın).
 
-For more information about user provider and firewall configuration, see
-the :doc:`/reference/configuration/security`.
+Kullanıcı sağlayıcısı ve güvenlik duvarı konfigürasyonu hakkında daha
+fazla bilgi için :doc:`/reference/configuration/security` belgesine
+bakın.
 
-Roles
------
+Roller
+------
 
-The idea of a "role" is key to the authorization process. Each user is assigned
-a set of roles and then each resource requires one or more roles. If the user
-has the required roles, access is granted. Otherwise access is denied.
+"role" 'ün arkasındaki fikir yetkilendirme sisteminin anahtarı olmasıdır.
+Her kullanıcıya bir dizi rol atanır ve her kaynak bir ya da daha fazla
+role gereksinim duyar. Eğer kullanıcı gerekli olan rollere sahipse,
+erişim sağlanır. Aksi takdirde erişim yasaklanır.
 
-Roles are pretty simple, and are basically strings that you can invent and
-use as needed (though roles are objects internally). For example, if you
-need to start limiting access to the blog admin section of your website,
-you could protect that section using a ``ROLE_BLOG_ADMIN`` role. This role
-doesn't need to be defined anywhere - you can just start using it.
+Roller oldukça basit ve gerektiğinde kendi kendinize uydurabileceğiniz
+basit metinlerdir(roller içsel olarak nesne olmalarına rağmen). Örneğin
+eğer sitenizin blog admin kısmının erişimini kısıtlamak istiyorsanız
+bu kısmı bir ``ROLE_BLOG_ADMIN`` rolü ile koruma altına alabilirsiniz.
+Bu rol herhangi bir yerde tanımlamaya ihtiyaç duymaz, bu rolü
+hemen kullanarak başlayabilirsiniz.
 
 .. note::
 
-    All roles **must** begin with the ``ROLE_`` prefix to be managed by
-    Symfony2. If you define your own roles with a dedicated ``Role`` class
-    (more advanced), don't use the ``ROLE_`` prefix.
+    Tüm roller Symfony2 tarafından yönetilmesi için ``ROLE_`` ön ekine
+    sahip **olmalıdır**. Eğer kendi rollerinizi özel ``Role`` sınıfı ile
+    tanımladıysanız (çok ileri düzey) ``ROLE_`` ön ekini kullanmayın. 
 
-Hierarchical Roles
-~~~~~~~~~~~~~~~~~~
+Hiyerarşik Roller
+~~~~~~~~~~~~~~~~~
 
-Instead of associating many roles to users, you can define role inheritance
-rules by creating a role hierarchy:
+Pek çok rolü kullanıcılara bağlamak yerine bir rol hiyerarşisi yaratarak
+rol kalıtım kurallarını belirleyebilirsiniz:
 
 .. configuration-block::
 
@@ -1475,16 +1483,16 @@ rules by creating a role hierarchy:
             ),
         ));
 
-In the above configuration, users with ``ROLE_ADMIN`` role will also have the
-``ROLE_USER`` role. The ``ROLE_SUPER_ADMIN`` role has ``ROLE_ADMIN``, ``ROLE_ALLOWED_TO_SWITCH``
-and ``ROLE_USER`` (inherited from ``ROLE_ADMIN``).
+Yukarıdaki konfigürasyonda ``ROLE_ADMIN`` rolune sahip olan kullanıcılar ``ROLE_USER``
+rolüne sahip olacaklardır. ``ROLE_SUPER_ADMIN`` rolü ``ROLE_ADMIN``, ``ROLE_ALLOWED_TO_SWITCH``
+ve ``ROLE_USER`` rolüne sahiptir (``ROLE_ADMIN`` 'den kalıtım yoluyla)
 
-Logging Out
------------
+Güvenli Çıkış (Logging Out)
+---------------------------
 
-Usually, you'll also want your users to be able to log out. Fortunately,
-the firewall can handle this automatically for you when you activate the
-``logout`` config parameter:
+Genellikle kullanıcıların güvenli çıkış yapmasını sağlamak isteyeceksiniz.
+Çok şükür ki güvenlik duvarı bunu ``logout`` konfigürasyon parametresi
+devrede ise otomatik olarak gerçekleştirebilir:
 
 .. configuration-block::
 
@@ -1524,12 +1532,13 @@ the firewall can handle this automatically for you when you activate the
             // ...
         ));
 
-Once this is configured under your firewall, sending a user to ``/logout``
-(or whatever you configure the ``path`` to be), will un-authenticate the
-current user. The user will then be sent to the homepage (the value defined
-by the ``target`` parameter). Both the ``path`` and ``target`` config parameters
-default to what's specified here. In other words, unless you need to customize
-them, you can omit them entirely and shorten your configuration:
+Bu güvenlik duvarı altında bir kere ayarlandımı kullanıcıyı ``/logout`` 'a 
+gönderildiğinde (ya da ``path`` ne olarak konfigüre edildiyse) geçerli
+kullanıcı'nın oturumu kapatılacaktır. Kullanıcı ana sayfaya yönlendirilecektir.
+(``target`` parametresinin değerinde ne yazıyorsa). ``path`` ve ``target`` 
+konfigürasyon parametrelerinden ikiside varsayılan değeri olarak sizin belirlediğiniz
+değerleri alır. Diğer bir ifade ile siz bunları düzenlemedikçe bu parametreleri
+koymayarak konfigürasyonunuzu kısaltabilirsiniz:
 
 .. configuration-block::
 
@@ -1545,9 +1554,9 @@ them, you can omit them entirely and shorten your configuration:
 
         'logout' => array(),
 
-Note that you will *not* need to implement a controller for the ``/logout``
-URL as the firewall takes care of everything. You may, however, want to create
-a route so that you can use it to generate the URL:
+Güvenlik duvarının tümünü gerçekleştirdiği için ``/logout`` URL'si için bir controller
+geliştirmeye gerek duymayacağınıza dikkat edin. Ancak belki bu URL'yi yaratacak bir
+route yaratabilirsiniz:
 
 .. configuration-block::
 
@@ -1581,67 +1590,70 @@ a route so that you can use it to generate the URL:
 
         return $collection;
 
-Once the user has been logged out, he will be redirected to whatever path
-is defined by the ``target`` parameter above (Örn:  the ``homepage``). For
-more information on configuring the logout, see the
-:doc:`Security Configuration Reference</reference/configuration/security>`.
+Kullanıcı oturumunu kapattığımda yukarıda ``target`` parametresinde belirlenen
+(Örn:  ``homepage``) yere yönlendirilecektir. sistemden çıkış işlemi (logout)
+için daha fazla bilgi öğrenmek için 
+:doc:`Güvenlik Konfigürasyon Belgesine Bakın</reference/configuration/security>`.
 
-Access Control in Templates
+Şablonlarda Erişim Kontrolü
 ---------------------------
 
-If you want to check if the current user has a role inside a template, use
-the built-in helper function:
+Eğer geçerli kullanıcı bir şablon içerisinde bir rolü varsa ve eğer
+bunu kontrol etmek istiyorsanız önceden hazır yardımcı fonksiyonları
+kullanabilirsiniz:
 
 .. configuration-block::
 
     .. code-block:: html+jinja
 
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="...">Delete</a>
+            <a href="...">Sil</a>
         {% endif %}
 
     .. code-block:: html+php
 
         <?php if ($view['security']->isGranted('ROLE_ADMIN')): ?>
-            <a href="...">Delete</a>
+            <a href="...">Sil</a>
         <?php endif; ?>
 
 .. note::
 
-    If you use this function and are *not* at a URL where there is a firewall
-    active, an exception will be thrown. Again, it's almost always a good
-    idea to have a main firewall that covers all URLs (as has been shown
-    in this chapter).
+    Eğer bu fonksiyonu kullanırsanız ve güvenlik duvarı içerisinde aktif 
+    bir URL yok ise bir istisna (exception) atılacaktır. Yine en iyi fikir 
+    ana güvenlik duvarının tüm URL'leri kapsamasıdır(bu bölüm içerisinde
+    gösterilmişti).
 
-Access Control in Controllers
------------------------------
+Controller İçerisinde Erişim Kontrolü
+-------------------------------------
 
-If you want to check if the current user has a role in your controller, use
-the ``isGranted`` method of the security context:
+Eğer geçerli kullanıcı controller içerisinde bir role sahipse ve bunu 
+kontrol etmek istiyorsanız güvenlik içeriğinin (security context) 
+``isGranted`` metodunu kullanın: 
 
 .. code-block:: php
 
     public function indexAction()
     {
-        // show different content to admin users
+        // admin kullanıcılarına farklı içerik göster
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            // Load admin content here
+            // burada admin içeriğini yükle
         }
-        // load other regular content here
+        // genel içeriği burada yükle
     }
 
 .. note::
 
-    A firewall must be active or an exception will be thrown when the ``isGranted``
-    method is called. See the note above about templates for more details.
+    Bir güvenlik duvarı'nın ``isGranted`` metodu çağırıldığında istisna
+    üretmemesi için aktif olması gerekmektedir. Şablonlar hakkındaki
+    yukarıda verilen nota bakarak daha fazl bilgi alabilirsiniz.
 
-Impersonating a User
---------------------
+Bir Kullanıcıyı Taklit Etmek
+----------------------------
 
-Sometimes, it's useful to be able to switch from one user to another without
-having to logout and login again (for instance when you are debugging or trying
-to understand a bug a user sees that you can't reproduce). This can be easily
-done by activating the ``switch_user`` firewall listener:
+Bazen bir kullanıcıdan diğer bir kullanıcıya sistemden çıkış yapmadan geçmek
+faydalı olabilir(mesela hata ayıklarken ya da bir hatanın kullanıcı tarafında
+nasıl gözüktüğünü anlamak için). Bu ``switch_user`` güvenlik duvarı dinleyicisini
+aktif ederek oldukça kolay bir şekilde sağlanabilir:
 
 .. configuration-block::
 
@@ -1676,20 +1688,21 @@ done by activating the ``switch_user`` firewall listener:
             ),
         ));
 
-To switch to another user, just add a query string with the ``_switch_user``
-parameter and the username as the value to the current URL:
+Başka bir kullanıcıya geçmek için sadece geçerli URL'nize ``_switch_user``
+sorgu parametresini (query string) ekleyip bu değere bir kullanıcı adı
+atamanız yeterlidir:
 
     http://example.com/somewhere?_switch_user=thomas
 
-To switch back to the original user, use the special ``_exit`` username:
+Orijinal kullanıcıya geri dönmek için ``_exit`` özel kullanıcı adını kullanın:
 
     http://example.com/somewhere?_switch_user=_exit
 
-Of course, this feature needs to be made available to a small group of users.
-By default, access is restricted to users having the ``ROLE_ALLOWED_TO_SWITCH``
-role. The name of this role can be modified via the ``role`` setting. For
-extra security, you can also change the query parameter name via the ``parameter``
-setting:
+Elbette bu özellik küçük bir kullanıcı gurubunda kullanılabilir. Varsayılan olarak
+erişim ``ROLE_ALLOWED_SWITCH`` rolüne sahip kullanıcılarla sınırlandılırmıştır.
+Bu rolün adı ``role`` ayarı ile değiştirilebilir. Ekstra güvenlik için ayrıca
+sorgu parametresini (query parameter)  düzenlemek için ``parameter`` seçeneğinin
+değerini değiştirebilirsiniz: 
 
 .. configuration-block::
 
@@ -1700,7 +1713,7 @@ setting:
             firewalls:
                 main:
                     // ...
-                    switch_user: { role: ROLE_ADMIN, parameter: _want_to_be_this_user }
+                    switch_user: { role: ROLE_ADMIN, parameter: _olmak_istenen_kullanici }
 
     .. code-block:: xml
 
@@ -1708,7 +1721,7 @@ setting:
         <config>
             <firewall>
                 <!-- ... -->
-                <switch-user role="ROLE_ADMIN" parameter="_want_to_be_this_user" />
+                <switch-user role="ROLE_ADMIN" parameter="_olmak_istenen_kullanici" />
             </firewall>
         </config>
 
@@ -1719,20 +1732,20 @@ setting:
             'firewalls' => array(
                 'main'=> array(
                     // ...
-                    'switch_user' => array('role' => 'ROLE_ADMIN', 'parameter' => '_want_to_be_this_user'),
+                    'switch_user' => array('role' => 'ROLE_ADMIN', 'parameter' => '_olmak_istenen_kullanici'),
                 ),
             ),
         ));
 
-Stateless Authentication
-------------------------
+Kayıtsız(stateless) Kimlik Doğrulama
+------------------------------------
 
-By default, Symfony2 relies on a cookie (the Session) to persist the security
-context of the user. But if you use certificates or HTTP authentication for
-instance, persistence is not needed as credentials are available for each
-request. In that case, and if you don't need to store anything else between
-requests, you can activate the stateless authentication (which means that no
-cookie will be ever created by Symfony2):
+Varsayılan olarak Symfony2 kullanıcının güvenlik içeriğini bir çerezde (oturum)
+saklar. Eğer sertifika kullanıyorsanız ya da HTTP kimlik doğrulaması kullanıyorsanız
+bu kullanıcı bilgileri her istek için herhangi bir yerde saklanması gerekmekz. 
+Bu durumda eğer istekler arasında herhangi bir şey saklamayacaksanız, kayıtsız
+(stateless) kimlik doğrulamayı aktif edebilirsiniz(bu Symfony2 tarafından herhangibir
+çerez oluşturulmayacak anlamına gelmektedir):
 
 .. configuration-block::
 
@@ -1765,35 +1778,38 @@ cookie will be ever created by Symfony2):
 
 .. note::
 
-    If you use a form login, Symfony2 will create a cookie even if you set
-    ``stateless`` to ``true``.
+    Eğer form login kullanıyorsanız, Symfony2 ``stateless` değerini ``true``
+    yapsanız bile bir çerez yaratacaktır.
 
-Final Words
------------
+Son Sözler
+----------
 
-Security can be a deep and complex issue to solve correctly in your application.
-Fortunately, Symfony's security component follows a well-proven security
-model based around *authentication* and *authorization*. Authentication,
-which always happens first, is handled by a firewall whose job is to determine
-the identity of the user through several different methods (Örn:  HTTP authentication,
-login form, etc). In the cookbook, you'll find examples of other methods
-for handling authentication, including how to implement a "remember me" cookie
-functionality.
+Güvenlik uygulamanız içerisinde doğru bir şekiklde çözülmesi gereken 
+derin ve karmaşık bir konu olabilir. Şükür ki, Symfony'nin security bileşeni, 
+iyice test edilmiş *kimlik doğrulama* (authentication) ve *yetkilendirme*
+(authorization) etrafında şekillendirilmiş bir güvenlik modelini kullanır.
+Kimlik doğrulama her zaman ilk önce ve güvenlik duvarının bu işi farklı 
+metodlar kullanarak denetleyebilmesiyle olur (Örn:  HTTP kimlik doğrulaması,
+login form, vs...). Tarif kitabında kimlik doğrulamayı gerçekleştiren diğer
+metodları, çerez kullanarak "beni hatırla" özelliğini geliştirme gibi konuları
+bulacaksınız. 
 
-Once a user is authenticated, the authorization layer can determine whether
-or not the user should have access to a specific resource. Most commonly,
-*roles* are applied to URLs, classes or methods and if the current user
-doesn't have that role, access is denied. The authorization layer, however,
-is much deeper, and follows a system of "voting" so that multiple parties
-can determine if the current user should have access to a given resource.
-Find out more about this and other topics in the cookbook.
+Kullanıcının kimliği doğrulandığında yetkilendirme katmanı kullanıcının 
+belirli bir kaynağa erişiminin olup olmadığını belirler. Genel olarak *roller*
+URL'lere, sınıflara ya da metodlara uygulanır ve eğer kullanıcı bunlara
+erişme hakkına sahip değilse erişemez. Yekilendirme katmanı bu yüzden
+çok derindir ve geçerli kullanıcının verilen kaynağa erişim yetkisini 
+belirleyebildiği için çok parçalı bir "karar verme" (voting) sistemi kullanır.
+Bu konudaki daha fazla bilgiyi tarif kitabının diğer başlıklarında araştırın.
 
-Learn more from the Cookbook
-----------------------------
 
-* :doc:`Forcing HTTP/HTTPS </cookbook/security/force_https>`
-* :doc:`Blacklist users by IP address with a custom voter </cookbook/security/voters>`
-* :doc:`Access Control Lists (ACLs) </cookbook/security/acl>`
+
+Tarif Kitabından Daha Fazlasını Öğrenin
+---------------------------------------
+
+* :doc:`HTTP/HTTPS Zorlamak</cookbook/security/force_https>`
+* :doc:`Özel bir karar verici ile kullanıcıların IP adreslerine göre kara listeye almak </cookbook/security/voters>`
+* :doc:`Erişim Kontrol Listeleri(ACL) </cookbook/security/acl>`
 * :doc:`/cookbook/security/remember_me`
 
 .. _`güvenlik bileşeni`: https://github.com/symfony/Security

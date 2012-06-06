@@ -1,52 +1,54 @@
 .. index::
-   single: Translations
+   single: Çeviriler
 
-Translations
-============
+Çeviriler
+=========
 
-The term "internationalization" (often abbreviated `i18n`_) refers to the process
-of abstracting strings and other locale-specific pieces out of your application
-and into a layer where they can be translated and converted based on the user's
-locale (i.e. language and country). For text, this means wrapping each with a
-function capable of translating the text (or "message") into the language of
-the user::
+"Uluslararasılaştırma" terimi (genellikle `i18n`_ olarak kısaltılır) 
+özetlenmiş metinleri ve yerele özel uygulamanızdaki diğer parçaları işleme
+ve kullanıcıların kendi yerel özelliklerine çevirebileceği tercüme edebileceği
+bir katmanı ifade eder (Örn : Dil bve ülke). Metin için bu, kullanıcının
+dilinde çevirilme özelliği olan her metin (ya da "mesaj") 'i bir fonksiyon
+ile paketlemeyi ifade eder::
 
-    // text will *always* print out in English
+
+    // metin *daima* İngilizce olarak gözükecetir.
     echo 'Hello World';
 
-    // text can be translated into the end-user's language or default to English
+    // metin son kullanıcıların diline ya da İngilizceye tercüme edilebilir
     echo $translator->trans('Hello World');
 
 .. note::
 
-    The term *locale* refers roughly to the user's language and country. It
-    can be any string that your application uses to manage translations
-    and other format differences (e.g. currency format). We recommended the
-    `ISO639-1`_ *language* code, an underscore (``_``), then the `ISO3166 Alpha-2`_ *country*
-    code (e.g. ``fr_FR`` for French/France).
+    *Yerel* (locale) terimi kabaca kullanıcıların dilini ve ülkesini ifade eder.
+    Uygulamanızın kullandığı herhangi bir metini tercüme etmek ve diğer
+    format farklılıkları (örn: para birimi formatı) yönetilebilir. 
+    Biz `ISO639-1`_ *dil* kodu ve bir alt tire (``_``) ve daha sonrada 
+    `ISO3166 Alpha-2`_ *ülke* kodunu tavsiye ediyoruz(Örn : Türkçe/Türkiye için ``tr_TR``).
 
-In this chapter, we'll learn how to prepare an application to support multiple
-locales and then how to create translations for multiple locales. Overall,
-the process has several common steps:
+Bu kısımda uygulamanın çoklu yerel özelliklere nasıl destek vereceği konusunda 
+hazırlık yapmayı ve daha sonra da çoklu yerel özellikler için nasıl tercümeler
+yaratılacağını öğreneceksiniz. Tüm bu aşamalar bazı genel adımlara sahiptir:
 
-1. Enable and configure Symfony's ``Translation`` component;
+1. Symfony'nin ``Translation`` bileşenini aktif edip konfigüre etmek;
 
-2. Abstract strings (i.e. "messages") by wrapping them in calls to the ``Translator``;
+2. Özet karakter dizilerini ``Translator`` içerisinde çağırmak (örn : "mesajlar")  
 
-3. Create translation resources for each supported locale that translate
-   each message in the application;
+3. Desteklenecek her yerel için bir çeviri kaynağı yaratarak bu yereller
+   için her mesajı tercüme etmek;
 
-4. Determine, set and manage the user's locale in the session.
+4. Kullanıcılara atanacak yerel bilgilerini oturum içerisine 
+   aktarmak ve yönetme kısımlarını belirlemek.
 
 .. index::
-   single: Translations; Configuration
+   single: Translations; Konfigürasyon
 
-Configuration
+Konfigürasyon
 -------------
 
-Translations are handled by a ``Translator`` :term:`service` that uses the
-user's locale to lookup and return translated messages. Before using it,
-enable the ``Translator`` in your configuration:
+Çeviriler kullanıcıların yerellerini araştıran ve çevirilen mesajları 
+döndüren ``Translator`` :term:`servisi` tarafından işlenir. Bunu kullanmadan
+önce ``Translator`` 'u konfigürasyonnuz içerisinden aktif hale getirin:
 
 .. configuration-block::
 
@@ -70,30 +72,30 @@ enable the ``Translator`` in your configuration:
             'translator' => array('fallback' => 'en'),
         ));
 
-The ``fallback`` option defines the fallback locale when a translation does
-not exist in the user's locale.
+``fallback`` seçeneği eğer kullanıcının yerel'ine göre bir çeviri bulunamadıysa
+uygulanacak varsayılan dili ayarlamaya yarar.
 
 .. tip::
 
-    When a translation does not exist for a locale, the translator first tries
-    to find the translation for the language (``fr`` if the locale is
-    ``fr_FR`` for instance). If this also fails, it looks for a translation
-    using the fallback locale.
+    Yerel için bir çeviri bulunamadığında çevirici (translator) ilk 
+    bulduğu dilin çevirisini deneyecektir (yerel örneğin ``tr`` ise
+    ``tr_TR`` gibi). Eğer bu da başarısz olursa fallback parametresinde
+    tanımlanan dil kullanılacaktır.
 
-The locale used in translations is the one stored in the user session.
+Çevirilerde kullanılan yerel bilgisi kullanıcı oturumunda saklanır.
 
 .. index::
-   single: Translations; Basic translation
+   single: Çeviriler; Temel Çeviri
 
-Basic Translation
------------------
+Temel Çeviri
+------------
 
-Translation of text is done through the  ``translator`` service
-(:class:`Symfony\\Component\\Translation\\Translator`). To translate a block
-of text (called a *message*), use the
-:method:`Symfony\\Component\\Translation\\Translator::trans` method. Suppose,
-for example, that we're translating a simple message from inside a controller:
-
+Metin çevirisi ``translator`` servisi ile yapılır
+(:class:`Symfony\\Component\\Translation\\Translator`). Bir blok metni çevirmek
+için (bu *mesaj* olarak adlandırılır) :method:`Symfony\\Component\\Translation\\Translator::trans`
+metodunu kullanın. Varsayalım controller içerisindeki basit bir mesajı
+çevireceksiniz:
+ 
 .. code-block:: php
 
     public function indexAction()
@@ -103,12 +105,12 @@ for example, that we're translating a simple message from inside a controller:
         return new Response($t);
     }
 
-When this code is executed, Symfony2 will attempt to translate the message
-"Symfony2 is great" based on the ``locale`` of the user. For this to work,
-we need to tell Symfony2 how to translate the message via a "translation
-resource", which is a collection of message translations for a given locale.
-This "dictionary" of translations can be created in several different formats,
-XLIFF being the recommended format:
+Bu kod çalıştırıldığında, Symfony2 "Symfony2 is great" mesajını kullanıcının
+``locale`` bilgisine göre çevirmeye çalışacaktır. Bunun için Symfony2'ye 
+mesajı,verilen yerel bilgisinin mesaj tecümeleri kolleksiyonu olan
+"çeviri kaynağından" nasıl çeviri yapacağını söylememiz gereklidir. Bu 
+çeviri "sözlüğü" farkli formatlarda yartılabilir ancak tavsiye edilen XLIFF
+formatıdır:
 
 .. configuration-block::
 
