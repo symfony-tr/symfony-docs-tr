@@ -594,23 +594,32 @@ kullanıcının yerel bilgisini route üzerinde yaratabiliyorsunuz.
 Çoğulluk (Pluralization)
 ------------------------
 
-Message pluralization is a tough topic as the rules can be quite complex. For
-instance, here is the mathematic representation of the Russian pluralization
-rules::
+.. note::
+
+	Ç.N: Bu kısım Türkçe dil bilgisi kuralları arasında yer almadığından
+	Türkçe'den başka dil kullanmayacaksanız bu kısmı atlayın. Ancak
+	Uygulamanızda İngilizce, Almanca, Fransızca, Rusça gibi dillere destek
+	verecekseniz bu kısmı okuyabilirsiniz.
+
+
+Mesajların çoğul halleri kuralları oldukça karmaşık olabildiğinden zor bir 
+konudur. Bu yüzden Rusça çoğul haller kurallarını matematiksel gösterimi
+bulunmaktadır::
 
     (($number % 10 == 1) && ($number % 100 != 11)) ? 0 : ((($number % 10 >= 2) && ($number % 10 <= 4) && (($number % 100 < 10) || ($number % 100 >= 20))) ? 1 : 2);
 
-As you can see, in Russian, you can have three different plural forms, each
-given an index of 0, 1 or 2. For each form, the plural is different, and
-so the translation is also different.
+Gördüğünüz gibi Rusçada her birisine 0,1 ya da 2 indexi verilen üç 
+farklı çoğul hal bulunmaktadır. Her çoğul hal farklı ve bu yüzden de çeviride
+farklı olmaktadır.
 
-When a translation has different forms due to pluralization, you can provide
-all the forms as a string separated by a pipe (``|``)::
+Tercümenin çoğul hallerden dolayı farklı formları olduğunda bir karakter
+dizisinin tüm çoğul halleri  bir komut borusu ile ayrılabilir (``|``)::
 
     'There is one apple|There are %count% apples'
 
-To translate pluralized messages, use the
-:method:`Symfony\\Component\\Translation\\Translator::transChoice` method:
+Çoğullaştırılmış mesajları kullanmak için 
+:method:`Symfony\\Component\\Translation\\Translator::transChoice` metodunu
+kullanın:
 
 .. code-block:: php
 
@@ -620,86 +629,90 @@ To translate pluralized messages, use the
         array('%count%' => 10)
     );
 
-The second argument (``10`` in this example), is the *number* of objects being
-described and is used to determine which translation to use and also to populate
-the ``%count%`` placeholder.
+İkinci argüman (bu örnekte ``10``) nesnelerin tanımlandığı ve kullanılacak
+tercümede doldurulacak olan ``%count%`` yer tutucusunun *sayısıdır*.
 
-Based on the given number, the translator chooses the right plural form.
-In English, most words have a singular form when there is exactly one object
-and a plural form for all other numbers (0, 2, 3...). So, if ``count`` is
-``1``, the translator will use the first string (``There is one apple``)
-as the translation. Otherwise it will use ``There are %count% apples``.
-
-Here is the French translation::
+Verilen sayıya göre translator, doğru çoğul hali seçer.
+Ingilizcede çoğu kelimenin tekil hali sadece bir nesneyi ifade ederken çoğul
+hali diğer sayılar için (0,2,3...) tanımlanır. Bu yüzden eğer ``count``
+değişkeni ``1`` ise translator ilk tercümede 
+(``There is one apple``) olan ilk karakter dizisini kullanacaktır. Aksi takdirde 
+ ``There are %count% apples`` şeklini kullanacaktır.
+ 
+Burada Fransızca tercümesi vardır::
 
     'Il y a %count% pomme|Il y a %count% pommes'
 
-Even if the string looks similar (it is made of two sub-strings separated by a
-pipe), the French rules are different: the first form (no plural) is used when
-``count`` is ``0`` or ``1``. So, the translator will automatically use the
-first string (``Il y a %count% pomme``) when ``count`` is ``0`` or ``1``.
+Karakter dizileri birbirine çok benzese bile (bu iki alt metin komut borusu ile
+birbirinden ayrılmıştır), Fransızca kuralları farklıdır. İlk form (çoğul olmayan)
+``count`` değeri ``0`` ya da ``1`` için kullanılır. Bu yüzden translator otomatik
+olarak ``count`` değeri ``0`` ya da ``1`` olduğunda ilk karakter dizisini 
+(``Il y a %count% pomme``) kulanacaktır.
 
-Each locale has its own set of rules, with some having as many as six different
-plural forms with complex rules behind which numbers map to which plural form.
-The rules are quite simple for English and French, but for Russian, you'd
-may want a hint to know which rule matches which string. To help translators,
-you can optionally "tag" each string::
+Her yerelin kendisine göre en az altı farklı çoğul hali ile hangi sayıların hangi çoğul
+halde kullanılacağını belirleyen kuralları ile birlikte berlileyen kuralları vardır.
+Kurallar İngilizce ve Fransızca için oldukça basit iken Rusça için hangi kuralın
+hangi karakter dizisi ile kullanılacağı için bazı yardımlar almalısınız.
+Tercümanlara yardımcı olabilmek için isteğe bağlı olarak her karakter dizisi
+için "etiket" kullanabilirsiniz::
 
     'one: There is one apple|some: There are %count% apples'
 
     'none_or_one: Il y a %count% pomme|some: Il y a %count% pommes'
 
-The tags are really only hints for translators and don't affect the logic
-used to determine which plural form to use. The tags can be any descriptive
-string that ends with a colon (``:``). The tags also do not need to be the
-same in the original message as in the translated one.
+Etiketler tercümanlar için oldukça iyi yardımcılardır ve tercümanların
+hangi çoğul hali nerede kullanacağı hakkında onlara yardımcı olur.
+Etiketler tanımlayıcı herhangi bir iki nokta üstüste ile biten (``:``) bir
+karakter dizisi olabilir. Etiketler ayrıca orijinal mesajla aynı olmak zorunda
+değildir.
 
 .. tip:
 
-    As tags are optional, the translator doesn't use them (the translator will
-    only get a string based on its position in the string).
+    Etiketler isteğe bağlıdır ve tercüman istemezse bunları kullanmaz
+    (tercüman sadece karkater dizisini etiketten sonraki ilk 
+    pozisyonuna bakar).
 
-Explicit Interval Pluralization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Verilen Aralıkları Çoğullamak (Explicit Interval Pluralization)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The easiest way to pluralize a message is to let Symfony2 use internal logic
-to choose which string to use based on a given number. Sometimes, you'll
-need more control or want a different translation for specific cases (for
-``0``, or when the count is negative, for example). For such cases, you can
-use explicit math intervals::
+Bir mesajı çoğul hale getirmenin en kolay yolu Symfony2 'nin kullandığı 
+verilen sayıya göre hangi çoğul formu kullanacağını seçen iç algoritmayı
+kullanmaktır. Baze belirli tercümelerde daha fazla kontrol etmeyi isteyip 
+farklı tercümeler yapmak isteyebilirsiniz(``0`` ya da adet sayısı negatif ise).
+Bu durumlar için açık matematik aralıklarını(explicit math intervals) kullanın ::
 
     '{0} There are no apples|{1} There is one apple|]1,19] There are %count% apples|[20,Inf] There are many apples'
 
-The intervals follow the `ISO 31-11`_ notation. The above string specifies
-four different intervals: exactly ``0``, exactly ``1``, ``2-19``, and ``20``
-and higher.
+Aralıklar `ISO 31-11`_ notasyonunu kullanır. Yukarıdaki karakter dizisi 
+dört farklı aralık tanımlar: eşittir ``0``, eşittir ``1``,``2-19`` ve ``20``
+ve yukarısı.
 
-You can also mix explicit math rules and standard rules. In this case, if
-the count is not matched by a specific interval, the standard rules take
-effect after removing the explicit rules::
+Ayrıca eşitlik matematik kuralları ile standart kurallarıda harmanlayabilirsiniz.
+Bu durumda eğer adet sayısı belirli bir aralıkla eşleşmezse standart kurallar
+devreye girerler::
 
     '{0} There are no apples|[20,Inf] There are many apples|There is one apple|a_few: There are %count% apples'
 
-For example, for ``1`` apple, the standard rule ``There is one apple`` will
-be used. For ``2-19`` apples, the second standard rule ``There are %count%
-apples`` will be selected.
+Örneğin ``1`` elma(apple) için, standart kural ``There is one apple`` kullanılacaktır.
+``2-19`` arası elma için iklinci standart kural `There are %count% apples`` 
+seçilecektir.
 
-An :class:`Symfony\\Component\\Translation\\Interval` can represent a finite set
-of numbers::
+:class:`Symfony\\Component\\Translation\\Interval` sınıfı sonlu bir sayı kümesini
+ifade edebilir::
 
     {1,2,3,4}
 
-Or numbers between two other numbers::
+Ya da iki sayı arasındaki sayıları::
 
     [1, +Inf[
     ]-1,2[
 
-The left delimiter can be ``[`` (inclusive) or ``]`` (exclusive). The right
-delimiter can be ``[`` (exclusive) or ``]`` (inclusive). Beside numbers, you
-can use ``-Inf`` and ``+Inf`` for the infinite.
+Sağ ayraç ``[`` (içinde) ya da ``]`` (dışında) olabilir.
+Sol ayraç ``[`` (dışında) ya da ``]`` (içinde) olabilir. Sayıların dışında
+``-Inf`` ve ``+Inf`` sonsuzluk ifadelerinide kullanabilirsiniz.
 
 .. index::
-   single: Tercümeler; In templates
+   single: Tercümeler; Şablonlarda Tercümeler
 
 Şablonlar içerisinde Tercümeler
 -------------------------------
