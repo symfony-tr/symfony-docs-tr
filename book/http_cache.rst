@@ -1,36 +1,36 @@
 .. index::
-   single: Cache
+   single: Cache (ön bellek)
 
-HTTP Cache
-==========
+HTTP Ön Belleği(cache)
+======================
 
-The nature of rich web applications means that they're dynamic. No matter
-how efficient your application, each request will always contain more overhead
-than serving a static file.
+Zengin web uygulamalarının doğası dinamik olmalarıdır. Uygulamanız ne kadar
+verimli olursa olsun her istek daima bir statik dosyanın servis edilmesinden
+daha çok maliyetlidir.
 
-And for most Web applications, that's fine. Symfony2 is lightning fast, and
-unless you're doing some serious heavy-lifting, each request will come back
-quickly without putting too much stress on your server.
+Ancak çoğu web uygulamalarında bu bir sorun değildir. Symfony2 şimşek 
+hızındadır ve siz çok ağır işler yaptırmadıkça her istek sunucunuza fazla
+yüklenmeden anında geri döndürülür.
 
-But as your site grows, that overhead can become a problem. The processing
-that's normally performed on every request should be done only once. This
-is exactly what caching aims to accomplish.
+Fakat siteniz büyüdüğünde bu fazlalıklar problem olmaya başlar. İşlemler,
+her istekte normal olarak sadece bir kez olmalıdır. İşte tam da caching
+(önbellekleme)  işleminin işi budur.
 
-Caching on the Shoulders of Giants
+Devlerin Omuzlarında Ön Bellekleme
 ----------------------------------
 
-The most effective way to improve performance of an application is to cache
-the full output of a page and then bypass the application entirely on each
-subsequent request. Of course, this isn't always possible for highly dynamic
-websites, or is it? In this chapter, we'll show you how the Symfony2 cache
-system works and why we think this is the best possible approach.
+Uygulamanın performansını arttırmanın en etkili yolu, tüm sayfanın çıktısını
+önbelleğe(cache) almak ve sonraki her istekte bu ön bellek çıktısını vermektir.
+Elbette bu her zaman yüksek oranda içerikleri değişen web sitelerinde
+sürekli mümkün olmamaktadır. Bu bölümde Symfony2 cache sisteminin nasıl
+çalıştığını gösterecek ve neden bunun mümkün olan  en iyi yaklaşım olarak 
+düşünüdüğümüzü göreceksiniz.
 
-The Symfony2 cache system is different because it relies on the simplicity
-and power of the HTTP cache as defined in the :term:`HTTP specification`.
-Instead of reinventing a caching methodology, Symfony2 embraces the standard
-that defines basic communication on the Web. Once you understand the fundamental
-HTTP validation and expiration caching models, you'll be ready to master
-the Symfony2 cache system.
+Symfony2 cache sistemi :term:`HTTP specification` sistemi olarak tanımlanan
+basit HTTP cache sisteminden gücünü aldığı için farklıdır. Cache metodolojisini
+yeniden keşfetmektense Symfony2 standart olarak Web üzerindeki basit iletişimi
+benimser. HTTP doğrulama(validation) ve sonlu zamanlı(expiration) cache modellerinin
+temellerini anladığınızda, Symfony2 cache sisteminin uzmanı olmaya hazır olacaksınız.
 
 For the purposes of learning how to cache with Symfony2, we'll cover the
 subject in four steps:
