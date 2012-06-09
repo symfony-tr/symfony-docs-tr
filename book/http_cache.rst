@@ -72,59 +72,59 @@ Mark Nottingham'ın `Cache Tutorial`_ 'ıdır.
 Gateway Cache ile Önbelleklemek
 -------------------------------
 
-When caching with HTTP, the *cache* is separated from your application entirely
-and sits between your application and the client making the request.
+HTTP ile cache yaparken *cache* uygulamanızdan tamamen ayrıdır ve uygulamanız
+ile istek yapan istemci arasında durur. 
 
-The job of the cache is to accept requests from the client and pass them
-back to your application. The cache will also receive responses back from
-your application and forward them on to the client. The cache is the "middle-man"
-of the request-response communication between the client and your application.
+Cache'in işi istemciden gelen istekleri kabul etmek ve onları uygulamaya
+geri göndermektir. Cache ayrıca uygulamanızdan istekleri geri alacak ve
+onları istemciye iletecektir. Cache istemci ile uygulamanız arasındaki
+istek-cevap iletişimindeki "aracı" dır.
 
-Along the way, the cache will store each response that is deemed "cacheable"
-(See :ref:`http-cache-introduction`). If the same resource is requested again,
-the cache sends the cached response to the client, ignoring your application
-entirely.
+Bu arada cache "cache edilebilir" gördüğü her istedği saklayacaktır
+(bkz :ref:`http-cache-introduction`). Eğer aynı istek yeniden yapılıysa
+cache uygulamanızı yok sayarak cache edilmiş isteği istemciye yollayacaktır.
 
-This type of cache is known as a HTTP gateway cache and many exist such
-as `Varnish`_, `Squid in reverse proxy mode`_, and the Symfony2 reverse proxy.
+Bu tip cache HTTP gateway cache olarak adlandırılır ve `Varnish`_, 
+`Reverse proxy mode da Squid`_, ve Symfony2 reverse proxy gibi pek çok 
+şekli mevcuttur.
 
 .. index::
-   single: Cache; Types of
+   single: Cache; Tipler
 
-Types of Caches
-~~~~~~~~~~~~~~~
+Cache Tipleri
+~~~~~~~~~~~~~
 
-But a gateway cache isn't the only type of cache. In fact, the HTTP cache
-headers sent by your application are consumed and interpreted by up to three
-different types of caches:
+Ancak bir gateway cache tek cache tipi değildir. Aslında uygulamanız
+tarafından gönderilen HTTP cache başlıkları üç tip farklı cache tarafından
+yorumlanır ve işlenir:
 
-* *Browser caches*: Every browser comes with its own local cache that is
-  mainly useful for when you hit "back" or for images and other assets.
-  The browser cache is a *private* cache as cached resources aren't shared
-  with anyone else.
+* *Browser cache 'leri*: Her browser "geri" hareketi ya da resimler ve diğer
+  varlıklar için kendisinin kullandığı bir yerel cache sistemi ile birlikte
+  gelir. Browser cache 'i, cache bilgisini başkalarınla paylaşmayan *özel* 
+  (private)  bir cache 'dir.
+  
+* *Proxy cache'leri*: Bir proxy cache pek çok insan tarafından *paylaşılan*
+  tek bir kaynaktır. Bu genellikle büyük kurumlar ve ISS'ler tarafından
+  gecikme (latency) ve ağ trafiğini azaltmak için kullanılır.
 
-* *Proxy caches*: A proxy is a *shared* cache as many people can be behind a
-  single one. It's usually installed by large corporations and ISPs to reduce
-  latency and network traffic.
-
-* *Gateway caches*: Like a proxy, it's also a *shared* cache but on the server
-  side. Installed by network administrators, it makes websites more scalable,
-  reliable and performant.
-
+* *Gateway cache'leri*: Proxy gibi buda *paylaşılan* bir cache'dir. Ancak bu
+  sunucu tarafında gerçekleşir. Ağ yöneticileri tarafından web sitelerini
+  daha ölçeklenebilir, güvenilir ve performanslı yapmak amacıyla kurulur.
+ 
 .. tip::
 
-    Gateway caches are sometimes referred to as reverse proxy caches,
-    surrogate caches, or even HTTP accelerators.
+    Gateway cache'leri bazen reverse proxy cache, surrogate cache hatta
+    HTTP hızlandırıcıları olarak da bilinir.
 
 .. note::
 
-    The significance of *private* versus *shared* caches will become more
-    obvious as we talk about caching responses containing content that is
-    specific to exactly one user (e.g. account information).
+    *Private* ile *shared* cache arasındaki mana farkı özellikle bir 
+    kullanıcıya ait veriyi barındıran içeriklerin (örn: hesap bilgisi)
+    cache'lenmesi şeklinde işlediğimizde daha da netlik kazanacaktır.
 
-Each response from your application will likely go through one or both of
-the first two cache types. These caches are outside of your control but follow
-the HTTP cache directions set in the response.
+Uygulamanızdaki her response muhtemelen bir ya da ilk iki cache tipi 
+şeklinde gidecektir. Bu cache'ler kontrolunuz dışındadır ancak response
+içerisine konulmuş HTTP cache direktiflerini izleyebilirsiniz.
 
 .. index::
    single: Cache; Symfony2 Reverse Proxy
@@ -442,7 +442,7 @@ without hitting the application until it expires.
 The expiration model can be accomplished using one of two, nearly identical,
 HTTP headers: ``Expires`` or ``Cache-Control``.
 
-.. index::
+.. index::-
    single: Cache; Expires header
    single: HTTP headers; Expires
 
@@ -1046,7 +1046,7 @@ Learn more from the Cookbook
 .. _`Things Caches Do`: http://tomayko.com/writings/things-caches-do
 .. _`Cache Tutorial`: http://www.mnot.net/cache_docs/
 .. _`Varnish`: http://www.varnish-cache.org/
-.. _`Squid in reverse proxy mode`: http://wiki.squid-cache.org/SquidFaq/ReverseProxy
+.. _`Reverse proxy mode da Squid`: http://wiki.squid-cache.org/SquidFaq/ReverseProxy
 .. _`expiration model`: http://tools.ietf.org/html/rfc2616#section-13.2
 .. _`validation model`: http://tools.ietf.org/html/rfc2616#section-13.3
 .. _`RFC 2616`: http://tools.ietf.org/html/rfc2616
