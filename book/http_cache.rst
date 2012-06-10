@@ -134,15 +134,15 @@ içerisine konulmuş HTTP cache direktiflerini izleyebilirsiniz.
 Symfony2 Reverse Proxy
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Symfony2 comes with a reverse proxy (also called a gateway cache) written
-in PHP. Enable it and cacheable responses from your application will start
-to be cached right away. Installing it is just as easy. Each new Symfony2
-application comes with a pre-configured caching kernel (``AppCache``) that
-wraps the default one (``AppKernel``). The caching Kernel *is* the reverse
-proxy.
+Symfony2 PHP'de yazılmış bir reverse proxy (gatewa cache olarak da anılır)
+ile birlikte gelir. Bunu devreye alarak uygulamanızdan cache'lenebilir 
+cevapları alarak cache işine başlayabilirsiniz. Kurulumu oldukça kolaydır.
+Her Symfony2 uygulaması önceden konfigüre edilmiş (``AppKernel``) 
+'i kullanan bir cache çekirdeği (``AppCache``) ile birlikte gelir. Cache
+çekirdeği *reverse proxy* 'dir.
 
-To enable caching, modify the code of a front controller to use the caching
-kernel::
+Cache 'lemeyi aktif edebilmek için fontro controller'ınızı cache kernelini
+aktif edecek şekilde aşağıdaki gibi düzenleyin::
 
     // web/app.php
 
@@ -158,20 +158,21 @@ kernel::
     $kernel = new AppCache($kernel);
     $kernel->handle(Request::createFromGlobals())->send();
 
-The caching kernel will immediately act as a reverse proxy - caching responses
-from your application and returning them to the client.
+Cache kerneli anında reverse proxy olarak uygulamanızdan cevapları cache'leyip
+istemciye göndermeye başlayacaktır.
 
 .. tip::
 
-    The cache kernel has a special ``getLog()`` method that returns a string
-    representation of what happened in the cache layer. In the development
-    environment, use it to debug and validate your cache strategy::
+    Cache çekirdeği cache katmanında neler olduğunu bildiren ``getLog()``
+    adında özel bir metoda sahiptir. Geliştirme ortamında (environment)
+    bunu cache stratejinizin doğru çalışıp çalışmadığını kontrol etmek
+    için kullanabilirsiniz::
 
         error_log($kernel->getLog());
 
-The ``AppCache`` object has a sensible default configuration, but it can be
-finely tuned via a set of options you can set by overriding the ``getOptions()``
-method::
+``AppCache`` nesnesi tutarlı bir konfigürasyona sahiptir ancak bazı 
+ayarlara ince ayar çekebilmek için ``getOptions()`` metodu ile bu ayarları
+düzenleyebilirsiniz::
 
     // app/AppCache.php
 
@@ -195,28 +196,31 @@ method::
 
 .. tip::
 
-    Unless overridden in ``getOptions()``, the ``debug`` option will be set
-    to automatically be the debug value of the wrapped ``AppKernel``.
+    ``getOption()`` metodu ile seçenek değiştirilmedikçe ``debug`` seçeneği
+    otomatik olarak ``AppKernel`` 'deki değeri kendisine atayacaktır.
 
-Here is a list of the main options:
+Aşağıda ana seçeneklerin listesi verilmiştir:
 
-* ``default_ttl``: The number of seconds that a cache entry should be
-  considered fresh when no explicit freshness information is provided in a
-  response. Explicit ``Cache-Control`` or ``Expires`` headers override this
-  value (default: ``0``);
+* ``default_ttl``: Cache girdisinin response tarafından belirli bir 
+  taze kalma değeri verilmediğinde tazelik (freshness) değerini 
+  saniye olarak belirler. ``Cache-Control`` ya da ``Expires`` başlıkları 
+  bu değeri değiştirebilir (override) (varsayılan: ``0``);
 
-* ``private_headers``: Set of request headers that trigger "private"
-  ``Cache-Control`` behavior on responses that don't explicitly state whether
-  the response is ``public`` or ``private`` via a ``Cache-Control`` directive.
-  (default: ``Authorization`` and ``Cookie``);
+* ``private_headers``: response'larda "özel" ``Cache-Control`` davranısının 
+  tetiklediği response'un ``Cache-Control`` direktifi üzerinden 
+  ``public`` ya da ``private`` durumunun belirgin olmadığı durumlarda request'in
+  alacağı değerdir. (varsayılan : ``Authorization`` ve ``Cookie``);
 
-* ``allow_reload``: Specifies whether the client can force a cache reload by
-  including a ``Cache-Control`` "no-cache" directive in the request. Set it to
-  ``true`` for compliance with RFC 2616 (default: ``false``);
+* ``allow_reload``: İstemcinin istekte ``Cache-Control`` 'ün "no-cache" 
+  direktifi ile bir cache 'i yeniden yüklenmeye zorlamasına izin verir.
+  Bunun değeri 'ni RFC 2616  ile uyumlu olmasını istiyorsanız ``true``  
+  yapın.(varsayılan: ``false``);
 
-* ``allow_revalidate``: Specifies whether the client can force a cache
-  revalidate by including a ``Cache-Control`` "max-age=0" directive in the
-  request. Set it to ``true`` for compliance with RFC 2616 (default: false);
+* ``allow_revalidate``: istemcinin cache'i istekte ``Cache-Control``'de 
+  "max-age=0" değeri ile yeniden doğrulama yapıp yapmamasını belirler.
+  Bunun değeri 'ni RFC 2616  ile uyumlu olmasını istiyorsanız ``true``  
+  yapın.(varsayılan: ``false``);
+
 
 * ``stale_while_revalidate``: Specifies the default number of seconds (the
   granularity is the second as the Response TTL precision is a second) during
