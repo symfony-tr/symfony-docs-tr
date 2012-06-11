@@ -1,44 +1,43 @@
 .. index::
    single: Forms; Twig form function reference
 
-Twig Template Form Function Reference
+Twig Þablonlarý Form Fonksiyonlarý
 =====================================
 
-This reference manual covers all the possible Twig functions available for
-rendering forms. There are several different functions available, and each
-is responsible for rendering a different part of a form (e.g. labels, errors,
-widgets, etc).
+Formlarý oluþtururken kullanýlabilecek olan tüm Twig fonksiyonlarý bu belgede verilmiþtir.
+Birkaç deðiþik fonksiyon bulunmaktadýr ve her biri formun farklý kýsýmlarýnýn (etiketler, 
+hatalar, araçlar.. vs.) oluþturulmasýndan sorumludur.
 
 form_label(form.name, label, variables)
 ---------------------------------------
 
-Renders the label for the given field. You can optionally pass the specific
-label you want to display as the second argument.
+Verilen alan için etiketi oluþturur. Özel olarak görünmesini istediðiniz bir etiketi
+opsiyonel olan ikinci parametrede verebilirsiniz.
 
 .. code-block:: jinja
 
     {{ form_label(form.name) }}
 
-    {# The two following syntaxes are equivalent #}
+    {# Aþaðýdaki iki örnek de yapýsal olarak doðrudur #}
     {{ form_label(form.name, 'Your Name', { 'attr': {'class': 'foo'} }) }}
     {{ form_label(form.name, null, { 'label': 'Your name', 'attr': {'class': 'foo'} }) }}
 
 form_errors(form.name)
 ----------------------
 
-Renders any errors for the given field.
+Verilan alan için hatalarý oluþturur.
 
 .. code-block:: jinja
 
     {{ form_errors(form.name) }}
 
-    {# render any "global" errors #}
+    {# herhangi "genel" bir hatayý göster #}
     {{ form_errors(form) }}
 
 form_widget(form.name, variables)
 ---------------------------------
 
-Renders the HTML widget of a given field. If you apply this to an entire form
+Verilan alanýn Renders the HTML widget of a given field. If you apply this to an entire form
 or collection of fields, each underlying form row will be rendered.
 
 .. code-block:: jinja
