@@ -37,18 +37,18 @@ Verilan alan için hatalarý oluþturur.
 form_widget(form.name, variables)
 ---------------------------------
 
-Verilan alanýn Renders the HTML widget of a given field. If you apply this to an entire form
-or collection of fields, each underlying form row will be rendered.
+Verilan alan için HTML araç çýktýsýný oluþturur. Eðer bütün bir forma ve ya form alanlarý topluluðuna
+uygulanýrsa, içerdiði her bir form satýrý oluþturulur.
 
 .. code-block:: jinja
 
-    {# render a widget, but add a "foo" class to it #}
+    {# bir kod bloðunu "foo" sýnýfýný ekleyerek oluþturur #}
     {{ form_widget(form.name, { 'attr': {'class': 'foo'} }) }}
 
-The second argument to ``form_widget`` is an array of variables. The most
-common variable is ``attr``, which is an array of HTML attributes to apply
-to the HTML widget. In some cases, certain types also have other template-related
-options that can be passed. These are discussed on a type-by-type basis.
+``form_widget`` için belirtilen ikinci parametre bir deðiþkenler dizisidir. 
+En çok kullanýlan deðiþken ``attr`` dir, HTML aracýna uygulanacak HTML 
+özelliklerini içerir. Bazý durumlarda, bazý tiplere ait þablonla ilgili 
+baþka özellikler de verilebilir. Bunlar her bir tip için ayrýca açýklanmýþtýr.
 
 form_row(form.name, variables)
 ------------------------------
