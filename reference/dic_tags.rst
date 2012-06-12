@@ -37,7 +37,7 @@ Aşağıda Symfony2 içerisinde mevcut olan tüm etiketler listelenmiştir:
 +-----------------------------------+---------------------------------------------------------------------------+
 | `swiftmailer.plugin`_             | Özel SwiftMailer Plugin'i ekle                                            |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `templating.helper`_              | Servisi PHP şablonları için kullanılabilir yap                            |
+| `templating.helper`_              | Servisinizi PHP şablonları için kullanılabilir yapın                      |
 +-----------------------------------+---------------------------------------------------------------------------+
 | `translation.loader`_             | Tercümeleri yükleyen özel bir servis ekle                                 |
 +-----------------------------------+---------------------------------------------------------------------------+
@@ -447,27 +447,31 @@ okuyun.
 swiftmailer.plugin
 ------------------
 
-**Amaç**: Register a custom SwiftMailer Plugin
+**Amaç**: Özel SwiftMailer Plugin'i ekle
 
-If you're using a custom SwiftMailer plugin (or want to create one), you can
-register it with SwiftMailer by creating a service for your plugin and tagging
-it with ``swiftmailer.plugin`` (it has no options).
+Eğer özel bir SwiftMailer eklentisi kullanıyorsanız(ya da bir tane yaratmak 
+istiyorsanız) bunu plug'in için yaratacağınız bir servis ile ve bunu 
+``swiftmailer.plugin`` (argüman olmadan) etiketi altında belirterek 
+SwiftMailer ile kullanabilirsiniz.
 
-A SwiftMailer plugin must implement the ``Swift_Events_EventListener`` interface.
-For more information on plugins, see `SwiftMailer's Plugin Documentation`_.
+Bir SwiftMailer eklentsi mutlaka ``Swift_Events_EventListener`` interface'i
+ile yapılandırılmalıdır. Eklentiler hakkında daha fazla bilgi için 
+`SwiftMailerin Eklenti Belgesi`_ 'ne bakın.
 
-Several SwiftMailer plugins are core to Symfony and can be activated via
-different configuration. For details, see :doc:`/reference/configuration/swiftmailer`.
+Farklı SwiftMailer eklentileri Symfony çekirdeğinde gelir. Farklı konfigürasyonlarla
+bunlar aktifleştirilebilir. Daha fazla bilgi için :doc:`/reference/configuration/swiftmailer`
+belgesine bakın.
 
 templating.helper
 -----------------
 
-**Amaç**: Make your service available in PHP templates
+**Amaç**: Servisinizi PHP şablonları için kullanılabilir yapın
 
-To enable a custom template helper, add it as a regular service in one
-of your configuration, tag it with ``templating.helper`` and define an
-``alias`` attribute (the helper will be accessible via this alias in the
-templates):
+
+Özel bir şablon yardımcısını aktifleştirmek için bir konfigürasyon içerisinde
+bir servis tanımlaması yaparak bunu ``templating.helper`` etiketi altında 
+``alias`` niteliği ile belirtin(bu yardımcı şablonlar içerisinden alias 
+tanımında  verilen değer ile erişilebilir):
 
 .. configuration-block::
 
@@ -495,12 +499,13 @@ templates):
 translation.loader
 ------------------
 
-**Amaç**: To register a custom service that loads translations
+**Amaç**: Tercümeleri yükleyen özel bir servis ekle
 
-By default, translations are loaded form the filesystem in a variety of different
-formats (YAML, XLIFF, PHP, etc). If you need to load translations from some
-other source, first create a class that implements the
-:class:`Symfony\\Component\\Translation\\Loader\\LoaderInterface` interface::
+Varsayılan olarak tercümeler farklı formatlarda olan (YAML, XLIFF, PHP,vs..)
+dosya sistemi şeklinde yüklenir. Eğer tercümeleri başka kaynaklardan yüklemek
+istiyorsanzız öncelikle 
+:class:`Symfony\\Component\\Translation\\Loader\\LoaderInterface` interface'i
+üzerinde türetilen bir sınıf yaratın::
 
     // src/Acme/MainBundle/Translation/MyCustomLoader.php
     namespace Acme\MainBundle\Translation;
@@ -522,10 +527,10 @@ other source, first create a class that implements the
         }
     }
 
-Your custom loader's ``load`` method is responsible for returning a
-:Class:`Symfony\\Component\\Translation\\MessageCatalogue`.
+Özel yükleyiciniz'in ``load`` metodu :Class:`Symfony\\Component\\Translation\\MessageCatalogue`
+sınıfını döndürmekten sorumludur.
 
-Now, register your loader as a service and tag it with ``translation.loader``:
+Şimdi yükleyici servisini ``translation.loader`` etiketi altında kayıt edin:
 
 .. code-block:: yaml
 
@@ -548,30 +553,32 @@ Now, register your loader as a service and tag it with ``translation.loader``:
         ->addTag('translation.loader', array('alias' => 'bin'))
     ;
 
-The ``alias`` option is required and very important: it defines the file
-"suffix" that will be used for the resource files that use this loader. For
-example, suppose you have some custom ``bin`` format that you need to load.
-If you have a ``bin`` file that contains French translations for the ``messages``
-domain, then you might have a file ``app/Resources/translations/messages.fr.bin``.
+``alias`` seçeneği gerekli ve çok önemlidir. Çünki bu yükleyici (loader)
+tarafından yüklenecek kaynak dosyaların "son eki"(suffix) 'ni ifade eder. 
+Örneğin varsaalım özel ``bin`` tipinde tercümeler barındıran dosyaları 
+yüklemeniz gerekiyor. Eğer ``messages`` alan adı için Fransızca tercümeler
+olan bir dosyanız varsa bu dosyanız muhtemelen 
+``app/Resources/translations/messages.fr.bin`` şeklinde olacaktır.
 
-When Symfony tries to load the ``bin`` file, it passes the path to your custom
-loader as the ``$resource`` argument. You can then perform any logic you need
-on that file in order to load your translations.
+Symfony2 ``bin`` dosyasını yüklemeye çalışırken özel yükleyicinizin yolunu
+``$resource`` argümanı olarak belirtir. Bunu tercümelerinizi yükleyen
+herhangi bir algoritma altında kullanabilirsiniz.
 
-If you're loading translations from a database, you'll still need a resource
-file, but it might either be blank or contain a little bit of information
-about loading those resources from the database. The file is key to trigger
-the ``load`` method on your custom loader.
+Eğer tercümelerinizi bir veri tabanından yüklüyorsanız, bunun içinde
+bir kaynak dosyasına ihtiyacınız olacak, ancak ya boş bir dosya ya da içerisinde
+bu kaynağın veri tabanından yükleneceğini belirten bir bilgi olan bir
+dosya olacaktır. Dosya, özel yükleyicinizin ``load`` metodundaki anahtar
+şeydir.
 
 .. _reference-dic-tags-twig-extension:
 
 twig.extension
 --------------
 
-**Amaç**: To register a custom Twig Extension
+**Amaç**: Özel bir Twig Extension'u ekle
 
-To enable a Twig extension, add it as a regular service in one of your
-configuration, and tag it with ``twig.extension``:
+Bir Twig eklentisini aktif hale getirmek için bunu konfigürasyondan birisi içinde
+bir servis olarak tanımlayıp daha sonra ``twig.extension`` etiketi altında belirtin:
 
 .. configuration-block::
 
@@ -596,15 +603,16 @@ configuration, and tag it with ``twig.extension``:
             ->addTag('twig.extension')
         ;
 
-For information on how to create the actual Twig Extension class, see
-`Twig's documentation`_ on the topic or read the cookbook article:
-:doc:`/cookbook/templating/twig_extension`
+Gerçek bir Twig Eklenti sınıfının nasıl yaratıldığı hakkında daha fazla
+bilgi almak için `Twig'in kendi belgeleri`_ içerisindeki konuları okuyun
+ya da tarif kitabındaki :doc:`/cookbook/templating/twig_extension` belgesini
+okuyun.
 
-Before writing your own extensions, have a look at the
-`Twig official extension repository`_ which already includes several
-useful extensions. For example ``Intl`` and its ``localizeddate`` filter
-that formats a date according to user's locale. These official Twig extensions
-also have to be added as regular services:
+Kendi eklentilerinizi yazmadan önce `Twig'in resmi eklenti deposu`_ 'na bakıp
+daha önceden yapılmış faydalı bir eklenti olup olmadığına bakabilirsiniz.
+Örneğin ``Intl`` ve ``localizeddate`` filitresi kullanıcıların yerel bilgisine
+göre tarih verisini formatlar. Bu resmi Twig eklentileri ayrıca bir servis 
+olarak tanımlanmıştır:
 
 .. configuration-block::
 
@@ -632,30 +640,33 @@ also have to be added as regular services:
 validator.constraint_validator
 ------------------------------
 
-**Amaç**: Create your own custom validation constraint
+**Amaç**: Kendi özel veri doğrulama koşutunuzu yaratın
 
-This tag allows you to create and register your own custom validation constraint.
-For more information, read the cookbook article: :doc:`/cookbook/validation/custom_constraint`.
+bu etiket kendi veri doğrulama koşutunuzu yaratmanıza izin verir. Daha fazla
+bilgi için tarif kitabındaki :doc:`/cookbook/validation/custom_constraint`
+adlı belgeye bakabilirsiniz.
 
 validator.initializer
 ---------------------
 
-**Amaç**: Register a service that initializes objects before validation
+**Amaç**: Nesneleri doğrulamadan önce yüklenecek bir servisi kayıtlar
 
-This tag provides a very uncommon piece of functionality that allows you
-to perform some sort of action on an object right before it's validated.
-For example, it's used by Doctrine to query for all of the lazily-loaded
-data on an object before it's validated. Without this, some data on a Doctrine
-entity would appear to be "missing" when validated, even though this is not
-really the case.
+Bu etiket çok nadir zamanlarda kullanılan, bir nesne doğrulanmadan(validate)
+önce yapmak istediğiniz bir dizi işlemi yapmanıza olanak sağlar. Örneğin
+bir nesne doğrulanmadan önce nesnedeki tüm gereken bilgilerin veritabanından
+çekilmesi gibi(laizly-load). Bu olmadan Doctrine entity'sindeki bazı datalar
+doğrulanma esnasında, gerçekte böyle bir durum olmamasına rağmen,eksik olabilir.
 
-If you do need to use this tag, just make a new class that implements the
-:class:`Symfony\\Component\\Validator\\ObjectInitializerInterface` interface.
-Then, tag it with the ``validator.initializer`` tag (it has no options).
+Eğer bu etiketi kullanma ihtiyacı hissediyorsanız sadece 
+:class:`Symfony\\Component\\Validator\\ObjectInitializerInterface` interface'inden
+türeyen bir sınıf yaatıp bunu ``validator.initializer`` etiketi (herhangi bir
+argümanı olmadan) belirtmeniz gerekir.
 
-For an example, see the ``EntityInitializer`` class inside the Doctrine Bridge.
+Örnek için Doctrine Bridge içerisinde bulunan ``EntityInitializer``
+sınıfına bakın.
 
-.. _`Twig's documentation`: http://twig.sensiolabs.org/doc/advanced.html#creating-an-extension
-.. _`Twig official extension repository`: http://github.com/fabpot/Twig-extensions
+
+.. _`Twig'in kendi belgeleri`: http://twig.sensiolabs.org/doc/advanced.html#creating-an-extension
+.. _`Twig'in resmi eklenti deposu`: http://github.com/fabpot/Twig-extensions
 .. _`KernelEvents`: https://github.com/symfony/symfony/blob/2.0/src/Symfony/Component/HttpKernel/KernelEvents.php
-.. _`SwiftMailer's Plugin Documentation`: http://swiftmailer.org/docs/plugins.html
+.. _`SwiftMailerin Eklenti Belgesi`: http://swiftmailer.org/docs/plugins.html
