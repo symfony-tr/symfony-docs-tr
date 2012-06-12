@@ -80,6 +80,7 @@ tıklayarak ilk *gerçek* Symfony2 web sayfasına gidebilirsiniz :
 .. code-block:: text
 
     http://localhost/Symfony/web/app_dev.php/
+    
 Symfony2 sizin bu sıkı çalışmanızı tebrik ederek size Hoşgeldiniz diyecektir.!
 
 .. image:: /images/quick_tour/welcome.jpg
@@ -114,7 +115,7 @@ birlikte gelir. Şu  URL 'ye giderek Symfony2'nin sizi selamlamasını sağlayı
 Burada şimdi ne oldu ? URL 'yi inceleyelim :
 
 * ``app_dev.php``: Bu :term:`front controller`. Uygulamada kullanıcının 
-tüm isteklerine cevap veren tek yer.;
+  tüm isteklerine cevap veren tek yer.;
 
 * ``/demo/hello/Fabien``: Bu *virtual path* kullanıcının erişmek istediği yer.
 
@@ -157,10 +158,10 @@ Sonraki bölümde bunun ne manaya geldiğini daha ayrıntılı olarak göreceksi
 .. tip::
 
     Symfony2 standart sürümü konfigürasyon dosyaları için `YAML`_ kullanır,
-    fakat Symfony2 aynı zamanda XML, PHP ve doğal alıntılarıda kullanabilir.
-	Bu farklı formatlar uygulamada bir birlerinin yerine kullanılabilir.
-	Fakat bu farklı formatların kullanılması uygulamanızın performansına bir
-	etki etmez.Çünki herşey daha ilk istekte ön belleğe zaten alınmaktadır.
+    fakat Symfony2 aynı zamanda XML, PHP ve doğal alıntılarıda kullanabilir. 
+    Bu farklı formatlar uygulamada bir birlerinin yerine kullanılabilir. 
+    Fakat bu farklı formatların kullanılması uygulamanızın performansına bir
+    etki etmez. Çünki herşey daha ilk istekte ön belleğe zaten alınmaktadır.
 
 Controller'lar
 ~~~~~~~~~~~~~~
@@ -354,7 +355,6 @@ Bundle'lar hakkında daha fazla bilgiyi bu öğretiinin son bölümünde öğren
 .. _quick-tour-big-picture-environments:
 
 Environments (Ortamlar)
------------------------
 -----------------------
 
 Symfony2'nin çıktı sayfasına daha dikkatli bakarsanız Symfony2'nin nasıl
