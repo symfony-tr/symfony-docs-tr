@@ -1,7 +1,7 @@
 .. index::
-   single: Forms; Twig form function reference
+   single: Forms; Twig Form Fonksiyonları
 
-Twig şablonları Form Fonksiyonları
+Twig Şablonları Form Fonksiyonları
 =====================================
 
 Formları oluştururken kullanılabilecek olan tüm Twig fonksiyonları bu belgede verilmiştir.
