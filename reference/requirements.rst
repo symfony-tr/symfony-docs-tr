@@ -6,14 +6,14 @@ Symfony2'nin Çalışması için Gereksinimler
 
 Symfony2'nin çalışabilmesi için yapmanız gereken bazı ayarlar ve yüklemeler bulunmaktadır. 
 Kolaylıkla görebileceğiniz gibi sistemin ihtiyacı olan tüm gereksinimler ``web/config.php``
-betiği ile Symfony dağıtımında saptanabilir.PHP CLI sıklıkla farklı ``php.ini`` dosyası kullanmasından dolayı
-komut satırınında gereksinimlerini şu şekilde belirlenebilir:
+betiği ile Symfony dağıtımında belirlenebilir.PHP CLI'nin sıklıkla farklı ``php.ini`` dosyası 
+kullanmasından dolayı komut satırının da gereksinimlerini şu şekilde saptanabilir:
 
 .. code-block:: bash
 
     php app/check.php
 
-Aşağıda gerekli ve opsiyonel olarak gereken ihtiyaçlar sıralanmıştır.
+Aşağıda gerekli ve isteğe bağlı olaran gereklilikler sıralanmıştır.
 
 Gerekli
 --------
@@ -24,8 +24,8 @@ Gerekli
 * ctype aktif edilmelidir.
 * PHP.ini dosyanızda date.timezone ayarı yapılmış olmalıdır.
 
-Opsiyonel
---------
+İsteğe Bağlı
+------------
 
 * PHP-XML modülüne ihtiyacınız olabilir.
 * En az libxml 2.6.21 sürümünde olmalıdır.
@@ -34,8 +34,8 @@ Opsiyonel
 * iconv açık olmalıdır.
 * POSIX açık olmalıdır (sadece \*nix lerde)
 * Intl ,ICU 4+ ile birlikte kurulmalıdır.
-* APC 3.0.17 ve üzeri (yada başka bir önbellekleme sistemi)
-* PHP.ini tavsiye edilen ayarları
+* APC 3.0.17 ve üzeri (ya da başka bir önbellekleme sistemi)
+* PHP.ini için tavsiye edilen ayarlar
 
   * ``short_open_tag = Off``
   * ``magic_quotes_gpc = Off``
