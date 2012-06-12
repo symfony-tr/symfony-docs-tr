@@ -17,7 +17,7 @@ Symfony2'ye :doc:`Hızlı Başlangıç ile bir göz atın <quick_tour/index>`:
 * :doc:`quick_tour/the_architecture`
 
 Kitap
-----
+-----
 
 Konu başlıklarına göre Symfony2'ye giriş yapın:
 
@@ -29,7 +29,7 @@ Konu başlıklarına göre Symfony2'ye giriş yapın:
 .. include:: /book/map.rst.inc
 
 Tarif Kitabı
---------
+------------
 
 .. toctree::
     :hidden:
@@ -39,7 +39,7 @@ Tarif Kitabı
 :doc:`Tarif Kitabını okuyun </cookbook/index>`.
 
 Bileşen(Component) ler
-----------
+----------------------
 
 .. toctree::
     :hidden:
@@ -49,7 +49,7 @@ Bileşen(Component) ler
 :doc:`Bileşenler </components/index>` belgesini okuyun.
 
 Referans Belgeleri
--------------------
+------------------
 
 Referans belgeleri ile hızlı şekilde cevaplara ulaşın:
 
@@ -74,7 +74,7 @@ Bunlar hakkında daha fazla şey öğrenin:
 .. include:: /bundles/map.rst.inc
 
 Destek vermek
-------------
+-------------
 
 Symfony2'ye destek verin:
 
