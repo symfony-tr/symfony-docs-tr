@@ -1,78 +1,77 @@
 .. index::
    single: Forms; Twig form function reference
 
-Twig Template Form Function Reference
+Twig Þablonlarý Form Fonksiyonlarý
 =====================================
 
-This reference manual covers all the possible Twig functions available for
-rendering forms. There are several different functions available, and each
-is responsible for rendering a different part of a form (e.g. labels, errors,
-widgets, etc).
+Formlarý oluþtururken kullanýlabilecek olan tüm Twig fonksiyonlarý bu belgede verilmiþtir.
+Birkaç deðiþik fonksiyon bulunmaktadýr ve her biri formun farklý kýsýmlarýnýn (etiketler, 
+hatalar, araçlar.. vs.) oluþturulmasýndan sorumludur.
 
 form_label(form.name, label, variables)
 ---------------------------------------
 
-Renders the label for the given field. You can optionally pass the specific
-label you want to display as the second argument.
+Verilen alan için etiketi oluþturur. Özel olarak görünmesini istediðiniz bir etiketi
+opsiyonel olan ikinci parametrede verebilirsiniz.
 
 .. code-block:: jinja
 
     {{ form_label(form.name) }}
 
-    {# The two following syntaxes are equivalent #}
+    {# Aþaðýdaki iki örnek de yapýsal olarak doðrudur #}
     {{ form_label(form.name, 'Your Name', { 'attr': {'class': 'foo'} }) }}
     {{ form_label(form.name, null, { 'label': 'Your name', 'attr': {'class': 'foo'} }) }}
 
 form_errors(form.name)
 ----------------------
 
-Renders any errors for the given field.
+Verilan alan için hatalarý oluþturur.
 
 .. code-block:: jinja
 
     {{ form_errors(form.name) }}
 
-    {# render any "global" errors #}
+    {# herhangi "genel" bir hatayý göster #}
     {{ form_errors(form) }}
 
 form_widget(form.name, variables)
 ---------------------------------
 
-Renders the HTML widget of a given field. If you apply this to an entire form
-or collection of fields, each underlying form row will be rendered.
+Verilan alan için HTML araç çýktýsýný oluþturur. Eðer bütün bir forma ve ya form alanlarý topluluðuna
+uygulanýrsa, içerdiði her bir form satýrý oluþturulur.
 
 .. code-block:: jinja
 
-    {# render a widget, but add a "foo" class to it #}
+    {# bir araç oluþturur ve "foo" sýnýfýný ekler #}
     {{ form_widget(form.name, { 'attr': {'class': 'foo'} }) }}
 
-The second argument to ``form_widget`` is an array of variables. The most
-common variable is ``attr``, which is an array of HTML attributes to apply
-to the HTML widget. In some cases, certain types also have other template-related
-options that can be passed. These are discussed on a type-by-type basis.
+``form_widget`` için belirtilen ikinci parametre bir deðiþkenler dizisidir. 
+En çok kullanýlan deðiþken ``attr`` dir, HTML aracýna uygulanacak HTML 
+özelliklerini içerir. Bazý durumlarda, bazý tiplere ait þablonla ilgili 
+baþka özellikler de verilebilir. Bunlar her bir tip için ayrýca açýklanmýþtýr.
 
 form_row(form.name, variables)
 ------------------------------
 
-Renders the "row" of a given field, which is the combination of the field's
-label, errors and widget.
+Verilen alan için form satýrýný oluþturur. Form satýrlarý alanýn etiketi, 
+hatalarý ve HTML aracýndan oluþur.
 
 .. code-block:: jinja
 
-    {# render a field row, but display a label with text "foo" #}
+    {# bir alan için satýrý oluþtur ama etiket olarak "foo" göster #}
     {{ form_row(form.name, { 'label': 'foo' }) }}
 
-The second argument to ``form_row`` is an array of variables. The templates
-provided in Symfony only allow to override the label as shown in the example
-above.
+``form_row`` için verilen ikinci parametre bir deðiþkenler dizisidir. Symfony 
+ile saðlanan þablonlarda üstteki örnek gibi sadece etiketin deðiþtirilmesine
+izin verilmiþtir.
+
 
 form_rest(form, variables)
 --------------------------
 
-This renders all fields that have not yet been rendered for the given form.
-It's a good idea to always have this somewhere inside your form as it'll
-render hidden fields for you and make any fields you forgot to render more
-obvious (since it'll render the field for you).
+Verilen formda henüz oluþturulmamýþ tüm alanlarý oluþturur. Bu fonksiyonu 
+formunuzda bir yerde mutlaka kullanmak iyi bir fikirdir, çünkü gizli ve ya
+unuttuðunuz alanlarý oluþturacaktýr.
 
 .. code-block:: jinja
 
@@ -81,9 +80,9 @@ obvious (since it'll render the field for you).
 form_enctype(form)
 ------------------
 
-If the form contains at least one file upload field, this will render the
-required ``enctype="multipart/form-data"`` form attribute. It's always a
-good idea to include this in your form tag:
+Eðer form en az bir tane dosya yükleme alaný içeriyorsa, bu fonksiyon 
+gerekli ``enctype="multipart/form-data"`` form özelliðini oluþturur. 
+Bu fonksiyonu da form içinde kullanmak iyi bir fikirdir:
 
 .. code-block:: html+jinja
 
