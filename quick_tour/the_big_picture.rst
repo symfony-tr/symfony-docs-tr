@@ -89,7 +89,7 @@ Temelleri Anlamak
 -----------------
 
 Bir framework'un ana amaçlarından bir tanesi şunu sağlamaktır. 
-`Endişeleri Ayırmak`_.
+`İşleri Ayırmak`_ .
 Frameworkler kodunuzu organize eder, veri tabanı çağrıları ile harmanlanmış
 HTML taglarından oluşan çıktıları kolaylıkla aynı betik üzerinde geliştirmenizi sağlar.
 Bunu Symfony2 ile başarabilirsiniz, ancak bazı temel kavramları öğrenmeniz
@@ -442,7 +442,7 @@ ve hızlı bir şekilde geliştirdiğini gördünüz. Eğer Symfony2 hakkında d
 
 .. _Symfony2 Standard Edition:      http://symfony.com/download
 .. _5 dakikada Symfony:             http://symfony.com/symfony-in-five-minutes
-.. _Separation of Concerns:         http://en.wikipedia.org/wiki/Separation_of_concerns
+.. _İşleri ayırmak:         http://en.wikipedia.org/wiki/Separation_of_concerns
 .. _YAML:                           http://www.yaml.org/
 .. _controller içinde belirteçler:  http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html#annotations-for-controllers
 .. _Twig:                           http://twig.sensiolabs.org/
