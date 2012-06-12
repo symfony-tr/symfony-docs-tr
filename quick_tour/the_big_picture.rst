@@ -89,11 +89,10 @@ Temelleri Anlamak
 -----------------
 
 Bir framework'un ana amaçlarından bir tanesi şunu sağlamaktır. 
-`İşleri Ayırmak`_ .
-Frameworkler kodunuzu organize eder, veri tabanı çağrıları ile harmanlanmış
-HTML taglarından oluşan çıktıları kolaylıkla aynı betik üzerinde geliştirmenizi sağlar.
-Bunu Symfony2 ile başarabilirsiniz, ancak bazı temel kavramları öğrenmeniz
-gereklidir:
+`İşleri Ayırmak`_ . Frameworkler kodunuzu organize eder, veri tabanı 
+çağrıları ile harmanlanmış HTML taglarından oluşan çıktıları kolaylıkla 
+aynı betik üzerinde geliştirmenizi sağlar. Bunu Symfony2 ile başarabilirsiniz, 
+ancak bazı temel kavramları öğrenmeniz gereklidir:
 
 .. tip::
 
