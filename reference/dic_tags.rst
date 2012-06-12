@@ -1,84 +1,87 @@
 Dependency Injection Etiketleri
-====================================
+===============================
 
-Dependency Injection Tags are little strings that can be applied to a service
-to "flag" it to be used in some special way. For example, if you have a service
-that you would like to register as a listener to one of Symfony's core events,
-you can flag it with the ``kernel.event_listener`` tag.
+Dependency Injection Etiketleri bir servise öze olarak bir "işaret"(flag) 
+koymak için kullanılan kısa metinlerdir. Mesela eğer Symfony'nin çekirdek olayları 
+(core events) tarafından dinlenmesi gereken bir servisiniz var ise bunu
+``kernel.event_listener`` etiketi altında işaretleyebilirsiniz.
 
-Below is information about all of the tags available inside Symfony2:
+Aşağıda Symfony2 içerisinde mevcut olan tüm etiketler listelenmiştir:
 
 +-----------------------------------+---------------------------------------------------------------------------+
-| Tag Name                          | Usage                                                                     |
+| Etiket Adı                        | Kullanımı                                                                 |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `data_collector`_                 | Create a class that collects custom data for the profiler                 |
+| `data_collector`_                 | Profiler için özel veriler toplayan bir sınıf yarat.                      |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `form.type`_                      | Create a custom form field type                                           |
+| `form.type`_                      | Özel bir form alan tipi yarat                                             |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `form.type_extension`_            | Create a custom "form extension"                                          |
+| `form.type_extension`_            | Özel "form eklentisi" yarat                                               |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `form.type_guesser`_              | Add your own logic for "form type guessing"                               |
+| `form.type_guesser`_              | "form tipi tahmini" için kendi algoritmanızı ekler                        |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `kernel.cache_warmer`_            | Register your service to be called during the cache warming process       |
+| `kernel.cache_warmer`_            | Servisinizi cache warming süreci çalıştırıması esnasında çağırır          |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `kernel.event_listener`_          | Listen to different events/hooks in Symfony                               |
+| `kernel.event_listener`_          | Symfony'de farklı event'lar/hook'lar dinlemek                             |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `monolog.logger`_                 | Logging with a custom logging channel                                     |
+| `monolog.logger`_                 | Farklı bir loglama kanalından log kayıtları yap                           |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `monolog.processor`_              | Add a custom processor for logging                                        |
+| `monolog.processor`_              | Loglama için farklı bir işlemci (processor) ekle                          |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `routing.loader`_                 | Register a custom service that loads routes                               |
+| `routing.loader`_                 | Route'ları yükleyen özel bir servisi kayıtla(register)                    |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `security.voter`_                 | Add a custom voter to Symfony's authorization logic                       |
+| `security.voter`_                 | Symfony'nin yetkilendirme algoritmasına özel bir karar verici(voter)ekle  |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `security.remember_me_aware`_     | To allow remember me authentication                                       |
+| `security.remember_me_aware`_     | Beni Hatırla yetkilendirmesi'ne izin ver                                  |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `security.listener.factory`_      | Necessary when creating a custom authentication system                    |
+| `security.listener.factory`_      | Özel bir yetkilendirme sistemi yaratırken gerekli                         |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `swiftmailer.plugin`_             | Register a custom SwiftMailer Plugin                                      |
+| `swiftmailer.plugin`_             | Özel SwiftMailer Plugin'i ekle                                            |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `templating.helper`_              | Make your service available in PHP templates                              |
+| `templating.helper`_              | Servisi PHP şablonları için kullanılabilir yap                            |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `translation.loader`_             | Register a custom service that loads translations                         |
+| `translation.loader`_             | Tercümeleri yükleyen özel bir servis ekle                                 |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `twig.extension`_                 | Register a custom Twig Extension                                          |
+| `twig.extension`_                 | Özel bir Twig Extension'u ekle                                            |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `validator.constraint_validator`_ | Create your own custom validation constraint                              |
+| `validator.constraint_validator`_ | Kendi özel veri doğrulama koşutunuzu yaratın                              |
 +-----------------------------------+---------------------------------------------------------------------------+
-| `validator.initializer`_          | Register a service that initializes objects before validation             |
+| `validator.initializer`_          | Nesneleri doğrulamadan önce yüklenecek bir servisi kayıtla                |
 +-----------------------------------+---------------------------------------------------------------------------+
 
 data_collector
 --------------
 
-**Purpose**: Create a class that collects custom data for the profiler
+**Amaç**: Profiler için özel veriler toplayan bir sınıf yarat
 
-For details on creating your own custom data collection, read the cookbook
-article: :doc:`/cookbook/profiler/data_collector`.
+Kendinize özel veri kolleksiyonu yaratma hakkında daha fazla bilgi için
+tarif kitabındaki :doc:`/cookbook/profiler/data_collector` belgesini
+okuyun.
 
 form.type
 ---------
 
-**Purpose**: Create a custom form field type
+**Amaç**: Özel bir form alan tipi yarat
 
-For details on creating your own custom form type, read the cookbook article:
-:doc:`/cookbook/form/create_custom_field_type`.
+Kendi özel form alan tipleri yaratmak hakkında daha detaylı bilgi almak 
+için tarif kitabındaki :doc:`/cookbook/form/create_custom_field_type` 
+belgesini okuyun.
 
 form.type_extension
 -------------------
 
-**Purpose**: Create a custom "form extension"
+**Amaç**: Özel "form eklentisi" yarat
 
-Form type extensions are a way for you took "hook into" the creation of any
-field in your form. For example, the addition of the CSRF token is done via
-a form type extension (:class:`Symfony\\Component\\Form\\Extension\\Csrf\\Type\\FormTypeCsrfExtension`).
+Form tip eklentileri formunuzdaki her alanın yaratımında alanların kontrolünü
+almanız için bir yoldur. Örneğin CSRF token'nin bir form eklentisi tarafından
+eklenmesi (:class:`Symfony\\Component\\Form\\Extension\\Csrf\\Type\\FormTypeCsrfExtension`).
 
-A form type extension can modify any part of any field in your form. To create
-a form type extension, first create a class that implements the
-:class:`Symfony\\Component\\Form\\FormTypeExtensionInterface` interface.
-For simplicity, you'll often extend an
-:class:`Symfony\\Component\\Form\\AbstractTypeExtension` class instead of
-the interface directly::
+Bir form tipi eklentisi formunuzdaki her alanın parçasını değiştirebilir. Bir
+form tipi eklentisi yaratmak için öncelikle 
+:class:`Symfony\\Component\\Form\\FormTypeExtensionInterface` interface'inden
+türeyen bir sınıf yaratmanız gerekir. Basitleştirmek için sıklıkla
+:class:`Symfony\\Component\\Form\\AbstractTypeExtension` sınıfından form 
+tipinizi türetmek yerine bu interface 'üzerinden sınfınızı direkt olarak
+türeteceksiniz:: 
 
     // src/Acme/MainBundle/Form/Type/MyFormTypeExtension.php
     namespace Acme\MainBundle\Form\Type\MyFormTypeExtension;
@@ -87,12 +90,13 @@ the interface directly::
 
     class MyFormTypeExtension extends AbstractTypeExtension
     {
-        // ... fill in whatever methods you want to override
-        // like buildForm(), buildView(), buildViewBottomUp(), getDefaultOptions() or getAllowedOptionValues()
+        // ... neye hükmetmek(override) istiyorsanız 
+        // buildForm(), buildView(), buildViewBottomUp(), getDefaultOptions() or getAllowedOptionValues()
+        // gibi metodları bu alanda kullanın
     }
 
-In order for Symfony to know about your form extension and use it, give it
-the `form.type_extension` tag:
+Symfony nin sizin form eklentisini kullanabilmesi amacıyla tanıması için
+bunu `form.type_extension` etiketi altında vermelisiniz:
 
 .. configuration-block::
 
@@ -117,39 +121,42 @@ the `form.type_extension` tag:
             ->addTag('form.type_extension', array('alias' => 'field'))
         ;
 
-The ``alias`` key of the tag is the type of field that this extension should
-be applied to. For example, to apply the extension to any "field", use the
-"field" value.
+Etiketin ``alias`` anahtarı  uygulanacak eklentinin hangi alan tipine uygulanacağını 
+ifade eder. Örneğin herhangi bir alana bu eklentiyi uygulamak istiyorsanız 
+"field" değerini kullanın.
 
 form.type_guesser
 -----------------
 
-**Purpose**: Add your own logic for "form type guessing"
+**Amaç**: "form tipi tahmini" için kendi algoritmanızı ekler
 
-This tag allows you to add your own logic to the :ref:`Form Guessing<book-forms-field-guessing>`
-process. By default, form guessing is done by "guessers" based on the validation
-metadata and Doctrine metadata (if you're using Doctrine).
+Bu etiket :ref:`Form Tahmini<book-forms-field-guessing>` işlemi için
+kendi algoritmanızı kullanmanızı sağlar. Varsayılan olarak form tahmini 
+ver doğrulama metadata'sı ve Doctrine metadata'larına(Eğer Doctrine kullanıyorsanız)
+bağlı olan "tahminci"(guessers) 'ler tarafından yapılır.
 
-To add your own form type guesser, create a class that implements the
-:class:`Symfony\\Component\\Form\\FormTypeGuesserInterface` interface. Next,
-tag its service definition with ``form.type_guesser`` (it has no options).
+Kendi form tahmincinizi eklemek için 
+:class:`Symfony\\Component\\Form\\FormTypeGuesserInterface` interface'inden
+türeyen bir ınıf yaratın. Sonra ``form.type_guesser`` (herhangi bir seçeneği olmadan)
+servis tanımlaması ile etiketleyin.
 
-To see an example of how this class might look, see the ``ValidatorTypeGuesser``
-class in the ``Form`` component.
+Bu sınıfın nasıl görünebileceği hakkındaki örneği görmekl için ``Form``
+bileşenindeki ``ValidatorTypeGuesser`` sınıfına bakın.
 
 kernel.cache_warmer
 -------------------
 
-**Purpose**: Register your service to be called during the cache warming process
+**Amaç**: Servisinizi cache warming süreci çalıştırıması esnasında çağırır
 
-Cache warming occurs whenever you run the ``cache:warmup`` or ``cache:clear``
-task (unless you pass ``--no-warmup`` to ``cache:clear``). The purpose is
-to initialize any cache that will be needed by the application and prevent
-the first user from any significant "cache hit" where the cache is generated
-dynamically.
+Cache warming işlemi ``cache:warmup`` ya da  ``cache:clear`` işlemini
+çalıştırdığınızda başlar(eğer ``cache:clear`` komutuna ``--no-warmup`` 
+parametresi vermezseniz). Buradaki amaç her cache başlatılmasında uygulamanın
+ihtiyacı olacak ve ilk kullanıcının dinamik olarak yaratılan cache'in 
+"cache hit"'inden korumak dır.
 
-To register your own cache warmer, first create a service that implements
-the :class:`Symfony\\Component\\HttpKernel\\CacheWarmer\\CacheWarmerInterface` interface::
+Kendi cache warmer'ınızı yaratmak için öncelikle 
+:class:`Symfony\\Component\\HttpKernel\\CacheWarmer\\CacheWarmerInterface` 
+interface'inden türeyen bir sınıf yaratın::
 
     // src/Acme/MainBundle/Cache/MyCustomWarmer.php
     namespace Acme\MainBundle\Cache;
@@ -160,7 +167,7 @@ the :class:`Symfony\\Component\\HttpKernel\\CacheWarmer\\CacheWarmerInterface` i
     {
         public function warmUp($cacheDir)
         {
-            // do some sort of operations to "warm" your cache
+            // cache'ınızı "warm" esnasnda yapacağınız işlemler
         }
 
         public function isOptional()
@@ -169,11 +176,13 @@ the :class:`Symfony\\Component\\HttpKernel\\CacheWarmer\\CacheWarmerInterface` i
         }
     }
 
-The ``isOptional`` method should return true if it's possible to use the
-application without calling this cache warmer. In Symfony 2.0, optional warmers
-are always executed anyways, so this function has no real effect.
+``isOptional`` metodu eğer uygulama bu cache warmer'la çağırılmayacaksa 
+alacağı true değeri bu işlemi mümkün kılar. Symfony 2.0'da isteğe bağlı
+warmer'lar herzaman herşekilde çalışır bu yüzden bu fonksityonun gerçek
+bir etkisi yoktur.
 
-To register your warmer with Symfony, give it the kernel.cache_warmer tag:
+Symfony'ye kendi warmer'ınızı kullandırmanız içen bunu ``kernel.cache_warmer``
+etiketi altında vermelisiniz:
 
 .. configuration-block::
 
@@ -198,32 +207,33 @@ To register your warmer with Symfony, give it the kernel.cache_warmer tag:
             ->addTag('kernel.cache_warmer', array('priority' => 0))
         ;
 
-The ``priority`` value is optional, and defaults to 0. This value can be
-from -255 to 255, and the warmers will be executed in the order of their
-priority.
+``priority`` değeri isteğe bağlıdır ve varsayılan değeri 0 dır. 
+Bu değer -255 ile 255 arasında olabilir ve warmer'lar bu priority değerinin
+büyüklüğüne göre çalıştırılacaklardır.
 
 .. _dic-tags-kernel-event-listener:
 
 kernel.event_listener
 ---------------------
 
-**Purpose**: To listen to different events/hooks in Symfony
+**Amaç**: Symfony'de farklı event'lar/hook'lar dinlemek
 
-This tag allows you to hook your own classes into Symfony's process at different
-points.
+Bu etiket kendi sınıfınızı Symfony'nin işlemesi sürecinde farklı noktalara 
+kancalamanıza (hook) olanak verir.
 
-For a full example of this listener, read the :doc:`/cookbook/service_container/event_listener`
-cookbook entry.
+Bu dinleyici (listener) için tam bir örnek istiyorsanız 
+:doc:`/cookbook/service_container/event_listener` tarif kitabı girdisini
+okuyun.
 
-For another practical example of a kernel listener, see the cookbook
-article: :doc:`/cookbook/request/mime_type`.
+Kernel listener için başka pratik bir örnek için :doc:`/cookbook/request/mime_type`
+tarif kitabı girdisine de bakabilirsiniz.
 
 .. _dic_tags-monolog:
 
 monolog.logger
 --------------
 
-**Purpose**: To use a custom logging channel with Monolog
+**Amaç**: To use a custom logging channel with Monolog
 
 Monolog allows you to share its handlers between several logging channels.
 The logger service uses the channel ``app`` but you can change the
@@ -263,7 +273,7 @@ channel when injecting the logger in a service.
 monolog.processor
 -----------------
 
-**Purpose**: Add a custom processor for logging
+**Amaç**: Add a custom processor for logging
 
 Monolog allows you to add processors in the logger or in the handlers to add
 extra data in the records. A processor receives the record as an argument and
@@ -361,7 +371,7 @@ channel used in the Security component:
 routing.loader
 --------------
 
-**Purpose**: Register a custom service that loads routes
+**Amaç**: Register a custom service that loads routes
 
 To enable a custom routing loader, add it as a regular service in one
 of your configuration, and tag it with ``routing.loader``:
@@ -392,7 +402,7 @@ of your configuration, and tag it with ``routing.loader``:
 security.listener.factory
 -------------------------
 
-**Purpose**: Necessary when creating a custom authentication system
+**Amaç**: Necessary when creating a custom authentication system
 
 This tag is used when creating your own custom authentication system. For
 details, see :doc:`/cookbook/security/custom_authentication_provider`.
@@ -400,7 +410,7 @@ details, see :doc:`/cookbook/security/custom_authentication_provider`.
 security.remember_me_aware
 --------------------------
 
-**Purpose**: To allow remember me authentication
+**Amaç**: To allow remember me authentication
 
 This tag is used internally to allow remember-me authentication to work. If
 you have a custom authentication method where a user can be remember-me authenticated,
@@ -416,7 +426,7 @@ applied and it will function automatically.
 security.voter
 --------------
 
-**Purpose**: To add a custom voter to Symfony's authorization logic
+**Amaç**: To add a custom voter to Symfony's authorization logic
 
 When you call ``isGranted`` on Symfony's security context, a system of "voters"
 is used behind the scenes to determine if the user should have access. The
@@ -427,7 +437,7 @@ For more information, read the cookbook article: :doc:`/cookbook/security/voters
 swiftmailer.plugin
 ------------------
 
-**Purpose**: Register a custom SwiftMailer Plugin
+**Amaç**: Register a custom SwiftMailer Plugin
 
 If you're using a custom SwiftMailer plugin (or want to create one), you can
 register it with SwiftMailer by creating a service for your plugin and tagging
@@ -442,7 +452,7 @@ different configuration. For details, see :doc:`/reference/configuration/swiftma
 templating.helper
 -----------------
 
-**Purpose**: Make your service available in PHP templates
+**Amaç**: Make your service available in PHP templates
 
 To enable a custom template helper, add it as a regular service in one
 of your configuration, tag it with ``templating.helper`` and define an
@@ -475,7 +485,7 @@ templates):
 translation.loader
 ------------------
 
-**Purpose**: To register a custom service that loads translations
+**Amaç**: To register a custom service that loads translations
 
 By default, translations are loaded form the filesystem in a variety of different
 formats (YAML, XLIFF, PHP, etc). If you need to load translations from some
@@ -548,7 +558,7 @@ the ``load`` method on your custom loader.
 twig.extension
 --------------
 
-**Purpose**: To register a custom Twig Extension
+**Amaç**: To register a custom Twig Extension
 
 To enable a Twig extension, add it as a regular service in one of your
 configuration, and tag it with ``twig.extension``:
@@ -612,7 +622,7 @@ also have to be added as regular services:
 validator.constraint_validator
 ------------------------------
 
-**Purpose**: Create your own custom validation constraint
+**Amaç**: Create your own custom validation constraint
 
 This tag allows you to create and register your own custom validation constraint.
 For more information, read the cookbook article: :doc:`/cookbook/validation/custom_constraint`.
@@ -620,7 +630,7 @@ For more information, read the cookbook article: :doc:`/cookbook/validation/cust
 validator.initializer
 ---------------------
 
-**Purpose**: Register a service that initializes objects before validation
+**Amaç**: Register a service that initializes objects before validation
 
 This tag provides a very uncommon piece of functionality that allows you
 to perform some sort of action on an object right before it's validated.

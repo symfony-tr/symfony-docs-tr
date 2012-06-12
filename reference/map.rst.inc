@@ -1,9 +1,9 @@
 * **Konfigürasyon Seçenekleri**
 
-  Hiç merak ettiniz mi uygulamanızda ``app/config/config.yml`` şeklinde 
-  bulunan dosyaların içerisinde neler var ?. Bu bölümde konfigürasyon
-  dosyasındaki (Örn: ``app/config/config.yml``) anahtarlar altında belirlenmiş  
-  mevcut tüm konfigürasyon ayarları açıklanacaktır.
+  Hiç merak ettiniz mi acaba uygulamanız içerisinde ``app/config/config.yml`` 
+  şeklinde bulunan dosyaların içerisinde neler var ?. Bu bölümde konfigürasyon
+  dosyasındaki (Örn: ``app/config/config.yml``) bazı anahtarlar altında belirlenmiş  
+  mevcut konfigürasyon ayarlarının tümü açıklanacaktır.
   
   * :doc:`framework </reference/configuration/framework>`
   * :doc:`doctrine </reference/configuration/doctrine>`
@@ -16,9 +16,9 @@
 
 * **Formlar ve Doğrulama**
 
-  * :doc:`Form Field Type Reference</reference/forms/types>`
-  * :doc:`Validation Constraints Reference </reference/constraints>`
-  * :doc:`Twig Template Function Reference</reference/forms/twig_reference>`
+  * :doc:`Form Alan Tipleri Referansı</reference/forms/types>`
+  * :doc:`Veri Doğrulama Koşutları Referansı </reference/constraints>`
+  * :doc:`Twig Şablon Fonksiyonları Referansı</reference/forms/twig_reference>`
 
 * **Diğer Alanlar**
 
