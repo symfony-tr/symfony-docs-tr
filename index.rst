@@ -61,7 +61,7 @@ Referans belgeleri ile hızlı şekilde cevaplara ulaşın:
 .. include:: /reference/map.rst.inc
 
 Bundle'lar
--------
+----------
 
 Symfony Standart Sürüm bazı Bundle'lar ile birlikte gelir.
 Bunlar hakkında daha fazla şey öğrenin:

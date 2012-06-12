@@ -1,4 +1,4 @@
-The Symfony Standard Edition Bundles
+Symfony2 Standart Sürüm Bundle'ları
 ====================================
 
 .. toctree::
