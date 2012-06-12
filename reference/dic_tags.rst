@@ -233,11 +233,12 @@ tarif kitabı girdisine de bakabilirsiniz.
 monolog.logger
 --------------
 
-**Amaç**: To use a custom logging channel with Monolog
+**Amaç**: Monolog ile özel bir log kanaklı kullanmak
+          
 
-Monolog allows you to share its handlers between several logging channels.
-The logger service uses the channel ``app`` but you can change the
-channel when injecting the logger in a service.
+Monolog farklı loglama kanalları arasında işleyicileri(handler) paylaşmanıza
+olanak sağlar. Loglama servisi ``app`` kanalını kullanır ancak bunu
+bir loglama servisi enjekte ettiğinizde (inject) değiştirebilirsiniz.
 
 .. configuration-block::
 
@@ -265,25 +266,25 @@ channel when injecting the logger in a service.
 
 .. note::
 
-    This works only when the logger service is a constructor argument,
-    not when it is injected through a setter.
+    Bu sadece loglama servisi bir yapılandırma argümanı ise çalışır eğer
+    bir setter ile enjeksiyon yapılırsa çalışmaz.
 
 .. _dic_tags-monolog-processor:
 
 monolog.processor
 -----------------
 
-**Amaç**: Add a custom processor for logging
+**Amaç**: Loglama için farklı bir işlemci (processor) ekle
 
-Monolog allows you to add processors in the logger or in the handlers to add
-extra data in the records. A processor receives the record as an argument and
-must return it after adding some extra data in the ``extra`` attribute of
-the record.
+Monolog size loglama için yada işleyicilere kayıtlar içerisinde ekstra alan
+lar eklemenize olanak sağlar. Bir işlemci(processor) bir kayıdı argüman gibi
+alır ve onu kayıdın ``extra`` niteliği içeriside eklendikten sonra kayıt içerisindeki
+ekstra verileri döndür.
 
-Let's see how you can use the built-in ``IntrospectionProcessor`` to add
-the file, the line, the class and the method where the logger was triggered.
+İsterseniz loglayıcı tetiklendiğinde dosyaya satır ekleme işinin
+``IntrospectionProcessor`` ile nasıl yapabileceğinizi görelim.
 
-You can add a processor globally:
+Global olarak bir işlemci ekleyebilirsiniz:
 
 .. configuration-block::
 
@@ -311,9 +312,13 @@ You can add a processor globally:
 
     If your service is not a callable (using ``__invoke``) you can add the
     ``method`` attribute in the tag to use a specific method.
+    
+    Eğer servisiniz çağıılabilir değilse (``__invoke`` kullanarak) etiket
+    içerisinde özel bir metod kullanmak için ``method`` niteliğini ekleyebilirsiniz.
 
-You can add also a processor for a specific handler by using the ``handler``
-attribute:
+``handler`` niteliğini kullanarak da belirli bir işlem için özel bir 
+işlemci(processor) ekleyebilirsiniz:
+
 
 .. configuration-block::
 
@@ -337,9 +342,9 @@ attribute:
         $definition->addTag('monolog.processor', array('handler' => 'firephp');
         $container->register('my_service', $definition);
 
-You can also add a processor for a specific logging channel by using the ``channel``
-attribute. This will register the processor only for the ``security`` logging
-channel used in the Security component:
+``channel`` niteliğini kullanarak da belirli bir loglama kanalı için bir işlemci
+ekleyebilirsiniz. Aşağıdaki örnekte  sadece Security bileşeni kullanıldığında ``security`` 
+kanalından loglaması için kullanılacak işlemciyi kayıt edilecektir: 
 
 .. configuration-block::
 
@@ -365,16 +370,17 @@ channel used in the Security component:
 
 .. note::
 
-    You cannot use both the ``handler`` and ``channel`` attributes for the
-    same tag as handlers are shared between all channels.
+    ``handler`` ve ``channel`` niteliklerini aynı etikette paylaşılan 
+    tüm kanallar arasındaki işleyiciler olarak kullanamazsınız.
 
 routing.loader
 --------------
 
-**Amaç**: Register a custom service that loads routes
+**Amaç**: Route'ları yükleyen özel bir servisi kayıtla(register)
 
-To enable a custom routing loader, add it as a regular service in one
-of your configuration, and tag it with ``routing.loader``:
+Özel bir route yükleyicisini çalıştırmak için konfigürasyonuzun birisinde
+bunu bir servis olarak ekleyip bunu ``routing.loader`` etiketi altında 
+belirtmelisini.
 
 .. configuration-block::
 
@@ -402,37 +408,41 @@ of your configuration, and tag it with ``routing.loader``:
 security.listener.factory
 -------------------------
 
-**Amaç**: Necessary when creating a custom authentication system
+**Amaç**: Özel bir yetkilendirme sistemi yaratırken gerekli
 
-This tag is used when creating your own custom authentication system. For
-details, see :doc:`/cookbook/security/custom_authentication_provider`.
+Bu etiket kendi yetkilendirme (authentication) sisteminizi yaratırken 
+kullanılır. Daha fazla bilgi için :doc:`/cookbook/security/custom_authentication_provider`
+belgesine bakınız.
 
 security.remember_me_aware
 --------------------------
 
-**Amaç**: To allow remember me authentication
+**Amaç**: Beni Hatırla yetkilendirmesi'ne izin ver
 
-This tag is used internally to allow remember-me authentication to work. If
-you have a custom authentication method where a user can be remember-me authenticated,
-then you may need to use this tag.
+Bu etiket içsel olarak beni-hatırla (remember-me) yetkilendirmesinin
+çalışmasını sağlar. Eğer bir kullanıcının beni-hatırla yetkilendirmesini
+kullanan özel bir yetkilendirme mekanizması kullanıyorsanız bu etiketi kullanmanız
+gerekebilir.
 
-If your custom authentication factory extends
+Eğer özel yetkilendirme factory'niz 
 :class:`Symfony\\Bundle\\SecurityBundle\\DependencyInjection\\Security\\Factory\\AbstractFactory`
-and your custom authentication listener extends
-:class:`Symfony\\Component\\Security\\Http\\Firewall\\AbstractAuthenticationListener`,
-then your custom authentication listener will automatically have this tagged
-applied and it will function automatically.
+sınıfından türerse ve özel yetkilendirme dinleyicisi (listener)
+:class:`Symfony\\Component\\Security\\Http\\Firewall\\AbstractAuthenticationListener`
+sınıfından türerse, özel yetkilendirme dinleyicisi otomatik olarak bu
+şekilde etiketlenecek ve uygulamaya alınacaktır.
 
 security.voter
 --------------
 
-**Amaç**: To add a custom voter to Symfony's authorization logic
+**Amaç**: Symfony'nin yetkilendirme algoritmasına özel bir karar verici(voter)ekle
 
-When you call ``isGranted`` on Symfony's security context, a system of "voters"
-is used behind the scenes to determine if the user should have access. The
-``security.voter`` tag allows you to add your own custom voter to that system.
+Symfony güvenlik içeriğinde, ``isGranted``  çağırıldığında "karar verici"(voter)
+sisteminin arkaplanda kullanıcının yetkisinin olup olmadığı belirlenir.
+``security.voter``  etiketi kendi özel "karar vericinizi" sisteme eklemenize
+olanak sağlar.
 
-For more information, read the cookbook article: :doc:`/cookbook/security/voters`.
+Daha fazla bilgi için :doc:`/cookbook/security/voters` tarif kitabı girdisini
+okuyun.
 
 swiftmailer.plugin
 ------------------
