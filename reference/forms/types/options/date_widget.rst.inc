@@ -1,14 +1,14 @@
 widget
 ~~~~~~
 
-**type**: ``string`` **default**: ``choice``
+**tip**: ``string`` **varsayılan**: ``choice``
 
-The basic way in which this field should be rendered. Can be one of the following:
+Bu alanın ekrana basılması için en kolay yoldur. Bu alan aşağıdakilerden birisi olabilir:
 
-* ``choice``: renders three select inputs.  The order of the selects is defined
-  in the `pattern`_ option.
+* ``choice``: üç select listesini ekrana basar. Bu selectlerin sırası
+  `pattern`_ seçeneği ile berlirlenir.
 
-* ``text``: renders a three field input of type text (month, day, year).
+* ``text``: metin girilecek 3 alan'ı ekrana basar (ay, gün, yıl).
 
-* ``single_text``: renders a single input of type text. User's input is validated
-  based on the `format`_ option.
+* ``single_text``: metin girilecek tek bir alanı ekrana basar. Kullanıcının
+  girdiği verilerin doğrulaması `format`_ seçeneğine göre yapılır.

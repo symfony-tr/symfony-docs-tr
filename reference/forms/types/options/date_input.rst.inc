@@ -1,15 +1,14 @@
 input
 ~~~~~
 
-**type**: ``string`` **default**: ``datetime``
+**tip**: ``string`` **varsayılan**: ``datetime``
 
-The format of the *input* data - i.e. the format that the date is stored on
-your underlying object. Valid values are:
+*Giriş* (input) verisinin formatıdır. Örneğin ilgili nesnenizde formatlı bir tarih
+verisi tutuluyor.Geçerli değerkler:
 
-* ``string`` (e.g. ``2011-06-05``)
+* ``string`` (örn. ``2012-06-05``)
 * ``datetime`` (a ``DateTime`` object)
-* ``array`` (e.g. ``array('year' => 2011, 'month' => 06, 'day' => 05)``)
-* ``timestamp`` (e.g. ``1307232000``)
+* ``array`` (örn. ``array('year' => 2012, 'month' => 06, 'day' => 05)``)
+* ``timestamp`` (örn. ``1307232000``)
 
-The value that comes back from the form will also be normalized back into
-this format.
+Formdan gelen bilgi bu belirlenen formata göre normalleştirilecektir.

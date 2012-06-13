@@ -1,14 +1,16 @@
 pattern
 ~~~~~~~
 
-**type**: ``string``
+**tip**: ``string``
 
-This option is only relevant when the `widget`_ is set to ``choice``.
-The default pattern is based off the `format`_ option, and tries to
-match the characters ``M``, ``d``, and ``y`` in the format pattern. If
-no match is found, the default is the string ``{{ year }}-{{ month }}-{{ day }}``.
-Tokens for this option include:
+Bu seçenek sadece `widget`_ ``choice`` tipinde ayarlandığı zaman kullanılır.
+Varsayılan pattern değeri `format`_ seçeneğine bağlıdır ve format pattern'i
+içerisindeki ``M``, ``d`` ve ``y`` karakterlerini eşleştirmeye çalışır. Eğer
+hiç bir şey bulunamazsa varsayılan karakter şekli ``{{ year }}-{{ month }}-{{ day }}``
+olacaktır.
 
-  * ``{{ year }}``: Replaced with the ``year`` widget
-  * ``{{ month }}``: Replaced with the ``month`` widget
-  * ``{{ day }}``: Replaced with the ``day`` widget
+Bu seçeneğin içerisindeki semboller:
+
+  * ``{{ year }}``:  ``year`` widget 'ı ile yer değiştirir.
+  * ``{{ month }}``:  ``month`` widget'ı ile yer değiştiri.
+  * ``{{ day }}``:  ``day`` widget'ı ile yer değiştirir.

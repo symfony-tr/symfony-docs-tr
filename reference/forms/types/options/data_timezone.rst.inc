@@ -1,9 +1,9 @@
 data_timezone
 ~~~~~~~~~~~~~
 
-**type**: ``string`` **default**: system default timezone
+**tip**: ``string`` **varsayılan**: sistem varsayılan zaman kuşağı
 
-Timezone that the input data is stored in. This must be one of the
-`PHP supported timezones`_
+Zaman kuşağı verisi kendi içerisinde tutulur. Bu veri 
+`PHP destekli zaman kuşakları`_ 'ından birisi olmalıdır.
 
-.. _`PHP supported timezones`: http://php.net/manual/en/timezones.php
+.. _`PHP destekli zaman kuşakları`: http://php.net/manual/en/timezones.php

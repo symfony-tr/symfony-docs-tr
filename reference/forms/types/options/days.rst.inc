@@ -1,9 +1,10 @@
 days
 ~~~~
 
-**type**: ``array`` **default**: 1 to 31
+**tip**: ``array`` **varsayılan**: 1 'den 31'e kadar.
 
-List of days available to the day field type.  This option is only relevant
-when the ``widget`` option is set to ``choice``::
+Gün alan tipinde kullanılacak günlerin sayısal değerlerinin listesidir.
+Bu seçenek sadece ``widget`` seçeneğinin ``choice`` olduğu durumda çalışır::
+ 
 
     'days' => range(1,31)

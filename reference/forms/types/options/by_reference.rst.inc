@@ -1,14 +1,14 @@
 by_reference
 ~~~~~~~~~~~~
 
-**type**: ``Boolean`` **default**: ``true``
+**tip**: ``Boolean`` **varsayılan**: ``true``
 
-In most cases, if you have a ``name`` field, then you expect ``setName``
-to be called on the underlying object. In some cases, however, ``setName``
-may *not* be called. Setting ``by_reference`` ensures that the setter is
-called in all cases.
+Pek çok durumda eğer ``name`` alanınız varsa ve ile ilgili nesnede
+``setName`` 'in çağırılabilir olmasına gerek vardır. Ancak bazı durumlarda
+``setName`` çağırılabilir durumda olmayabilir. ``by_reference`` ile bu 
+setter fonksiyonu her durumda çağırılabilir duruma gelir.
 
-To understand this further, let's look at a simple example::
+Bunu daha iyi anlamak için şu basit örneğe bakalım::
 
     $builder = $this->createFormBuilder($article);
     $builder
@@ -22,13 +22,18 @@ To understand this further, let's look at a simple example::
 If ``by_reference`` is true, the following takes place behind the scenes
 when you call ``bindRequest`` on the form::
 
+Eğer ``by_reference`` true değerine sahipse formda
+``bindRequest`` fonksiyonunu çağırıldığın zaman aşağıdaki şekilde verilere
+erişebilirsiniz::
+
     $article->setTitle('...');
     $article->getAuthor()->setName('...');
     $article->getAuthor()->setEmail('...');
 
-Notice that ``setAuthor`` is not called. The author is modified by reference.
+``setAuthor`` 'un çağırılabilir olmadığına dikkat edin. Author referans tarafından
+değiştirilir.
 
-If we set ``by_reference`` to false, binding looks like this:
+Eğer biz ``by_reference`` değerini false yaparsak bağlama şu şekilde olacaktır:
 
     $article->setTitle('...');
     $author = $article->getAuthor();
@@ -36,10 +41,11 @@ If we set ``by_reference`` to false, binding looks like this:
     $author->setEmail('...');
     $article->setAuthor($author);
 
-So, all that ``by_reference=false`` really does is force the framework to
-call the setter on the parent object.
+Yani ``by_reference=false`` gerçekten framework'te üst nesnenin setter'ini
+çağırması için zorlayacaktır.
 
-Similarly, if you're using the :doc:`collection</reference/forms/types/collection>`
-form type where your underlying collection data is an object (like with Doctrine's
-``ArrayCollection``), then ``by_reference`` must be set to ``false`` if you
-need the setter (e.g. ``setAuthors``) to be called.
+Aynı şekilde eğer ilgili kolleksiyon verisini bir nesne olarak 
+:doc:`collection</reference/forms/types/collection>` form tipinde ise (Doctrine'nin
+``ArrayCollection`` 'nu gibi) bu durumda eğer setter'ın çağırılabilir 
+olmasına ihtiyacınız var ise (örn : ``setAuthors``) ``by_reference`` mutlaka ``false`` 
+yapılmalıdır.

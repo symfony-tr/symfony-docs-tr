@@ -1,21 +1,22 @@
 disabled
 ~~~~~~~~
-**type**: ``boolean``  **default**: ``false``
+**tip**: ``boolean``  **varsayılan**: ``false``
 
-If you don't want a user to modify the value of a field, you can set 
-the disabled option to true. Any submitted value will be ignored.
+Kullanıcının bir form alanını değiştirmesini istemiyorsanız disabled
+seçeneğinin değerini true yapın. Bu alandaki gönderilen her veri 
+dikkate alınmayacaktır.
 
 .. code-block:: php
 
     use Symfony\Component\Form\TextField
       
     $field = new TextField('status', array(
-        'data' => 'Old data',
+        'data' => 'Eski Veri',
         'disabled' => true,
     ));
-    $field->submit('New data');
+    $field->submit('Yeni Veri');
 
-    // prints "Old data"
+    // "Eski Veri" yazar
     echo $field->getData();
 
 
