@@ -1,47 +1,49 @@
 .. index::
-   single: Forms; Fields; radio
+   single: Formlar; Alanlar;  radio
 
-radio Field Type
+radio Alan Tipi
 ================
 
-Creates a single radio button. This should always be used for a field that
-has a Boolean value: if the radio button is selected, the field will be set
-to true, if the button is not selected, the value will be set to false.
+Her zaman boolean değer içeren bir radio butonu yaratır. Eğer radio seçili
+ise bu alanın değeri true olacak aksi durumda ise false olacaktır.
 
-The ``radio`` type isn't usually used directly. More commonly it's used
-internally by other types such as :doc:`choice</reference/forms/types/choice>`.
-If you want to have a Boolean field, use :doc:`checkbox</reference/forms/types/checkbox>`.
+``radio`` tipi genellikle tek başına direkt olarak kullanılmaz. Genellikle 
+:doc:`choice</reference/forms/types/choice>` gibi diğer tipler tarafından 
+içsel olarak kullanılır.
 
-+-------------+---------------------------------------------------------------------+
-| Rendered as | ``input`` ``radio`` field                                           |
-+-------------+---------------------------------------------------------------------+
-| Options     | - `value`_                                                          |
-+-------------+---------------------------------------------------------------------+
-| Inherited   | - `required`_                                                       |
-| options     | - `label`_                                                          |
-|             | - `read_only`_                                                      |
-|             | - `error_bubbling`_                                                 |
-+-------------+---------------------------------------------------------------------+
-| Parent type | :doc:`field</reference/forms/types/field>`                          |
-+-------------+---------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\RadioType` |
-+-------------+---------------------------------------------------------------------+
+Eğer bir mantıksal alana ihtiyacınız var ise  :doc:`checkbox</reference/forms/types/checkbox>`
+alanını kullanın.
 
-Field Options
--------------
++----------------------+------------------------------------------------------------------------+
+| Ekranda Görüntüleme  | ``input`` ``radio`` Alanı                                              |
++----------------------+------------------------------------------------------------------------+
+| Seçenekler           | - `value`_                                                             |
++----------------------+------------------------------------------------------------------------+
+| Aktarılan            | - `required`_                                                          |
+| seçenekler           | - `label`_                                                             |
+| (inherit)            | - `read_only`_                                                         |
+|                      | - `error_bubbling`_                                                    |
++----------------------+------------------------------------------------------------------------+
+| Üst Tip              | :doc:`field</reference/forms/types/field>`                             |
++----------------------+------------------------------------------------------------------------+
+| Sınıf                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\RadioType`    |
++----------------------+------------------------------------------------------------------------+
+
+Alan Seçenekleri
+-----------------
 
 value
 ~~~~~
 
-**type**: ``mixed`` **default**: ``1``
+**tip**: ``mixed`` **değer**: ``1``
 
-The value that's actually used as the value for the radio button. This does
-not affect the value that's set on your object.
+value alanının aldığı değer radio butonunun gerçekte aldığuı değerdir. Bu
+değeri nesneniz içerisinden ayarlamanız herhangi bir etkiye sebep olmaz.
 
-Inherited Options
------------------
+Aktarılan Seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler  the :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/required.rst.inc
 

@@ -1,47 +1,46 @@
 .. index::
-   single: Forms; Fields; password
+   single: Formlar; Alanlar; password
 
-password Field Type
-===================
+password Alan Tipi
+==================
 
-The ``password`` field renders an input password text box.
+``password`` alanı bir parola girilen metin kutusunu ekranda gösterir.
++----------------------+------------------------------------------------------------------------+
+| Ekranda Görüntüleme  | ``input`` ``password`` alanı                                           |
++----------------------+------------------------------------------------------------------------+
+| Seçenekler           | - `always_empty`_                                                      |
++----------------------+------------------------------------------------------------------------+
+| Aktarılan            | - `max_length`_                                                        |
+| Seçenekler           | - `required`_                                                          |
+| (inherit)            | - `label`_                                                             |
+|                      | - `trim`_                                                              |
+|                      | - `read_only`_                                                         |
+|                      | - `error_bubbling`_                                                    |
++----------------------+------------------------------------------------------------------------+
+| Üst Tip              | :doc:`text</reference/forms/types/text>`                               |
++----------------------+------------------------------------------------------------------------+
+| Sınıf                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\PasswordType` |
++----------------------+------------------------------------------------------------------------+
 
-+-------------+------------------------------------------------------------------------+
-| Rendered as | ``input`` ``password`` field                                           |
-+-------------+------------------------------------------------------------------------+
-| Options     | - `always_empty`_                                                      |
-+-------------+------------------------------------------------------------------------+
-| Inherited   | - `max_length`_                                                        |
-| options     | - `required`_                                                          |
-|             | - `label`_                                                             |
-|             | - `trim`_                                                              |
-|             | - `read_only`_                                                         |
-|             | - `error_bubbling`_                                                    |
-+-------------+------------------------------------------------------------------------+
-| Parent type | :doc:`text</reference/forms/types/text>`                               |
-+-------------+------------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\PasswordType` |
-+-------------+------------------------------------------------------------------------+
-
-Field Options
--------------
+Alan Seçenekleri
+-----------------
 
 always_empty
 ~~~~~~~~~~~~
 
-**type**: ``Boolean`` **default**: ``true``
+**tip**: ``Boolean`` **varsayılan**: ``true``
 
-If set to true, the field will *always* render blank, even if the corresponding
-field has a value. When set to false, the password field will be rendered
-with the ``value`` attribute set to its true value.
+Eğer true yapılırsa alan içinde bir değer olsa bile *herzaman* boş olarak 
+ekranda gösterilecektir. False olarak ayarlandığında password alanı ``value``
+değerinin içerisinde gerçek parola değeri olacak şekilde ekrana basılacaktır. 
 
-Put simply, if for some reason you want to render your password field
-*with* the password value already entered into the box, set this to false.
+Eğer bazı nedenlerden parola alanını ekranda *parola* değeri ile birlikte
+ekranda göstermek istiyorsanız bu seçeneğin değerini false yapın.
 
-Inherited Options
------------------
+Aktarılan Seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/max_length.rst.inc
 

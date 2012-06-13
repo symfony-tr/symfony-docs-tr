@@ -1,46 +1,48 @@
 .. index::
-   single: Forms; Fields; language
+   single: Formlar; Alanlar;  language
 
-language Field Type
+language Alan Tipi
 ===================
 
-The ``language`` type is a subset of the ``ChoiceType`` that allows the user
-to select from a large list of languages. As an added bonus, the language names
-are displayed in the language of the user.
+``language`` tipi ``ChoiceType`` tipinin bir alt tipi olarak kullanıcıya
+geniş bir dil seçeneği sunan bir seçim listesidir. Bonus olarak eklenen bu alan
+kullanıcının kendi dilinde lisan adlarını sıralar.
 
-The "value" for each language is the *Unicode language identifier*
-(e.g. ``fr`` or ``zh-Hant``).
+Her dilin değeri  *Unicode dil tanımlayıcısı* olarak tanımlanır.
+(Örn : ``tr`` ya da ``zh-Hant``).
 
 .. note::
 
-   The locale of your user is guessed using `Locale::getDefault()`_
+   Kullanıcının yerel bilgisinin tahmin edilmesinde `Locale::getDefault()`_
+   kullanılır.
+   
 
-Unlike the ``choice`` type, you don't need to specify a ``choices`` or
-``choice_list`` option as the field type automatically uses a large list
-of languages. You *can* specify either of these options manually, but then
-you should just use the ``choice`` type directly.
+``choice`` tipinde  ``choices`` ya da ``choices_list`` seçeneğini belirlemeseniz
+dahi tüm Lisan adları bu alanda otomatik olarak listlenecektir. Eğer isterseniz
+size gereken diller için ``choice`` seçeneğini kullanarak bu listeyi özelleştirebilirsiniz.
 
-+-------------+------------------------------------------------------------------------+
-| Rendered as | can be various tags (see :ref:`forms-reference-choice-tags`)           |
-+-------------+------------------------------------------------------------------------+
-| Inherited   | - `multiple`_                                                          |
-| options     | - `expanded`_                                                          |
-|             | - `preferred_choices`_                                                 |
-|             | - `empty_value`_                                                       |
-|             | - `error_bubbling`_                                                    |
-|             | - `required`_                                                          |
-|             | - `label`_                                                             |
-|             | - `read_only`_                                                         |
-+-------------+------------------------------------------------------------------------+
-| Parent type | :doc:`choice</reference/forms/types/choice>`                           |
-+-------------+------------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\LanguageType` |
-+-------------+------------------------------------------------------------------------+
 
-Inherited Options
------------------
++----------------------+------------------------------------------------------------------------+
+| Ekranda Görüntüleme  | çeşitli şekilde olabilir (bkz :ref:`forms-reference-choice-tags`)      |
++----------------------+------------------------------------------------------------------------+
+| Aktarılan            | - `multiple`_                                                          |
+| Seçenekler           | - `expanded`_                                                          |
+| (inherit)            | - `preferred_choices`_                                                 |
+|                      | - `empty_value`_                                                       |
+|                      | - `error_bubbling`_                                                    |
+|                      | - `required`_                                                          |
+|                      | - `label`_                                                             |
+|                      | - `read_only`_                                                         |
++----------------------+------------------------------------------------------------------------+
+| Üst Tip              | :doc:`choice</reference/forms/types/choice>`                           |
++----------------------+------------------------------------------------------------------------+
+| Class                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\LanguageType` |
++----------------------+------------------------------------------------------------------------+
 
-These options inherit from the :doc:`choice</reference/forms/types/choice>` type:
+Aktarılan Seçenekler (inherit)
+------------------------------
+
+Bu seçenekler :doc:`choice</reference/forms/types/choice>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/multiple.rst.inc
 
@@ -52,7 +54,7 @@ These options inherit from the :doc:`choice</reference/forms/types/choice>` type
 
 .. include:: /reference/forms/types/options/error_bubbling.rst.inc
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/required.rst.inc
 

@@ -1,46 +1,45 @@
 .. index::
-   single: Forms; Fields; url
+   single: Formlar; Alanlar; url
 
-url Field Type
-==============
+url Alan Tipi
+=============
 
-The ``url`` field is a text field that prepends the submitted value with
-a given protocol (e.g. ``http://``) if the submitted value doesn't already
-have a protocol.
+``url`` alanı değerin başına, eğer kullanıcı tarafından girilmediyse, 
+otomatik olarak verilen protokol ismini ekleyen bir metin alanıdır (örn: ``http://``) 
 
-+-------------+-------------------------------------------------------------------+
-| Rendered as | ``input url`` field                                               |
-+-------------+-------------------------------------------------------------------+
-| Options     | - `default_protocol`_                                             |
-+-------------+-------------------------------------------------------------------+
-| Inherited   | - `max_length`_                                                   |
-| options     | - `required`_                                                     |
-|             | - `label`_                                                        |
-|             | - `trim`_                                                         |
-|             | - `read_only`_                                                    |
-|             | - `error_bubbling`_                                               |
-+-------------+-------------------------------------------------------------------+
-| Parent type | :doc:`text</reference/forms/types/text>`                          |
-+-------------+-------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\UrlType` |
-+-------------+-------------------------------------------------------------------+
++---------------------+-------------------------------------------------------------------+
+|Ekranda Görüntüleme  | ``input url`` alanı                                               |
++---------------------+-------------------------------------------------------------------+
+| Seçenekler          | - `default_protocol`_                                             |
++---------------------+-------------------------------------------------------------------+
+| Aktarılan           | - `max_length`_                                                   |
+| seçenekler          | - `required`_                                                     |
+| (inherit)           | - `label`_                                                        |
+|                     | - `trim`_                                                         |
+|                     | - `read_only`_                                                    |
+|                     | - `error_bubbling`_                                               |
++---------------------+-------------------------------------------------------------------+
+| Üst Sınıf           | :doc:`text</reference/forms/types/text>`                          |
++---------------------+-------------------------------------------------------------------+
+| Sınıf               | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\UrlType` |
++---------------------+-------------------------------------------------------------------+
 
-Field Options
--------------
+Alan Seçenekleri
+----------------
 
 default_protocol
 ~~~~~~~~~~~~~~~~
 
-**type**: ``string`` **default**: ``http``
+**tip**: ``string`` **varsayılan**: ``http``
 
-If a value is submitted that doesn't begin with some protocol (e.g. ``http://``,
-``ftp://``, etc), this protocol will be prepended to the string when
-the data is bound to the form.
+Eğer kullanıcı tarafından girilen değerin başında bir protokol ismi 
+(örn: http:// ya da ftp:// gibi) yoksa bu değerde belirtilen protokol
+ismi değerin başına otomatik olarak eklenip forma gönderilir.
 
-Inherited Options
------------------
+Aktarılan Seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/max_length.rst.inc
 

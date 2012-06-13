@@ -1,31 +1,31 @@
 .. index::
-   single: Forms; Fields; text
+   single: Formlar; Alanlar; text
 
-text Field Type
+text Alan Tipi
 ===============
 
-The text field represents the most basic input text field.
+En basit metin kutusunu temsil eder.
 
-+-------------+--------------------------------------------------------------------+
-| Rendered as | ``input`` ``text`` field                                           |
-+-------------+--------------------------------------------------------------------+
-| Inherited   | - `max_length`_                                                    |
-| options     | - `required`_                                                      |
-|             | - `label`_                                                         |
-|             | - `trim`_                                                          |
-|             | - `read_only`_                                                     |
-|             | - `error_bubbling`_                                                |
-+-------------+--------------------------------------------------------------------+
-| Parent type | :doc:`field</reference/forms/types/field>`                         |
-+-------------+--------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType` |
-+-------------+--------------------------------------------------------------------+
++----------------------+--------------------------------------------------------------------+
+| Ekranda Görüntüleme  | ``input`` ``text`` alanı                                           |
++----------------------+--------------------------------------------------------------------+
+| Aktarılan            | - `max_length`_                                                    |
+| seçenekler           | - `required`_                                                      |
+| (inherit)            | - `label`_                                                         |
+|                      | - `trim`_                                                          |
+|                      | - `read_only`_                                                     |
+|                      | - `error_bubbling`_                                                |
++----------------------+--------------------------------------------------------------------+
+| Üst Tip              | :doc:`field</reference/forms/types/field>`                         |
++----------------------+--------------------------------------------------------------------+
+| Sınıf                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType` |
++----------------------+--------------------------------------------------------------------+
 
 
-Inherited Options
------------------
+Aktarılan Seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/max_length.rst.inc
 
