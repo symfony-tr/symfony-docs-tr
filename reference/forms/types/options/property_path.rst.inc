@@ -1,14 +1,16 @@
 property_path
 ~~~~~~~~~~~~~
 
-**type**: ``any`` **default**: ``the field's value``
+**tip**: ``any`` **varsayılan**: ``alanın değeri``
 
-Fields display a property value of the form's domain object by default. When
-the form is submitted, the submitted value is written back into the object.
+Form alanları form'ların domain nesnelerinin sınıf değişkenlerindeki değerleri
+gösterirler. Bir form submit edildiğinde submit edilen değer nesneye geri 
+döner. 
 
-If you want to override the property that a field reads from and writes to, 
-you can set the ``property_path`` option. Its default value is the field's
-name.
+Eğer bir form alanının okuyup yazdığı nesnenin sınıf değişkenini değiştirmek 
+istiyorsanız bunu ``property_path`` seçeneğinde belirtirsiniz. 
+Bunun varsayılan değeri form alanının ismidir.
 
-If you wish the field to be ignored when reading or writing to the object 
-you can set the ``property_path`` option to ``false``
+Eğer bu form alanı, nesne içerisinde okunmayacak ya da yazmayacak şekilde görmez
+den gelmek istenirse bu durumda ``property_path`` kısmını ``false`` yapılması
+gerekir.

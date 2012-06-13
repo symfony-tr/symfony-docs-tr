@@ -1,7 +1,7 @@
 read_only
 ~~~~~~~~~
 
-**type**: ``Boolean`` **default**: ``false``
+**tip**: ``Boolean`` **varsayılan**: ``false``
 
-If this option is true, the field will be rendered with the ``disabled``
-attribute so that the field is not editable.
+Eğer bu seçenek true ise alan ``disabled`` seçeneği ile edit edilemeyecek
+bir alan şeklinde ekrana basılacaktır.

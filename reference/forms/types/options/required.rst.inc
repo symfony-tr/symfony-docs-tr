@@ -1,13 +1,14 @@
 required
 ~~~~~~~~
 
-**type**: ``Boolean`` **default**: ``true``
+**tip**: ``Boolean`` **varsayılan**: ``true``
 
-If true, an `HTML5 required attribute`_ will be rendered. The corresponding
-``label`` will also render with a ``required`` class.
+Eğer true ise bir `HTML5 required attribute`_ ekrana basılacaktır.
+İlgili form alanı ``etiketi`` aynı zamanda bir ``required`` css sitili 
+ile de ekrana basılır.
 
-This is superficial and independent from validation. At best, if you let Symfony
-guess your field type, then the value of this option will be guessed from
-your validation information.
+Bu yöntem yüzeysel ve bağımsız bir form doğrulama şeklidir. En iyisi
+Symfony'nin form alan tipini tahmin etmesine izin vererek bu seçeneğin
+değerini sizin veri doğrulama bilginizden kullanmasını sağlamaktır.
 
 .. _`HTML5 required attribute`: http://diveintohtml5.info/forms.html
