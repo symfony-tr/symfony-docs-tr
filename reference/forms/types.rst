@@ -1,5 +1,5 @@
 .. index::
-   single: Forms; Types Reference
+   single: Formlar; Tip Referansı
 
 Form Types Reference
 ====================
@@ -38,13 +38,13 @@ Form Types Reference
    types/timezone
    types/url
 
-A form is composed of *fields*, each of which are built with the help of
-a field *type* (e.g. a ``text`` type, ``choice`` type, etc). Symfony2 comes
-standard with a large list of field types that can be used in your application.
+Bir form her birisinin bir alan *tipi* yardımı ile oluşturulduğu form *alanları*
+ile yaratılır(Örn: `text`` tipi, ``choice`` tipi, vs.). Symfony2 uygulamalarınızda
+kullanabilmeniz için standart olarak zengin bir alan tipi koleksiyonu ile birlikte gelir.
 
-Supported Field Types
----------------------
+Desteklenen Alan Tipleri
+------------------------
 
-The following field types are natively available in Symfony2:
+Aşağıdaki alan tipleri Symfony2 'de mevcuttur:
 
 .. include:: /reference/forms/types/map.rst.inc
