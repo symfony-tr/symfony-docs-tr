@@ -1,25 +1,25 @@
 NotBlank
 ========
 
-Validates that a value is not blank, defined as not equal to a blank string
-and also not equal to ``null``. To force that a value is simply not equal to
-``null``, see the :doc:`/reference/constraints/NotNull` constraint.
+Bir değerin boş olmadığını doğrular, boş bir dizeye eşit değildir şeklinde tanımlanmıştır
+ve ayrıca ``null`` 'e de eşit değildir. Bir değerin ``null`` 'e basitçe eşit olmaması geçerliliği için,
+:doc:`/reference/constraints/NotNull` kısıtına bakınız.
 
 +----------------+------------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`                  |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metod<validation-property-target>`         |
 +----------------+------------------------------------------------------------------------+
-| Options        | - `message`_                                                           |
+| Seçenekler     | - `message`_                                                           |
 +----------------+------------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\NotBlank`          |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\NotBlank`          |
 +----------------+------------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\NotBlankValidator` |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\NotBlankValidator` |
 +----------------+------------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
-If you wanted to ensure that the ``firstName`` property of an ``Author`` class
-were not blank, you could do the following:
+Bir ``Author`` sınıfının ``firstName`` sınıf değişkeninin boş olmadığından emin olmak istiyorsanız,
+aşağıdakini yapabilirsiniz:
 
 .. configuration-block::
 
@@ -42,12 +42,12 @@ were not blank, you could do the following:
             protected $firstName;
         }
 
-Options
+Seçenekler
 -------
 
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value should not be blank``
+**tip**: ``string`` **varsayılan**: ``Bu değer boş olamaz``
 
-This is the message that will be shown if the value is blank.
+Eğer değer boşsa bu mesaj dönecektir.
