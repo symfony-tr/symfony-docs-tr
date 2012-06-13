@@ -1,26 +1,26 @@
 Blank
 =====
 
-Validates that a value is blank, defined as equal to a blank string or equal
-to ``null``. To force that a value strictly be equal to ``null``, see the
-:doc:`/reference/constraints/Null` constraint. To force that a value is *not*
-blank, see :doc:`/reference/constraints/NotBlank`.
+Bir değerin boş olduğunu doğrular, boş bir dizeye eşittir ya da 
+``null`` 'e eşittir şeklinde tanımlanmıştır. Bir değerin kesin suretle ``null`` 'e eşit olması geçerliliği için,
+:doc:`/reference/constraints/Null` kısıtına bakınız. Bir değerin boş *değil* geçerliliği için,
+:doc:`/reference/constraints/NotBlank` 'e bakınız.
 
 +----------------+-----------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`                 |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metod<validation-property-target>`        |
 +----------------+-----------------------------------------------------------------------+
-| Options        | - `message`_                                                          |
+| Seçenekler     | - `message`_                                                          |
 +----------------+-----------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\Blank`            |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\Blank`            |
 +----------------+-----------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\BlankValidator`   |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\BlankValidator`   |
 +----------------+-----------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
-If, for some reason, you wanted to ensure that the ``firstName`` property
-of an ``Author`` class were blank, you could do the following:
+Eğer, bir nedenden ötürü, ``Author`` sınıfının ``firstName`` sınıf değişkeninin boş olduğundan emin olmak 
+istiyorsanız, aşağıdakini yapabilirsiniz:
 
 .. configuration-block::
 
@@ -43,12 +43,12 @@ of an ``Author`` class were blank, you could do the following:
             protected $firstName;
         }
 
-Options
--------
+Seçenekler
+----------
 
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value should be blank``
+**tip**: ``string`` **varsayılan**: ``This value should be blank``
 
-This is the message that will be shown if the value is not blank.
+Eğer değer boş değilse gösterilecek mesaj bu olacaktır.
