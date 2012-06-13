@@ -24,7 +24,7 @@ textarea Alan Tipi
 
 
 Aktarılan Seçenekler (inherit)
------------------------------
+------------------------------
 
 Bu seçenekler :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
