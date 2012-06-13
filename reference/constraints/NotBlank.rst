@@ -43,11 +43,11 @@ aşağıdakini yapabilirsiniz:
         }
 
 Seçenekler
--------
+----------
 
 message
 ~~~~~~~
 
-**tip**: ``string`` **varsayılan**: ``Bu değer boş olamaz``
+**tip**: ``string`` **varsayılan**: ``This value should not be blank``
 
 Eğer değer boşsa bu mesaj dönecektir.
