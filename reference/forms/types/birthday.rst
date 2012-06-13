@@ -1,57 +1,57 @@
 .. index::
-   single: Forms; Fields; birthday
+   single: Formlar; Alanlar; birthday
 
-birthday Field Type
-===================
+birthday Alan Tipi
+==================
 
-A :doc:`date</reference/forms/types/date>` field that specializes in handling
-birthdate data.
+Bir :doc:`date</reference/forms/types/date>` alanı doğum günü veri tipini
+işlemekten sorumludur.
 
-Can be rendered as a single text box, three text boxes (month, day, and year),
-or three select boxes.
+Bu tek bir metin kutusu olarak ya da üç alandan (ay, gün ve yıl) oluşan bir
+seçim kutuları topluluğu olarak yaratılabilir.
 
-This type is essentially the same as the :doc:`date</reference/forms/types/date>`
-type, but with a more appropriate default for the `years`_ option. The `years`_
-option defaults to 120 years ago to the current year.
+Bu tip temel olarak  :doc:`date</reference/forms/types/date>` tipi ile aynıdır
+ancak `years`_ alanı doğum günü tipine daha uygun olarak geliştirilmiştir. 
+`years`_ seçeneği varsayılan olarak geçerli yıldan 120 yıl gerisine kadar gider.
 
-+----------------------+------------------------------------------------------------------------------------------------------------------------+
-| Underlying Data Type | can be ``DateTime``, ``string``, ``timestamp``, or ``array`` (see the :ref:`input option <form-reference-date-input>`) |
-+----------------------+------------------------------------------------------------------------------------------------------------------------+
-| Rendered as          | can be three select boxes or 1 or 3 text boxes, based on the `widget`_ option                                          |
-+----------------------+------------------------------------------------------------------------------------------------------------------------+
-| Options              | - `years`_                                                                                                             |
-+----------------------+------------------------------------------------------------------------------------------------------------------------+
-| Inherited            | - `widget`_                                                                                                            |
-| options              | - `input`_                                                                                                             |
-|                      | - `months`_                                                                                                            |
-|                      | - `days`_                                                                                                              |
-|                      | - `format`_                                                                                                            |
-|                      | - `pattern`_                                                                                                           |
-|                      | - `data_timezone`_                                                                                                     |
-|                      | - `user_timezone`_                                                                                                     |
-|                      | - `invalid_message`_                                                                                                   |
-|                      | - `invalid_message_parameters`_                                                                                        |
-+----------------------+------------------------------------------------------------------------------------------------------------------------+
-| Parent type          | :doc:`date</reference/forms/types/date>`                                                                               |
-+----------------------+------------------------------------------------------------------------------------------------------------------------+
-| Class                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\BirthdayType`                                                 |
-+----------------------+------------------------------------------------------------------------------------------------------------------------+
++----------------------+-----------------------------------------------------------------------------------------------------------------------------+
+| Ana Veri Tipi        | ``DateTime``, ``string``, ``timestamp``, ya da  ``array`` olabilir. (bkz :ref:`input seçeneği <form-reference-date-input>`) |
++----------------------+-----------------------------------------------------------------------------------------------------------------------------+
+| Ekranda GÖrüntüleme  | `widget`_  ayarına bağlı olarak 3 select kutusu olabilir ya da  1 ya da 3 metin kutusu olabilir                             |
++----------------------+-----------------------------------------------------------------------------------------------------------------------------+
+| Seçenekler           | - `years`_                                                                                                                  |
++----------------------+-----------------------------------------------------------------------------------------------------------------------------+
+| Aktarılan            | - `widget`_                                                                                                                 |
+| seçenekler           | - `input`_                                                                                                                  |
+| (inherit)            | - `months`_                                                                                                                 |
+|                      | - `days`_                                                                                                                   |
+|                      | - `format`_                                                                                                                 |
+|                      | - `pattern`_                                                                                                                |
+|                      | - `data_timezone`_                                                                                                          |
+|                      | - `user_timezone`_                                                                                                          |
+|                      | - `invalid_message`_                                                                                                        |
+|                      | - `invalid_message_parameters`_                                                                                             |
++----------------------+-----------------------------------------------------------------------------------------------------------------------------+
+| Üst Tip              | :doc:`date</reference/forms/types/date>`                                                                                    |
++----------------------+-----------------------------------------------------------------------------------------------------------------------------+
+| Sınıf                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\BirthdayType`                                                      |
++----------------------+-----------------------------------------------------------------------------------------------------------------------------+
 
-Field Options
+Alan Seçenekleri
 -------------
 
 years
 ~~~~~
 
-**type**: ``array`` **default**: 120 years ago to the current year
+**tip**: ``array`` **varsayılan**: Geçerli yıldan 120 yıl gerisine kadar
 
-List of years available to the year field type.  This option is only
-relevant when the ``widget`` option is set to ``choice``.
+Yıllar year alan tipinde listelenir. Bu seçenek sadece ``widget`` seçeneği
+``choice`` olarak ayarlandığunda aktif olur.
 
-Inherited options
------------------
+Aktarılan seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`date</reference/forms/types/date>` type:
+Bu seçenekler :doc:`date</reference/forms/types/date>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/date_widget.rst.inc
     
@@ -69,7 +69,7 @@ These options inherit from the :doc:`date</reference/forms/types/date>` type:
 
 .. include:: /reference/forms/types/options/user_timezone.rst.inc
 
-These options inherit from the :doc:`date</reference/forms/types/field>` type:
+Bu seçenekler :doc:`date</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/invalid_message.rst.inc
 
