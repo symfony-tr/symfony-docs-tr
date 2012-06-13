@@ -170,9 +170,9 @@ dikkat edin) ve bir dizi form yardımcı fonksiyonu aracılığı ile yapılır:
 
 .. note::
 
-    Bu örnek önceden ``task_new`` adındaki bir route'u ve
-    ``AcmeTaskBundle:Default:new` 'ı işaret eden bir controller 
-    yarattığınızı varsayar.
+   Bu örnek önceden ``task_new`` adındaki bir route'u ve
+   ``AcmeTaskBundle:Default:new` 'ı işaret eden bir controller 
+   yarattığınızı var sayar.
 
 Bu kadar! ``form_widget(form)`` ile ekrana basarken her form alanı bir etiket
 ve bir hata mesajı ile (Eğer hata oluşursa) yaratılacaktır. Çok kolay olmasına
@@ -992,7 +992,7 @@ alanı eklemek gerekir::
 
     public function buildForm(FormBuilder $builder, array $options)
     {
-        // ...
+		// ...
 
         $builder->add('category', new CategoryType());
     }

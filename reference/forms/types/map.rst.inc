@@ -31,7 +31,7 @@ Tarih ve Zaman Alanları
 * :doc:`doğum günü</reference/forms/types/birthday>`
 
 Diğer Alanlar
-~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 * :doc:`checkbox</reference/forms/types/checkbox>`
 * :doc:`dosya</reference/forms/types/file>`
