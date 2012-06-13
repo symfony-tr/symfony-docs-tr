@@ -1,11 +1,11 @@
 invalid_message_parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**type**: ``array`` **default**: ``array()``
+**tip**: ``array`` **varsayılan**: ``array()``
 
-When setting the ``invalid_message`` option, you may need to
-include some variables in the string. This can be done by adding placeholders
-to that option and including the variables in this option::
+``invalid_message`` seçeneği ayarlandığında bazı değişkenlerin metin
+içerisinde olmasına ihtiyacınız olacaktır.Bunu şu şekilde yer tutucular
+ile yapabilirsiniz.
 
     $builder->add('some_field', 'some_type', array(
         // ...

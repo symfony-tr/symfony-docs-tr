@@ -1,7 +1,8 @@
 months
 ~~~~~~
 
-**type**: ``array`` **default**: 1 to 12
+**tip**: ``array`` **varsayılan**: 1'den 12'ye kadar
 
-List of months available to the month field type. This option is only relevant
-when the ``widget`` option is set to ``choice``.
+Bu seçenek ayların sayısal değerlerini bir liste halinde ekrana basmaya 
+yarar. Bu seçenek sadece ``widget`` seçeneğinin ``choice`` olarak ayarlandığı
+zaman çalışır.

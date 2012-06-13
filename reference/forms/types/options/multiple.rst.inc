@@ -1,9 +1,12 @@
 multiple
 ~~~~~~~~
 
-**type**: ``Boolean`` **default**: ``false``
+**tip**: ``Boolean`` **varsayılan**: ``false``
 
-If true, the user will be able to select multiple options (as opposed
-to choosing just one option). Depending on the value of the ``expanded``
-option, this will render either a select tag or checkboxes if true and
-a select tag or radio buttons if false. The returned value will be an array.
+Eğer true yapılırsa kullanıcı select üzerinden çoklu seçimler yapabilir 
+(bu tek bir seçim yapmanın tam tersidir). Bu kısım ``expanded`` seçeneğinin
+aldığı değere göre ekrana select etiketi ile oluşturulmuş bir liste ya da 
+checkbox'lardan oluşturulmuş bir liste basacaktır. 
+Expanded true durumunda bu eğer true ise checkbox'lardan oluşan bir liste
+false ise radio butonlardan oluşan bir liste ekrana basılacaktır. Dönüş
+değeri ise array olacaktır.

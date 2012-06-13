@@ -1,11 +1,11 @@
 label
 ~~~~~
 
-**type**: ``string`` **default**: The label is "guessed" from the field name
+**tip**: ``string`` **varsayılan**: etiket form alan tipi üzerinden *tahmin edilir*.
 
-Sets the label that will be used when rendering the field. The label can
-also be directly set inside the template:
+Ekrana basılacak olan alanın etiketini belirlemek için kullanılır. label 
+aynı zamanda şablon içerisinden de direkt ayarlanabilir:
     
 .. code-block:: jinja
 
-    {{ form_label(form.name, 'Your name') }}
+    {{ form_label(form.name, 'İsminiz') }}

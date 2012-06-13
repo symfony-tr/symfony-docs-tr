@@ -1,7 +1,7 @@
 minutes
 ~~~~~~~
 
-**type**: ``integer`` **default**: 1 to 59
+**tip**: ``integer`` **varsayılan**: 1'den 59'a kadar
 
-List of minutes available to the minutes field type.  This option is only
-relevant when the ``widget`` option is set to ``choice``.
+Dakika'ların sayısal değerlerini içeren bir liste oluşturur. Bu seçenek
+sadece ``widget`` seçeneği ``choice`` olarak ayarlandığında çalışır.

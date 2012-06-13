@@ -1,7 +1,8 @@
 max_length
 ~~~~~~~~~~
 
-**type**: ``integer``
+**tip**: ``integer``
 
-This option is used to add a ``max_length`` attribute, which is used by
-some browsers to limit the amount of text in a field.
+Bu seçenek bazı tarayıcıların desteklediği bir metin alanında en fazla
+girilmesi gereken karakter sayısını ayarlayan ``max_length`` değerini
+ayarlar.

@@ -1,16 +1,16 @@
 invalid_message
 ~~~~~~~~~~~~~~~
 
-**type**: ``string`` **default**: ``This value is not valid``
+**tip**: ``string`` **varsayılan**: ``This value is not valid``
 
-This is the validation error message that's used if the data entered into
-this field doesn't make sense (i.e. fails validation).
+Bu veri doğrulama mesajı eğer form alanında veri düzgün girilmedi ise bunu
+doğrulama esnasında çıkan mesaj olarak kullanılır.
 
-This might happen, for example, if the user enters a nonsense string into
-a :doc:`time</reference/forms/types/time>` field that cannot be converted
-into a real time or if the user enters a string (e.g. ``apple``) into a
-number field.
+Örneğin bu şu şekilde olabilir. Eğer kullanıcı düzgün olmatan bir metni 
+:doc:`zaman</reference/forms/types/time>` alanına girerse ve bu metin
+düzgün bir şekilde gerçek zaman verisine çevrilmezse (örn:elma) bu bir
+hatadır.
 
-Normal (business logic) validation (such as when setting a minimum length for
-a field) should be set using validation messages with your validation rules
-(:ref:`reference<book-validation-constraint-configuration>`).
+Normal(business logic) doğrulama (bir alan için girilmesi gereken en az 
+karakter sayısı gibi) mesajı tanımladığınız veri doğrulama kuralları içerisinde
+olmalıdır (:ref:`Daha detaylı bilgi için<book-validation-constraint-configuration>`).
