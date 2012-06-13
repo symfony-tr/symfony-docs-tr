@@ -1,5 +1,5 @@
-Validation Constraints Reference
-================================
+Veri Doğrulama Koşutları Referansı
+==================================
 
 .. toctree::
    :maxdepth: 1
@@ -41,14 +41,13 @@ Validation Constraints Reference
    constraints/Valid
    constraints/All
 
-The Validator is designed to validate objects against *constraints*.
-In real life, a constraint could be: "The cake must not be burned". In
-Symfony2, constraints are similar: They are assertions that a condition is 
-true.
+Validator nesneleri *koşutlara* göre doğrulayacak şekilde tasarlanmıştır.
+Gerçek hayatta bir koşut "Kek yanmamalıdır" şeklide olabilir. Symfony2'de
+de koşutlar aynen böyledir. Verilen doğrulama koşutları "doğru" olmalıdır.
 
-Supported Constraints
----------------------
+Desteklenen Kısıtlar
+--------------------
 
-The following constraints are natively available in Symfony2:
+Aşağıdaki kısıtlar Symfony2 'de doğal olarak desteklenir:
 
 .. include:: /reference/constraints/map.rst.inc
