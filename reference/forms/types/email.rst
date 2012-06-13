@@ -1,31 +1,31 @@
 .. index::
-   single: Forms; Fields; email
+   single: Formlar; Alanlar; email
 
-email Field Type
+email Alan Tipi
 ================
 
-The ``email`` field is a text field that is rendered using the HTML5
-``<input type="email" />`` tag.
+``email`` alanı HTML5'in ``<input type="email" />`` etiketini ekranda 
+gösteren bir metin alanıdır.
 
-+-------------+---------------------------------------------------------------------+
-| Rendered as | ``input`` ``email`` field (a text box)                              |
-+-------------+---------------------------------------------------------------------+
-| Inherited   | - `max_length`_                                                     |
-| options     | - `required`_                                                       |
-|             | - `label`_                                                          |
-|             | - `trim`_                                                           |
-|             | - `read_only`_                                                      |
-|             | - `error_bubbling`_                                                 |
-+-------------+---------------------------------------------------------------------+
-| Parent type | :doc:`field</reference/forms/types/field>`                          |
-+-------------+---------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType` |
-+-------------+---------------------------------------------------------------------+
++--------------------+---------------------------------------------------------------------+
+| Ekranda Görüntüleme| ``input`` ``email`` alanı (ya da metin kutusu)                      |
++--------------------+---------------------------------------------------------------------+
+| Aktarılan          | - `max_length`_                                                     |
+| seçenekler         | - `required`_                                                       |
+|                    | - `label`_                                                          |
+|                    | - `trim`_                                                           |
+|                    | - `read_only`_                                                      |
+|                    | - `error_bubbling`_                                                 |
++--------------------+---------------------------------------------------------------------+
+| Üst Tip            | :doc:`field</reference/forms/types/field>`                          |
++--------------------+---------------------------------------------------------------------+
+| Class              | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType` |
++--------------------+---------------------------------------------------------------------+
 
-Inherited Options
------------------
+Aktarılan Seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler  :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/max_length.rst.inc
 

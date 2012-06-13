@@ -1,39 +1,40 @@
 .. index::
-   single: Forms; Fields; csrf
+   single: Formlar; Alanlar; csrf
 
-csrf Field Type
+csrf Alan Tipi
 ===============
 
-The ``csrf`` type is a hidden input field containing a CSRF token.
+``csrf`` tipi CSRF token'ını içeren hizli bir input alanı yaratır.
 
-+-------------+--------------------------------------------------------------------+
-| Rendered as | ``input`` ``hidden`` field                                         |
-+-------------+--------------------------------------------------------------------+
-| Options     | - ``csrf_provider``                                                |
-|             | - ``intention``                                                    |
-|             | - ``property_path``                                                |
-+-------------+--------------------------------------------------------------------+
-| Parent type | ``hidden``                                                         |
-+-------------+--------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Csrf\\Type\\CsrfType` |
-+-------------+--------------------------------------------------------------------+
++--------------------+--------------------------------------------------------------------+
+| Ekranda Görüntüleme| ``input`` ``hidden`` alanı                                         |
++--------------------+--------------------------------------------------------------------+
+| Seçenekler         | - ``csrf_provider``                                                |
+|                    | - ``intention``                                                    |
+|                    | - ``property_path``                                                |
++--------------------+--------------------------------------------------------------------+
+| Üst Tip            | ``hidden``                                                         |
++--------------------+--------------------------------------------------------------------+
+| Sınıf              | :class:`Symfony\\Component\\Form\\Extension\\Csrf\\Type\\CsrfType` |
++--------------------+--------------------------------------------------------------------+
 
-Field Options
--------------
+Alan Seçenekleri
+----------------
 
 csrf_provider
 ~~~~~~~~~~~~~
 
-**type**: ``Symfony\Component\Form\CsrfProvider\CsrfProviderInterface``
+**tip**: ``Symfony\Component\Form\CsrfProvider\CsrfProviderInterface``
 
-The ``CsrfProviderInterface`` object that should generate the CSRF token.
-If not set, this defaults to the default provider.
+``CsrfProviderInterface`` 'i CSRF token'ını yaratan nesnedir. Eğer
+belirtilmezse bu varsayılan sağlayıcı olarak belirlenir.
 
 intention
 ~~~~~~~~~
 
-**type**: ``string``
+**tip**: ``string``
 
-An optional unique identifier used to generate the CSRF token.
+CSRF token'ini yaratırken isteğe bağlı olarak kullanılan benzersiz
+bir belirteçtir.
 
 .. include:: /reference/forms/types/options/property_path.rst.inc

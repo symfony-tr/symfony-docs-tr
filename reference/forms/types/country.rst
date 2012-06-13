@@ -1,45 +1,45 @@
 .. index::
-   single: Forms; Fields; country
+   single: Formlar; Alanlar; country
 
-country Field Type
+country Alan Tipi
 ==================
 
-The ``country`` type is a subset of the ``ChoiceType`` that displays countries
-of the world. As an added bonus, the country names are displayed in the language
-of the user.
+``country`` tipi ``ChoiceType`` tipinin dünya üzerindeki ülkeleri gösteren
+bir alt tipidir. Bir bonus olarak eklenmiştir ve kullanıcının kendi dilinde
+ülkeleri gösterir.
 
-The "value" for each country is the two-letter country code.
+Her ülkenin "value" değeri ülkelerin iki harfli kodlarıdır.
 
 .. note::
 
-   The locale of your user is guessed using `Locale::getDefault()`_
+   Kullanıcının yerel bilgisini tahmn etmek için `Locale::getDefault()`_ kullanılır.
 
-Unlike the ``choice`` type, you don't need to specify a ``choices`` or
-``choice_list`` option as the field type automatically uses all of the countries
-of the world. You *can* specify either of these options manually, but then
-you should just use the ``choice`` type directly.
+``choice`` tipinde ``choices`` ya da ``choice_list`` seçeneklerini belirlemezseniz
+bile bu alan tipi, dünya üzerindeki ülkelerin listesini otomatik olarak oluşturacaktır.
+Bu bu ülke listesini kendinize göre ayarlamak için sadece ``choice`` seçeneğine kendinize
+göre düzenlemeniz yeterlidir.
 
-+-------------+-----------------------------------------------------------------------+
-| Rendered as | can be various tags (see :ref:`forms-reference-choice-tags`)          |
-+-------------+-----------------------------------------------------------------------+
-| Inherited   | - `multiple`_                                                         |
-| options     | - `expanded`_                                                         |
-|             | - `preferred_choices`_                                                |
-|             | - `empty_value`_                                                      |
-|             | - `error_bubbling`_                                                   |
-|             | - `required`_                                                         |
-|             | - `label`_                                                            |
-|             | - `read_only`_                                                        |
-+-------------+-----------------------------------------------------------------------+
-| Parent type | :doc:`choice</reference/forms/types/choice>`                          |
-+-------------+-----------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\CountryType` |
-+-------------+-----------------------------------------------------------------------+
++--------------------+-------------------------------------------------------------------------+
+| Ekranda Görüntüleme| çeşitli şekilde olabilir. (bkz:ref:`forms-reference-choice-tags`)       |
++--------------------+-------------------------------------------------------------------------+
+| Aktarılan          | - `multiple`_                                                           |
+| Seçenekler         | - `expanded`_                                                           |
+| (inherit)          | - `preferred_choices`_                                                  |
+|                    | - `empty_value`_                                                        |
+|                    | - `error_bubbling`_                                                     |
+|                    | - `required`_                                                           |
+|                    | - `label`_                                                              |
+|                    | - `read_only`_                                                          |
++--------------------+-------------------------------------------------------------------------+
+| Üst Tip            | :doc:`choice</reference/forms/types/choice>`                            |
++--------------------+-------------------------------------------------------------------------+
+| Class              | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\CountryType`   |
++--------------------+-------------------------------------------------------------------------+
 
-Inherited options
------------------
+Aktarılan seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`choice</reference/forms/types/choice>` type:
+Bu seçenekler  :doc:`choice</reference/forms/types/choice>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/multiple.rst.inc
 
@@ -51,7 +51,7 @@ These options inherit from the :doc:`choice</reference/forms/types/choice>` type
 
 .. include:: /reference/forms/types/options/error_bubbling.rst.inc
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler  :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/required.rst.inc
 
