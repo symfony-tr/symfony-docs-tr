@@ -1,98 +1,102 @@
 .. index::
-   single: Forms; Fields; choice
+   single: Formlar; Alanlar; choice
 
-choice Field Type
+choice Alan Tipi
 =================
 
-A multi-purpose field used to allow the user to "choose" one or more options.
-It can be rendered as a ``select`` tag, radio buttons, or checkboxes.
+Birden fazla seçeneği olan alanlarda kullanıcının bir ya da daha fazla seçeneği
+seçebileceği alanlar yaratr. Bu ``select`` etiketi ile yaratılabildiği gibi 
+radio ya da checkbox olarak da yaratılabilir.
 
-To use this field, you must specify *either* the ``choice_list`` or ``choices``
-option.
+Bu alanı kullanmak için ``choice_list`` ya da ``choices`` seçeneklerini 
+*tanımlamanız* gerekir.
 
-+-------------+-----------------------------------------------------------------------------+
-| Rendered as | can be various tags (see below)                                             |
-+-------------+-----------------------------------------------------------------------------+
-| Options     | - `choices`_                                                                |
-|             | - `choice_list`_                                                            |
-|             | - `multiple`_                                                               |
-|             | - `expanded`_                                                               |
-|             | - `preferred_choices`_                                                      |
-|             | - `empty_value`_                                                            |
-|             | - `empty_data`_                                                             |
-+-------------+-----------------------------------------------------------------------------+
-| Inherited   | - `required`_                                                               |
-| options     | - `label`_                                                                  |
-|             | - `read_only`_                                                              |
-|             | - `error_bubbling`_                                                         |
-+-------------+-----------------------------------------------------------------------------+
-| Parent type | :doc:`form</reference/forms/types/form>` (if expanded), ``field`` otherwise |
-+-------------+-----------------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType`        |
-+-------------+-----------------------------------------------------------------------------+
 
-Example Usage
++---------------------+---------------------------------------------------------------------------------+
+| Ekranda Görüntüleme | çeşitli etiketlerde olabilir (aşağıya bakın)                                    |
++---------------------+---------------------------------------------------------------------------------+
+| Seçenekler          | - `choices`_                                                                    |
+|                     | - `choice_list`_                                                                |
+|                     | - `multiple`_                                                                   |
+|                     | - `expanded`_                                                                   |
+|                     | - `preferred_choices`_                                                          |
+|                     | - `empty_value`_                                                                |
+|                     | - `empty_data`_                                                                 |
++---------------------+---------------------------------------------------------------------------------+
+| Aktarılan           | - `required`_                                                                   |
+| Seçenekler          | - `label`_                                                                      |
+| (inherit)           | - `read_only`_                                                                  |
+|                     | - `error_bubbling`_                                                             |
++---------------------+---------------------------------------------------------------------------------+
+| Üst Tip             | :doc:`form</reference/forms/types/form>` (eğer genişletilirse), yoksa ``field`` |
++---------------------+---------------------------------------------------------------------------------+
+| Class               | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType`            |
++---------------------+---------------------------------------------------------------------------------+
+
+Örnek Kullanım
 -------------
 
-The easiest way to use this field is to specify the choices directly via the
-``choices`` option. The key of the array becomes the value that's actually
-set on your underlying object (e.g. ``m``), while the value is what the
-user sees on the form (e.g. ``Male``).
+Bu alanı kullanmanın en kolay yolu seçenekleri ``choices`` seçeneği altında
+belirtmektir. Dize değişkenin anahtar(key) tarafı ilgili nesnenin alacağı
+değer değer(value) (Örn. ``e``) tarafı ise bu değeri temsil eden metni 
+(e.g. ``Erkek``) ifade eder.
 
 .. code-block:: php
 
     $builder->add('gender', 'choice', array(
-        'choices'   => array('m' => 'Male', 'f' => 'Female'),
+        'choices'   => array('e' => 'Erkek', 'k' => 'Kadın'),
         'required'  => false,
     ));
 
-By setting ``multiple`` to true, you can allow the user to choose multiple
-values. The widget will be rendered as a multiple ``select`` tag or a series
-of checkboxes depending on the ``expanded`` option:
+``multiple`` seçeneğini true olarak belirlediğinizde kullanıcı çoklu seçim
+yapabilir. Bunu oluşturan widget ekranda çoklu ``select`` etiketi ile oluşturulacak
+ya da ``expanded`` seçeneğinin değerine göre bir dizi checkbox'tan oluşmuş 
+bir liste halinde görüntülenecektir:
 
 .. code-block:: php
 
     $builder->add('availability', 'choice', array(
         'choices'   => array(
-            'morning'   => 'Morning',
-            'afternoon' => 'Afternoon',
-            'evening'   => 'Evening',
+            'morning'   => 'Günaydın',
+            'afternoon' => 'İyi Akşamlar',
+            'evening'   => 'İyi Geceler',
         ),
         'multiple'  => true,
     ));
 
-You can also use the ``choice_list`` option, which takes an object that can
-specify the choices for your widget.
+Ayrıca  ``choice_list`` seçeneğini kullanarak kullanılacak seçenekleri
+bir nesneden de aktarabilirsiniz.
 
 .. _forms-reference-choice-tags:
 
 .. include:: /reference/forms/types/options/select_how_rendered.rst.inc
 
-Field Options
--------------
+Alan Seçenekleri
+----------------
 
 choices
 ~~~~~~~
 
-**type**: ``array`` **default**: ``array()``
+**tip**: ``array`` **varsayılan**: ``array()``
 
-This is the most basic way to specify the choices that should be used
-by this field. The ``choices`` option is an array, where the array key
-is the item value and the array value is the item's label::
+Bu alanı kullanmanız gerektiğinde seçenekleri belirleyebileceğiniz en temel
+yol aşağıda verilmiştir. ``choices`` seçeneği, anahtar(key) değeri seçimin değeri, değer(value)
+değeri ise seçimin metni şeklinde ayarlanan bir array(dize) değişkenidir::
 
     $builder->add('gender', 'choice', array(
-        'choices' => array('m' => 'Male', 'f' => 'Female')
+        'choices' => array('e' => 'Erkek', 'k' => 'Kadın')
     ));
 
 choice_list
 ~~~~~~~~~~~
 
-**type**: ``Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceListInterface``
+**tip**: ``Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceListInterface``
 
-This is one way of specifying the options to be used for this field.
-The ``choice_list`` option must be an instance of the ``ChoiceListInterface``.
-For more advanced cases, a custom class that implements the interface
-can be created to supply the choices.
+Bu , bu alan için kullanılacak olan seçenekleri belirlemede kullanacağınız
+bir yoldur. ``choice_list`` seçeneği mutlaka ``ChoiceListInterface`` 
+interface'inin bir örneği (instance) olmalıdır. Daha özel durumlarda 
+bu interface üzerinden türetilmiş bir sınıfı bu alanın değerlerini
+belirlemekte kullanabilirsiniz.
 
 .. include:: /reference/forms/types/options/multiple.rst.inc
 
@@ -104,10 +108,10 @@ can be created to supply the choices.
 
 .. include:: /reference/forms/types/options/empty_data.rst.inc
 
-Inherited options
------------------
+Aktarılan seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/required.rst.inc
 

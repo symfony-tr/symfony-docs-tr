@@ -1,53 +1,53 @@
 .. index::
-   single: Forms; Fields; checkbox
+   single: Formlar; Alanlar; checkbox
 
-checkbox Field Type
+checkbox Alan Tipi
 ===================
 
-Creates a single input checkbox. This should always be used for a field that
-has a Boolean value: if the box is checked, the field will be set to true,
-if the box is unchecked, the value will be set to false.
+Tek bir işaret kutusu (checkbox) yaratır. Bu daima Mantıksal bir değer (boolean)
+için kullanılmalıdır. Eğer kutu işaretlenirse bu alan true değerini alır, işaretli
+değilse bu değer false olacaktır.
 
-+-------------+------------------------------------------------------------------------+
-| Rendered as | ``input`` ``text`` field                                               |
-+-------------+------------------------------------------------------------------------+
-| Options     | - `value`_                                                             |
-+-------------+------------------------------------------------------------------------+
-| Inherited   | - `required`_                                                          |
-| options     | - `label`_                                                             |
-|             | - `read_only`_                                                         |
-|             | - `error_bubbling`_                                                    |
-+-------------+------------------------------------------------------------------------+
-| Parent type | :doc:`field</reference/forms/types/field>`                             |
-+-------------+------------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType` |
-+-------------+------------------------------------------------------------------------+
++----------------------+------------------------------------------------------------------------+
+| Ekranda Görüntüleme  | ``input`` ``text`` alanı                                               |
++----------------------+------------------------------------------------------------------------+
+| Seçenekler           | - `value`_                                                             |
++----------------------+------------------------------------------------------------------------+
+| Aktarılan            | - `required`_                                                          |
+| Seçenekler           | - `label`_                                                             |
+| (inherit)            | - `read_only`_                                                         |
+|                      | - `error_bubbling`_                                                    |
++----------------------+------------------------------------------------------------------------+
+| Üst Tip              | :doc:`field</reference/forms/types/field>`                             |
++----------------------+------------------------------------------------------------------------+
+| Sınıf                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType` |
++----------------------+------------------------------------------------------------------------+
 
-Example Usage
--------------
+Örnek Kullanım
+---------------
 
 .. code-block:: php
 
     $builder->add('public', 'checkbox', array(
-        'label'     => 'Show this entry publicly?',
+        'label'     => 'Bu girdi herkeze görünsün mü?',
         'required'  => false,
     ));
 
-Field Options
--------------
+Alan Seçenekleri
+----------------
 
 value
 ~~~~~
 
-**type**: ``mixed`` **default**: ``1``
+**tip**: ``mixed`` **varsayılan**: ``1``
 
-The value that's actually used as the value for the checkbox. This does
-not affect the value that's set on your object.
+value işaret kutusunun gerçekte aldığı değeri temsil eder. Bunu nesneniz
+içerisinde ayarlamanız herhangi bir etkiye sebep olmaz.
 
-Inherited options
------------------
+Aktarılan seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/required.rst.inc
 

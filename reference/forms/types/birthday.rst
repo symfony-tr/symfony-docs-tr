@@ -17,7 +17,7 @@ ancak `years`_ alanı doğum günü tipine daha uygun olarak geliştirilmiştir.
 +----------------------+-----------------------------------------------------------------------------------------------------------------------------+
 | Ana Veri Tipi        | ``DateTime``, ``string``, ``timestamp``, ya da  ``array`` olabilir. (bkz :ref:`input seçeneği <form-reference-date-input>`) |
 +----------------------+-----------------------------------------------------------------------------------------------------------------------------+
-| Ekranda GÖrüntüleme  | `widget`_  ayarına bağlı olarak 3 select kutusu olabilir ya da  1 ya da 3 metin kutusu olabilir                             |
+| Ekranda Görüntüleme  | `widget`_  ayarına bağlı olarak 3 select kutusu olabilir ya da  1 ya da 3 metin kutusu olabilir                             |
 +----------------------+-----------------------------------------------------------------------------------------------------------------------------+
 | Seçenekler           | - `years`_                                                                                                                  |
 +----------------------+-----------------------------------------------------------------------------------------------------------------------------+
@@ -38,7 +38,7 @@ ancak `years`_ alanı doğum günü tipine daha uygun olarak geliştirilmiştir.
 +----------------------+-----------------------------------------------------------------------------------------------------------------------------+
 
 Alan Seçenekleri
--------------
+----------------
 
 years
 ~~~~~
