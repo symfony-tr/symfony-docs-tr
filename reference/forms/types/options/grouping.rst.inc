@@ -1,6 +1,10 @@
 grouping
 ~~~~~~~~
 
-**type**: ``integer`` **default**: ``false``
+**tip**: ``integer`` **varsayılan**: ``false``
 
-This value is used internally as the ``NumberFormatter::GROUPING_USED`` value when using PHP's ``NumberFormatter`` class. Its documentation is non-existent, but it appears that if you set this to ``true``, numbers will be grouped with a comma or period (depending on your locale): ``12345.123`` would display as ``12,345.123``.
+Bu değer içsel olarak PHP'nin ``NumberFormatter`` sınıfı kullanıldığında
+``NumberFormatter::GROUPING_USED``  değerini kullanır. Bunun dokümantasyonu
+bulunmamaktadır ancak anlaşıldığı kadarıyla eğer bunu ``true`` değeri yaparsanız
+sayılar nokta ya da virgül (,) ile guruplanacaktır (yerel bilginize bağlı
+olarak) : ``12345.123`` değeri ``12,345.123`` şeklinde gözükecektir.

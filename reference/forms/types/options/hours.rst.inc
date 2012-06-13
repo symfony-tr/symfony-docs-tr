@@ -1,7 +1,7 @@
 hours
 ~~~~~
 
-**type**: ``integer`` **default**: 1 to 23
+**tip**: ``integer`` **varsayılan**: 1'den 23'e kadar
 
-List of hours available to the hours field type. This option is only relevant
-when the ``widget`` option is set to ``choice``.
+Mevcut saatlerin sayısal değerlerini tutan alandır. Bu seçenek sadece
+``widget`` seçeneği ``choice`` değerine sahipken çalışır.

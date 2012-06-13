@@ -1,29 +1,29 @@
 empty_value
 ~~~~~~~~~~~
 
-**type**: ``string`` or ``Boolean``
+**tip**: ``string`` ya da  ``Boolean``
 
-This option determines whether or not a special "empty" option (e.g. "Choose an option")
-will appear at the top of a select widget. This option only applies if both
-the ``expanded`` and ``multiple`` options are set to false.
+Bu seçenek özel bir "boş" seçeneğinin (örn: "Lütfen Seçiniz") seçim 
+listesinde olup olmayacağını belirler. Bu seçenek sadece eğer ``expanded``
+ve ``multiple`` seçeneklerinin ikiside false olduğunda çalışır.
 
-* Add an empty value with "Choose an option" as the text::
+* Metin olarak "Lütfen Seçiniz" değeri ile boş bir seçenek ekler::
 
     $builder->add('states', 'choice', array(
-        'empty_value' => 'Choose an option',
+        'empty_value' => 'Lütfen seçiniz.',
     ));
 
-* Guarantee that no "empty" value option is displayed::
+* Herhangi bir "boş" seçeneğinin görünmemesini garanti altına alır::
 
     $builder->add('states', 'choice', array(
         'empty_value' => false,
     ));
 
-If you leave the ``empty_value`` option unset, then a blank (with no text)
-option will automatically be added if and only if the ``required`` option
-is false::
+Eğer ``empty_value`` seçeneğine değer atanmazsa boş bir seçenek (yazısız olarak)
+otomatik olarak atanır. Ancak bunun olması için ``required`` seçeneği
+değerinin false olması gerekir::
 
-    // a blank (with no text) option will be added
+    // boş (metinsiz) seçenek eklenecek
     $builder->add('states', 'choice', array(
         'required' => false,
     ));

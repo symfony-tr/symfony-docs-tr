@@ -1,6 +1,6 @@
 error_bubbling
 ~~~~~~~~~~~~~~
 
-**type**: ``Boolean`` **default**: ``false``
+**tip**: ``Boolean`` **varsayılan**: ``false``
 
 .. include:: /reference/forms/types/options/_error_bubbling_body.rst.inc
