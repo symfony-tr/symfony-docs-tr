@@ -1,26 +1,27 @@
 .. index::
-   single: Forms; Fields; hidden
+   single: Formlar; Alanlar; hidden
 
-hidden Field Type
+hidden Alan Tipi
 =================
 
-The hidden type represents a hidden input field.
+``hidden`` tipi gizli bir input alanını temsil eder.
 
-+-------------+----------------------------------------------------------------------+
-| Rendered as | ``input`` ``hidden`` field                                           |
-+-------------+----------------------------------------------------------------------+
-| Inherited   | - ``data``                                                           |
-| options     | - ``property_path``                                                  |
-+-------------+----------------------------------------------------------------------+
-| Parent type | :doc:`field</reference/forms/types/field>`                           |
-+-------------+----------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType` |
-+-------------+----------------------------------------------------------------------+
++----------------------+----------------------------------------------------------------------+
+| Ekranda Görüntüleme  | ``input`` ``hidden`` alanı                                           |
++----------------------+----------------------------------------------------------------------+
+| Aktarılan            | - ``data``                                                           |
+| Seçenekler           | - ``property_path``                                                  |
+| (inherit)            |                                                                      |
++----------------------+----------------------------------------------------------------------+
+| Üst Tip              | :doc:`field</reference/forms/types/field>`                           |
++----------------------+----------------------------------------------------------------------+
+| Sınıf                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType` |
++----------------------+----------------------------------------------------------------------+
 
-Inherited Options
------------------
+Aktarılan seçenekler (inherit)
+------------------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler :doc:`field</reference/forms/types/field>`  tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/data.rst.inc
 

@@ -11,7 +11,6 @@ radio ya da checkbox olarak da yaratılabilir.
 Bu alanı kullanmak için ``choice_list`` ya da ``choices`` seçeneklerini 
 *tanımlamanız* gerekir.
 
-
 +---------------------+---------------------------------------------------------------------------------+
 | Ekranda Görüntüleme | çeşitli etiketlerde olabilir (aşağıya bakın)                                    |
 +---------------------+---------------------------------------------------------------------------------+
@@ -30,11 +29,11 @@ Bu alanı kullanmak için ``choice_list`` ya da ``choices`` seçeneklerini
 +---------------------+---------------------------------------------------------------------------------+
 | Üst Tip             | :doc:`form</reference/forms/types/form>` (eğer genişletilirse), yoksa ``field`` |
 +---------------------+---------------------------------------------------------------------------------+
-| Class               | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType`            |
+| Sınıf               | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType`            |
 +---------------------+---------------------------------------------------------------------------------+
 
 Örnek Kullanım
--------------
+--------------
 
 Bu alanı kullanmanın en kolay yolu seçenekleri ``choices`` seçeneği altında
 belirtmektir. Dize değişkenin anahtar(key) tarafı ilgili nesnenin alacağı

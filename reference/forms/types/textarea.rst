@@ -1,30 +1,32 @@
 .. index::
-   single: Forms; Fields; textarea
+   single: Formlar; Alanlar; textarea
 
-textarea Field Type
-===================
+textarea Alan Tipi
+==================
 
-Renders a ``textarea`` HTML element. 
+``textarea`` HTML elementini Ekrana basar
 
-+-------------+------------------------------------------------------------------------+
-| Rendered as | ``textarea`` tag                                                       |
-+-------------+------------------------------------------------------------------------+
-| Inherited   | - `max_length`_                                                        |
-| options     | - `required`_                                                          |
-|             | - `label`_                                                             |
-|             | - `trim`_                                                              |
-|             | - `read_only`_                                                         |
-|             | - `error_bubbling`_                                                    |
-+-------------+------------------------------------------------------------------------+
-| Parent type | :doc:`field</reference/forms/types/field>`                             |
-+-------------+------------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType` |
-+-------------+------------------------------------------------------------------------+
++----------------------+------------------------------------------------------------------------+
+| Ekranda Görüntüleme  | ``textarea`` tag                                                       |
++----------------------+------------------------------------------------------------------------+
+| Aktarılan            | - `max_length`_                                                        |
+| seçenekler           | - `required`_                                                          |
+| (inherit)            | - `label`_                                                             |
+|                      | - `trim`_                                                              |
+|                      | - `read_only`_                                                         |
+|                      | - `error_bubbling`_                                                    |
++----------------------+------------------------------------------------------------------------+
+| Üst Tip              | :doc:`field</reference/forms/types/field>`                             |
++----------------------+------------------------------------------------------------------------+
+| Sınıf                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType` |
++----------------------+------------------------------------------------------------------------+
 
-Inherited Options
------------------
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+
+Aktarılan Seçenekler (inherit)
+-----------------------------
+
+Bu seçenekler :doc:`field</reference/forms/types/field>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/max_length.rst.inc
 

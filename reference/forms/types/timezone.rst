@@ -1,41 +1,42 @@
 .. index::
-   single: Forms; Fields; timezone
+   single: Formlar; Alanlar; timezone
 
-timezone Field Type
-===================
+timezone Alan Tipi
+==================
 
-The ``timezone`` type is a subset of the ``ChoiceType`` that allows the user
-to select from all possible timezones.
+``timezone`` tipi ``ChoiceType`` tipinin bir alt tipi olarak kullanıcının
+mevcut tüm zaman kuşakları seçenekleri arasından seçim yapmasını sağlar.
 
-The "value" for each timezone is the full timezone name, such as ``America/Chicago``
-or ``Europe/Istanbul``.
+Her zaman kuşağının "değeri" ``America/Chicago`` ya da ``Europe/Istanbul`` 
+gibi tam açık bir değerdir.
 
-Unlike the ``choice`` type, you don't need to specify a ``choices`` or
-``choice_list`` option as the field type automatically uses a large list
-of locales. You *can* specify either of these options manually, but then
-you should just use the ``choice`` type directly.
+``choice`` tipinde ``choices`` ya da ``choice_list`` seçenekleri belirlenmese
+dahi bu alan kullanıcının yerel bilgisine göre geniş bir zaman kuşağı seçeneği
+listesi ile doldurulacaktur. Bu seçenekleri kendiniz düzenlemek istiyorsanız
+sadece ``choice`` seçeneğine istediğiniz zaman kuşaklarını manuel olarak
+girebilirsiniz.
 
-+-------------+------------------------------------------------------------------------+
-| Rendered as | can be various tags (see :ref:`forms-reference-choice-tags`)           |
-+-------------+------------------------------------------------------------------------+
-| Inherited   | - `multiple`_                                                          |
-| options     | - `expanded`_                                                          |
-|             | - `preferred_choices`_                                                 |
-|             | - `empty_value`_                                                       |
-|             | - `error_bubbling`_                                                    |
-|             | - `required`_                                                          |
-|             | - `label`_                                                             |
-|             | - `read_only`_                                                         |
-+-------------+------------------------------------------------------------------------+
-| Parent type | :doc:`choice</reference/forms/types/choice>`                           |
-+-------------+------------------------------------------------------------------------+
-| Class       | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\TimezoneType` |
-+-------------+------------------------------------------------------------------------+
++----------------------+------------------------------------------------------------------------+
+| Ekranda Görüntüleme  | çeşitli şekillerde (bkz :ref:`forms-reference-choice-tags`)            |
++----------------------+------------------------------------------------------------------------+
+| Aktarılan            | - `multiple`_                                                          |
+| seçenekler           | - `expanded`_                                                          |
+| (inherit)            | - `preferred_choices`_                                                 |
+|                      | - `empty_value`_                                                       |
+|                      | - `error_bubbling`_                                                    |
+|                      | - `required`_                                                          |
+|                      | - `label`_                                                             |
+|                      | - `read_only`_                                                         |
++----------------------+------------------------------------------------------------------------+
+| Üst Tip              | :doc:`choice</reference/forms/types/choice>`                           |
++----------------------+------------------------------------------------------------------------+
+| Sınıf                | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\TimezoneType` |
++----------------------+------------------------------------------------------------------------+
 
-Inherited options
------------------
+Aktarılan Seçenekler
+---------------------
 
-These options inherit from the :doc:`choice</reference/forms/types/choice>` type:
+Bu seçenekler :doc:`choice</reference/forms/types/choice>` tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/multiple.rst.inc
 
@@ -45,7 +46,7 @@ These options inherit from the :doc:`choice</reference/forms/types/choice>` type
 
 .. include:: /reference/forms/types/options/empty_value.rst.inc
 
-These options inherit from the :doc:`field</reference/forms/types/field>` type:
+Bu seçenekler :doc:`field</reference/forms/types/field>`  tipinden aktarılmıştır:
 
 .. include:: /reference/forms/types/options/required.rst.inc
 

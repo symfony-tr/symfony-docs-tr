@@ -33,7 +33,7 @@ göre düzenlemeniz yeterlidir.
 +--------------------+-------------------------------------------------------------------------+
 | Üst Tip            | :doc:`choice</reference/forms/types/choice>`                            |
 +--------------------+-------------------------------------------------------------------------+
-| Class              | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\CountryType`   |
+| Sınıf              | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\CountryType`   |
 +--------------------+-------------------------------------------------------------------------+
 
 Aktarılan seçenekler (inherit)

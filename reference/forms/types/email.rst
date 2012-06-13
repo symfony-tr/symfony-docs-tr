@@ -19,7 +19,7 @@ gösteren bir metin alanıdır.
 +--------------------+---------------------------------------------------------------------+
 | Üst Tip            | :doc:`field</reference/forms/types/field>`                          |
 +--------------------+---------------------------------------------------------------------+
-| Class              | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType` |
+| Sınıf              | :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType` |
 +--------------------+---------------------------------------------------------------------+
 
 Aktarılan Seçenekler (inherit)

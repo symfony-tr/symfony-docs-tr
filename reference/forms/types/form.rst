@@ -1,7 +1,7 @@
 .. index::
-   single: Forms; Fields; form
+   single: Formlar; Alanlar;form
 
-form Field Type
+form Alan Tipi
 ===============
 
-See :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType`.
+Bakıız :class:`Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType` sınıfı.

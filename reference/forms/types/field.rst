@@ -1,13 +1,14 @@
 .. index::
-   single: Forms; Fields; field
+   single: Formlar; Alanlar; field
 
-The Abstract "field" Type
-=========================
+Özet "field" Tipi
+=================
 
-The ``field`` form type is not an actual field type you use, but rather
-functions as the parent field type for many other fields.
+``field`` form tipi kullandığınız gerçek bir tip değildir ancak 
+diğer çoğu alanın üst sınıf (parent) olarak kullandığı pek çok
+fonksiyonu barındırır.
 
-The ``field`` type predefines a couple of options:
+``field`` tipi öntanımlı olarak bir dizi seçeneğe sahiptir:
 
 .. include:: /reference/forms/types/options/data.rst.inc
 
