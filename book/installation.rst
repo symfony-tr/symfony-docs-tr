@@ -10,25 +10,25 @@ bir *başlangıç* projesi ile gelir.
 
 .. tip::
 
-    Eğer kaynak kontrorlü ile birlikte en iyi nasıl proje yaratacağınız 
+    Eğer kaynak kontrorlü ile birlikte en iyi şekilde  nasıl proje yaratacağınız 
     konusunaki talimatları arıyorsanız `Kaynak Kontrolü'nün Kullanımı`_ 'na
     bakın.
 
 Bir Symfony2 Dağıtımını İndirmek
------------------------------------
+---------------------------------
 
 .. tip::
 
     Öncelikle web sunucu (Apache gibi) yazılımınızın PHP 5.3.2 ve üstü 
     bir sürüm ile çalışabilecek şekilde ayarlandığınan emin olun. 
-    Symfony2'nin gereksinimler için :doc:`gereksinimler belgesine </reference/requirements>`.
-    bakın.
+    Symfony2'nin gereksinimler için 
+    :doc:`gereksinimler belgesine </reference/requirements>`  bakın.
     Web sunucu dosyalarının ana yerini özelleştirmek için  `Apache`_ | `Nginx`_ 
     dökümanlarına bakın.
 
 
 Symfony2 "dağıtımı", Symony2'nin çekirdek kütüphaneleri, kullanışlı, seçilmiş bundle'lar , 
-tutarlı bir dizin yapısı ve bazı varsayılan konfigürasyonlarla birlikte paketlenmiş halidir.
+iyi düzenlenmiş bir dizin yapısı ve bazı varsayılan konfigürasyonlar ile birlikte paketlenmiş halidir.
 Bir Symfony2 dağıtımını indirdiğinizde hemen uygulama geliştirilebilecek şekilde düzenlenmiş
 fonksiyonel bir uygulama iskeletini indirmiş olursunuz.
 
@@ -36,7 +36,7 @@ fonksiyonel bir uygulama iskeletini indirmiş olursunuz.
 ile başlayın. Bu sayfada ana Symfony2 dağıtımı olarak *Symony2 Standart Edition* 'u
 göreceksiniz. Burada iki seçenekten birisini seçmeniz gerekecek.
 
-* ``.tgz`` y da  ``.zip`` olarak indirebilirsiniz. - İkiside aynıdır, size
+* ``.tgz`` ya da  ``.zip`` olarak indirebilirsiniz. - İkiside aynıdır, size
   hangisi en uygun geliyorsa onu indirebilirsiniz;
 
 * Dağıtımı vendor(sağlayıcı) 'lar olmadan indirin. Eğer bilgisayarınızda 
@@ -44,7 +44,7 @@ göreceksiniz. Burada iki seçenekten birisini seçmeniz gerekecek.
   kullanabilirsiniz. Bu size 3. parti / sağlayıcılar konusunda daha esneklik
   sağlar.
   
-Bu paketlerden birisini indirdiğinizde, web sunucunuzun document root 
+Bu paketlerden birisini indirdiğinizde, web sunucunuzun "document root" 
 kısmına açmalısınız. UNIX komut satırından bu işlemi şu şekilde yapabilirsimiz.
 (``###`` yerine dosya isminizi yazmalısınız)
 
@@ -78,22 +78,22 @@ bir klasörünüz olmalı:
 Vendorları Güncellemek
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Sonunda eğer "without vendors" seçeneğindeki arşivi indirdiyseniz, Vendor
-ları komut satırından aşağıdaki komutu kullanarak çalıştırmalısınız:
+Eğer "without vendors" seçeneğindeki arşivi indirdiyseniz, Vendor
+ların kurulması için komut satırından aşağıdaki komutu  kullanın:
 
 .. code-block:: bash
 
     php bin/vendors install
 
-Bu komut tüm gerekli olan vendor kütüphanelerini - Symfony'i de kapsayan
-şekilde -  ``vendor/`` klasörüne indirecektir. 3. parti vendorlar hakkında
+Bu komut gerekli olan tüm vendor kütüphanelerini - Symfony'de dahil -  
+``vendor/`` klasörüne indirecektir. 3. parti vendorlar hakkında
 bilgi almak ve Symfony2 içerisinde nasıl yönetilecğeini öğrenmek için 
 ":ref:`cookbook-managing-vendor-libraries`" belgesini okuyun.
 
 
 Konfigürasyon ve Kurulum
 ~~~~~~~~~~~~~~~~~~~~~~~
-Bukontada gerekli tüm 3. parti kütüphaneler ``vendor/`` klasörü içerisinde
+Artık gerekli tüm 3. parti kütüphaneler ``vendor/`` klasörü içerisinde
 bulunmaktalar. Ayrıca varsayılan uygulama ayarları ``app/`` klasörü içerisinde
 ve bazı örnek kodlar ``src/`` klasörünün içerisindedir.
 
@@ -119,8 +119,8 @@ Eğer bazı sorunlar varsa onları düzeltip yeniden bunu çalıştırın.
 
     **1. chmod +a destekleyen ACL sistemini kullanmak**
 	
-	Pek çok sistem ``chmod +a`` komutunu destekler. Öncelikle bunu deneyin
-	eğer bir hata mesajı alırsanız diğer metodu deneyin:
+	Pek çok sistem ``chmod +a`` komutunu destekler. Öncelikle bunu deneyin.
+	Eğer bir hata mesajı alırsanız diğer metodu deneyin:
 	
     .. code-block:: bash
 
@@ -142,15 +142,15 @@ Eğer bazı sorunlar varsa onları düzeltip yeniden bunu çalıştırın.
         sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
 
 	
-    Şunu dikkate alın. Tüm web sunucular kullanıcıyı ``www-data`` olarak
-    çalıştırırlar. Web server kullanıcısı olarak hangi kullanıcının ç
+    Tüm web sunucular kullanıcıyı ``www-data`` olarak  çalıştırdıklarına 
+    dikkat edin. Web server kullanıcısı olarak hangi kullanıcının
     çalıştırıldığını kontrol edip o kullanıcıyı ``www-data`` ya koyun.
     Bu kullanıcının belirlenmesi süreç listenizi kontrol etmek ile belirlenebilir.
 
     **3. ACL Kullanmadan**
 	
 	Eğer ACL ile dizinleri değiştirmeye yetkiniz yoksa cache ve log dizinlerinin
-	umask larının gurup yazılabilir yada herkez yazılabilir (Eğer web sunucu
+	umask larının gurup yazılabilir ya da herkez yazılabilir (Eeb sunucu
 	kullanıcısının komut satırı kullanıcısı ile aynı gurupta olup olmamasına
 	bağlı olarak) değişitirlmesi gereklidir.
 	Bunun gerçekleştirilmesi için ``app/console``, ``web/app.php`` ve 
@@ -165,11 +165,12 @@ Eğer bazı sorunlar varsa onları düzeltip yeniden bunu çalıştırın.
         umask(0000); // Bu erişimi 0777 yapacaktır.
 
     Unutmayın. Eğer ACL erişiminiz varsa bunu kullanmanızı tavsiye edilir.
-    Çünkü web sunucusu üzerinde umask değişimi o kadar süreç-güvenli değildir.
+    Çünkü web sunucusu üzerinde umask değişimi o kadar süreç-güvenli bir yöntem
+    değildir.
 
 
 Herşey yolundaysa, "Go to the Welcome page" 'e tıklayarak ilk "gerçek" 
-Symfony2 web sayfasına bir istekte bulunun:
+Symfony2 web sayfasına bir istekte(request) bulunun:
 
 .. code-block:: text
 
@@ -183,24 +184,24 @@ kutlamış olmalı!
 Geliştirmeye Başlamak
 ---------------------
 Şimdi geliştirmeye başlamak için tamamen çalışan bir Symfony2 uygulamasına
-sahipsiniz! . Dağıtımınız bazı örnek kodlar içermektedir. Dağıtımınız 
+sahipsiniz! Dağıtımınız bazı örnek kodlar içermektedir. Dağıtımınız 
 içerisinde bulunan ``README.rst`` dosyasını (bu düz metin dosyasıdır) 
 açarak örnek kodun dağıtımınız içerisinde neler içerdiğini ve bunu daha 
 sonra nasıl silebileceğinizi öğrenebilirsiniz.
 
-Eğer Symfony'de yeni iseniz, sayfaları nasıl yaratacağınızı,
-konfigürasyonun nasıl değiştireceğinizi ve yeni uygulamanızda
-ihtiyacınız olan herşeyi nasıl yapacağınızı öğrenmek için ":doc:`page_creation` 'a 
-katılın.
+Eğer Symfony'de yeni iseniz, sayfaları nasıl yaratacağınızı, konfigürasyonun 
+nasıl değiştireceğinizi ve yeni uygulamanızda ihtiyacınız olan diğer tüm
+şeyleri nasıl yapacağınızı öğrenmek için ":doc:`page_creation` belgesine
+bakın.
 
 Kaynak Kontrolü'nün Kullanımı
 -----------------------------
 Eğer ``Git`` ya da ``Subversion`` gibi bir sürüm kontrol sistemi kullanıyorsanız,
-sürüm kontrol sisteminizi kurabilir ve projelerinizi normalde nasıl yapıyorsanız
+bu sürüm kontrol sisteminizi kurabilir ve projelerinizi normalde nasıl yapıyorsanız
 commit edebilirsiniz. Symfony2 Standart sürümü yeni projeniz için bir başlangıç
 noktasıdır.
 
-Git üzerinde en iyi şakilde projenizi nasıl ayarlayıp saklayabileceğiniz
+Git üzerinde en iyi şekilde projenizi nasıl ayarlayıp saklayabileceğiniz
 hakkındaki talimatlar için :doc:`/cookbook/workflow/new_project_git` belgesine
 bakın.
 
