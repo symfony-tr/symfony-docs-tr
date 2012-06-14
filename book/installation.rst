@@ -150,7 +150,7 @@ Eğer bazı sorunlar varsa onları düzeltip yeniden bunu çalıştırın.
     **3. ACL Kullanmadan**
 	
 	Eğer ACL ile dizinleri değiştirmeye yetkiniz yoksa cache ve log dizinlerinin
-	umask larının gurup yazılabilir ya da herkez yazılabilir (Eeb sunucu
+	umask larının gurup yazılabilir ya da herkez yazılabilir (Web sunucu
 	kullanıcısının komut satırı kullanıcısı ile aynı gurupta olup olmamasına
 	bağlı olarak) değişitirlmesi gereklidir.
 	Bunun gerçekleştirilmesi için ``app/console``, ``web/app.php`` ve 
