@@ -63,7 +63,7 @@ imkansızlaşır. Ortaya bazı sorunlar çıkar:
   bakım yapılamaz hale gelecektir. Form gönderilerinin kodlarını nerede 
   tutmalısınız?. Veriyi nasıl kontrol edeceksiniz. E-posta gönderen kodu
   nereye yazacaksınız ?
-* ** Kodu yeniden kullanımın zorluğu**: Herşey tek dosya olduğunda 
+* **Kodu yeniden kullanımın zorluğu**: Herşey tek dosya olduğunda 
   blogun diğer sayfalarının uygulama kodunun herhangi bir kısmının 
   kullanmasının imkanı kalmaz.
 
@@ -686,10 +686,11 @@ Gelecek olan bölümlerde Symfony2'nin her bir parçası hakkında ve bir
 projenin tavsiye edilen yapısı ile ilgili daha fazla şey öğreneceksiniz.
 Şimdi blog'un düz PHP'den Symfony2'ye aktarım sürecinde ne gelişti bakalım:
 
-* Uygulamanız şimdi daha ** temiz ve daima organize koda ** sahip (Symfony
+* Uygulamanız şimdi daha **temiz ve daima organize koda** sahip (Symfony
   sizi buna zorlamamasına rağmen). Bu **yeniden kullanılabilirliği** ve
   yeni geliştiricilerin proje içerisinde daha verimli ve çabuk olmasını
   sağlar.
+
 * Kodun 100%'ünü *uygulamanıza* yazarsınız. :ref:`autoloading<autoloading-introduction-sidebar>`,
   :doc:`routing</book/routing>`, ya da rendering :doc:`controllers</book/controller>`.
   gibi *Düşük seviye* işlemleri geliştirmeye gerek kalmaz.
@@ -698,7 +699,7 @@ projenin tavsiye edilen yapısı ile ilgili daha fazla şey öğreneceksiniz.
   Veri Doğrulama ve Çeviri bileşenleri (daha pek çok olan) gibi 
   **açık kaynak yardımcı araçlara erişmenize** olanak verir.
 
-* Uygulama şimdi ``Routing`` bileşeni yardımı ile ** tamamen esnek URL** yapısıyla
+* Uygulama şimdi ``Routing`` bileşeni yardımı ile **tamamen esnek URL** yapısıyla
   daha güzeldir.
 
 * Symfony2'nin HTTP merkezli mimarisi size **Symfony2'nin içsel HTTP cache**
