@@ -4,7 +4,7 @@
 Symfony2'de Sayfaları Yaratmak
 ===============================
 
-Symfony2'de sayfa yaratmak basit iki adımlı işlemden oluşur:
+Symfony2'de sayfa yaratmak iki aşamalı basit bir işlemden oluşur:
 
 * *Bir yönlendirme (route) Yaratın*: Bir yönlendirme sayfanızın 
   URL'sini (Örn. ``/about``) ve yapılan istek yönlendirme deseninde
