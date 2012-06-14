@@ -1,25 +1,26 @@
 .. index::
-   single: Sayfa Yartımı
+   single: Sayfa Yaratımı
 
 Symfony2'de Sayfaları Yaratmak
 ===============================
 
 Symfony2'de sayfa yaratmak iki aşamalı basit bir işlemden oluşur:
 
-* *Bir yönlendirme (route) Yaratın*: Bir yönlendirme sayfanızın 
-  URL'sini (Örn. ``/about``) ve yapılan istek yönlendirme deseninde
+* *Bir yönlendirme (route) yaratmak*: Yönlendirme, sayfanızın 
+  URL'sini (Örn. ``/about``) ve yapılan istek, yönlendirme deseniyle
   eşleştiğinde çalıştırılacak olan controller (hangi PHP fonksiyonu ise)
   bilgisini tanımlar.
 
-* *Bir controller yaratın*: Controller Symfony2'de gelen istekleri alan 
-  ve kullanıcıya bir ``Response`` nesnesi döndüren bir PHP fonksiyonudur.
+* *Bir controller yaratmak*: Controller, Symfony2'de gelen istekleri alan 
+  ve kullanıcıya bir ``Response`` nesnesi döndüren PHP fonksiyonudur.
 
-Bu basit yaklaşım Webin çalışmasıyla tam olarak eşleştiği için güzeldir.
+Bu basit yaklaşım, Web'in çalışmasıyla tam olarak eşleştiği için güzeldir.
 Web üzerindeki her etkileşim bir HTTP isteği ile başlar. Uygulamanızın 
-görevi basitçe isteği işleyip uygun bir HTTP cevabını döndürmektir.
+görevi, basitçe isteği işleyip, uygun bir HTTP cevabını döndürmektir.
 
-Symfony2 bu fikri takip eder ve toolar ve kurallar ile size uygulamanızın
-artan kullanıcı sayısı ve karmaşıklığında bile düzenli olmasını sağlar.
+Symfony2 bu fikri uygulayarak, uygulamanızın yardımcı araçlar ve kurallar 
+ile size artan kullanıcı sayısı ve karmaşıklığında bile düzenli olmasını 
+sağlar.
 
 Yeterince basit gözüküyor değil mi? Haydi devam edelim!
 
@@ -28,7 +29,7 @@ Yeterince basit gözüküyor değil mi? Haydi devam edelim!
 
 "Hello Symfony!" Sayfası
 -------------------------
-Haydi şimdi klasik "Hello World!" uygulamasından örneğimizi türetelim.
+Haydi şimdi klasik "Hello World!" uygulamasıyla örneğimize başlayalım.
 Örneği tamamladığınızda kullanıcı aşağıdaki URL vasıtasıyla kendi adı 
 ile selamlanacak (örn. "Hello Symfony"). :
 
@@ -37,7 +38,7 @@ ile selamlanacak (örn. "Hello Symfony"). :
     http://localhost/app_dev.php/hello/Symfony
 
 
-Gerçekte, ``Symfony`` yazan yere kendi adınızla değiştirdiğinizde selamlama
+Gerçekte, ``Symfony`` yazan yeri kendi adınız ile değiştirdiğinizde selamlama
 gerçekleştirilecek. Sayfayı yaratmak için iki adımdan oluşan işlemi
 takıp edin:
 
@@ -47,7 +48,7 @@ takıp edin:
     ettiğiniz varsayılmaktadır. Aşağıdaki URL yeni Symfony2 projenizin 
     ``localhost`` u işaret eden bir klasörde olduğunu varsayar.
     Bu işlem hakkında daha fazla bilgi almak için kullandığınız web
-    sunucusunun dokümanlarını okumanız gereklidir. 
+    sunucusunun dökümanlarını okumanız gereklidir. 
       
     Burada kullanmış olabileceğiniz web sunucularının dökümanları bulunmaktadır.
     
@@ -57,23 +58,23 @@ takıp edin:
 Başlamadan Önce: Bundle Yaratın
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Başlamadan önce bir bundle yaratmanız gerekmektedir. Symfony2'de :term:`bundle`
-eklenti (plugin) gibi düşünülebilir ancak pluginden farklı olarak bundle içerisinde 
-uygulamanızın bütün kodları yer alır.
+eklenti (plugin) gibi düşünülebilir ancak eklentiden farklı olarak bundle 
+içerisinde uygulamanızın bütün kodları yer alır.
 
-Bir bundle bir dizinden çok çağırılan PHP sınıflarını, konfigürasyonlar
-hatta Stil şablonları ve Javascript betiklerini gibi tüm ilgili özelliklere
+Bir bundle bir dizinden çok, çağırılan PHP sınıflarını, konfigürasyonlar
+hatta stil şablonları ve Javascript betikleri gibi tüm ilgili şeylere
 ev sahipliği yapar (bkz :ref:`page-creation-bundles`).
 
-Yaratılacak bundle'ı adı ``AcmeHelloBundle`` olacak şekilde (bu kısımda
+Yaratılacak bundle'ın adını ``AcmeHelloBundle`` olacak şekilde (bu kısımda
 yaratacağımız bundle'ın adı ) yaratmak için komut satırından 
-şu komutların işletilmesi ve ekranda çıkacak talimatını izleyin.
+şu komutu işleterek ekranda çıkacak talimatları izleyin.
 
 .. code-block:: bash
 
     php app/console generate:bundle --namespace=Acme/HelloBundle --format=yml
 
-Bu senaryonun arkasında aslında bundle'ın bulunduğu  ``src/Acme/HelloBundle``
-şeklinde bir klasör yaratıldı.  Ayrıca ``app/AppKernel.php`` dosyasına 
+Bu işin arkasında aslında bundle'ın bulunduğu ``src/Acme/HelloBundle``
+bir klasör yaratıldı.  Ayrıca ``app/AppKernel.php`` dosyasına 
 kernel'in bundle'ı tanıması için de bir satır eklendi::
 
     // app/AppKernel.php
@@ -88,7 +89,7 @@ kernel'in bundle'ı tanıması için de bir satır eklendi::
         return $bundles;
     }
 
-Şu anda bundle kurulumunuz var ve uygulamanızı bundle içerisinde geliştirmeye
+Şu anda bundle kurulumunuz tamam ve uygulamanızı bundle içerisinde geliştirmeye
 başlayabilirsiniz.
 
 Adım 1: Route (Yönlendirme) Yaratın
@@ -96,7 +97,7 @@ Adım 1: Route (Yönlendirme) Yaratın
 
 Varsayılan olarak Symfony2 uygulamasının yönlendirme konfigürasyonu 
 ``app/config/routing.yml`` dosyasında bulunmaktadır. Symfony2 'deki tüm
-konfigürasyonlarda olduğu gibi ayrıca farklı route konfigürasyonları
+konfigürasyonlarda olduğu gibi farklı tipte route konfigürasyonları
 yaratmak için XML ya da PHP dosya tipleride kullanılabilir.
 
 Eğer ana yönlendirme dosyasına bakarsanız Symfony'nin zaten yarattığınız
@@ -137,14 +138,16 @@ Eğer ana yönlendirme dosyasına bakarsanız Symfony'nin zaten yarattığınız
 
         return $collection;
 
-Bu girdi oldukça kolay. Bu, Symfony'e ``AcmeHelloBundle`` içerisindeki 
-``Resources/config/routing.yml`` dosyasında bulunan routing konfiürasyonunu
+Bu iş oldukça kolay. Bu, Symfony'e ``AcmeHelloBundle`` içerisindeki 
+``Resources/config/routing.yml`` dosyasında bulunan routing konfigürasyonunu
 yüklemesini söyler.
-Bunun anlamı yönlendirme konfigürasyonlarınız direkt olarak ``app/config/routing.yml``
-koyabilir ya da uygulamanızdaki diğer route'ları buradan aktarabilirsimiz.
 
-Şimdi bundle'daki ``routing.yml``  dosyasından yarattığınız sayfanın  
-yeni yönlendirme URL'si aktarıldı:
+Bu yönlendirme konfigürasyonlarınızı direkt olarak ``app/config/routing.yml``
+içerisine koyabilir ya da uygulamanızdaki diğer route'ları buradan aktarabilirsiniz
+demektir.
+
+Şimdi bundle'daki yarattığınız sayfanın yeni yönlendirme URL'si 
+``routing.yml`` dosyasından aktarıldı:
 
 .. configuration-block::
 
@@ -183,7 +186,7 @@ yeni yönlendirme URL'si aktarıldı:
         return $collection;
 
 Bu yönlendirme iki basit parçadan oluşur: ``pattern`` (desen) , route'un eşleştireceği
-URL 'yi ve ``defaults`` adındaki array değeri, çalıştırılacak olan controller'i ifade eder.
+URL 'yi , ``defaults`` adındaki array değeri, çalıştırılacak olan controller'i ifade eder.
 Pattern içerisinde yer tutucu (placeholder) yazımı (``{name}``)  şeklinde ifade edilir.
 Yani ``/hello/Ryan``, ``/hello/Fabien`` ya da diğer benzer URL bu route'da
 eşleşecektir.  ``{name}`` Placeholder (yer tutucu) parametresi ayrıca 
@@ -207,7 +210,7 @@ controller'i yaratmaktır.
 
 ``AcmeHelloBundle:Hello:index`` Controller'in *mantıksal* ismidir ve 
 ``Acme\HelloBundle\Controller\Hello`` adıyla çağırılan PHP sınıfındaki
-``indexAction``  işaret eder. Bu dosyayı ``AcmeHelloBundle`` içerisinde
+``indexAction`` 'u işaret eder. Bu dosyayı ``AcmeHelloBundle`` içerisinde
 yaratarak işe başlayalım::
 
     // src/Acme/HelloBundle/Controller/HelloController.php
@@ -219,13 +222,13 @@ yaratarak işe başlayalım::
     {
     }
 
-Gerçekte controller Symfony'nin çalıştırdığı bir PHP metodundan başka 
-bir şey değildir. Bu kod sadece istekten(request) gelen bilgiyi alır ve
+Gerçekte controller Symfony'nin çalıştırdığı PHP metodundan başka 
+bir şey değildir. Bu kod, sadece istekten(request) gelen bilgiyi alır ve
 istenen kaynağı hazırlar. Bazı özel durumlar hariç controller her zaman
 bir ``Response`` nesnesi çevirir. 
 
 Symfony'nin ``hello`` yönlendirmesi eşleştiği zaman çalıştıracağı ``indexAction``
-metodunu yaratın::
+metodunu yaratalım::
 
     // src/Acme/HelloBundle/Controller/HelloController.php
 
@@ -238,11 +241,11 @@ metodunu yaratın::
         }
     }
 
-Controller basittir. Yeni bir ``Response`` yaratır. Burada kullanılacak 
+Bu Controller basittir. Yeni bir ``Response`` yaratır. Burada kullanılacak 
 olan ilk argüman cevapta kullanacağınız içerik olmalıdır. (bu örnekte
-basit bir HTML sayfası)
+basit bir HTML sayfası içeriği)
 
-Tebrikler!. Sadece bir yönlendirme e controller yarattıktan sonra şu anda
+Tebrikler!. Sadece bir yönlendirme ve bir controller yarattıktan sonra şu anda
 elinizde tam fonksiyonlu bir sayfa var!. Eğer her şeyi doğru ayarladıysanız
 uygulamanız sizi selamlamalı:
 
@@ -252,15 +255,15 @@ uygulamanız sizi selamlamalı:
 
 .. tip::
 
-    Uygulamanızı ayrıca "prod" :ref:`environment<environments-summary>`
-    ortamında da şurasını ziyaret ederek görebilirsiniz:
+    Uygulamanızı ayrıca "prod" :ref:`ortamı<environments-summary>`nda da
+    şu adresten ziyaret ederek görebilirsiniz:
 
     .. code-block:: text
 
         http://localhost/app.php/hello/Ryan
     
     Eğer bir hata aldıysanız, muhtemelen ön belleğinizi temizlemeniz 
-    gerekiyordur. Bunu yapmak için:
+    gerekiyordur. Bunu yapmak için şu komutu çalıştırın:
     
     .. code-block:: bash
 
@@ -270,12 +273,12 @@ uygulamanız sizi selamlamalı:
 
 .. note::
 
-   Controller 'lar kodunuzun ana noktası ve sayfalarınızı yaratırken
+   Controller 'lar kodunuzun ana noktasıdır ve sayfalarınızı yaratırken
    anahtar içeriği belirler. Bu konuda daha fazla bilgi öğrenmek için
    :doc:`Controller Bölümünü </book/controller>` okuyun.
 
-Seçimlik Adım 3: Şablon Yaratın
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+İsteğe Bağlı Adım 3: Şablon Yaratın
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Şablonlar sayfa yerleşimi içerisindeki tüm sunacağınız şeyleri (Örn. HTML kodu)
 tek bir dosya altında toplayarak tekrar kullanabilmenize olanak sağlar.
 Controller içerisinde HTML kodu yazmak yerine bir şablon tasarlanır:
@@ -304,27 +307,26 @@ Controller içerisinde HTML kodu yazmak yerine bir şablon tasarlanır:
    ``render()`` metodunu kullanmanıza göre controller'ınız bazı kısa 
    yolları kullanabilmek ve genel görevleri yapabilmek için 
    ``Symfony\Bundle\FrameworkBundle\Controller\Controller`` sınıfından 
-   türetilmelidir.  (API
-   docs: :class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller`)
-   Bu örnekte ``use`` belirteci ile 4.satırda eklenmiş ve 6. satırda da 
-   ``Controller`` ile sınıf türetilmiştir.
+   türetilmelidir.(docs: :class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller`)
+   Bu örnekte bu sınıf ``use`` belirteci ile 4.satırda eklenmiş ve 6. satırda da 
+   ``Controller`` ifadesi ile sınıf genişletikmiştir.
 
 
 ``render()`` metodu bir verilen içerikle birlikte şablona aktarılacak 
 ``Response`` nesnesi yaratır. Diğer controllerdaki gibi en sonunda mutlaka 
 ``Response`` nesnesi döner.
 
-Şablonun iki türlü ekrana basıldığını hatırlayın.
+Şablonun iki türlü ekrana basıldığına dikkat edin.
 Varsayılan olarak Symfony2, iki adet farklı şablon diline izin verir; 
-klasik PHP şablonları kısa ancak güçlü `Twig`_ şablonları. Endişelenmeyin,
-birisini ya da ikisinide aynı projede kullanıp kullanmama seçimi size kalmış.
+klasik PHP şablonları, küçük ancak güçlü `Twig`_ şablonları. Endişelenmeyin,
+sadece birisini ya da ikisinide aynı projede kullanıp kullanmama seçimi size kalmış.
 
-Controller ``AcmeHelloBundle:Hello:index.html.twig`` şablonunu şu şekildeki
-isimlendirme dizilimi ile ekrana basar::
+Controller, ``AcmeHelloBundle:Hello:index.html.twig`` şablonunu şu şekildeki
+isimlendirme yazım şekli ile ekrana basar::
 
     **BundleAdi**:**ControllerAdi**:**ŞablonAdi**
 
-Şablonun bu *mantıksal* isimi aşağıdaki fiziksel lokasyona işaret eder::
+Şablonun bu *mantıksal* isimi aşağıdaki fiziksel konuma işaret eder::
 
     **/path/to/BundleName**/Resources/views/**ControllerAdi**/**ŞablonAdi**
 
@@ -356,19 +358,19 @@ ve ``index.html.twig`` 'de şablon olmaktadır:
 Şimdi Twig şablonunu satır satır inceleyelim:
 
 
-* *satır 2*: ``extends`` ifadesi esas sablonu ifade eder. Şablon için 
-  bu layout açıkça nerede konumlandıysa belirtilmelidir.
+* *satır 2*: ``extends`` ifadesi esas şablonu ifade eder. Şablon için 
+  bu layout(ana şablon) açıkça nerede konumlandıysa belirtilmelidir.
 
 * *satır 4*: ``block`` ifadesi ``body`` olarak adlandırılan bloğun içerisinde
-  çıkacak olan herşeyin burada çıkacağını ifade eder. Gördüğünüz gibi esas
+  çıkacak olan herşeyin burada olacağını ifade eder. Gördüğünüz gibi esas
   şablon (``base.html.twig``) ``body`` isimli blok ve içeriğinin ekrana basımından 
-  açıkça sorumludur.
+  sorumludur.
 
 ``::base.html.twig`` isimli esas şablonun **BundleAdi** ve **ControllerAdi** eksik.
 (Bundan dolayı başlangıçta çift iki nokta üstüste ile (``::``) ifade ediliyor.)
 
-Bunun anlamı esas şablon dosyasının bundle'ın dışında, ``app`` dizininde olduğunu
-ifade ediyor:
+Bu esas şablon dosyasının bundle'ın dışında, ``app`` dizininde olduğunu
+ifade eder:
 
 .. configuration-block::
 
@@ -407,19 +409,19 @@ ifade ediyor:
         </html>
 
 
-Ana şablon dosyası HTML planını ve ekrana basılacak olan ve ``index.html.twig``
+Ana şablon dosyası HTML şablonunu ve ekrana basılacak olan ve ``index.html.twig``
 şablonunda belirtilen ``body``  bloğunu tanımlamaktadır. Aynı zamanda yine 
 ``index.html.twig`` 'de tanımlanan  ``title`` bloğuda tanımlanmaktadır. 
 ``title`` bloğu alt şablonda tanımlanmadığında varsayılan olarak burada "Welcome!"
 ifadesi yazılacaktır.
 
 Şablonlar sayfanızdaki içeriği organize etmek ve ekrana basmak için güçlü
-bir yoldur. Bir şablon HTML işaretleri CSS kodu ya da controller'in geriye
-döndürdüğü yer içeriği ekrana basabilirler.
+bir yoldur. Bir şablon HTML etiketleri CSS kodu ya da controller'in geriye
+döndürdüğü her içeriği ekrana basabilirler.
 
-Bir isteğin işlenmesi süresince şablon motoru basit ve seçimlik bir yardımcı araçtır.
-Hatırlarsanız, her controller'in ana görevi bir ``Response`` nesnesi döndürmektir.
-Şablonlar güçlüdür ancak ``Response`` objeninizi yaratırken isteğe bağlı kullanacağınız
+Bir isteğin işlenmesi süresince şablon motoru basit ve isteğe bağlı bir araçtır.
+Dikkat ederseniz, her controller'in ana görevi bir ``Response`` nesnesi döndürmektir.
+Şablonlar güçlü ancak ``Response`` objeninizi yaratırken isteğe bağlı kullanacağınız
 yardımcı araçlardır.
 
 .. index::
@@ -428,8 +430,8 @@ yardımcı araçlardır.
 Klasör Yapısı
 -----------------------
 Bir kaç kısa bölümden sonra Symfony2'nin sayfaları yaratma ve ekrana basma
-felsefesini zaten anlamış olmalısınız. Ayrıca Symfony2 projelerinin nasıl
-yapılandırıldığını da gördünüz. Bu bölümün sonunda farklı tip dosyaların
+felsefesini artık anlamış olmalısınız. Ayrıca Symfony2 projelerinin nasıl
+yapılandırıldığını da gördünüz. Bu bölümün sonunda farklı tipteki dosyaların
 nerede bulunduğunu ve bunların niçin olduğunu öğreneceksiniz.
 
 Her ne kadar esnek olsada varsayılan olarak her Symfony :term:`uygulama` sı
@@ -441,12 +443,12 @@ aynı, önerilen klasör yapısına sahiptir.
 
 * ``vendor/``: Her türlü sağlayıcı (vendor) kütüphaneleri burada tutulur;
 
-* ``web/``: Bu klasör genel olarak ulaşılabilecek tüm dosyaların bulunduğu web kök klasörüdür.
+* ``web/``: Bu klasör genel olarak ulaşılan tüm dosyaların bulunduğu web kök klasörüdür.
 
 Web Klasörü
 ~~~~~~~~~~~
 
-Web kök klasörü resimler, stil şablonları ve javascript dosyaları gibi herkezin
+Web kök klasörü, resimler, stil şablonları ve Javascript dosyaları gibi herkezin
 erişebileceği dosyalara ev sahipliği yapar.
 Aynı zamanda burada :term:`front controller` 'da bulunur::
 
@@ -461,13 +463,13 @@ Aynı zamanda burada :term:`front controller` 'da bulunur::
     $kernel->handle(Request::createFromGlobals())->send();
 
 
-Front controller dosyası, (bu örnekte ``app.php`` dosyası) Kernel sınıfını
-,``AppKernel`, kullanan, görevi Symfony2 uygulamasını başlatan asıl dosyadır
+Front controller dosyası, (bu örnekte ``app.php`` dosyasıdır) Kernel sınıfını
+,``AppKernel`, kullanan, görevi Symfony2 uygulamasını başlatmak olan asıl dosyadır
 
 .. tip::
 
-    Bir front controllerin kullanılması demek farklı ve çok esnek URL'lerin
-    basit ve düz bir PHP dosyası yerine bu dosyadan kullanılması demektir.
+    Bir front controllerin kullanılması farklı ve çok esnek URL'lerin
+    basit ve düz bir PHP dosyası yerine bu dosyadan kullanılması anlamına gelir.
     Bir front controller kullanımında URL'ler aşağıdaki şekilde düzenlenir:
 
     .. code-block:: text
@@ -477,7 +479,7 @@ Front controller dosyası, (bu örnekte ``app.php`` dosyası) Kernel sınıfın�
      Front controller,``app.php``, "içsel" olarak yönlendirme konfigürasyonundaki
      ``/hello/Ryan`` URL'sini çalıştırır.
     Apache'nin ``mod_rewrite`` kullanıldığında URL içerisinden ``app.php`` 
-    dosyasını kaldırabilirsiniz.
+    ifadesini kaldırabilirsiniz.
     
 
     .. code-block:: text
@@ -486,17 +488,18 @@ Front controller dosyası, (bu örnekte ``app.php`` dosyası) Kernel sınıfın�
 
 Front controller'lar temel olarak her isteği işleyebilmelerine rağmen
 nadiren bunları değiştirmek hatta onları yeniden ele almak ihtiyacını 
-hissedebilirsiniz. Biz bunları `Ortamlar`_ kısmında yeniden bahsedeceğiz.
-
+hissedebilirsiniz. Biz bunu `Ortamlar`_ kısmında yeniden bahsedeceğiz.
 
 Uygulama (``app``) Klasörü
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Front Controller'da gördüğünüz gibi ``AppKernel`` sınıfı uygulamanın ana
 noktası ve tüm konfigürasyonlardan sorumlu olan sınıftır.
 Bu da ``app/`` klasöründe saklanır.
 
 Bu sınıf mutlaka Symfony'nin uygulamanız hakkında bilmesi gereken iki 
-metodu uygular. Bu metodlar için uygulama başlarken endişelenmeyin.
+metodu uygular. Uygulamanın başlaması sırasında bu metodların ne olduğu 
+konusunda endişelenmeyin.
 Symfony sizin ayarlarınıza göre bunları otomatik uygular.
 
 * ``registerBundles()``: Uygulamanın ihtiyacı olan tüm bundle'ların bir 
@@ -505,12 +508,12 @@ Symfony sizin ayarlarınıza göre bunları otomatik uygular.
 * ``registerContainerConfiguration()``: Ana uygulama konfigürasyonu kaynak
    dosyasını yükler.(bkz `Uygulama Konfigürasyonu`_ kısmı).
 
-Geliştirmede günden güne çok sık olarak ``app/`` dizinini, ``app/config/`` 
+Geliştirme sürecinde çoğu zaman ``app/`` dizinini, ``app/config/`` 
 içerisinde bulunan konfigürasyon ve yönledirme dosyalarını değiştirmek için
 kullanacaksınız. (bkz `Uygulama Konfigürasyonu`_ ). Bu klasör aynı zamanda
-ön bellek dizinini (``app/cache``), bir log dizinini (``app/logs``)  ve
-şablonlar gibi (``app/Resources``) uygulama-düzeyi dosyalarını ve klasör
-lerini içerir.
+ön bellek dizinini (``app/cache``), log dizinini (``app/logs``)  ve
+şablonlar gibi (``app/Resources``) uygulama-düzeyi dosyalarını ve 
+klasörlerini içerir.
 Sonraki kısımlarda bu klasörler hakkında daha fazla bilgi öğreneceksiniz.
 
 .. _autoloading-introduction-sidebar:
@@ -518,7 +521,7 @@ Sonraki kısımlarda bu klasörler hakkında daha fazla bilgi öğreneceksiniz.
 .. sidebar:: Autoloading (Otomatik Yükleme)
 
     
-    Symfony -``app/autoload.php``  -  adındaki özel bir dosyayı hemen 
+    Symfony hemen -``app/autoload.php`` - adındaki özel bir dosyayı
     çağırır (include eder) . Bu dosya, uygulamanızın çalışması için ihiyaç duyulan
     ``src/`` klasörü içerisinde bulunan uygulama dosyalarınızı ve ``vendor/``
     klasöründe bulunan 3. parti kütüphanelerin otomatik yüklenmesi için
@@ -527,10 +530,11 @@ Sonraki kısımlarda bu klasörler hakkında daha fazla bilgi öğreneceksiniz.
     autoloader sayesinde herhangi bir şekilde uygulamanızda ``include`` ya da 
     ``require`` ifadelerini kullanmak zorunda kalmazsınız.
     Bunun yerine Symfony2 sınıfların namespace'lerini kullanarak bu dosyaların
-    yerlerini otomatik olarak belirleyerek uygulamanıza otomatik include eder.
+    yerlerini otomatik olarak belirleyerek uygulamanıza otomatik olarak dahil
+    (include) eder.
      
     autoloader ``src/`` klasörü içerisinde bulunan tüm PHP sınıflarını
-    önceden konfigüre eder. autoloading işlemi esnasında sınıf adı ve dosyanın
+    önceden konfigüre eder. Autoloading işlemi esnasında sınıf adı ve dosyanın
     yolu aynı şekli kullanır.
      
     .. code-block:: text
@@ -542,20 +546,18 @@ Sonraki kısımlarda bu klasörler hakkında daha fazla bilgi öğreneceksiniz.
             
     Temelde sadece dikkat etmeniz gereken ``app/autoload.php`` dosyası 
     içerisinde ``vendor/`` klasöründe bulunan yeni eklediğiniz 
-    3. parti kütüphanelerin tanımlanmasıdır. autoloading konusunda daha fazla
-    bilgi için :doc:`Sınıflar nasıl autoload edilir</components/class_loader>`  
+    3. parti kütüphanelerin tanımlanmasıdır. Autoloading konusunda daha fazla
+    bilgi için :doc:`Sınıflar nasıl autoload edilir?</components/class_loader>`  
     belgesine bakın.
      
-
-
 Kaynak (``src``) Klasörü
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Basitçe ``src/`` klasörü uygulamanızı çalıştıran tüm güncel dosyalarınızın
+Basitçe ``src/`` klasörü, uygulamanızı çalıştıran tüm güncel dosyalarınızın
 (PHP kodu, şablonlar, konfigürasyon dosyaları, stil şablonları vs..)
 bulunduğu yerdir. 
 Uygulama geliştirirken çalışmanızın çok büyük ve önemli bir kısmını kapsayan
-bundle'larınız  bu klasör içerisinde yaratacaksınız.
+bundle'larınızı bu klasör içerisinde yaratacaksınız.
 
 Peki gerçekten :term:`bundle` terimi neyi ifade eder ?
 
@@ -564,22 +566,22 @@ Peki gerçekten :term:`bundle` terimi neyi ifade eder ?
 Bundle Sistemi
 -----------------
 Bir bundle diğer yazılımlardaki plugin (eklenti) 'ye benzer ancak daha 
-iyisidir. Ana farklılık, Symfony2'de çekirdek framework özellikleri ve yazdığınız
-uygulamanın *tüm herşeyi* bir bundle olmasıdır.
+fazlasıdır. Ana farklılık, Symfony2'de çekirdek framework özellikleri ve yazdığınız
+uygulamanın *tüm herşeyi'nin* bir bundle olmasıdır.
 Bundle'lar Symfony2'nin bir numaralı elemanlarıdır. Bu size önceden 
-yapılandırılmış `3.parti bundle'lar`_  kullanmayı veya kendi bundle'larınızı
+yapılandırılmış `3.parti bundle'lar`_ kullanmayı veya kendi bundle'larınızı
 dağıtmak gibi esneklikler kazandırır. Aynı şekilde bu, uygulamanıza istediğiniz
-özelliği seçip yüklemek ve bu özellikleri istediğiniz şekilde optimize etmeyi kolaylaştırır.
+özelliği seçip yüklemek ve bu özellikleri istediğiniz şekilde iyileştirmeye
+olanak sağlar.
 
 .. note::
-
    
-   Burada temelleri öğrenirken, tüm tarif kitabı girdileri
-   :doc:`bundle</cookbook/bundles/best_practices>` ların 
+   Burada temelleri öğrenirken, tarif kitabının 
+   :doc:`bundle</cookbook/bundles/best_practices>` konusu bundle'ların 
    organzasyonu ve en iyi örnekleri hakkında iyi bilgiler sunar.
    
 Bir bundle basitçe bir özelliği hayata geçiren dosyaların düzenli bir 
-şekilde bir klasörde barındırılmış halidir. Örneğin belki bir 
+şekilde bir klasörde içerisinde tutulmuş halidir. Örneğin belki bir 
 ``BlogBundle`` yaratırsınız, belki bir ``ForumBundle`` ya da kullanıcı yönetimi
 için (zaten açık kaynak kod şekilnde yaratılmış bir sürü bundle gibi )
 başka bir bundle yaratırsınız. Her klasör bu özelikleri meydana getiren
@@ -630,18 +632,18 @@ sağlarsınız.
 Bir Bundle Yaratmak
 ~~~~~~~~~~~~~~~~~
 
-Symfony Standart Sürümü sizin için tam fonksiyonlu bundleları yaratmak
+Symfony Standart Sürümü sizin için tam fonksiyonlu bundle'ları yaratmak
 için pratik bir araç ile birlikte gelir.
 Elbette bu araç olmadan da bir bundle yaratmak oldukça basittir.
 
-Yeni bir bundle sistemi nasıl yaratılır sorusunun cevabı için ``AcmeTestBundle``
+Yeni bir bundle sistemi nasıl yaratılır? sorusunun cevabı için ``AcmeTestBundle``
 yaratıp aktif hale getirelim.
 
 .. tip::
 
-    Bundle ismindeki ``Acme`` kısmı tamamen uydurmadır.Bu kısmı organizasyonunuzu ifade eden
-    herhangi bir "vendor" (Sağlayıcı) ismi ile değiştirebilirsiniz (Örn. ``ABC`` 
-    isimli bir şirketiniz var ise ``ABCTestBundle`` olabilir.).
+    Bundle ismindeki ``Acme`` kısmı tamamen uydurmadır.Bu kısm organizasyonunuzu 
+    ifade eden herhangi bir "vendor" (sağlayıcı) ismi ile değiştirebilirsiniz
+    (Örn. ``ABC`` isimli bir şirketiniz var ise ``ABCTestBundle`` olabilir.).
 
 ``src/Acme/TestBundle/`` klasöründe ``AcmeTestBundle.php`` adında yeni 
 bir dosya yaratarak başlayın::
@@ -662,7 +664,7 @@ bir dosya yaratarak başlayın::
    bundle'lınızın adını ``TestBundle`` olarak da seçebilirsiniz (dosyanın adlandırması ``TestBundle.php``
    olacaktır). 
 
-Bu boş sınıf yarattığınız bundle'ın sadece bir parçası. Tamamen boş olmasına
+Bu boş sınıf, yarattığınız bundle'ın sadece bir parçası. Tamamen boş olmasına
 rağmen bu sınıf bundle'ın davranışlarını düzenlemek için oldukça güçlü özelliklere
 sahip.
 
@@ -685,7 +687,7 @@ sahip.
 Bundan başka yapmanız gereken hiç bir şey yok. ``AcmeTestBundle`` kullanıma
 hazır.
 
-Bunun kadar kolay olarak Symfony ayrıca komut satırı arabiriminden de 
+Bu kadar kolay olarak Symfony ayrıca komut satırı arabiriminden de 
 basit bir bundle sistemi iskeleti yaratmaya yarayan komutlar da içerir.
 
 .. code-block:: bash
@@ -693,17 +695,15 @@ basit bir bundle sistemi iskeleti yaratmaya yarayan komutlar da içerir.
     php app/console generate:bundle --namespace=Acme/TestBundle
 
 Bundle iskeleti basit bir controller ile şablon ve routing (yönlendirme) 
-kaynakları düzenlenebilecek şekiklde yaratıldı. Symfony2'nin komut satırı
+kaynakları düzenlenebilecek şekilde yaratıldı. Symfony2'nin komut satırı
 araçları hakkında daha fazla şeyi daha sonra öğreneceksiniz.
 
 .. tip::
 
-   
    Yeni bir bundle yaratıldığında ya da bir 3. parti bundle kullanıldığında
    mutlaka bundle ``registerBundles()`` içerisinde aktif edilmelidir.
    ``generate:bundle`` komutu kullanıldında bu sizin için otomatik olarak
    yapılır.
-
 
 Bundle Klasör Yapısı
 ~~~~~~~~~~~~~~~~~~~~
@@ -721,31 +721,29 @@ kuralı uygular. ``AcmeHelloBundle`` 'a bakarak bundle içerisindeki en temel
 * ``Resources/views/`` controller ismine göre düzenlenmiş şablonları içerir.
   (Örn. ``Hello/index.html.twig``);
 
-* ``Resources/public/`` web varlıklarını (resimler, stilşablonları, vs) 
+* ``Resources/public/`` web varlıklarını (resimler, stil şablonları, vs) 
   ve proje içerisindeki ``assets:install`` komutu ile ``web/`` klasörüne 
   kopyalanmış ya da sembolik link yaratılmış dosyaları içerir;
 
 * ``Tests/`` bundle'ın tüm testlerini barındırır.
 
-
 Bir bundle'ın basit özellikleri olabileceği gibi çok karmaşık özellikleri
-de olabilir. Bir bundle sadece size gereken dosyaları barındırır. Başka bir şey
-değildirler.
+de olabilir. Bir bundle sadece size gereken dosyaları barındırır. Bundan
+başka bir şey değildirler.
 
 Kitabın ilerleyen bölümlerinde veritabanına nesnelerin nasıl yazılacağını,
 formların yaratılmasını ve doğrulanmasını, uygulamanız için farklı dillere 
-çevirileri, testler yazmayı vb gib pek çok şeyi göreceksiniz. Bunların her
+çevirileri, testler yazmayı vb gibi pek çok şeyi göreceksiniz. Bunların her
 birisi bundle içerisinde kendilerine ait olan yerlerde dururlar. 
 
 Uygulama Konfigürasyonu
 ------------------------
-Bir uygulama, uygulamanızın tüm özelliklerini içeren bir seri bundle 
+Bir uygulama, uygulamanızın tüm özelliklerini içeren bir dizi bundle 
 kolleksiyonundan oluşur. Her bundle YAML, XML ya da PHP olarak yazılan
-bir konfigürasyon dosyasından konfigüre edilirler. Varsayılan olarak
+bir konfigürasyon dosyasından konfigüre edilir. Varsayılan olarak
 ana konfigürasyon dosyaları ``app/config/`` dizininde bulunur ve 
 hangi formatı tercih ettiğinize bağlı olarak ``config.yml``, ``config.xml``
 ya da ``config.php`` olarak adlandırılır:
-
 
 .. configuration-block::
 
@@ -835,7 +833,7 @@ ya da ``config.php`` olarak adlandırılır:
    `Ortamlar`_ kısmında öğreneceksiniz.
 
 
-``framework`` ya da ``twig`` gibi en üst düzey girdiler bir özel bir 
+``framework`` ya da ``twig`` gibi en üst düzey girdiler özel bir 
 bundle'ı konfigüre ederler. Örneğin ``framework`` anahtarı Symfony'nin
 çekirdek bundle'larından birisi olan ve yönlendirme, şablonlar ve diğer
 çekirdek sistemleri içeren ``FrameworkBundle`` 'ı konfigüre eder.
@@ -843,12 +841,12 @@ bundle'ı konfigüre ederler. Örneğin ``framework`` anahtarı Symfony'nin
 Şimdi her kısım için spesifik konfigürasyon ayarları için endişelenmeyin.
 Konfigürasyon dosyası varsayılan olarak iyi bir şekilde ayarlanmıştır.
 Daha fazla okudukça ve Symfony2'nin diğer parçalarını da araştırdıkça
-her özellik için konfigürasyon özelliklerini öğreneceksiniz.
+her özellik için konfigürasyon özelliklerinide öğreneceksiniz.
 
 .. sidebar:: Konfigürasyon Formatları
 
     Bölümler boyunca tüm konfigürasyon formatlarını 3 farklı şekilde 
-    göreceksiniz (YAML, XML ve PHP). Herbirsi kendi içerisinde avantajlar
+    göreceksiniz (YAML, XML ve PHP). Her birsi kendi içerisinde avantajlar
     ve dezavantajlar barındırır. Hangisini kullanacağınız konusundaki 
     seçim size kalmış:
 
@@ -864,8 +862,8 @@ her özellik için konfigürasyon özelliklerini öğreneceksiniz.
 .. _environments-summary:
 
 Ortamlar
----------
-Bir uygulama farklı ortamlarda çalışabilir. Farkjlı ortamlar aynı 
+--------
+Bir uygulama farklı ortamlarda çalışabilir. Farklı ortamlar aynı 
 PHP kodunu paylaşır (front controller ayrı olarak), ancak farklı
 konfigürasyonlar kullanırlar. Örneğin bir ``dev`` ortamı uyarıları ve 
 hataları log altına alırken ``prod`` ortamı sadece hataları log altına alır.
@@ -874,16 +872,14 @@ nin faydası için) fakat ``prod`` ortamında bu dosyalar önbelleklenir ve
 değiştirilmez. Tüm ortamlar aynı makinede aynı uygulamayı çalıştırırlar.
 
 Bir Symfony2 projesi gene olarak üç ortamla başlamasına rağmen (``dev``, ``test``
-ve ``prod``) başka ortamlarda yaratmak oldukça kolaydır. Uygulamanızı farklı
+ve ``prod``) başka ortamlar da yaratmak oldukça kolaydır. Uygulamanızı farklı
 ortamlarda görebilmek için basitçe tarayıcınızdan front controller'ınızı değiştirmeniz
-yeterlidir.  Uygulamanızı ``dev`` ortamında görmek ve geliştirme front
-controllerine erişmek için bu adresi tarayıcınıza vermeniz yeterlidir:
-
+yeterlidir. Uygulamanızı ``dev`` ortamında görmek ve geliştirme front
+controller'ına erişmek için bu adresi tarayıcınıza vermeniz yeterlidir:
 
 .. code-block:: text
 
     http://localhost/app_dev.php/hello/Ryan
-
 
 Eğer uygulamanızı ürün (production) ortamında görmek isterseniz front controller'ınızın
 ``prod`` ortamında çalışanını çağırmanız yeterlidir:
@@ -893,17 +889,17 @@ Eğer uygulamanızı ürün (production) ortamında görmek isterseniz front con
     http://localhost/app.php/hello/Ryan
  
 ``prod`` ortamı hız için optimize edildiğinden dolayı konfigürasyon,
-yonlendirme ve Twig şablonları PHP dosyaları olarak derlenir ve 
-önbelleğe alınır.  Yapılan değişiklikleri  ``prod`` ortamında 
+yönlendirme ve Twig şablonları, PHP dosyaları olarak derlenir ve 
+önbelleğe alınır. Yapılan değişiklikleri  ``prod`` ortamında 
 görmek istiyorsanız ön bellekleri temizleyip uygulamayı yeniden önbellekleme
-yapmasını sağlamanız gereklidir:
+yapmasını sağlamanız gerekir:
 
     php app/console cache:clear --env=prod --no-debug
 
 .. note::
 
    Eğer ``web/app.php`` dosyasını açarsanız basitçe ``prod`` ortamının 
-   kullanılması için ayarlandığını göreceksiniz::
+   kullanılmaması için ayarlandığını göreceksiniz::
 
        $kernel = new AppKernel('prod', false);
 
@@ -1010,12 +1006,13 @@ esnek olabileceğini gördünüz. Daha *pek çok* özellik olmasına rağmen
   bu YAML, XML ya da PHP tipinde olabilir,
 
 * her **ortam** kendisine ait olan farklı front controller'lardan erişilebilir
-   (Örn.``app.php`` and ``app_dev.php``)ve bu ortamlar farklı konfigürasyon 
-   dosyaları yüklerler.
+  (Örn.``app.php`` and ``app_dev.php``)ve bu ortamlar farklı konfigürasyon 
+  dosyaları yüklerler.
 
-Buradan sonra her bölüm size çok daha fazla güçlü araç ve gelişmiş konseptler
-gösterecek. Symfony2 hakkında daha fazla şey öğrendiğinizde, mimarideki esnekliğin gücünü
-ve size hızlı bir geliştirme ortamı sağlamasının anlamını daha iyi anlayacaksınız.
+Buradan sonra her bölüm, size çok daha güçlü araç ve gelişmiş konseptler
+gösterecek. Symfony2 hakkında daha fazla şey öğrendiğinizde, mimarideki 
+esnekliğin gücünü ve size hızlı bir geliştirme ortamı sağlaması anlamını
+daha iyi anlayacaksınız.
 
 .. _`Twig`: http://twig.sensiolabs.org
 .. _`3.parti bundle'lar`: http://symfony2bundles.org/
