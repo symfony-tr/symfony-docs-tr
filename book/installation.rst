@@ -191,7 +191,7 @@ sonra nasıl silebileceğinizi öğrenebilirsiniz.
 
 Eğer Symfony'de yeni iseniz, sayfaları nasıl yaratacağınızı, konfigürasyonun 
 nasıl değiştireceğinizi ve yeni uygulamanızda ihtiyacınız olan diğer tüm
-şeyleri nasıl yapacağınızı öğrenmek için ":doc:`page_creation` belgesine
+şeyleri nasıl yapacağınızı öğrenmek için ":doc:`page_creation`" belgesine
 bakın.
 
 Kaynak Kontrolü'nün Kullanımı
