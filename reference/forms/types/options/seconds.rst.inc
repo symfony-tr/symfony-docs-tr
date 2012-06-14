@@ -1,7 +1,8 @@
 seconds
 ~~~~~~~
 
-**type**: ``integer`` **default**: 1 to 59
+**tip**: ``integer`` **varsaılan**: 1'den 59'a kadar
 
-List of seconds available to the seconds field type. This option is only
-relevant when the ``widget`` option is set to ``choice``.
+Bu seçenek saatlerin sayısal değerlerini bir liste halinde ekrana basmaya 
+yarar. Bu seçenek sadece ``widget`` seçeneğinin ``choice`` olarak ayarlandığı
+zaman çalışır.

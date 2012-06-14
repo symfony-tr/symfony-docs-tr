@@ -1,7 +1,7 @@
 with_seconds
 ~~~~~~~~~~~~
 
-**type**: ``Boolean`` **default**: ``false``
+**tip**: ``Boolean`` **varsayılan**: ``false``
 
-Whether or not to include seconds in the input. This will result in an additional
-input to capture seconds.
+Giriş esnasında saniyelerin olup olmayacağını belirler. Bu saniye yakalamak
+için ek bir giriş yöntemidir.

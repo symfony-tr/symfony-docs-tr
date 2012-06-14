@@ -1,9 +1,10 @@
 user_timezone
 ~~~~~~~~~~~~~
 
-**type**: ``string`` **default**: system default timezone
+**tip**: ``string`` **varsayılan**: sistem varsayılan zaman kuşağı
 
-Timezone for how the data should be shown to the user (and therefore also
-the data that the user submits). This must be one of the `PHP supported timezones`_
+Kullanıcının zaman kuşağı verisinin nasıl olması gerektiğini ayarlar 
+(ayrıca kullanıcının girdiği veride dahil). Bu veri `PHP'nin desteklediği zaman kuşakları`_
+'ndan bir tanesi olmalıdır.
 
-.. _`PHP supported timezones`: http://php.net/manual/en/timezones.php
+.. _`PHP'nin desteklediği zaman kuşakları`: http://php.net/manual/en/timezones.php

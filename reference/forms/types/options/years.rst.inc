@@ -1,7 +1,8 @@
 years
 ~~~~~
 
-**type**: ``array`` **default**: five years before to five years after the current year
+**tip**: ``array`` **varsayılan**: geçerli yıldan beş yıl önce, beş yıl sonra
 
-List of years available to the year field type.  This option is only relevant
-when the ``widget`` option is set to ``choice``.
+Bu seçenek yılların sayısal değerlerini bir liste halinde ekrana basmaya 
+yarar. Bu seçenek sadece ``widget`` seçeneğinin ``choice`` olarak ayarlandığı
+zaman çalışır.

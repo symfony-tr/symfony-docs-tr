@@ -1,17 +1,17 @@
-Select tag, Checkboxes or Radio Buttons
----------------------------------------
+Select etiketi, Checkbox'lar ya da Radio Butonları
+--------------------------------------------------
 
-This field may be rendered as one of several different HTML fields, depending
-on the ``expanded`` and ``multiple`` options:
+Bu alan ``expanded`` ve ``multiple`` seçeneklerine bağlı olarak
+farklı HTML elementlerini ekrana basar:
 
-+------------------------------------------+----------+----------+
-| element type                             | expanded | multiple |
-+==========================================+==========+==========+
-| select tag                               | false    | false    |
-+------------------------------------------+----------+----------+
-| select tag (with ``multiple`` attribute) | false    | true     |
-+------------------------------------------+----------+----------+
-| radio buttons                            | true     | false    |
-+------------------------------------------+----------+----------+
-| checkboxes                               | true     | true     |
-+------------------------------------------+----------+----------+
++-------------------------------------------+----------+----------+
+| element tipi                              | expanded | multiple |
++===========================================+==========+==========+
+| select etiketi                            | false    | false    |
++-------------------------------------------+----------+----------+
+| select etiketi (``multiple`` niteliğiyle) | false    | true     |
++-------------------------------------------+----------+----------+
+| radio butonları                           | true     | false    |
++-------------------------------------------+----------+----------+
+| checkbox'lar                              | true     | true     |
++-------------------------------------------+----------+----------+
