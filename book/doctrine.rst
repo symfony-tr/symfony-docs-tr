@@ -2,23 +2,24 @@
    single: Doctrine
 
 Veritabanları ve Doctrine
-==========================
-Şunu kabul edelim. Herhangi bir uygulamanın en zorlu işleri veritabanından
+=========================
+
+Şunu kabul edelim. Herhangi bir uygulamanın en zorlu işleri, veritabanından
 bilgileri okumak ya da buraya bilgileri yazmaktır. Çok şükür, Symfony 
-`Doctrine`_ adındaki bu işleri kolaylıkla yapacağınız araçları içeren bir
+`Doctrine`_ adındaki bu işleri kolaylıkla yapabileceğiniz araçları içeren bir
 kütüphane ile birlikte entegre gelir. Bu kısımda Doctrine'ın arkasındaki
 temel felsefeyi öğrenecek ve veritabanları ile çalışmanın ne kadar kolay
-olabileceğini göreceksiniz. 
+olacağını göreceksiniz. 
 
 .. note::
 
-    Doctrine isteğe bağlı olarak kullanabilmeniz için Symfony2'den tamamen 
+    Doctrine, isteğe bağlı olarak kullanabilmeniz için Symfony2'den tamamen 
     ayrıştırılmıştır. Bu kısım tamamen Doctrine ORM ile nesnelerinizi ilişkisel
     veri tabanında  (*MySQL*, *PostgreSQL* ya da  *Microsoft SQL*) nasıl 
     kullanacağınızı içerir.
-    Eğer saf veritabanı cümlecikleri kullanmak isterseniz bu da basittir 
+    Eğer saf veritabanı sorgu cümlecikleri kullanmak isterseniz bu da basittir 
     ve ":doc:`/cookbook/doctrine/dbal`" tarif kitabı girdisinde açıklanmıştır.
-    Ayrıca verilerinizi  Doctrine ODM kullanarak da `MongoDB`_ üzerinde
+    Ayrıca verilerinizi Doctrine ODM kullanarak `MongoDB`_ üzerinde de
     işleyebilirsiniz. Bu konudaki daha fazla bilgi için 
     ":doc:`/bundles/DoctrineMongoDBBundle/index`" belgesini okuyabilirsiniz.
 
@@ -26,7 +27,7 @@ Basit Bir Örnek: Bir Ürün (Product)
 -----------------------------------
 
 Doctrine'nin nasıl çalıştığını anlamanın en iyi yolu onu uygulamada görmektir.
-Bu kısımda veritabanını konfigüre edecek ``Product`` nesnesi yaratacak
+Bu kısımda veritabanını konfigüre edecek, ``Product`` nesnesi yaratacak,
 bunu veri tabanına yazacak ve veritabanından geri çağıracaksınız.
 
 .. sidebar:: Kodu örnek üzerinde takip etmek
@@ -42,7 +43,7 @@ Veritabanını Konfigüre Etmek
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Gerçekten başlamadan önce veritabanı bağlantı bilgisini konfigüre etmek
-gerekli. Kural olarak bu bilgi genellikle ``app/config/parameters.ini``
+gerekli. Kural olarak bu bilgiler genellikle ``app/config/parameters.ini``
 dosyasında tutulur:
 
 .. code-block:: ini
@@ -57,10 +58,9 @@ dosyasında tutulur:
 
 .. note::
 
-   ``parameters.ini`` dosyası ile konfigüre etmek işi sadece bir teamüldür.
+   ``parameters.ini`` dosyası ile konfigüre etmek işi sadece genel bir uygulamadır.
    Parametreler ana konfigürasyon dosyasında doctrine altında gösterilerek de 
    ayarlanabilir.
-   
     
     .. code-block:: yaml
     
@@ -81,7 +81,7 @@ dosyasında tutulur:
     :doc:`/cookbook/configuration/external_parameters` belgesini okuyun.
 
 
-Bundan sonra Doctine veritabanınızı tanıyor ve şu şekilde de sizin için bir
+Bundan sonra Doctine veritabanınızı tanıyor ve şu şekilde de bir
 veritabanı yaratabilir:
 
 .. code-block:: bash
@@ -89,11 +89,11 @@ veritabanı yaratabilir:
     php app/console doctrine:database:create
 
 Bir Entity (Varlık) Sınıfı Yaratmak
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Varsayalım ürünleri listeleyen bir uygulama geliştiriyorsunuz. Doctrine yada
-veritabanları olmadan düşünseniz bile zaten bildiğiniz gibi tüm ürünleri
-temsil eden bir ``Product`` nesnesine ihtiyacınızın olduğudur.
+Varsayalım ürünleri listeleyen bir uygulama geliştiriyorsunuz. Bunu 
+Doctrine ya da veritabanları olmadan da tasarlasanız bile zaten tüm ürünleri
+temsil eden bir ``Product`` nesnesine ihtiyacınız olacaktır.
 Bu sınıfı ``AcmeStoreBundle`` içerisindeki ``Entity`` klasörü altında 
 yaratın:: 
 
@@ -142,8 +142,8 @@ PHP sınıfının değişkenleri tablonun sütünları haline gelir:
 
 Doctrinde bunu yapabilmek için öncelikle bir "metadata" yaratmak ya da 
 Doctrine'e tam olarak ``Product`` sınıfının ve değişkenlerinin veritabanında
-nasıl *eşleşeceğini* (map) düzenleyecek şekilde konfigüre etmeniz gerekir.
-Bu metadata YAML, XML gibi formatlarda da olacağı gibi ``Product`` sınıfı
+nasıl *eşleşeceğini* (map) düzenleyecek şekilde konfigüre edilmesi gerekir.
+Bu metadata YAML, XML gibi formatlarda olacağı gibi ``Product`` sınıfı
 içerisinde belirteçler (annotation) aracılığı ile de olabilir:
 
 .. note::
@@ -151,7 +151,6 @@ içerisinde belirteçler (annotation) aracılığı ile de olabilir:
     Bir bundle sadece bir metadata tanımlama formatını tanıyabilir. Örneğin,
     YAML tipinde tutulan metadata bilgilerinin belirteçler ile PHP sınıfında da
     kullanılması gibi karışık bir kullanım mümkün değildir.
-
 
 .. configuration-block::
 
@@ -232,48 +231,44 @@ içerisinde belirteçler (annotation) aracılığı ile de olabilir:
 .. tip::
 
     
-    Tablo ismi seçimliktir ve eğer atlanırsa tablo adı otomatik olarak 
+    Tablo ismi isteğe bağlıdır ve eğer belirtilmeze tablo adı otomatik olarak 
     entity sınıfının ismi olarak belirlenir.
-
 
 Doctrine geniş bir yelpazede çeşitli alan tip tanımlamalarını her birisinin
 kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için 
 :ref:`book-doctrine-field-types` kısmına bakın.
 
 .. seealso::
-
     
     Aynı zamanda  eşleme bilgisi hakkında tüm herşey için Doctrine'nin 
     `Basit Eşleme Belgesi`_  belgesine de bakabilirsiniz.
-    Eğer belirteç (annotation) kullanıyorsanız bu alıntıların önlerine
-    ``ORM\`` ifadsini eklemeniz gereklidir. (Örn. : ``ORM\Column(..)``)
+    Eğer belirteç (annotation) kullanıyorsanız bu belirteçleri önlerine
+    ``ORM\`` ifadesini eklemeniz gereklidir. (Örn. : ``ORM\Column(..)``)
     Bu Doctrine'nin kendi belgelerinde gösterilmemektedir. Ayrıca 
     ``use Doctrine\ORM\Mapping as ORM;`` ifadesini kullanarak ``ORM``
     belirteci ön ekini *kullanabilir* hale gelirsiniz.
     
 .. caution::
 
-
-   Sınıf isimleri ve sınıfın değişken isimleri korunan SQL anahtar
-   kelimeleri eşleştirilmeyeceğine dikkat edin(örn : ``group`` ya da ``user``).
+   Sınıf isimleri ve sınıfın değişken isimleri, korunan SQL anahtar
+   kelimeleri eşleştirilmeyeceğine dikkat edin (örn : ``group`` ya da ``user``).
    Örneğin entity sınıfınızın ismi ``Group`` ise varsayılan olarak
-   talo isminiz ``group`` olacaktır ve bazı motorlarda bu durum SQL
+   tablo isminiz ``group`` olacaktır ve bazı motorlarda bu durum SQL
    hatasına yol açar. Bu konudaki geniş bilgi için
-   _`Ayrılmış SQL anahtar kelimeleri belgesi` be bakarak hangi isimleri
+   `Ayrılmış SQL anahtar kelimeleri belgesi`_ 'ne bakarak hangi isimleri
    kullanmamanız gerektiğini görebilirsiniz. Alternatif olarak
-   eğer database şeması seçmekte özgür iseniz basitçe bu isimler için
+   eğer veritabanı şeması seçmekte özgür iseniz basitçe bu isimler için
    farklı tablo ya da sütün adı kullanabilirsiniz. Doctrine'nin   
    `Eşleştirme Tipleri Belgesi`_ ve `Kalıcı sınıflar`_ belgesine bakın.
 
 .. note::
 
-    Belirteçleri kullanan başka bir kütüphane yada program kullandığınızda
+    Belirteçleri kullanan başka bir kütüphane ya da program kullandığınızda
     (örn: Doxygen) ``@IgnoreAnnotation`` belirtecini kullanarak Symfony' nin
-    hangi belirteçleri görmemezden geleceğini ayarlamanız gereklidir.
+    hangi belirteçleri görmezden geleceğini ayarlamanız gereklidir.
     
-    Örneğin, ``@fn`` belirtecinin bir hataya sebep olmasını engellemek için
-    şu ifadeyi kullanmanız gerekmektedir::
-
+    Örneğin, ``@fn`` belirtecinin bir hataya sebep olmaması için şu ifadeyi 
+    kullanmanız gerekmektedir::
 
         /**
          * @IgnoreAnnotation("fn")
@@ -281,19 +276,20 @@ kendi özel kullanımlarıyla tanıyabilir. Var olan alan tipleri için
         class Product
 
 Getter'ları ve Setter'ları Yaratmak
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Doctrine şimdi ``Product`` nesnesini nasıl veritabanına yazacağını bilmesine
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Doctrine ``Product`` nesnesini veri tabanına nasıl yazacağını bilmesine
 rağmen bu sınıf hala kullanışlı bir sınıf değil. ``Product`` sınıfı sadece
 düz bir PHP sınıfı olduğundan dolayı sınıfın değişkenlerine erişebilmek
 için (sınıfın değişkenleri(properties) protected tipinde olduğu için) bazı
 metod fonksiyonları (örn: ``getName()``, ``setName()``) yaratmanız gereklidir.
-Çok şükür ki Doctrine şunu çalıştırdığınızda bunu sizin için yapar:
+Çok şükür ki Doctrine şunu çalıştırdığınızda bunların hepsini sizin için yapar:
 
 .. code-block:: bash
 
     php app/console doctrine:generate:entities Acme/StoreBundle/Entity/Product
 
-Bu komut yaratılan ``Product`` sınıfı için tüm getter'ları ve setter'ları
+Bu komut, yaratılan ``Product`` sınıfı için tüm getter'ları ve setter'ları
 yaratılmasını sağlar.
 Bu güvenli bir komuttur. Tekrar tekrar çalıştırabilirsiniz.Çünki komut sadece
 yaratılmayan değişkenler (properties) için getter ve setter metodları yaratır.
@@ -309,15 +305,14 @@ yaratılmayan değişkenler (properties) için getter ve setter metodları yarat
 
         * 1:n ve n:m ilişkilere uygun yapıcılar (constructor) yaratabilirsiniz.
 
-    
     ``doctrine:generate:entities`` komutu orijinal ``Product.php`` dosyasını
     ``Product.php~`` olarak bir yedeğini alır. Bazı durumlarda bu dosyanın 
-    varlığı "Cannot redeclare class" hatası verebilir.Bu dosyayı güvenle silebilirsiniz.
+    varlığı "Cannot redeclare class" hatası verebilir.
+    Bu dosyayı güvenle silebilirsiniz.
 
-    
     Bu komuta ihiyacınız *olmadığını* hatırlatalım. Doctrine kod yaratım 
     araçlarına dikkat etmez. Normal PHP sınıfları gibi sadece sınıfınızdaki
-    protected tipinde  değişkenlerin (properties) olması ve bu değişkenlere
+    protected tipinde sınıf değişkenlerinin (properties) olması ve bu değişkenlere
     erişebilmek için ilgili getter ve setter metod fonksiyonlarının olması
     yeterlidir. Bu konu Doctrine içerisinde önemli olmasından dolayı bu komut
     bunları sizin için yaratır.
@@ -342,7 +337,7 @@ yapabilirsiniz:
 Veritabanı Tabloları/Şemaları Yaratmak
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Artık Doctrine'nin de nasıl veritabanına yazacağını açıkça bildiği kullanışlı
+Artık Doctrine'nin nasıl veritabanına yazacağını açıkça bildiği kullanışlı
 bir ``Product`` sınıfınız var. Elbette veritabanınız içerisinde ilgili 
 ``product`` tablonuz yok. Çok şükür ki Doctrine uygulamanız içinde kullandığınız
 tüm entity'ler için gerekli olan tabloları otomatik olarak yaratır.
@@ -363,20 +358,20 @@ Bunu şu komutu çalıştırarak yapabilirsiniz:
 	"alter table" ifadesini çalıştıracak ve ``product`` tablosundaki
 	gerekli alanı yaratacaktır.
     
-    An even better way to take advantage of this functionality is via
-    :doc:`migrations</bundles/DoctrineMigrationsBundle/index>`, which allow you to
-    generate these SQL statements and store them in migration classes that
-    can be run systematically on your production server in order to track
-    and migrate your database schema safely and reliably.
-
+    Bu özelliğin daha büyük bir avantajı ise migration sınıfları ile 
+    sistematik bir şekilde ürün sunucunuzdan migrate edeceğiniz 
+    veritabanı şemasına göre bu SQL cümleciklerini yaratan
+    :doc:`migration</bundles/DoctrineMigrationsBundle/index>` (göçerme)
+    dir.
 
 Veritabanınız şimdi belirmiş olduğunuz eşleme bilgisine uygun sütunlara sahip,
-tam fonksiyonel bir ``product`` tablosuna sahip.
+fonksiyonel bir ``product`` tablosuna sahip.
 
 Nesneleri Veritabanına Yazmak
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Şimdi elinizde ilgili ``product`` tablosu ile eşleştirilmiş (map) ``Product`` entitysi 
-var ve veritabanına yazmaya hazırsınız. Controller içerisinde bu oldukça basittir.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Şimdi elinizde ilgili ``product`` tablosu ile eşleştirilmiş (map) ``Product`` entity
+nesnesi var ve veritabanına yazmaya hazırsınız. Controller içerisinde bu oldukça basittir.
 Bundle'ınız içerisindeki ``DefaultController`` içerisine şu satırı ekleyin: 
 
 .. code-block:: php
@@ -414,12 +409,12 @@ Bundle'ınız içerisindeki ``DefaultController`` içerisine şu satırı ekleyi
 * **satır 13** Bu satır Doctrine'in nesneleri okumak ya da 
   veritabanına yazmak gibi işlemlerinde kullandığı *entity manager* nesnesini alır;
 
-* **satır 14** ``persist()`` metodu Doctrine bu nesnenin yönetileceğini söyler.
+* **satır 14** ``persist()`` metodu Doctrine bu nesnenin nasıl yönetileceğini söyler.
   Şu anda gerçek olarak veritabanına herhangi bir yazım işlemi olmadı (şimdilik).
 
-* **satır 15** ``flush()`` metodu çağırıldığında Doctrone veritabanına yazılmak için
+* **satır 15** ``flush()`` metodu çağırıldığında Doctrine veritabanına yazılmak için
   yönetilecek olan tüm nesneleri alır ve veritabanına yazar. Bu örnekte  ``$product``
-  nesnesi henüz yazılmadı bu yüzden entity yöneticisi (entity manager) ``INSERT``
+  nesnesi önceden veritabanına yazılmadı bu yüzden entity yöneticisi (entity manager) ``INSERT``
   ifadesini kullanarak ``product`` tablosunda bir satır yarattı.
 
 .. note::
@@ -428,26 +423,24 @@ Bundle'ınız içerisindeki ``DefaultController`` içerisine şu satırı ekleyi
   ne zaman ``flush()`` metodunu çağırdığınızda yapılacak tüm değişiklikler
   hesaplanır ve mümkün olan en etkin sorgu/sorgular şeklinde çalıştırılır.
   Örneğin eğer toplamda 100 ürün nesnesi yazacaksanız ve en altta ``flush()`` 
-  metodunu çağırırsanız Doctrine *bir adet* hazırlanmış ifade yaratır ve
+  metodunu çağırırsanız Doctrine *bir adet* hazırlanmış SQL ifadesi yaratır ve
   her birisi için bu ifadeyi tekrar tekrar kullanır. Bu tip kullanıma 
   *Unit of Work* denir. Bu tür bir yapı kullanılır çünki bu hızlı ve verimlidir.
 
-
 Nesneleri yaratırken ya da güncellerken akış sistemi hep aynıdır. Sonraki
-bölümde Doctrine'nin nasıl akıllı bir şekilde veri tabanıda var olan bir 
-kayıt için ``UPDATE`` ifadesini kullandığını göreceksiniz.
+bölümde Doctrine'nin nasıl zekice veri tabanıda var olan bir kayıt için 
+``UPDATE`` ifadesini kullandığını göreceksiniz.
 
 .. tip::
 
     Doctrine size projeniz içerisinde programsal olarak test yapabilmeniz 
     için bir kütüphane de sağlar. Daha fazla bilgi için 
-    :doc:`/bundles/DoctrineFixturesBundle/index`
-    belgesine bakın.
+    :doc:`/bundles/DoctrineFixturesBundle/index` belgesine bakın.
 
 Veritabanından Nesneleri Almak
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Veritabanından bir nesneyi almak çok kolaydır. Örneğin varsayalım 
+Veritabanından bir nesneyi almak çok kolaydır. Varsayalım 
 ``Product`` nesnesinin ``id`` değeri üzerinden bir yönlendirme (route)
 yapılandırdınız::
 
@@ -465,22 +458,22 @@ yapılandırdınız::
     }
 
 Sorgu bir nesnenin bir parçası olduğunda her zaman onu bir "ambar" gibi
-kullanabilirsiniz. Repository'i (ambar), işi sadece entity'leri belirli bir sınıf
-için almak olan bir PHP sınıfı olarak düşünebilirsiniz. Bir entity sınıfını 
-kullanarak bu repositry sınıfına şu şekilde ulaşabilirsiniz::
+kullanabilirsiniz. Repository'nin (ambar), işi sadece entity'leri belirli bir sınıfı
+için kullanılacak olan bir PHP sınıfı olarak düşünebilirsiniz. Bir entity sınıfının 
+repository sınıfına şu şekilde ulaşabilirsiniz::
 
     $repository = $this->getDoctrine()
         ->getRepository('AcmeStoreBundle:Product');
 
 .. note::
 
-    ``AcmeStoreBundle:Product`` ifadesi Sınıfın tam adını kullanmak yerine 
+    ``AcmeStoreBundle:Product`` ifadesi, sınıfın tam adını kullanmak yerine 
     (Örn. ``Acme\StoreBundle\Entity\Product``) Doctrine içerisinde herhangi bir
     yerde bu sınıfı kullanmak için onu kısaca tanımlayan ifadedir.
     Entity sınıfı bundle'ınız içerisindeki ``Entity`` isim uzayında olduğu
     sürece bu çalışacaktır.
 
-Bir kez bir repository'niz olursa aşağıda sıralanan tüm faydalı metodlara
+Bir kez repository'niz olursa aşağıda sıralanan tüm faydalı metodlara
 ulaşabilirsiniz::
 
     // primary key'e göre sql sorgusu (genellikle "id")
@@ -508,7 +501,7 @@ almak içinde kullanabilirsiniz::
     // Fiyat ve isime uyan ürünleri getir.
     $product = $repository->findOneBy(array('name' => 'foo', 'price' => 19.99));
 
-    // qfiyata göre sıralı bir şekilde tüm ürünleri getir.
+    // fiyata göre sıralı bir şekilde tüm ürünleri getir.
     $product = $repository->findBy(
         array('name' => 'foo'),
         array('price' => 'ASC')
@@ -517,19 +510,20 @@ almak içinde kullanabilirsiniz::
 .. tip::
 
    Herhangi bir sayfayı ekrana bastığınızda ne kadar sorgunun çalıştığını
-   görme isterseniz web debug araç çubuğunun sağ alt köşesine bakın.
+   görmek isterseniz web debug araç çubuğunun sağ alt köşesine bakın.
 
     .. image:: /images/book/doctrine_web_debug_toolbar.png
        :align: center
        :scale: 50
        :width: 350
 
-    Eğer ikon'a tıklarsanız profiller açılacak ve size ne kadar sorgunun
+    Eğer ikon'a tıklarsanız profiler açılacak ve size ne kadar sorgunun
     yapıldığını açıkça gösterecektir.
 
 Bir Nesneyi Güncellemek
-~~~~~~~~~~~~~~~~~~~~~~~~
-Bir kez Doctrinden bir nesneyi aldınız mı güncellemek çok kolaydır.
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Doctrinden bir nesneyi aldınız mı güncellemek çok kolaydır.
 Varsayalım ürün id'sine göre controllerda update action'a giden bir route'nız
 var::
 
@@ -548,27 +542,25 @@ var::
         return $this->redirect($this->generateUrl('homepage'));
     }
 
-Güncellenen nesne şu üç adımdan oluşur:
+Güncellenen nesne şu üç adımla oluşur:
 
 1. Doctrine üzerinden nesneyi al;
 2. nesneyi değiştir;
 3. entity manager üzerinden ``flush()``metodunu çağır.
 
-``$em->persist($product)``  metodunun çağırılmasının gereksiz olduğunu hatırlatalım.
+``$em->persist($product)``  metodunun çağırılmasının gereksiz olduğuna dikkat edin.
 Bu  metodun yeniden çağırımı Doctrine'e sadece ``$product`` nesnesini yönet
-ya da izle demektir.Bu durumda ``$product`` nesnesini Doctrine üzerinden aldığınız
-için bu zaten yönetilebilir duruma gelmiştir.
+ya da izle demektir. Bu durumda ``$product`` nesnesini Doctrine üzerinden aldığınız
+için bu zaten yönetilebilir duruma gelmiştir.Çağırılmasına gerek yoktur.
 
 Bir Nesneyi Silmek
 ~~~~~~~~~~~~~~~~~~
 
-Bir nesneyi silmekde çok benzer ancak entity manager üzerinden bu sefer
+Bir nesneyi silmek de çok benzer ancak entity manager üzerinden bu sefer
 ``remove()`` metodunu çağırılması gerekir::
-
 
     $em->remove($product);
     $em->flush();
-
 
 ``remove()`` metodu Doctrine istenilen entity'in veritabanından silinmesini
 söyler. Gerçekte bu ``DELETE`` sorgusu olmasına karşın ``flush()`` metodu
@@ -578,8 +570,9 @@ söyler. Gerçekte bu ``DELETE`` sorgusu olmasına karşın ``flush()`` metodu
 
 Nesneler için Sorgulama
 -----------------------
+
 Bir repository(ambar) nesnesinin herhangi bir işlem yapmadan basit
-sorguları nasıl çalıştırdığını zaten gördünüz::
+sorguları nasıl çalıştırdığını artık gördünüz::
 
     $repository->find($id);
     
@@ -587,9 +580,9 @@ sorguları nasıl çalıştırdığını zaten gördünüz::
 
 
 Elbette Doctrine ayrıca daha karmaşık sorgular için Doctrine Sorgu Dili
-adındaki (DQL) bir araçla bu sorguları yazmanıza olanak sağlar.DQL , SQL
+adındaki (DQL) bir araçla bu sorguları yazmanıza olanak sağlar.DQL, SQL
 diline benzer olarak sadece SQL'deki gibi tablodaki satırlar için sorgular
-yazmaktan ziyade (Örn: ``product``) bir entity snıfı ya da birden fazla
+yazmaktan farklı olarak (Örn: ``product``) bir entity sınıfı ya da birden fazla
 entity sınıfı için sorgu yazmanız gereklidir. (Örn ``Product``)
 
 Doctrine üzerinde sorgu yazarken iki seçeneğiniz bulunmaktadır. Birincisi
@@ -601,7 +594,7 @@ Nesneleri DQL ile Sorgulamak
 
 Farzedin ki ürünlerinizi sorgulamak istiyorsunuz ancak sadece fiyatı ``19.99``
 dan büyük olanları sorgulamak istiyorsunuz ve bunlar en ucuzdan en pahalıya 
-doğru sıralanacak şekilde geri dönecek.  Bir controller içinden şunu yapabilirsiniz::
+doğru sıralanacak şekilde listelenecek. Bir controller içinden şunu yapın::
 
     $em = $this->getDoctrine()->getEntityManager();
     $query = $em->createQuery(
@@ -610,14 +603,14 @@ doğru sıralanacak şekilde geri dönecek.  Bir controller içinden şunu yapab
     
     $products = $query->getResult();
 
-
-Eğer SQL 'de rahat ediyorsanız DQL üzerinde daha rahat hissedeceksiniz. Buradaki
-en büyük fark veri tabanı üzerindeki sorgunuzu satırlar olarak düşünmek yerine
+Eğer SQL 'de rahat ediyorsanız DQL üzerinde daha da rahat hissedeceksiniz. Buradaki
+en büyük fark, veri tabanı üzerindeki sorgunuzu satırlar olarak düşünmek yerine
 "nesneler" olarak düşünmeniz gerekliliğidir. Bu yüzden 
-select *from*  ``AcmeStoreBundle:Product``
-ifadesine ``p`` aliası (takma adı) verilmiştir. 
 
-``getResult()`` metodu sonuçları bir dize (array) halinde döndürür. Eğer sadece
+	select *from*  ``AcmeStoreBundle:Product``
+
+ifadesine ``p`` aliası (takma adı) verilmiştir. 
+``getResult()`` Metodu sonuçları bir dize (array) halinde döndürür. Eğer sadece
 bir nesne dönüşü için sorguladıysanız bu durumda ``getSingleResult()`` metodunu
 bu metodun yerine kullanabilirsiniz::
 
@@ -625,11 +618,11 @@ bu metodun yerine kullanabilirsiniz::
 
 .. caution::
 
-    ``getSingleResult()`` metodu herhangibir sonuç dönmemesi halinde bir 
+    ``getSingleResult()`` metodu herhangi bir sonuç dönmemesi halinde bir 
     ``Doctrine\ORM\NoResultException`` istisnası ve eğer birden fazla sonuç döndüyse
     ``Doctrine\ORM\NonUniqueResultException`` istisnası atar. Eğer bu metodu
     kullanırsanız mutlaka bu işlemi try catch içerisine alarak sadece bir sonucun
-    dönmesi durumunu kontrol etmeniz gerekir (eğer sorguladığınız herhangi birşey
+    dönmesi durumunu kontrol etmeniz gerekir (eğer sorguladığınız herhangi birşeyin
     birden fazla sonuç döndürme olasılığı varsa)::
     
         $query = $em->createQuery('SELECT ....')
@@ -642,7 +635,6 @@ bu metodun yerine kullanabilirsiniz::
         }
         // ...
 
-
 DQL yazımı (syntax) entity 'ler arasında join, group işlemleri için 
 (:ref:`ilişkiler<book-doctrine-relations>` konusu daha sonra işlenecektir)
 inanılmaz güçlüdür. Daha fazla bilgi için resmi `Doctrine Sorgu Dili`_ 
@@ -652,7 +644,7 @@ belgesine bakın.
 
     ``setParameter()`` metoduna dikkat edin. Doctrine ile çalışırken
     herhangi bir dışsal değeri bir "yertutucu"  içerisine atıp, query
-    içerisinde kullanmak her zaman çok iyi bir yöntemdir:
+    içerisinde kullanmak her zaman iyi bir yöntemdir:
     
     .. code-block:: text
 
@@ -678,7 +670,7 @@ Doctrine'nin Sorgu Üretecini Kullanmak
 
 Sorguları direkt yazmak yerine alternatif olarak Doctrine'nin ``QueryBuilder``
 (Sorgu Üreteci) 'ni kullanarak bu işi nesne yönelimli bir ara birim ile 
-daha güzel halledebilirsiniz. Eğer bir IDE kullanıyorsanız aynı zamanda
+hemde daha güzel bir şekiklde halledebilirsiniz. Eğer bir IDE kullanıyorsanız aynı zamanda
 metodları otomatik tamamlama özelliğinide kullanabilirsiniz. Bir Controller
 içerisinden şu şekilde kullanabilirsiniz::
 
@@ -694,10 +686,9 @@ içerisinden şu şekilde kullanabilirsiniz::
     $products = $query->getResult();
 
 
-``QueryBuilder``  nesnesi sorgunuzu üretebilmek için tüm metodları içerir.
+``QueryBuilder`` nesnesi sorgunuzu üretebilmek için tüm metodları içerir.
 ``getQuery()`` metodunun çağırılması ile sorgu üreteci önceki bölümde gösterildiği gibi
 normal bir ``Query`` nesnesi çevirir.
-
 Doctrine'nin Sorgu Üreteci (Query Builder) hakkında daha fazla bilgi almak
 için `Sorgu Üreteci`_  dökümanına başvurun.
 
@@ -705,12 +696,12 @@ için `Sorgu Üreteci`_  dökümanına başvurun.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Önceki bölümlerde controller içerisinden karmaşık sorguları üretmeye başlamıştınız.
-Ancak bu sorguları test etmek ve yeniden kullanmak için izole ederek bunları entity'nizin 
+Ancak bu sorguları test etmek ve yeniden kullanmak için bunları izole ederek entity'nizin 
 kullanabileceği özel bir repository (ambar) sınıfı içerisine almak ve 
-sorguları mantıksal olarak metodlara atamak daha iyi bir fikirdir.
+sorguları mantıksal olarak metodlara atamak daha güzel bir fikirdir.
 
-Bunu yapmak için repository(ambar) sınıfınızın ismini eşleştirme (mapping) tanımlamanız
-içerisine eklemeniz gereklidir.
+Bunu yapmak için entity sınıfınızda repository(ambar) sınıfınızın ismini
+eşleştirme (mapping) tanımlamanız içerisine eklemeniz gereklidir.
 
 .. configuration-block::
 
@@ -780,7 +771,7 @@ alfabetik olarak sıralayacaktır.
 
 .. tip::
 
-    Entity manager'a repository içerisinden ``$this->getEntityManager()``
+    Repository içerisinden entity manager'a  ``$this->getEntityManager()``
     ile erişilebilir.
 
 Repository'niz içerisinde bu yeni metodu varsayılan bulma metodu yerine 
@@ -798,10 +789,10 @@ basitçe şu şekilde kullanabilirsiniz::
 .. _`book-doctrine-relations`:
 
 Entity İlişkileri/Ortaklıkları
----------------------------------
+------------------------------
 
 Varsayalım ki uygulamanızdaki ürünlerin tamamı sadece bir "kategori" 'ye bağlı.
-Bu durumda ``Product`` nesnesi ``Category`` nesnesi ile ilişkilendirilmiş bir
+Bu durumda ``Product`` nesnesinin ``Category`` ile ilişkilendirilmiş bir
 ``Category`` nesnesine ihtiyacınız olacaktır.``Category`` entity'sini yaratmaya başlayalım.
 Sizinde bildiğiniz gibi nihayetinde sınıfın Doctrine tarafından veritabanına yazılması
 gereklidir. Bırakın bu sınıfı Doctrine sizin için yaratsın.
@@ -810,12 +801,11 @@ gereklidir. Bırakın bu sınıfı Doctrine sizin için yaratsın.
 
     php app/console doctrine:generate:entity --entity="AcmeStoreBundle:Category" --fields="name:string(255)"
 
-
 Bu işlem ``id`` alanı ve bir ``name`` alanı ve ilgili getter ve setter fonksiyonlarına
 sahip olan bir ``Category`` entity'sini sizin için yaratır.
 
 Eşleştirilen Metadatalarda İlişkiler
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``Category` ve ``Product`` entity'lerini ilişkilendirmek için ``Category``
 sınıfında bir ``products`` değişkeni yaratalım:
@@ -867,7 +857,7 @@ içerisinde tutmak daha mantıklıdır.
 
     Kod içerisindeki ``__construct()`` metodu Doctrine'nin ``$products`` 
     değişkenini bir ``ArrayCollection`` objesi haline getirmesi için gerekli 
-    olduğundan önemlidir.
+    olduğundan dolayı önemlidir.
     Bu nesne tamamen bir dize değişkeni gibi davranırken bazı esnekliklerde
     sağlar. Eğer bu nesne ile rahat edemezseniz endileşenmeyin. Bu sadece
     bir ``dize`` (array) değişkendir ve bununla ileride daha rahat edeceksiniz.
@@ -875,8 +865,7 @@ içerisinde tutmak daha mantıklıdır.
 .. tip::
 
    Dekoratör içerisindeki targetEntity değeri gerçerli bir namespace'e sahip
-   olan bir entity'i işaret eder sadece aynı sınıf içerisinde tanımlanan 
-   entity'lere işaret etmez. Başka sınıf ya da bundle içerisindeki entity ile
+   olan bir entity'i işaret eder. Başka sınıf ya da bundle içerisindeki entity ile
    ilişkiyi düzenlemek için targetEntity içerisine namespace değerini tam olarak
    girmeniz gereklidir.
 
@@ -918,22 +907,22 @@ eklemek gerekecektir.
 
 
 Sonuç olarak ``Category`` ve ``Product`` nesnelerine bir değişken
-eklediniz. Şimdi Doctrine eksik olan getter ve setter metodlarını yaratmasını
+eklediniz. Şimdi Doctrine'e eksik olan getter ve setter metodlarını yaratmasını
 söyleyin:
 
 .. code-block:: bash
 
     php app/console doctrine:generate:entities Acme
 
-Doctrine metadata'sini bir an için yoksayın. Şimdi ``Category`` ve ``Product``
+Doctrine metadata'sını bir an için yoksayın. Şimdi ``Category`` ve ``Product``
 adında doğal olarak birden-çoka ilişkisi ile bağlı iki sınıfınız var. 
 ``Category`` sınıfı ``Product`` nesnelerini bir array içerisinde tutar ve
 ``Product`` nesnesi sadece bir ``Category`` nesnesi tutar. Diğer bir ifade 
-ile sınıflarımızı ihtiyacımız doğrultusunda mantıklı bir şekilde yarattık.
+ile sınıflarımızı ihtiyacımız doğrultusunda mantıklı bir şekilde yaratmış olduk.
 Aslında veri veritabanına yazılması gerekliliği her zaman ikincil bir konudur.
 
 Şimdi ``Product`` nesnesi altındaki ``$category`` değişkeninde tutulan
-metadata'ya bakalım. Buradaki ilgi doctrine ``Category`` sınıfı ile ilişkili
+metadata'ya bakalım. Buradaki ilgi, doctrine'e ``Category`` sınıfı ile ilişkili
 olduğunu ve kategori kaydının ``id`` bilgisini ``product`` tablosunun 
 ``category_id`` alanında saklanmasını söyler.
 Diğer bir ifade ile ilgili ``Category`` nesnesi ``$category`` nesnesine
@@ -1023,7 +1012,7 @@ yapıtığınız çekme işine çok benzer. Önce ``$product`` nesnesini çek so
 
 Bu örnekte ilk sorgu ürünün id'sine uygun ``Product`` nesnesi için.
 Bu sorgu için sonuçlar *sadece* ürün verisi ve ``$product`` nesnesinin 
-bu döne veri ile birleştirilmiş (hydrate) şeklidir. Sonra ``$product->getCategory()->getName()``
+bu dönen veri ile birleştirilmiş (hydrate) şeklidir. Sonra ``$product->getCategory()->getName()``
 metodunu çağırdığınızda Doctrine sessizce ``Product`` ile ilişkili ``Category`` 'yi bulmak
 için ikinci sorguyu çalıştırır. Bu işlem ``$category`` nesnesini sizin için hazırlar ve
 döndürür.
@@ -1033,8 +1022,8 @@ döndürür.
    :align: center
 
 Burada aslında önemli olan şey sizin ürünün ilişkili olduğu kategoriye ulaşmanızdan
-çok, kategori verisinin siz kategoriyi sormadan gerçekte getirilmemesidir. 
-( Örn. "lazily loaded").
+çok, kategori verisinin siz kategoriyi sormadan gerçekte getirilmemesidir
+("lazily loaded").
 
 Diğer bir yönden de sorgu yapabilirsiniz::
 
@@ -1057,8 +1046,7 @@ siz bunu sordu iseniz. (Örn: ``->getProducts()`` 'ı çağırdığınızda).
 
 .. sidebar:: İlişkiler ve Proxy Sınıfları
 
-    
-    Bu nesnenin ihtiyaç halinde bilgilerinin getirilmesi "lazy loading" mümkündür
+    Bu nesnenin ihtiyaç halinde bilgilerinin getirilmesi "lazy loading" mümkündür.
     Çünkü gerektiği zaman, Doctrine gerçek nesnenin yerine bir "proxy" nesnesi
     döndürecektir.Aşağıdaki örneğe yeniden bakalım::
     
@@ -1087,7 +1075,7 @@ siz bunu sordu iseniz. (Örn: ``->getProducts()`` 'ı çağırdığınızda).
 	*true* döndürecektir.
 
 İlgili Kayıtlarda Join
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 Yukarıdaki örneklerde bir tanesi orijinal nesne için (Örn : ``Category``)
 bir taneside ilgili nesne(ler) için (Örn:``Product``) iki adet sorgu yapılıyordu.
 
@@ -1154,7 +1142,7 @@ bakın.
 Konfigürasyon
 -------------
 
-Doctrine muhtemelen pek çok seçeneğini ayarlamaya ihtiyaç duymayacak olmanıza rağmen 
+Doctrine'in muhtemelen pek çok seçeneğini ayarlamaya ihtiyaç duymayacak olmanıza rağmen 
 oldukça konfigüre edilebilirdir. Doctrine'nin nasıl konfigüre edilebileceği
 hakkındaki belgeyi :doc:`referans belgeleri</reference/configuration/doctrine>` 
 kısmında bulabilirsiniz.
@@ -1162,14 +1150,15 @@ kısmında bulabilirsiniz.
 
 LifeCycle Çağrıları (LifeCycle Callbacks)
 ----------------------------------------------
-Bazen bir entity insert edildiğinde , güncellendiğinde ya da silindiğinde
+
+Bazen bir entity insert edildiğinde, güncellendiğinde ya da silindiğinde
 bu hareket gerçekleşmeden önce ya da sonra bir şey yapmaya ihtiyaç duyarsınız.
 Bu tipteki hareketler "lifecycle" çağrıları olarak adlandırılırlar. Bu çağrı metodları
 bir entity 'nin farklı lifecycle durumlarında çalıştırılırlar (Örn : entity 
 insert edildiğinde güncellendiğinde, silindiğinde vs.. ).
 
 Eğer eşleme verileri için (metadata) belirteçleri (annotations) kullanıyorsanız,
-lifecycle cağrılarını aktifleştirmeniz gerekir. Eğer YAML ya da XML'i eşleştirme
+lifecycle çağrılarını aktifleştirmeniz gerekir. Eğer YAML ya da XML'i eşleştirme
 için kullanıyorsanız bu gerekli değildir:
 
 .. code-block:: php-annotations
@@ -1262,7 +1251,7 @@ konusunda daha fazla bilgi için Doctrine'nin  `Lifecycle Olayları belgesi`_
     
 
 Doctrine İlaveleri (Extensions): Timestampable, Sluggable, vs.
----------------------------------------------------------------
+--------------------------------------------------------------
 
 Doctrine oldukça esnektir ve entity'leriniz içerisinde sürekli tekrarlanan
 olayları basitçe çözebilmek için bir çok 3. parti ilave (extension) ile birlikte gelir. 
