@@ -1,40 +1,39 @@
 .. index::
-   pair: Autoloader; Configuration
+   pair: Autoloader; Konfigürasyon
 
-The ClassLoader Component
-=========================
+ClassLoader Bileşeni
+====================
 
-    The ClassLoader Component loads your project classes automatically if they
-    follow some standard PHP conventions.
+    ClassLoader bileşeni eğer bazı standart PHP kurallarını kullanıyorsa
+    proje sınıflarını otomatik olarak yükler.
+    
+Tanımlanmamış bir sınıf kullandığınızda PHP autoloading mekanizmasını kullanarak
+dosyanın içinde tanımlanmış sınıfı yüklemeye çalışır. Symfony2 sınıfları 
+dosyalardan aşağıdaki kurallardan birisine göre yükleyen bir "universal" autloader
+sağlar.
 
-Whenever you use an undefined class, PHP uses the autoloading mechanism to
-delegate the loading of a file defining the class. Symfony2 provides a
-"universal" autoloader, which is able to load classes from files that
-implement one of the following conventions:
+* PHP'nin namespace'leri ve sınıflarındaki teknik `standartlar`_ 'a göre;
 
-* The technical interoperability `standards`_ for PHP 5.3 namespaces and class
-  names;
+* Sınıflar için `PEAR`_ isimlendirme kurallarına göre.
 
-* The `PEAR`_ naming convention for classes.
+Eğer projenizde kullandığınız sınıflarınız ve 3.parti kütüphaneleriniz bu
+standartlara uyuyorsa Symfony2 autloader'i ihtiyacınız olan tek autloader
+olacaktır.
 
-If your classes and the third-party libraries you use for your project follow
-these standards, the Symfony2 autoloader is the only autoloader you will ever
-need.
+Kurulum
+-------
 
-Installation
-------------
+Bu bileşeni üç farklı şekilde kurabilirsiniz:
 
-You can install the component in many different ways:
+* Resmi Git deposundan (https://github.com/symfony/ClassLoader)
+* PEAR ile ( `pear.symfony.com/ClassLoader`)
+* Composer ile (Packagist 'deki `symfony/class-loader`).
 
-* Use the official Git repository (https://github.com/symfony/ClassLoader);
-* Install it via PEAR ( `pear.symfony.com/ClassLoader`);
-* Install it via Composer (`symfony/class-loader` on Packagist).
+Kullanımı
+---------
 
-Usage
------
-
-Registering the :class:`Symfony\\Component\\ClassLoader\\UniversalClassLoader`
-autoloader is straightforward::
+:class:`Symfony\\Component\\ClassLoader\\UniversalClassLoader` autloader'ini
+çok basit bir şekilde yükleyebilirsiniz:
 
     require_once '/path/to/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
@@ -42,12 +41,13 @@ autoloader is straightforward::
 
     $loader = new UniversalClassLoader();
 
-    // register namespaces and prefixes here - see below
+    // namespace 'ler ve ön ekler kayıt ediliyor- aşağıya bakın
 
     $loader->register();
 
-For minor performance gains class paths can be cached in memory using APC by
-registering the :class:`Symfony\\Component\\ClassLoader\\ApcUniversalClassLoader`::
+Küçük bir performans artışı için yollar (path) APC tarafından 
+:class:`Symfony\\Component\\ClassLoader\\ApcUniversalClassLoader`::  sınıfı ile
+cache'lenebilir::
 
     require_once '/path/to/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
     require_once '/path/to/src/Symfony/Component/ClassLoader/ApcUniversalClassLoader.php';
@@ -57,18 +57,18 @@ registering the :class:`Symfony\\Component\\ClassLoader\\ApcUniversalClassLoader
     $loader = new ApcUniversalClassLoader('apc.prefix.');
     $loader->register();
 
-The autoloader is useful only if you add some libraries to autoload.
+Autloader eğer bazı kütüphaneleri autload' da ekleyecekseniz kullanışlıdır.
 
 .. note::
 
-    The autoloader is automatically registered in a Symfony2 application (see
-    ``app/autoload.php``).
+    autloader Symfony2 uygulamasında otomatik olarak kayıtlanır (register)
+    (bkz ``app/autoload.php``).
 
-If the classes to autoload use namespaces, use the
+Eğer sınıflar autload esnasında namespace'ler kullanacaksa 
 :method:`Symfony\\Component\\ClassLoader\\UniversalClassLoader::registerNamespace`
-or
+metodunu ya da 
 :method:`Symfony\\Component\\ClassLoader\\UniversalClassLoader::registerNamespaces`
-methods::
+metodunu kullanın::
 
     $loader->registerNamespace('Symfony', __DIR__.'/vendor/symfony/src');
 
@@ -79,11 +79,11 @@ methods::
 
     $loader->register();
 
-For classes that follow the PEAR naming convention, use the
+Sınıflarda PEAR isimlendirme kurallarını uygulayacaksanız 
 :method:`Symfony\\Component\\ClassLoader\\UniversalClassLoader::registerPrefix`
-or
+metodu ya da 
 :method:`Symfony\\Component\\ClassLoader\\UniversalClassLoader::registerPrefixes`
-methods::
+metodlarını kullanın::
 
     $loader->registerPrefix('Twig_', __DIR__.'/vendor/twig/lib');
 
@@ -96,12 +96,12 @@ methods::
 
 .. note::
 
-    Some libraries also require their root path be registered in the PHP
-    include path (``set_include_path()``).
+    Bazı kütüphaneler ayrıca kendi kök dizinlerini de PHP 
+    include path (``set_include_path()``) içerisinde kayılı olmasını isterler.
 
-Classes from a sub-namespace or a sub-hierarchy of PEAR classes can be looked
-for in a location list to ease the vendoring of a sub-set of classes for large
-projects::
+Sınıflar büyük projelerde sağlanan bir sınıfın bir alt-namespace'den ya da 
+bir PEAR sınıflarının bir alt-hiyerarşisinden geliyor olabilirler::
+
 
     $loader->registerNamespaces(array(
         'Doctrine\\Common'           => __DIR__.'/vendor/doctrine-common/lib',
@@ -112,11 +112,11 @@ projects::
 
     $loader->register();
 
-In this example, if you try to use a class in the ``Doctrine\Common`` namespace
-or one of its children, the autoloader will first look for the class under the
-``doctrine-common`` directory, and it will then fallback to the default
-``Doctrine`` directory (the last one configured) if not found, before giving up.
-The order of the registrations is significant in this case.
+Bu örnekte eğer ``Doctrine\Common`` namespace'ini ya da bunun bir altındaki 
+sınıfı kullanmak isterseniz autloader ilk önce ``doctrine-common``  klasörü
+altındaki sınıflara bakacak eğer önceki verilende bulunamazsa
+``Doctrine`` dizinine bakacaktır (en son konfigüre edilen). Kayıtlamaların
+sırası bu durumda önemlidir.
 
-.. _standards: http://symfony.com/PSR0
+.. _standartlar: http://symfony.com/PSR0
 .. _PEAR:      http://pear.php.net/manual/en/standards.php

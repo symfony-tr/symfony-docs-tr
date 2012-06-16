@@ -1,13 +1,14 @@
 .. index::
    single: Locale
 
-The Locale Component
-====================
+Locale Bileşeni
+===============
 
-    Locale component provides fallback code to handle cases when the ``intl`` extension is missing.
-    Additionally it extends the implementation of a native :phpclass:`Locale` class with several handy methods.
+    Locale bileşeni ``intl`` eklentisi olmadığı durumlarda bu özelliğin yerine geçecek kodu sağlar.
+    Buna ek olarak doğal :phpclass:`Locale` php sınıfını genişleterek bazı kullanışlı metodlarda sağlar.
 
-Replacement for the following functions and classes is provided:
+Aşağıdaki intl fonksiyonlarını yerine kullanılabilecek fonksiyonlar ve 
+sınıflar sıralanmıştır:
 
 * :phpfunction:`intl_is_failure`
 * :phpfunction:`intl_get_error_code`
@@ -19,23 +20,24 @@ Replacement for the following functions and classes is provided:
 
 .. note::
 
-     Stub implementation only supports the ``en`` locale.
+     Stub implementation'u sadece ``en`` yerelinde(locale) sağlanır.
+     
 
-Installation
+Kurulum
 ------------
 
-You can install the component in many different ways:
+Bu bileşeni üç farklı şekilde kurabilirsiniz:
 
-* Use the official Git repository (https://github.com/symfony/Locale);
-* Install it via PEAR ( `pear.symfony.com/Locale`);
-* Install it via Composer (`symfony/locale` on Packagist).
+* Resmi Git deposundan (https://github.com/symfony/Locale);
+* PEAR ile ( `pear.symfony.com/Locale`);
+* Composer ile (Packagist 'deki`symfony/locale`).
 
-Usage
------
+Kullanımı
+---------
 
-Taking advantage of the fallback code includes requiring function stubs and adding class stubs to the autoloader.
+ClassLoader bileşeninin kullanımında aşağıdaki kodu ``intl`` eklentisi
+olmadığı zamanlarda kullanımına dikkat edin:
 
-When using the ClassLoader component following code is sufficient to supplement missing ``intl`` extension:
 
 .. code-block:: php
 
@@ -51,19 +53,19 @@ When using the ClassLoader component following code is sufficient to supplement 
 
     use Symfony\Component\Locale\Locale;
 
-    // Get the country names for a locale or get all country codes
+    // Yerel için Ülke isimleri ya da tüm ülke kodlarını getir
     $countries = Locale::getDisplayCountries('pl');
     $countryCodes = Locale::getCountries();
 
-    // Get the language names for a locale or get all language codes
+    // Yerel için Lisan isimleri ya da tüm Lisan kodlarını getir
     $languages = Locale::getDisplayLanguages('fr');
     $languageCodes = Locale::getLanguages();
 
-    // Get the locale names for a given code or get all locale codes
+    // Verilen kod için yerel ismini ya da tüm yerel kodlarını getir
     $locales = Locale::getDisplayLocales('en');
     $localeCodes = Locale::getLocales();
 
-    // Get ICU versions
+    // ICU sürümlerini getir
     $icuVersion = Locale::getIcuVersion();
     $icuDataVersion = Locale::getIcuDataVersion();
 
