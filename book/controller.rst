@@ -4,15 +4,15 @@
 Controller
 ==========
 
-Bir controller yaratmış olduğunuz HTTP isteğinden bilgiyi alarak bir HTTP
-cevabı (Symfony2 'de ``Response`` nesnesi gibi) döndüren bir PHP fonksiyonudur.
-Cevap bir HTML sayfası , bir XML dökümanı, serileştirilmiş bir JSON dizesi (array),
+Bir controller, yaratmış olduğunuz HTTP isteğinden bilgiyi alarak bir HTTP
+cevabı (Symfony2 'de ``Response`` nesnesi gibi) döndüren PHP fonksiyonudur.
+Cevap, bir HTML sayfası , bir XML dökümanı, serileştirilmiş bir JSON dizesi (array),
 bir resim, bir yönlendirme (redirect), bir 404 hatası ya da düşünebildiğiniz
 herhangi bir şey olabilir. Controller *uygulamanızın*  sayfa içeriğini oluşturmadaki
 herhangi bir şeyi kapsayabilir. 
 
-Bunun nasıl basit bir şey olduğunu görmek için  Symfony2 Controller'ini
-uygulamada görelim.Aşağıdaki controller ekrana basitçe ``Hello world!`` 
+Bunun nasıl basit bir şey olduğunu görmek için Symfony2 Controller'ini
+uygulamada görelim. Aşağıdaki controller ekrana basitçe ``Hello world!`` 
 yazacaktır::
 
     use Symfony\Component\HttpFoundation\Response;
@@ -24,12 +24,12 @@ yazacaktır::
 
 Bir controller'in amacı her zaman aynıdır. Bir ``Response`` objesi döndürmek.
 Bunu yaparken istekten bazı bilgileri okuyabilir, bir veritabanı kaynağını
-çağırabilir, e-posta gönderebilir ya da kullanıcının  oturumuna herhangi
-bir bilgi yazabilir. Fakat bütün bu durumlarda, controller sonuçta istemciye
+çağırabilir, e-posta gönderebilir ya da kullanıcının oturumuna herhangi
+bir bilgi yazabilir. Fakat bütün bu durumlarda, controller, sonuçta istemciye
 geri gönderilmek üzere bir ``Response`` nesnesi döndürecektir.
 
-Herhangi bir sihir yok ve diğer gereklilikler için endişelenmeyin!. Burada
-bir kaç çok kullanılan örnek var:
+Herhangi bir sihir yok ve diğer gereklilikler için endişelenmeyin! Burada
+bir kaç yaygın örnek var:
 
 * *Controller A* sitenin ana sayfasını temsil eden içeriği ``Response`` 
   nesnesi olarak hazırlar.
@@ -40,7 +40,7 @@ bir kaç çok kullanılan örnek var:
   koduyla birlikte bir ``Response`` nesnesi yaratır.
   
 * *Controller C* iletişim formunu işler. İstek (request) üzerinden gelen
-  bilgileri okur ve iletişim bilgilerini webmastera göndermek için veritabanına 
+  bilgileri okur ve iletişim bilgilerini webmaster'a göndermek için veritabanına 
   yazar. En sonunda bir ``Response`` nesnesi yaratarak istemcinin tarayıcısına
   iletişim sayfasında bilgilerin alındığını belirten "teşekkürler" sayfasını
   gönderir.
@@ -61,20 +61,20 @@ kodunun evsahipliği yaptığı bir controller çalıştırır:
    route üzerinden gelen ``_controller`` parametresinde eşleşen route
    bilgisini bulur.
 
-#. Eşleşen route üzerinde belirtilen controller calıştırılır ve controller
+#. Eşleşen route üzerinde belirtilen controller çalıştırılır ve controller
    içerisindeki kod bir ``Response`` nesnesi yaratarak geri döndürür;
 
-#. ``Response`` nesnesi içeriğindeki HTTP başlıkları istemciye geri döndürülür.
+#. HTTP başlıkları ve ``Response`` nesnesinin içeriği istemciye geri döndürülür.
 
-Sayfa yaratmak için controller yaratmak kadar basittir (#3) ve route yapmak URL'yi
-bu controller ile eşleştirmek içindir (#2).
+Sayfa yaratmak controller yaratmak kadar basittir (#3) ve yapılan route URL'yi
+controller ile eşleştirir (#2).
 
 .. note::
 
     "front controller" isim olarak benzemesine rağmen biz bu bölümde
     "controller" 'lardan bahsedeceğiz.Bir front controller bütün istekleri
     yöneten, web klasöründe olan, kısa bir PHP dosyasıdır. Tipik bir uygulama
-    bir production (imalat) front controllerine (örn: ``app.php``) ve 
+    bir production (ürün) front controllerine (örn: ``app.php``) ve 
     development(geliştirme) front controllerine (örn: ``app_dev.php``)
     sahip olacaktır. Muhtemelen bu dosyaları asla düzenlemeyeceğiniz 
     için uygulamanızdaki front controller'lar için endişelenmenize
@@ -88,7 +88,7 @@ Basit bir Controller
 Symfony2 'de herhangi bir PHP cağırılabileni (callable) (bir fonksiyon,
 bir nesnenin metodu ya da ``Closure``) bir controller olabilir iken, genellikle
 controller nesnesinin içinde bir metod bulunur. Controller'lar aynı şekilde 
-*actions* olarak da bilinirler.
+*aksiyonlar* (actions) olarak da bilinirler.
 
 
 .. code-block:: php
@@ -111,13 +111,12 @@ controller nesnesinin içinde bir metod bulunur. Controller'lar aynı şekilde
 
     *controller* ın , *controller sınıfı* (``HelloController``) içindeki
     ``indexAction`` metodu olduğuna dikkat edin. *controller sınıfı* terimi
-    kafanızı karıştırmasın. Bu tip bir uygulama sadece çeşitli controller/action
+    kafanızı karıştırmasın. Bu tip bir uygulama sadece çeşitli controller/aksiyon
     'ları bir arada tutmak için kullanılır. Tipik olarak controller sınıfı pek çok
-    controller/action'a ev sahipliği yapar (Örn. ``updateAction``, ``deleteAction``,
+    controller/aksiyona ev sahipliği yapar (Örn. ``updateAction``, ``deleteAction``,
     vs).
 
 Bu controller olukça açık ancak yine de açıklayalım:
-
 
 * *satır 3*: Symfony2 geçerli controller'in namespace'i için 
   PHP 5.3 namespace özelliğinin avantajlarını kullanır. ``use`` anahtar kelimesi
@@ -137,11 +136,11 @@ Bu controller olukça açık ancak yine de açıklayalım:
 * *satır 10*: Controller bir ``Response`` nesnesi yaratır ve döndürür.
 
 .. index::
-   single: Controller; Route'lar ve controllers
+   single: Controller; Route'lar ve controller'lar
 
 Controller için bir URI Eşleştirmek
 ------------------------------------
-Yeni controller basit bir HTML sayfası döndürmekte. Gerçekte bu sayfayı görebilmeniz
+Yeni controller basit bir HTML sayfası döndürmektedir. Gerçekte bu sayfayı görebilmeniz
 için özel bir URL deseni olan bir route ile controller'ı eşleştirmeniz gerekir:
 
 .. configuration-block::
@@ -167,12 +166,12 @@ için özel bir URL deseni olan bir route ile controller'ı eşleştirmeniz gere
             '_controller' => 'AcmeHelloBundle:Hello:index',
         )));
 
-şimdi  ``/hello/ryan`` olduğunda ``HelloController::indexAction()`` 
-controlleri çalıştırılacak ve ``ryan`` değerini ``$name`` değişkenine
-gönderecek. "Sayfa" yaratmanın anlamı basitçe bir controller metodu
+Şimdi ``/hello/ryan`` olduğunda ``HelloController::indexAction()`` 
+controlleri çalıştırılacak ve ``ryan`` değeri``$name`` değişkenine
+gönderilecek. "Sayfa" yaratmanın anlamı basitçe bir controller metodu
 yaratmak ve bunu bir route ile birleştirmektir.
 
-Controller'i ifade eden yazıma ``AcmeHelloBundle:Hello:index`` dikkat edin.
+Controller'i ifade eden ``AcmeHelloBundle:Hello:index`` yazımına dikkat edin.
 Symfony2 farklı controllerları ifade edebilmek için esnek bir yazım sistemi
 kullanır. Bu sık kullanılan yazım şekli Symfony2'ye ``AcmeHelloBundle`` olarak
 adlandırılan bir bundle içerisindeki ``HelloController`` sınıfını çalıştırmasını
@@ -183,7 +182,7 @@ Farklı controller'lar için yazım şekli hakkında daha fazla bilgi almak içi
 
 .. note::
 
-    Bu örnekler için routing (yönlendirme) konfigürasyonlarının  yerleri direkt olarak
+    Bu örnekler için routing (yönlendirme) konfigürasyonlarının yeri, direkt olarak
     ``app/config/`` klasörüdür. En iyi yöntem route'lar hangi bundle'ı işaret ediyorsa
     o bundle içerisinde bu konfigürasyonu yapmaktır. Bu konuda daha fazla  bilgi için
     :ref:`routing-include-external-resources` belgesine bakın.
@@ -260,9 +259,9 @@ Controller bazı argümanlar alabilir::
         // ...
     }
 
-iki yer tutucu değişkeninin (``{first_name}``, ``{last_name}``) ve varsayılan
-değeri atanmış olan ``color`` değişkeninin controller'in argümanları olduğuna
-dikkat edin. Route eşleştiği zaman placeholde değişkenleri ``defaults`` ile
+İki yer tutucu değişkeninin (``{first_name}``, ``{last_name}``) ve varsayılan
+değeri, atanmış olan ``color`` değişkeninin controller'in argümanları olduğuna
+dikkat edin. Route eşleştiği zaman placeholder değişkenleri ``defaults`` ile
 birleştirilir ve controllerda olan değişkenler için bir dize değişkenine çevrilir.
 
 Route parametrelerini controller argümanları ile eşleştirmek kolay ve esnektir.
@@ -272,12 +271,8 @@ Sadece geliştirme süreci içerisinde şu kuralları aklınızıda tutun.
 
     Symfony route içerisindeki parametre isimleri ile controller'ın metodlarındaki
     argümanların adlarını eşleştirebilir. Diğer bir ifade ile ``{last_name}`` 
-    parametresi ``$last_name`` argümanı ile eşleştirilir.  Controller'ın argümanları
-    yeniden  
-    Symfony is able to match the parameter names from the route to the variable
-    names in the controller method's signature. In other words, it realizes that
-    the ``{last_name}`` parameter matches up with the ``$last_name`` argument.
-    Controller'ın argümanlarının tamamı yeniden sıralansa bile bu durum mükemmel
+    parametresi ``$last_name`` argümanı ile eşleştirilir.
+    Controller'ın tüm argümanları yeniden sıralansa bile bu durum mükemmel
     çalışır::
 
         public function indexAction($last_name, $color, $first_name)
@@ -287,7 +282,7 @@ Sadece geliştirme süreci içerisinde şu kuralları aklınızıda tutun.
 
 * **Gerekli olan her controller argümanı bir route parametresi ile eşleşmelidir.**
 
-    Aşağıdaki kod bir ``RuntimeException`` istisnası yaratacaktır. Çünki ``foo`` 
+    Aşağıdaki kod bir ``RuntimeException`` istisnası yaratacaktır. Çünkü ``foo`` 
     parametresi route içerisinde tanımlanmadı::
 
         public function indexAction($first_name, $last_name, $color, $foo)
@@ -305,7 +300,7 @@ Sadece geliştirme süreci içerisinde şu kuralları aklınızıda tutun.
 
 * **Tüm routing parametreleri controllerınızda bir argüman olmak zorunda değildir.**
 
-    Eğer, örneğin ``last_name`` controller'ınz için çok önemli değil ise, onu
+    Eğer, örneğin ``last_name`` controller'ınız için çok önemli değil ise, onu
     tamamen atlayabilirsiniz::
 
         public function indexAction($first_name, $color)
@@ -316,7 +311,7 @@ Sadece geliştirme süreci içerisinde şu kuralları aklınızıda tutun.
 .. tip::
 
     Her route (yönlendirme) özel bir ``_route`` parametresine sahiptir.Bu
-    parametre eşleşen route 'un ismini tutar(örn: ``hello``). Bu 
+    parametre, eşleşen route 'un ismini tutar(örn: ``hello``). Bu 
     çok kullanışlı olmamasına rağmen bu bir controller argümanı
     olarak da kullanılabilir.
 
@@ -324,7 +319,7 @@ Sadece geliştirme süreci içerisinde şu kuralları aklınızıda tutun.
 
 Controller Argümanı olarak ``Request``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Kolaylık olması için ayrıca Symfonyde controllerinıza argüman olarak
+Kolaylık olması için ayrıca Symfonyde controller'ınıza argüman olarak
 ``Request`` nesnesini gönderebilirsiniz. Bu özellikle form'larla çalışırken
 büyük kolaylık sağlar. Örneğin::
 
@@ -343,13 +338,14 @@ büyük kolaylık sağlar. Örneğin::
 
 Temel Controller Sınıfı
 -------------------------
-Kolaylık olsması için Symfony2 bazı genel controller görevlerine yardım etmek
+
+Kolaylık olması açısından Symfony2, bazı genel controller görevlerine yardım etmek
 için ve controller sınıfına gerektiğinde herhangi bir kaynaktan erişmek için
-bir temel ``Controler`` sınıfı bile birlikte gelir. Sınıfınızı bu ``Controller``
+bir temel ``Controller`` sınıfı bile birlikte gelir. Sınıfınızı bu ``Controller``
 sınıfı ile genişlettiğinizde bazı yararlı yardımcı metodlara erişebilirsiniz.
 
 ``use`` ifadesi ile bu ``Controller`` sınıfını çağırın ve ``HelloController`` 
-sınıfını şu şekilde değiştirerek extend edin:
+sınıfını şu şekilde değiştirerek extend edin (genişletin):
 
 .. code-block:: php
 
@@ -370,20 +366,18 @@ sınıfını şu şekilde değiştirerek extend edin:
 Bu gerçekte controllerinizin çalışmasına herhangi bir etkide bulumaz.
 Sonraki bölümde temel controller sınıfının yardımcı metodlarını öğreneceksiniz.
 Bu metodlar temel ``Controller`` sınıfıyla gelen ya da gelmeyen çekirdek Symfony2 özelliklerinin
-kısa yollarını kullanmanızıs sağlar. En iyi yok bu çekirdek özelliklerinin
+kısa yollarını kullanmanızı sağlar. En iyi yol, bu çekirdek özelliklerinin
 nasıl çalıştığını uygulamada :class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller` 
 sınıfının kendi içerisinde görmektir.
 
-
 .. tip::
 
-    Symfony de temel sınıftan türetme yapmak *seçimliktir*. Bu bazı 
+    Symfony de temel sınıftan türetme yapmak *isteğe bağlıdır*. Bu bazı 
     kullanışlı fonksiyonlar sağlar ancak zorunlu değildir. Ayrıca 
     ``Symfony\Component\DependencyInjection\ContainerAware`` sınıfından da
-    sınıfınızı genişletebilirsiniz. Servis taşıyıcısı (Service container)
+    sınıfı genişletebilirsiniz. Servis taşıyıcı (Service container)
     nesnesi ``container`` değişkeni ile bu işlemden sonra erişilebilir
     hale gelir.
-    
 
 .. note::
 
@@ -420,7 +414,7 @@ metoddur.Daha fazla bilgi için :doc:`Routing (Yönlendirme)</book/routing>`
 bölümüne bakın.
 
 Varsayılan olarak ``redirect()`` metodu bir 302 (geçici) yönlendirme gerçekleştirir.
-Bunu 301 (kalıcı) yönlendirmesi yapmak için ikinci argümanu değiştirmelisiniz::
+Bunu 301 (kalıcı) yönlendirmesi yapmak için ikinci argümanı değiştirmelisiniz::
 
     public function indexAction()
     {
@@ -441,14 +435,14 @@ Bunu 301 (kalıcı) yönlendirmesi yapmak için ikinci argümanu değiştirmelis
 .. index::
    single: Controller; Forwarding (iletme)
 
- Forwarding (iletme)
+Forwarding (iletme)
 ~~~~~~~~~~~~~~~~~~~
+
 Ayrıca kolaylıkla başka bir controller'a da içsel olarak ``forward()`` metodu
 ile kolaylıkla iletme yapabilirsiniz. Kullanıcının tarayıcısından yönlendime 
-yapmak yerine bu işlem bir alt istek açar ve ilgili controller'i çağırır. 
+yapmak yerine bu işlem, bir alt istek açar ve ilgili controller'i çağırır. 
 ``forward()`` metodu iletim yapılan ilgili controller'dan bir ``Response``
 nesnesi döndürür::
-
 
     public function indexAction($name)
     {
@@ -462,12 +456,11 @@ nesnesi döndürür::
         return $response;
     }
 
-
 `forward()` metodunun controller'in routing konfigürasyonunda controller'i
 temsil eden aynı string içerisinde kullanıldığına dikkat edin. Bu durumda
 hedef olan controller sınıfı ``AcmeHelloBundle`` içerisindeki 
-``HelloController`` olacaktır.Controller'da sonuçlandırılması için gereken
-parametreler array (dize) halinde gönderilecektir. Bu aynı yöntem aynı
+``HelloController`` olacaktır. Controller'da sonuçlandırılması için gereken
+parametreler array (dize) halinde gönderilecektir. Bu yöntem aynı
 controller'lardan şablonlara veri aktarılması için kullanılan bir yöntemdir.
 (bkz. :ref:`templating-embedding-controller`) Hedef controller metodu aşağıdaki
 şekilde olmalıdır::
@@ -477,17 +470,17 @@ controller'lardan şablonlara veri aktarılması için kullanılan bir yöntemdi
         // ... bir Response nesnesi yarat ve döndür.
     }
 
-ve yine route için bir controller yaratımındaki gibi argümanların ``fancyAction``
+Yine route için bir controller yaratımındaki gibi argümanların ``fancyAction``
 metoduna gönderilmesine sıralı olması bir anlam ifade etmez. Symfony2 index
 anahtar isimleri (örn. ``name``) ile metod argüman isimlerini (örn. ``$name``) eşler.
-Eğer argüman sıralamasını değiştiriseniz Symfony2 hala her değişken için
+Eğer argüman sıralamasını değiştiriseniz Symfony2 yine her değişken için
 doğru değeri iletmeye devam edecektir.
 
 .. tip::
 
     Diğer temel ``Controller`` metodları gibi ``forward`` metodu sadece
     Symfony2 özelliklerinin kısa yollarından birisidir. Aslında iletim direkt
-    olarak ``http_kernel`` hizmeti sayesinde olur. Bir iletim bir ``Response``
+    olarak ``http_kernel`` hizmeti sayesinde olur. İletim bir ``Response``
     nesnesi çevirir::
     
         $httpKernel = $this->container->get('http_kernel');
@@ -503,6 +496,7 @@ doğru değeri iletmeye devam edecektir.
 
 Şablonları Ekrana Basmak
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
 Çok gerekmemesine rağmen, çoğu controller eninde sonunda controller için
 HTML yaratmaktan sorumlu ( ya da diğer bir formatta) bir şablonu ekrana basacaktır.
 ``renderView()`` metodu şablonu ekrana basar ve şablon içindeki içeriği döndürür.
@@ -566,8 +560,8 @@ Daha fazla bilgi için :doc:`/book/service_container` kısmına bakın.
 
 Hataları yönetmek ve 404 Sayfaları
 ----------------------------------
-Bir şeyler bulunmadığında HTTP protokolinden 404 cevabıu döndürülür. Bunu
-yapmak için özel tipte bir istisna yaratmanı gereklidir. Eğer temel controller
+Bir şeyler bulunamadığında HTTP protokolinden 404 cevabı döndürülür. Bunu
+yapmak için özel tipte bir istisna yaratmanız gereklidir. Eğer temel controller
 sınıfından sınıfınızı türetirseniz bunu şu şekilde yaparsınız::
 
     public function indexAction()
@@ -580,10 +574,10 @@ sınıfından sınıfınızı türetirseniz bunu şu şekilde yaparsınız::
         return $this->render(...);
     }
 
-``createNotFoundException()`` metodu Symfony içerisinde bir 404 HTTP cevabı
+``createNotFoundException()`` metodu Symfony içerisinde 404 HTTP cevabı
 üreten özel bir ``NotFoundHttpException`` istisnası üretir.
 
-Elbette controlleriniz içerisinde istediğiniz türde ``Exception`` classını
+Elbette controlleriniz içerisinde istediğiniz türde ``Exception`` sınıfını
 kullanarak bir istisna üretebilirsiniz. Bunu Symfony2 otomatik olarak
 500 HTTP response kodu ile döndürecektir.
 
@@ -592,21 +586,21 @@ kullanarak bir istisna üretebilirsiniz. Bunu Symfony2 otomatik olarak
     throw new \Exception('Birşeyler Ters Gitti!');
 
 
-Her durumda stillendirilmiş, geliştiriciye hatayı bulmasına imkan sağlayan
+Her durumda, stillendirilmiş, geliştiriciye hatayı bulmasına imkan sağlayan
 bütün hata izleme bilgilerini içeren bir hata sayfası (eğer sayfa debug modunda ise) 
 ve kullanıcıya genel bir hata sayfası gösterilecektir.
 Bu hata sayfalarının ikiside istenilen şekilde düzenlenebilir. Daha fazla bilgi için
-tarif kitabından ":doc:`/cookbook/controller/error_pages`" reçetesini okuyun.
+tarif kitabından ":doc:`/cookbook/controller/error_pages`" girdisini okuyun.
 
 .. index::
    single: Controller; Oturum
-   single: Session
+   single: Oturum
 
 Oturumları Yönetmek
 --------------------
 Symfony2 kullanıcı istekleri arasında (tarayıcı kullanan gerçek bir kullanıcı, 
 bir bot, ya da bir web servisi) bilgileri saklayabileceğiniz güzel bir oturum nesnesi sağlar.
-Varsayılan olarak Symfony2 özellikleri doğal PHP sessionlarını kullanarak bir çerez içerisinde
+Varsayılan olarak Symfony2 özellikleri doğal PHP oturumlarını kullanarak bir çerez içerisinde
 saklar.
 
 Oturumdan bilgileri almak ya da saklamak herhangi bir controller içerisinden
@@ -623,8 +617,8 @@ kolaylıkla yapılabilir::
     // kullanıcı yerel bilgilerini sakla
     $session->setLocale('tr');
 
-These attributes will remain on the user for the remainder of that user's
-session.
+Bu nitelikler kullanıcının oturumu içerisinde aynı adlarla birlikte
+oturum içerisinde kalacaktır.
 
 .. index::
    single Session; Flash mesajları
@@ -654,7 +648,7 @@ bir kısa mesaj göstereceksiniz. Bu tipteki mesajlara *flash mesajları* denmek
         return $this->render(...);
     }
 
-İstek işlendikten sonra controller bir ``notice`` adı altında bir flash mesajı
+İstek işlendikten sonra controller ``notice`` adı altında bir flash mesajı
 üretecek ve yönlendirme yapacaktır. (``notice``) adını koymanız çok önemli değildir.
 Sizin bu mesajı nasıl adlandırdığınız farketmez.
 
@@ -679,20 +673,18 @@ Sonraki aksiyonun şablonunda aşağıdaki kod ``notice`` mesajını ekranda gö
         <?php endif; ?>
 
 
-Tasarım tarafında flash mesajları ortalama sadece bir istek için yaşarlar
-("Işığa kavuşurlar"). 
-By design, flash messages are meant to live for exactly one request (they're
-"gone in a flash").Bu mesajlar sadece konum yönlendirmelerinde bir önceki
-durum için gösterilebilecek mesajlar için tasarlanmışlardır.
+Tasarım tarafında flash mesajları genelde sadece bir istek için yaşarlar
+("Işığa kavuşurlar"). Bu örnekte yaptığınız gibi bunlar sadece bir
+yönlendirme boyunca kullanılmak için tasarlanırlar.
 
 .. index::
    single: Controller; Response (cevap) nesnesi
 
 Response (cevap) Nesnesi
 ------------------------
-Bir controller için tek gereklilik bir ``Response`` nesnesi döndürmesidir.
-:class:`Symfony\\Component\\HttpFoundation\\Response` sınıfı kullanıcıya 
-HTTP başlıkları ile doldurulup istemciye geri iletilmek üzere hazırlanan 
+Bir controller için tek gereklilik, bir ``Response`` nesnesi döndürmesidir.
+:class:`Symfony\\Component\\HttpFoundation\\Response` sınıfı, kullanıcıya 
+HTTP başlıkları ile doldurulup istemciye geri iletilmek üzere hazırlanan,
 metin tabanlı mesajları yöneten ve HTTP response'u etrafında özetlenen işlemleri
 yöneten bir PHP sınıfıdır:: 
 
@@ -706,7 +698,7 @@ yöneten bir PHP sınıfıdır::
 
 .. tip::
 
-    ``headers`` değişkeni ``Response`` başlıklarını yöneten ve değiştiren
+    ``headers`` değişkeni, ``Response`` başlıklarını yöneten ve değiştiren
     ve içerisinde bir çok faydalı metod bulunan :class:`Symfony\\Component\\HttpFoundation\\HeaderBag`
     nesnesinin değişkenidir.
     Başlık isimleri ``Content-Type`` 'ın eşiti olan ``content-type`` ya da 
@@ -717,10 +709,8 @@ yöneten bir PHP sınıfıdır::
 
 Request (istek) nesnesi
 -----------------------
-Routing yertutucularının değerlerinin dışında controller ayrıca 
-temel ``Controller`` sınıfından türetildiğinde, ``Request``
-nesnesine de  erişebilir::
-
+Routing yer tutucularının (placeholder) değerlerinin dışında controller ayrıca 
+temel ``Controller`` sınıfından türetildiğinde, ``Request`` nesnesine de  erişebilir::
 
     $request = $this->getRequest();
 
@@ -737,18 +727,18 @@ nesnesine de  erişebilir::
 
 Son Düşünceler
 --------------
-Nezaman bir sayfa yaratsanız eninde sonuda bu sayfanın içeriğini yaratacak
-olan kodu ve mantığına yazacaksınız. Symfony'de bu controller olarak adlandırılır
-ve bu kullanıcı tarafına gönderilecek final ``Response`` nesnesini geri döndürmek
+Ne zaman bir sayfa yaratsanız eninde sonuda bu sayfanın içeriğini yaratacak
+olan kodu ve algoritmayı da yazacaksınız. Symfony'de bu, controller olarak adlandırılır
+ve kullanıcı tarafına gönderilecek final ``Response`` nesnesini geri döndürmek
 için herşeyi yapabilecek bir PHP fonksiyonudur.
 
-Hayatı kolaylaştırmak için pek çok genel controller görevlerine erişmekl için
+Hayatı kolaylaştırmak için pek çok genel controller görevlerine erişmek için
 sınfınızı temel ``Controller`` sınıfı ile genişletebilirsiniz. Örneğin
-controllerınız içerisine HTML kodu yazmak istemiyorsanız ``render()`` 
+controller'ınız içerisine HTML kodu yazmak istemiyorsanız ``render()`` 
 metodunu kullanarak içeriği bir şablondan ekrana bastırabilirsiniz.
 
 Diğer bölümlerde controller'ın veri tabanından nasıl verileri aldığını, 
-kayıt ettiğini, form verilerini işlediğini, ön bellekleri (cache) işlediğini
+kayıt ettiğini, form verilerini işlediğini ve ön bellekleri (cache) işlediğini
 göreceksiniz.
 
 Tarif Kitabından Daha Fazlasını Öğrenin
