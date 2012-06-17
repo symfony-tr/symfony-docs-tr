@@ -19,9 +19,10 @@ en önemli özellikleri ile karmaşık formlar yapmayı öğreneceksiniz.
 
 Basit Bir Form Yaratmak
 -----------------------
-Varsayalımki ihtiyacımız doğrultusunda yapacağımız işleri gösteren
-basit bir yapılacaklar (todo) listesi uygulaması geliştireceksiniz. 
-Kullanıcılarınızın görevleri yaratacak ve düzenleyecek olmalarından ötürü
+
+Varsayalım ihtiyacımız doğrultusunda yapacağınız işleri gösteren
+basit bir yapılacaklar (todo) uygulaması geliştireceksiniz. 
+Kullanıcıların görevleri yaratacak ve düzenleyeceklerinden dolayı
 sizin bir form geliştirmeniz gerekecek. Başlamadan önce tek bir "görevi"
 temsil eden ve saklayan ``Task`` adındaki bir sınıfa odaklanalım:
 
@@ -65,10 +66,10 @@ temsil eden ve saklayan ``Task`` adındaki bir sınıfa odaklanalım:
 
         php app/console generate:bundle --namespace=Acme/TaskBundle
 
-Bu sınıf "düz-eski-PHP-nesnesi" olduğundan dolayı Symfony ile ya da 
+Bu sınıf "düz-basit-PHP-nesnesi" olduğundan dolayı Symfony ile ya da 
 diğer bir kütüphane ile hiç bir şey yapmayacaktır. Bu oldukça basit normal
-bir PHP nesnesi uygulamanız içerisindeki sorunu *direkt* olarak çözer
-(öen: bir görevi uygulamanızda temsil etmesi açısından). Elbette bu 
+bir PHP nesnesi, uygulamanız içerisindeki sorunu *direkt* olarak çözer
+(bir görevi uygulamanızda temsil etmesi açısından). Elbette bu 
 bölümün sonunda ``Task`` tipinde bir veriyi gönderecek, doğruluğunu
 kontrol edecek ve veritabanında saklayacaksınız.
 
@@ -79,7 +80,7 @@ Form Geliştirme
 ~~~~~~~~~~~~~~~
 
 Şimdi bir ``Task`` sınıfı yarattınız, diğer adım ise güncel bir HTML formu
-yaratmak ve ekrana basmak. Symfony2'de bu form objesini geliştirerek ve
+yaratmak ve ekrana basmak. Symfony2'de bu işlem, form objesini geliştirerek ve
 şablon içerisinde ekrana basarak olur. Şimdilik bunların tamamını
 controller içerisinden yapabiliriz::
 
@@ -96,7 +97,7 @@ controller içerisinden yapabiliriz::
         {
             // bir görev yarat ve bu örnek için bazı örnek veriler ver
             $task = new Task();
-            $task->setTask('Write a blog post');
+            $task->setTask('Bir Blog Girdisi Yaz');
             $task->setDueDate(new \DateTime('tomorrow'));
 
             $form = $this->createFormBuilder($task)
@@ -113,23 +114,22 @@ controller içerisinden yapabiliriz::
 .. tip::
 
    Bu örnek size formların direkt controller içerisinden nasıl yaratılacağını
-   gösterir. Sonra  ":ref:`book-form-creating-form-classes`" kısmında 
+   gösterir. Daha sonra ":ref:`book-form-creating-form-classes`" kısmında 
    form'ların kendi başına bir sınıf halinde nasıl geliştirilip yeniden 
    kullanılabilir hale getirebileceğinizi öğreneceksiniz.
    
-
-Bir formu yaratmak görece olarak Symfony2 form objesini yaratan
-bir "form yapıcı (builder)" ile olduğundan dolayı daha az kod yazılır.
+Bir formu yaratmak için yazılacak kod, görece olarak Symfony2 form objesini yaratan
+bir "form yapıcı (builder)" ile olduğundan dolayı daha az olarak yazılır.
 Form builder'lar basit form "reçeteleri" yazmak ve bir formu geliştirirken
-bütün ağır işleri kaldırmaktan sorumludur.
+bütün ağır işleri ortadan kaldırmaktan sorumludur.
 
-Bu örnekte formunuza ``task`` ve ``dueDate`` adında ``Task`` sınıfını
+Bu örnekte formunuza ``task`` ve ``dueDate`` adında ``Task`` sınıfının
 ``task`` ve ``dueDate`` değişkenleri ile ilişkili iki adet alan eklediniz.
 Ayrıca her birisine bu alanların ekrana basılması esnasında hangi HTML
 etiket(ler)'ini kullanılacağını belirlemek için bir tip atadınız
 (örn. ``text``, ``date``). 
 
-Symfony2 burada kısaca değileceğimiz pek çok ön tanımlı hazır tip ile
+Symfony2 burada kısaca değineceğimiz pek çok ön tanımlı hazır tip ile
 birlikte gelir (bkz :ref:`book-forms-type-reference`).  
 
 .. index::
@@ -138,8 +138,8 @@ birlikte gelir (bkz :ref:`book-forms-type-reference`).
 Formu ekrana basma (render)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Madem ki form yaratıldı, sonraki adım onu ekrana basmak. Bu şablonunuz
-içerisindeki özel bir form "gösterm" nesnesine aktarılarak 
+Form yaratıldığında, sonraki adım onu ekrana basmaktır. Bu şablonunuz
+içerisindeki özel bir form "gösterim" nesnesine aktarılarak 
 (yukarıdaki controller içerisindeki ``$form->createView()`` ifadesine
 dikkat edin) ve bir dizi form yardımcı fonksiyonu aracılığı ile yapılır:
 
@@ -174,14 +174,14 @@ dikkat edin) ve bir dizi form yardımcı fonksiyonu aracılığı ile yapılır:
    ``AcmeTaskBundle:Default:new` 'ı işaret eden bir controller 
    yarattığınızı var sayar.
 
-Bu kadar! ``form_widget(form)`` ile ekrana basarken her form alanı bir etiket
+Bu kadar! ``form_widget(form)`` ile formu ekrana basarken her form alanı bir etiket
 ve bir hata mesajı ile (Eğer hata oluşursa) yaratılacaktır. Çok kolay olmasına
-rağmen bu çok esnek değil (henuz). Genellikle eyer form alanını formu nasıl
+rağmen bu çok esnek değil (henuz). Eğer form alanını formu nasıl
 görünmesini istediğiniz şekilde ayrı ayrı olarak ekrana basmak istersiniz.
-Bunun nasul yapılacağını ":ref:`form-rendering-template`" kısmında
+Bunun nasıl yapılacağını ":ref:`form-rendering-template`" kısmında
 öğreneceksiniz.
 
-Devam etmeden önce ``$task`` (Örn "Write a blog post") 
+Devam etmeden önce ``$task`` (Örn "Bir Blog Postu Yaz") 
 nesnesinin ``task`` değişkenindeki değerin ``task`` metin kutusu halinde 
 ekrana nasıl basıldığına dikkat edin.
 Formun ilk işi nesneden veriyi almak ve onu HTML formu olarak basmak için
@@ -189,13 +189,13 @@ uygun bir formata çevirmektir.
 
 .. tip::
 
-   Form sistemi ``Task``  sınıfından protected özellikteki  ``task`` değişkeninden
+   Form sistemi, ``Task`` sınıfındaki protected özellikte olan ``task`` değişkeninden
    veriye ``getTask()`` ve ``setTask()`` metodları ile erişecek kadar zekidir.
    Sınıf değişkeni public özellikte olmadıkça bunların form bileşeninin
    veriyi alması ve vermesi için *mutlaka* "getter" ve "setter" fonksiyonlarının
    olması gerekir. Mantıksal(boolean) bir değişken için "getter" 
    (Örn. ``getPublished()``) metodu yerine "isser" (Örn. ``isPublished()``) 
-   metodunu kullanmanız gerekir.
+   tipteki metodlar kullanmanız gerekir.
    
 .. index::
   single: Forms; Form gönderisini işlemek
@@ -241,19 +241,18 @@ aktarmak için çevirir. Bunların hepsi ``bindRequest()`` metodu ile olur.
     ``bindRequest()`` çağırılır çağırılmaz veri hemen temel nesneye transfer edilir.
     Temel veri, gerçekte geçerli olsun ya da olmasın bu gerçekleşir.
 
-Bu controller formları işlerken genel olarak, olası üç yolla şu şablonu izler:
+Bu controller, formları işlerken genel olarak, üç yolla şu şablonu izler:
 
 #. Sayfa tarayıcıda yüklenmeye başladığında istek metodu ``GET`` tir ve form
-   basitçe yaratılır ve ekrana basılır
+   basitçe yaratılır ve ekrana basılır;
 
 #. Kullanıcı form verilerini hatalı veriler ile gönderdiğinde 
-   (örn. ``POST`` metodu ile) form verileri alır ve daha sonra ekrana basılır. 
-   Bu esnada tüm doğrulama hataları gösterilir;
+   (metod ``POST``) form verileri alır ve tüm doğrulama hataları ile ekrana basar;
 
 #. Kullanıcı form verilerini doğru veriler ile gönderdiğinde, form bunları alır
    ve bu verileri bazı işlemler yapma fırsatı sağlamak amacıyla (örn: veriyi 
    veritabanına yazmak gibi) ``$task`` nesnesine kullanıcı başka bir 
-   sayfaya yönlendirilmeden önce aktarılır(örn: "teşekkürler" ya da "başarılı" sayfası gibi).
+   sayfaya yönlendirilmeden önce aktarır(örn: "teşekkürler" ya da "başarılı" sayfası gibi).
 
 .. note::
 
@@ -264,19 +263,19 @@ Bu controller formları işlerken genel olarak, olası üç yolla şu şablonu i
    single: Forms; Veri Doğrulama
 
 Form Verisi Doğrulama
-----------------------
+---------------------
 
 Önceki kısımda form verilerinin nasıl geçerli ya da yanlış verilerle 
 gönderilebileceğiniz gördünüz. Symfony2'de veri doğrulama temel 
-nesneye uygulanır (Örn: ``Task`` nesnesi). Diğer bir ifade ile soru
+nesneye uygulanır (Örn: ``Task`` nesnesi). Diğer bir ifade ile sorun,
 "form"'un geçerli olup olmaması ya da ``$task`` nesnesinin 
 form verisi gönderildikten sonra nesne içerisindeki verinin kontrol 
 edilip edilmemesi değildir. ``$form->isValid()`` metodu çağırıldığında 
 ``$task`` nesnesine bunun geçerli bir veri olup olmadığı sorulur.
 
-Veri doğrdulama sınıfa eklenen bir dizi kuralla (kısıtlar) yapılır.
-Bunu uygulamada görmek için ``task`` form alanına boş olamayacağını ve 
-``dueDate`` form alanına boş olamayacağı ve geçerli bir \DateTime 
+Veri doğrulama, sınıfa eklenen bir dizi kuralla (kısıtlar) yapılır.
+Bunu uygulamada görmek için ``task`` ve ``dueDate`` form alanlarının
+boş olamayacağı ve ``dueDate`` alanının geçerli bir \DateTime 
 nesnesi türünde olmasını söyleyecek doğrulama kısıtını koyalım.
 
 .. configuration-block::
@@ -357,7 +356,7 @@ Bu kadar! Eğer formunuzu geçersiz veriler ile yeniden gönderirseniz form
    HTML5 ile birlikte pek çok tarayıcı belirli veri doğrulama kısıtlarını 
    istemci tarafında doğal olarak yapabilmektedir. En çok kullanılan 
    veri doğrulama türü gerekli form alanlarının ``required`` ifadesi
-   ile gösterilmesidir. HTML5 destekleye tarayıcılar için bunun sonucu 
+   ile gösterilmesidir. HTML5 destekleyen tarayıcılar için bunun sonucu 
    eğer kullanıcı formun bu alanını boş bıraktığında bir tarayıcı
    hatası gibi gözükecektir.
 
@@ -367,7 +366,6 @@ Bu kadar! Eğer formunuzu geçersiz veriler ile yeniden gönderirseniz form
    niteliği eklemek ya da submit etiketine ``formnovalidate`` özelliği
    eklemekle kapatılabilir.Bu özellikle sunucu tarafı veri doğrulama araçlarını
    test etmek istediğinizde oldukça kullanışlıdır.
-   
 
 Veri doğrulama Symfony2'nin oldukça güçlü bir özelliğidir ve kendi
 :doc:`ayrılmış bir bölüm içerisinde anlatılmaktadır</book/validation>`. 
@@ -425,7 +423,7 @@ bir alan tipi gurubu ile standart olarak gelir:
 
 Eğer isterseniz kendinize özel alan tipleri de yaratabilirsiniz. Bu konu
 tarif kitabının ":doc:`/cookbook/form/create_custom_field_type`" adlı 
-makalesinde işlenmiştir.
+girdisinde işlenmiştir.
 
 .. index::
    single: Forms; Alan tipi seçenekleri
@@ -485,7 +483,7 @@ içerisinde bulunabilir.
 .. _book-forms-field-guessing:
 
 Alan Tipi Tahmini
--------------------
+-----------------
 
 Şimdi ``Task`` sınıfına veri doğrulama bilgisi eklediniz ve Symfony
 artık bu alan için bir şeyler biliyor. Eğer kabul ederseniz,
@@ -503,8 +501,6 @@ tanımlanmış veri doğrulama kısıtlarından ne olduklarını tahmin ederek
             ->add('dueDate', null, array('widget' => 'single_text'))
             ->getForm();
     }
-
-
 
 ``add()`` metodunun ikinci argümanını atladığınız zaman (ya da 
 eğer ``null`` yaparsanız) "tahminleme" aktif olacaktır. Eğer üçüncü argüman
@@ -536,7 +532,6 @@ alan tipi seçeneğinin doğru değerlerini de tahmin edebilir.
     (Örn. ``Assert\MaxLength``). Sunucu tarafı veri doğrulamayı elden 
     düzenlemek zorunda olmanıza rağmen bu alan tipi seçenekleri bu bilgi
     kullanılarak tahmin edilebilecektir.
-    
 
 * ``required``: ``required`` seçeneği veri doğrulama kısıtlarından 
    ya da doctrine tanımlama verisi üzerinden tahmin edilebilir 
@@ -567,7 +562,7 @@ alan tanımlamalarındaki seçenekler array'ine değer bindirerek yapabilirsiniz
 Şablondan Bir Formu Ekrana Basmak
 ---------------------------------
 
-Şimdiye kadar tüm form'un nasul sadece bir satır kod ile ekrana  basılacağını
+Şimdiye kadar tüm form'un nasıl sadece bir satır kod ile ekrana  basılacağını
 gördünüz. Elbette genellikle ekrana basılma esnasında daha fazla esneklik 
 isteyeceksiniz:
 
@@ -606,17 +601,17 @@ isteyeceksiniz:
 Her kısmı tek tek inceleyelim:
 
 * ``form_enctype(form)`` - Eğer form içerisinde sadece bir alan bile dosya 
-  yükleme (upload) tipinde olsa bile bu alan zorunlu olarak 
+  yükleme (upload) tipinde olsa da bu alan zorunlu olarak 
   ``enctype="multipart/form-data"`` şeklinde ekrana basılır;
 
 * ``form_errors(form)`` - Formun tamamı için genel hata mesajlarını gösterir
-  (Alana özel hata mesajları alandan hemen sonra gösterilir;
+  (Alana özel hata mesajları alandan hemen sonra gösterilir);
 
 * ``form_row(form.dueDate)`` - belirli bir form nesnesi için varsayılan olarak ``div``
   elementi içerisinde, Etiketi , herhangi bir hata mesajı ve HTML kodu (Örn: ``dueDate``)
   ekrana basılır.
 
-* ``form_rest(form)`` - Formun ekrana basılmamış kalan tüm öğelerini ekrana basar.
+* ``form_rest(form)`` - Formun ekrana basılmamış, geri kalan tüm öğelerini ekrana basar.
   Bu helper (yardımcı) genellikle formun altında ekrana basılmayı unutulan 
   tüm öğeleri ekrana bastığı için oldukça kullanışlıdır ( bazı durumlarda 
   ekrana hidden (gizli) alanlarını kod içerisinde göstermek istemeyebilir ya da
@@ -648,9 +643,10 @@ nasıl özelleştirilebileceğini göreceksiniz.
 
 Her Alanı Elden Düzenlemek
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ``form_row`` formunuzdaki her alanı cok çabuk bir şekilde 
 ekrana basabildiğinden dolayı mükemmel bir yardımcıdır("row" için
-bu işaretleme aynı zamanda özelleştirilebilir de)
+bu işaretleme aynı zamanda özelleştirilebilir de).
 Fakat hayat bu kadar kolay olmadığından dolayı ayrıca her alanı
 elden de hazırlanamanız gerekebilir. Bu durum aşağıdaki ``form_row``
 helperi kullanılarak yapılan koda benzer:
@@ -752,7 +748,7 @@ değerini kullanmanız gerekir:
         <?php echo $form['task']->get('full_name') ?>
 
 Twig Şablon Fonksiyon Referansı
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Eğer Twig kullanıyorsanız tüm ekrana basma fonksiyonları hakkında bir 
 :doc:`referans belgesi </reference/forms/twig_reference>` bulunmaktadır.
@@ -765,7 +761,7 @@ kullandığı seçenekleri öğrenebilirsiniz.
 .. _book-form-creating-form-classes:
 
 Form Sınıfları Yaratmak
-------------------------
+-----------------------
 
 Şimdiye kadar gördüğünüz üzere bir form direkt olarak controller içerisinden
 yaratılabiliyordu. Ancak bu konudaki en iyi uygulama ayrı, kendi başına çalışan
@@ -817,7 +813,7 @@ Bu artık controller içerisinde form nesnesi yaratırken kolaylıkla kullanıla
     }
 
 Form mantığının (logic) kendi sınıfının içerisinde olması, projeninizin
-herhangibir yerinde bunu kolaylıkla yeniden kullanabileceğiniz anlamına
+herhangi bir yerinde bunu kolaylıkla yeniden kullanabileceğiniz anlamına
 gelir. Bu formları yaratmanın en kolay yoludur fakat seçim size kalmış.
 
 .. _book-forms-data-class:
@@ -891,7 +887,7 @@ Eğer bazı durumlarda orijinal ``$task`` nesnesine erişemiyorsanız bunu form
 
 Daha fazla bilgi için :doc:`Doctrine ORM kısmına</book/doctrine>` bakın.
 
-Anlaşılması gereken anahtar konu form bağlı olduğunda kullanıcı tarafından
+Bilinmesi gereken anahtar konu, form bağlı olduğunda kullanıcı tarafından
 girilen verinin ilgili nesneye derhal aktarıldığıdır. Eğer bu veriyi
 veri tabanına yazmak istiyorsanız basitçe bu nesnenin veritabanına
 yazılması kendi nesnesi üzerinden gereklidir(gönderilen veriyi 
@@ -1156,7 +1152,7 @@ Daha geniş bir bilgi için :doc:`/cookbook/form/form_customization` belgesine b
 .. _form-template-blocks:
 
 Form Parçalarının İsimlendirilmesi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Symfonyde ekrana basılan formun her parçası - HTML form öğeleri, hatalar, etiketler, vs..-
 Twig içinde blokların kolleksiyonundan oluşan temel bir tema içerisinde ve PHP'de de
@@ -1171,8 +1167,8 @@ PHP'de parçalar ayrı şablon dosyaları halindedir. Varsayılan olarak bu dosy
 framework bundle (`GitHub üzerinden görebilirsiniz`_) içerisindeki 
 `Resources/views/Form` klasörü içerisinde bulunurlar.
 
-Her parça ismi bir adlandırma şablonu içerisinde iki parça halinde alt tire (``_``)
-sembolü ile ayrılır. Bazı örnekler:
+Her parça ismi bir adlandırma şablonu içerisinde alt tire (``_``)sembolü
+ile ayrılmış şekilde iki parçadır. Bazı örnekler:
 
 * ``field_row`` -  ``form_row`` tarafından pek çok alanı ekrana basmak için kullanılır;
 * ``textarea_widget`` - ``form_widget`` tarafından ``textarea`` alanını ekrana basmak için kullanılır;
@@ -1242,7 +1238,7 @@ Twig
 ....
 
 Otomatik olarak *tüm* şablonlar yaratılmadan önce ``fields.html.twig`` den 
-türeyen bloku değiştirmek istiyorsanız uygulama konfigürasyon dosyanızı
+türeyen bloğu değiştirmek istiyorsanız uygulama konfigürasyon dosyanızı
 şu şekilde değiştirmeniz gerekir:
 
 .. configuration-block::
@@ -1366,7 +1362,7 @@ artık form çıktılarına genel olarak kullanılabilir.
 .. _forms-csrf:
 
 CSRF Koruması
----------------
+-------------
 
 CSRF - ya da `Cross-site request forgery`_ - zararlı kullanıcıların ,
 zararsız kullanıcılar gibi verilerini bu kullanıcıların haberi olmadan
@@ -1378,7 +1374,6 @@ olarak formlara gömer ve doğruluğunu kontrol eder. Bunun anlamı CSRF Korumas
 'nı hiç bir şey yapmadan otomatik olarak kullanabilirsimniz.  Aslında
 bu kısımdaki her form CSRF koruması tarafından korunmaktadır!
 
-
 CSRF koruması form içerisinde varsayılan olarak ``_token`` adıyla çağrılan
 sadece siz ve kullanıcının bildiği bir veriden oluşan bir gizli alanın 
 forma eklenmesi ile çalışır.
@@ -1388,7 +1383,6 @@ Symfony otomatik olarak bu biletin varlığını ve doğruluğunu kontrol eder.
 ``_token`` alanı eğer şablonunuz içerisinden ``form_rest()`` ile çağırırsanız
 forma otomatik olarak eklenecek ve çıktıda gösterilmeyen tüm verileri içeren
 gizli bir alandır (hidden field).
-
 
 CSRF bileti form dan forma  kuralı ile özelleştirilebilir. Örneğin::
 
@@ -1410,7 +1404,6 @@ CSRF bileti form dan forma  kuralı ile özelleştirilebilir. Örneğin::
         // ...
     }
 
-
 CSRF korumasını kapatmak için ``csrf_protection`` seçeneğini false
 yapmanız gereklidir. Özelleştirmeler ayıca projeniz içerisinden 
 genel olarak da yapılabilir. Bunun için 
@@ -1425,7 +1418,7 @@ kısmına bakın.
 .. index:
    single: Forms; Sınıf olmadan 
 
-Bir Formu Sınıf olmadan kullanmak
+Bir Formu Sınıf Olmadan Kullanmak
 ---------------------------------
 
 Çoğu durumda bir form bir objeye bağlanır ve alanlar bu nesnenin değişkenleri
@@ -1467,7 +1460,7 @@ ve bunu bir nesne içerisinde aktarmak için iki yolunuz bulunmaktadır:
 1. Form yaratılırken bir objeye aktarmak (``createFormBuilder`` 'ın ilk argümanı
    ya da ``createForm`` 'un ikinci argümanında tanımlandığı gibi) 
 
-2. form seçenekleri içerisindeki ``data_class`` özelliğinde bunu tanımlamak.
+2. Form seçenekleri içerisindeki ``data_class`` özelliğinde bunu tanımlamak.
 
 Eğer bunların hiç birisini istmiyorsanız bu durumda form değeri bir array
 olarak dönecektir. Bu örnekte ``$defaultData`` bir nesne olmamasından dolayı 
@@ -1542,12 +1535,10 @@ form verisi üzerinde çalıştırılacaktır. Eğer bir form nesnesi kullanıyo
         }
     }
 
-Şimdi formu -veri doğrulama ile- form verisinin nesne yerine
-bir array döndürülerek yaratma esnekliğine sahipsiniz.
-Çoğu durumda bu bir nesneye form verisini bindirme  yöntemi 
-en iyi -ve gerçekten sağlam- bir yöntemdir. 
+Şimdi formu -veri doğrulama ile- form verisinin nesne yerine bir array 
+döndürülerek yaratma esnekliğine sahipsiniz. Çoğu durumda bu bir nesneye
+form verisini bindirme yöntemi en iyi -ve gerçekten sağlam- bir yöntemdir.
 Fakat basit formlarda bu mükemmel bir yaklaşımdır.
-
 
 Son Sözler
 -----------
