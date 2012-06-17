@@ -25,9 +25,9 @@ Kurulum
 
 Bu bileşeni üç farklı şekilde kurabilirsiniz:
 
-* Resmi Git deposundan (https://github.com/symfony/ClassLoader)
-* PEAR ile ( `pear.symfony.com/ClassLoader`)
-* Composer ile (Packagist 'deki `symfony/class-loader`).
+* Resmi Git reposunu kullanarak (https://github.com/symfony/ClassLoader);
+* PEAR ile yükleme ( `pear.symfony.com/ClassLoader`);
+* Composer ile yükleme (Packagist 'deki `symfony/class-loader`).
 
 Kullanımı
 ---------

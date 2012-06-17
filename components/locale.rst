@@ -28,9 +28,9 @@ Kurulum
 
 Bu bileşeni üç farklı şekilde kurabilirsiniz:
 
-* Resmi Git deposundan (https://github.com/symfony/Locale);
-* PEAR ile ( `pear.symfony.com/Locale`);
-* Composer ile (Packagist 'deki`symfony/locale`).
+* Resmi Git reposunu kullanarak (https://github.com/symfony/Locale);
+* PEAR ile yükleme ( `pear.symfony.com/Locale`);
+* Composer ile yükleme (Packagist 'deki `symfony/locale`).
 
 Kullanımı
 ---------
