@@ -1,25 +1,24 @@
 .. index::
    single: Process
 
-The Process Component
+Process Bileşeni
 =====================
 
-    The Process Component executes commands in sub-processes.
+    Process komponenti komutları alt-işlemler içerisinde çalıştırır.
 
-Installation
-------------
+Kurulum
+-------
 
-You can install the component in many different ways:
+Bu bileşeni farklı yollar ile yükleyebilirsiniz:
 
-* Use the official Git repository (https://github.com/symfony/Process);
-* Install it via PEAR ( `pear.symfony.com/Process`);
-* Install it via Composer (`symfony/process` on Packagist).
+* Resmi Git reposunu kullanarak (https://github.com/symfony/Process);
+* PEAR ile yükleme ( `pear.symfony.com/Process`);
+* Composer ile yükleme (Packagist 'deki `symfony/process`).
 
-Usage
------
+Kullanım
+--------
 
-The :class:`Symfony\\Component\\Process\\Process` class allows you to execute
-a command in a sub-process::
+:class:`Symfony\\Component\\Process\\Process` sınıfı komutları alt-işlem içerisinde çalıştırmaya izin verir::
 
     use Symfony\Component\Process\Process;
 
@@ -32,14 +31,12 @@ a command in a sub-process::
 
     print $process->getOutput();
 
-The :method:`Symfony\\Component\\Process\\Process::run` method takes care
-of the subtle differences between the different platforms when executing the
-command.
+:method:`Symfony\\Component\\Process\\Process::run` metodu komutun farklı
+platformlarda calıştırılması sırasında ki küçük farklılıkları ortadan kaldırır.
 
-When executing a long running command (like rsync-ing files to a remote
-server), you can give feedback to the end user in real-time by passing an
-anonymous function to the
-:method:`Symfony\\Component\\Process\\Process::run` method::
+Uzun süreli bir komut çalıştırılırken (dosyaların rsync ile uzak sunucuya
+gönderilmesi gibi), :method:`Symfony\\Component\\Process\\Process::run` metoduna
+anonim bir fonksiyon geçirerek durumu son kullanıcıya gerçek zamanlı olarak iletebilirsiniz::
 
     use Symfony\Component\Process\Process;
 
@@ -52,8 +49,8 @@ anonymous function to the
         }
     });
 
-If you want to execute some PHP code in isolation, use the ``PhpProcess``
-instead::
+İzole bir şekilde PHP kodu çalıştırmak isterseniz, ``PhpProcess`` sınıfını
+kullanabilirsiniz::
 
     use Symfony\Component\Process\PhpProcess;
 
