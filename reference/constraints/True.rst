@@ -1,29 +1,27 @@
 True
 ====
 
-Validates that a value is ``true``. Specifically, this checks to see if
-the value is exactly ``true``, exactly the integer ``1``, or exactly the
-string "``1``".
+Bir değerin ``true`` olduğunu doğrular. Özellikle, değerin kesin olarak ``true``,
+kesin olarak ``1``, ya da kesin olarak dize "``1``" olup olmadığını kontrol eder.
 
-Also see :doc:`False <False>`.
+Ayrıca :doc:`False <False>` 'e bakınız.
 
 +----------------+---------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`               |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metot<validation-property-target>`      |
 +----------------+---------------------------------------------------------------------+
-| Options        | - `message`_                                                        |
+| Seçenekler     | - `message`_                                                        |
 +----------------+---------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\True`           |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\True`           |
 +----------------+---------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\TrueValidator`  |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\TrueValidator`  |
 +----------------+---------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
-This constraint can be applied to properties (e.g. a ``termsAccepted`` property
-on a registration model) or to a "getter" method. It's most powerful in the
-latter case, where you can assert that a method returns a true value. For
-example, suppose you have the following method:
+Bu kısıt sınıf değişkenlerine (örneğin bir kayıt modelinde ``termsAccepted`` sınıf değişkeni) 
+ya da bir "getter" metoduna uygulanabilir. Bir metodun true değeri döndürdüğünü ileri sürdüğünüz 
+sonraki durumlarda çok daha güçlüdür. Örnek olarak, farz edin ki aşağıdaki metodunuz var:
 
 .. code-block:: php
 
@@ -40,7 +38,7 @@ example, suppose you have the following method:
         }
     }
 
-Then you can constrain this method with ``True``.
+Öyleyse bu metodu ``True`` ile kısıtlayabilirsiniz:
 
 .. configuration-block::
 
@@ -111,14 +109,14 @@ Then you can constrain this method with ``True``.
             }
         }
 
-If the ``isTokenValid()`` returns false, the validation will fail.
+Eğer ``isTokenValid()`` false dönerse, onaylama hatalı olacaktır.
 
-Options
--------
+Seçenekler
+----------
 
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value should be true``
+**tip**: ``string`` **varsayılan**: ``This value should be true``
 
-This message is shown if the underlying data is not true.
+Eğer vurgulanan veri true değilse bu mesaj gösterilecektir.
