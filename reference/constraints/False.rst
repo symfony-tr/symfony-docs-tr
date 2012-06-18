@@ -1,29 +1,28 @@
 False
 =====
 
-Validates that a value is ``false``. Specifically, this checks to see if
-the value is exactly ``false``, exactly the integer ``0``, or exactly the
-string "``0``".
+Bir değerin ``false`` olduğunu doğrular. Özellikle, değerin kesin olarak ``false``,
+kesin olarak tamsayı ``0``, ya da kesin olarak dize "``0``" olup olmadığını kontrol eder.
 
-Also see :doc:`True <True>`.
+Ayrıca :doc:`True <True>` 'ya bakınız.
 
 +----------------+---------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`               |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metot<validation-property-target>`      |
 +----------------+---------------------------------------------------------------------+
-| Options        | - `message`_                                                        |
+| Seçenekler     | - `message`_                                                        |
 +----------------+---------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\False`          |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\False`          |
 +----------------+---------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\FalseValidator` |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\FalseValidator` |
 +----------------+---------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
-The ``False`` constraint can be applied to a property or a "getter" method,
-but is most commonly useful in the latter case. For example, suppose that
-you want to guarantee that some ``state`` property is *not* in a dynamic
-``invalidStates`` array. First, you'd create a "getter" method::
+``False`` kısıtı bir sınıf değişkenine veya bir "getter" metoduna uygulanabilir,
+ancak çoğunlukla sonraki durumlarda kullanışlıdır. Örneğin, farz edin ki bir ``state`` 
+sınıf değişkeninin dinamik olan ``invalidStates`` dizisinde *olmadığını* garanti 
+etmek istiyorunuz. Önce, bir "getter" metodu yaratırsınız:
 
     protected $state;
 
@@ -34,8 +33,8 @@ you want to guarantee that some ``state`` property is *not* in a dynamic
         return in_array($this->state, $this->invalidStates);
     }
 
-In this case, the underlying object is only valid if the ``isStateInvalid``
-method returns **false**:
+Bu durumda, vurgulanan nesne sadece eğer ``isStateInvalid`` metodu 
+**false** dönerse doğrulanacaktır:
 
 .. configuration-block::
 
@@ -66,15 +65,15 @@ method returns **false**:
 
 .. caution::
 
-    When using YAML, be sure to surround ``False`` with quotes (``"False"``)
-    or else YAML will convert this into a Boolean value.
+    YAML kullanıldığı zaman, ``False`` 'in etrafının tırnak işaretiyle (``"False"``) sarıldığından emin olun
+    aksi takdirde YAML bunu bir Boolean değere çevirecektir.
 
-Options
--------
+Seçenekler
+----------
 
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value should be false``
+**tip**: ``string`` **varsayılan**: ``This value should be false``
 
-This message is shown if the underlying data is not false.
+Vurgulanan veri false değilse bu mesaj gösterilecektir.
