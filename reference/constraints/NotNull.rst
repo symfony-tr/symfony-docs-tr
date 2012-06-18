@@ -1,25 +1,25 @@
 NotNull
 =======
 
-Validates that a value is not strictly equal to ``null``. To ensure that
-a value is simply not blank (not a blank string), see the  :doc:`/reference/constraints/NotBlank`
-constraint.
+Bir değerin kesin suretle ``null`` 'e eşit olmadığını doğrular. Bir değerin
+basitçe boş olmadığından emin olmak için (boş bir dize değil), :doc:`/reference/constraints/NotBlank` 
+kısıtına bakınız.
 
 +----------------+-----------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`                 |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metot<validation-property-target>`        |
 +----------------+-----------------------------------------------------------------------+
-| Options        | - `message`_                                                          |
+| Seçenekler     | - `message`_                                                          |
 +----------------+-----------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\NotNull`          |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\NotNull`          |
 +----------------+-----------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\NotNullValidator` |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\NotNullValidator` |
 +----------------+-----------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
-If you wanted to ensure that the ``firstName`` property of an ``Author`` class
-were not strictly equal to ``null``, you would:
+Bir ``Author`` sınıfının ``firstName`` sınıf değişkeninin kesin suretle boş olmadığından emin olmak istiyorsanız,
+şöyle yapabilirsiniz:
 
 .. configuration-block::
 
@@ -42,12 +42,12 @@ were not strictly equal to ``null``, you would:
             protected $firstName;
         }
 
-Options
--------
+Seçenekler
+----------
 
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value should not be null``
+**tip**: ``string`` **varsayılan**: ``This value should not be null``
 
-This is the message that will be shown if the value is ``null``.
+Eğer değer ``null`` ise gösterilecek mesaj bu olacaktır.

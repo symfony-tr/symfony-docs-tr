@@ -1,25 +1,27 @@
 Null
 ====
 
-Validates that a value is exactly equal to ``null``. To force that a property
-is simply blank (blank string or ``null``), see the  :doc:`/reference/constraints/Blank`
-constraint. To ensure that a property is not null, see :doc:`/reference/constraints/NotNull`.
+Bir değerin kesin olarak ``null`` 'e eşit olduğunu doğrular. Bir sınıf değişkeninin
+basitçe boş olması geçerliliği için (boş dize ya da ``null``), :doc:`/reference/constraints/Blank`
+kısıtına bakınız. Bir sınıf değişkeninin null olmadığından emin olmak için, :doc:`/reference/constraints/NotNull`
+'e bakınız.
 
 +----------------+-----------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`                 |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metot<validation-property-target>`        |
 +----------------+-----------------------------------------------------------------------+
-| Options        | - `message`_                                                          |
+| Seçenekler     | - `message`_                                                          |
 +----------------+-----------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\Null`             |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\Null`             |
 +----------------+-----------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\NullValidator`    |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\NullValidator`    |
 +----------------+-----------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
-If, for some reason, you wanted to ensure that the ``firstName`` property
-of an ``Author`` class exactly equal to ``null``, you could do the following:
+Eğer, bir nedenden ötürü, `Author`` sınıfının ``firstName`` sınıf değişkeninin
+kesin olarak ``null`` 'e eşit olduğundan emin olmak istiyorsanız, aşağıdakini
+yapabilirsiniz:
 
 .. configuration-block::
 
@@ -46,12 +48,12 @@ of an ``Author`` class exactly equal to ``null``, you could do the following:
             protected $firstName;
         }
 
-Options
--------
+Seçenekler
+----------
 
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value should be null``
+**tip**: ``string`` **varsayılan**: ``This value should be null``
 
-This is the message that will be shown if the value is not ``null``.
+Eğer değer ``null`` değilse gösterilecek mesaj bu olacaktır.
