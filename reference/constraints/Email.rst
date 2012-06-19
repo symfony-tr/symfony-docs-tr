@@ -1,22 +1,22 @@
 Email
 =====
 
-Validates that a value is a valid email address. The underlying value is
-cast to a string before being validated.
+Bir değerin geçerli bir eposta adresi olduğunu doğrular. Vurgulanan veri
+doğrulanmadan evvel bir dizeye dönüştürülür.
 
 +----------------+---------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`               |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metot<validation-property-target>`      |
 +----------------+---------------------------------------------------------------------+
-| Options        | - `message`_                                                        |
+| Seçenekler     | - `message`_                                                        |
 |                | - `checkMX`_                                                        |
 +----------------+---------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\Email`          |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\Email`          |
 +----------------+---------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\EmailValidator` |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\EmailValidator` |
 +----------------+---------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
 .. configuration-block::
 
@@ -65,22 +65,22 @@ Basic Usage
              protected $email;
         }
 
-Options
--------
+Seçenekler
+----------
 
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value is not a valid email address``
+**tip**: ``string`` **varsayılan**: ``This value is not a valid email address``
 
-This message is shown if the underlying data is not a valid email address.
+Vurgulanan veri geçerli bir eposta adresi değilse bu mesaj gösterilir.
 
 checkMX
 ~~~~~~~
 
-**type**: ``Boolean`` **default**: ``false``
+**tip**: ``Boolean`` **varsayılan**: ``false``
 
-If true, then the `checkdnsrr`_ PHP function will be used to check the validity
-of the MX record of the host of the given email.
+Eğer true ise, verilen eposta adresini barındıran Mx kaydının kontrolü için 
+`checkdnsrr`_ PHP fonksiyonu kullanılır.
 
 .. _`checkdnsrr`: http://www.php.net/manual/en/function.checkdnsrr.php

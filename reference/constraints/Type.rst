@@ -1,23 +1,22 @@
 Type
 ====
 
-Validates that a value is of a specific data type. For example, if a variable
-should be an array, you can use this constraint with the ``array`` type option
-to validate this.
+Bir verinin belirli bir tipte olduğunu doğrular. Örnek olarak, eğer bir değer bir dizi olmalıysa,
+siz bu kısıtı ``array`` tipi seçeneğiyle doğrulayabilirsiniz.
 
 +----------------+---------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`               |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metot<validation-property-target>`      |
 +----------------+---------------------------------------------------------------------+
-| Options        | - :ref:`type<reference-constraint-type-type>`                       |
+| Seçenekler     | - :ref:`type<reference-constraint-type-type>`                        |
 |                | - `message`_                                                        |
 +----------------+---------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\Type`           |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\Type`           |
 +----------------+---------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\TypeValidator`  |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\TypeValidator`  |
 +----------------+---------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
 .. configuration-block::
 
@@ -46,18 +45,18 @@ Basic Usage
             protected $age;
        }
 
-Options
--------
+Seçenekler
+----------
 
 .. _reference-constraint-type-type:
 
 type
 ~~~~
 
-**type**: ``string`` [:ref:`default option<validation-default-option>`]
+**tip**: ``string`` [:ref:`varsayılan seçenek<validation-default-option>`]
 
-This required option is the fully qualified class name or one of the PHP datatypes
-as determined by PHP's ``is_`` functions.
+Bu gerekli seçenek tam nitelikli sınıf adı ya da PHP'nin belirli ``ìs_`` fonksiyonlarından biri olan
+PHP veritiplerinden olabilir.
 
   * `array <http://php.net/is_array>`_
   * `bool <http://php.net/is_bool>`_
@@ -78,6 +77,6 @@ as determined by PHP's ``is_`` functions.
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value should be of type {{ type }}``
+**tip**: ``string`` **varsayılan**: ``This value should be of type {{ type }}``
 
-The message if the underlying data is not of the given type.
+Vurgulanan veri verilen tipten değilse gösterilecek mesaj.
