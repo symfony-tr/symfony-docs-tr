@@ -1,21 +1,21 @@
 Url
 ===
 
-Validates that a value is a valid URL string.
+Bir değerin geçerli bir URL dizesi olduğunu doğrular.
 
 +----------------+---------------------------------------------------------------------+
-| Applies to     | :ref:`property or method<validation-property-target>`               |
+| Uygulama yeri  | :ref:`sınıf değişkeni ya da metot<validation-property-target>`      |
 +----------------+---------------------------------------------------------------------+
-| Options        | - `message`_                                                        |
+| Seçenekler     | - `message`_                                                        |
 |                | - `protocols`_                                                      |
 +----------------+---------------------------------------------------------------------+
-| Class          | :class:`Symfony\\Component\\Validator\\Constraints\\Url`            |
+| Sınıf          | :class:`Symfony\\Component\\Validator\\Constraints\\Url`            |
 +----------------+---------------------------------------------------------------------+
-| Validator      | :class:`Symfony\\Component\\Validator\\Constraints\\UrlValidator`   |
+| Doğrulayıcı    | :class:`Symfony\\Component\\Validator\\Constraints\\UrlValidator`   |
 +----------------+---------------------------------------------------------------------+
 
-Basic Usage
------------
+Temel Kullanım
+--------------
 
 .. configuration-block::
 
@@ -42,21 +42,21 @@ Basic Usage
             protected $bioUrl;
        }
 
-Options
--------
+Seçenekler
+----------
 
 message
 ~~~~~~~
 
-**type**: ``string`` **default**: ``This value is not a valid URL``
+**tip**: ``string`` **varsayılan**: ``This value is not a valid URL``
 
-This message is shown if the URL is invalid.
+URL geçersizse bu mesaj gösterilecektir.
 
 protocols
 ~~~~~~~~~
 
-**type**: ``array`` **default**: ``array('http', 'https')``
+**tip**: ``array`` **varsayılan**: ``array('http', 'https')``
 
-The protocols that will be considered to be valid. For example, if you also
-needed ``ftp://`` type URLs to be valid, you'd redefine the ``protocols``
-array, listing ``http``, ``https``, and also ``ftp``.
+Geçerli olarak nitelendirilir protokollerdir. Örneğin, eğer ayrıca
+``ftp://`` tipinde URL lerin geçerliliğine ihtiyacınız varsa, ``protocols``
+dizisini ``http``, ``https``, ve ayrıca ``ftp`` ile listeleyerek yeniden tanımlarsınız.
