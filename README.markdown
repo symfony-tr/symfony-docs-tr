@@ -1,7 +1,7 @@
 Symfony Belgesi
 =====================
 
-Bu belge internet ortamında http://symfony.com/doc/current/  adresinde
+Bu belge internet ortamında http://symfony-tr.com/  adresinde
 yayınlanmaktadır
 
 Desteklemek
