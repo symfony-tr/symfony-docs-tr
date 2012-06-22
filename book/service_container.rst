@@ -1,6 +1,6 @@
 .. index::
-   single: Servis Kutusu (Container)
-   single: Dependency Injection Kutusu (Container)
+   single: Servis Kutusu
+   single: Dependency Injection; Container
 
 Servis Kutusu (Container)
 =================
@@ -71,7 +71,7 @@ birisidir. Bu şekilde yaklaşımlar herhangi bir dil üzerinde iyi bir gelişti
 olmanın anahtarıdır.
 
 .. index::
-   single: Servis Kutusu (Container); Nedir ?
+   single: Servis Kutusu; Servis Kutusu Nedir?
 
 Servis Kutusu (Container) Nedir ?
 ---------------------------------
@@ -346,7 +346,7 @@ Sonraki kısımda 3.parti bundlelardan servis konfigürasyonlarını aktarmak ko
 daha esnek ve tercih edilen ikinci yöntemi inceleyeceğiz.
 
 .. index::
-   single: Servis Container; İçeri aktatmak(imports)
+   single: Servis Container; İçeri aktarmak (Imports)
 
 .. _service-container-imports-directive:
 

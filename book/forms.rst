@@ -855,6 +855,10 @@ gelir. Bu formları yaratmanın en kolay yoludur fakat seçim size kalmış.
     Ayrıca eğer form içerisine kullanıcı tarafından aktarılmayan 
     her veri gönderme esnasında ``null`` olarak kabul edilir.
 
+    The field data can be accessed in a controller with::
+
+        $form->get('dueDate')->getData();
+
 .. index::
    pair: Forms; Doctrine
 
@@ -1305,6 +1309,12 @@ olarak tüm form'ların ekrana basılması esnasında tanımlanmıştır.
     göre  form bloglarını direkt şablon içerisinden özelleştirecektir. 
     Bu metodu kullanarak tek bir şablon içerisinde form çıktısı özelleştirmelerini
     kolaylıkla yapabileceksiniz.
+
+    .. caution::
+    
+        This ``{% form_theme form _self %}`` functionality will *only* work
+        if your template extends another. If your template does not, you
+        must point ``form_theme`` to a separate template.
 
 PHP
 ...

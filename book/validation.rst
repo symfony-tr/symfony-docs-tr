@@ -275,7 +275,7 @@ bu belirteçleri çalışır hale getirmelisiniz:
 
         <!-- app/config/config.xml -->
         <framework:config>
-            <framework:validation enable_annotations="true" />
+            <framework:validation enable-annotations="true" />
         </framework:config>
 
     .. code-block:: php

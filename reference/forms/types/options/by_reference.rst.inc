@@ -33,7 +33,7 @@ erişebilirsiniz::
 ``setAuthor`` 'un çağırılabilir olmadığına dikkat edin. Author referans tarafından
 değiştirilir.
 
-Eğer biz ``by_reference`` değerini false yaparsak bağlama şu şekilde olacaktır:
+Eğer biz ``by_reference`` değerini false yaparsak bağlama şu şekilde olacaktır::
 
     $article->setTitle('...');
     $author = $article->getAuthor();

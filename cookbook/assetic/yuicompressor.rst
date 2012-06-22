@@ -27,6 +27,7 @@ stylesheets:
 
         # app/config/config.yml
         assetic:
+            # java: "/usr/bin/java"
             filters:
                 yui_css:
                     jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
@@ -49,6 +50,7 @@ stylesheets:
 
         // app/config/config.php
         $container->loadFromExtension('assetic', array(
+            // 'java' => '/usr/bin/java',
             'filters' => array(
                 'yui_css' => array(
                     'jar' => '%kernel.root_dir%/Resources/java/yuicompressor.jar',
@@ -58,6 +60,11 @@ stylesheets:
                 ),
             ),
         ));
+        
+.. note::
+
+    Windows users need to remember to update config to proper java location. 
+    In Windows7 x64 bit by default it's ``C:\Program Files (x86)\Java\jre6\bin\java.exe``.
 
 You now have access to two new Assetic filters in your application:
 ``yui_css`` and ``yui_js``. These will use the YUI Compressor to minify
@@ -118,7 +125,7 @@ Disable Minification in Debug Mode
 
 Minified JavaScripts and Stylesheets are very difficult to read, let alone
 debug. Because of this, Assetic lets you disable a certain filter when your
-application is in debug mode. You can do this be prefixing the filter name
+application is in debug mode. You can do this by prefixing the filter name
 in your template with a question mark: ``?``. This tells Assetic to only
 apply this filter when debug mode is off.
 

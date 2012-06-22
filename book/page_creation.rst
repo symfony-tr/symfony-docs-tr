@@ -715,6 +715,10 @@ kuralı uygular. ``AcmeHelloBundle`` 'a bakarak bundle içerisindeki en temel
 
 * ``Controller/`` bundle'ın controlerlarını içerir (Örn. ``HelloController.php``);
 
+* ``DependencyInjection/`` holds certain dependency injection extension classes,
+  which may import service configuration, register compiler passes or more
+  (this directory is not necessary);
+
 * ``Resources/config/`` yönlendirme konfigürasyonu gibi konfigürasonları içerir. 
   (Örn. ``routing.yml``);
 

@@ -1,8 +1,11 @@
-Symfony2 Kararlı API
-=======================
+.. index::
+   single: Stable API
 
-Symfony2 Kararlı API  tüm Symfony2 nin yayınlanan genel metodlarının
-(bileşenler ce çekirdek bundle'lar) aşağıdaki özelliklerine göre yayınlanmış
+Symfony2 Kararlı API
+=====================
+
+Symfony2 Kararlı API tüm Symfony2 nin yayınlanan genel metodlarının
+(bileşenler ve çekirdek bundle'lar) aşağıdaki özelliklerine göre yayınlanmış
 halidir:
 
 * namespace ve sınıf isimleri değişmeyecekler;
