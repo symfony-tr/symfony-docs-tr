@@ -46,7 +46,7 @@ Kullanımı
     $loader->register();
 
 Küçük bir performans artışı için yollar (path) APC tarafından 
-:class:`Symfony\\Component\\ClassLoader\\ApcUniversalClassLoader`::  sınıfı ile
+:class:`Symfony\\Component\\ClassLoader\\ApcUniversalClassLoader` sınıfı ile
 cache'lenebilir::
 
     require_once '/path/to/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
