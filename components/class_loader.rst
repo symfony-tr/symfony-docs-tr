@@ -1,4 +1,4 @@
-.. index::
+e.. index::
    pair: Autoloader; Konfigürasyon
 
 ClassLoader Bileşeni
@@ -33,7 +33,7 @@ Kullanımı
 ---------
 
 :class:`Symfony\\Component\\ClassLoader\\UniversalClassLoader` autloader'ini
-çok basit bir şekilde yükleyebilirsiniz:
+çok basit bir şekilde yükleyebilirsiniz::
 
     require_once '/path/to/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
