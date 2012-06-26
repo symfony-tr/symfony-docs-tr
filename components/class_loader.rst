@@ -1,4 +1,4 @@
-e.. index::
+.. index::
    pair: Autoloader; Konfigürasyon
 
 ClassLoader Bileşeni
