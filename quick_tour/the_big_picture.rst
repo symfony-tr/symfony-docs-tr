@@ -73,7 +73,7 @@ ile birlikte gelir. Makinanızı şu URL üzerinden test edebilirsiniz:
     http://localhost/Symfony/web/config.php
 
 Eğer hatalı olarak listelenen bir kısım varsa onları düzeltin.Ayrıca ayarlarınızı
-size verilen bazı ip uçları ile daha kullanışlı hale getirebilirsiniz.Herşey
+size verilen bazı ip uçları ile daha kullanışlı hale getirebilirsiniz. Her şey
 yolunda olduğu zaman "*Bypass configuration and go to the Welcome page*" linkine
 tıklayarak ilk *gerçek* Symfony2 web sayfasına gidebilirsiniz :
 
@@ -97,7 +97,7 @@ ancak bazı temel kavramları öğrenmeniz gereklidir:
 
 .. tip::
 
-    Bir framework'un kullanılmasının herşeyin aynı betik üzerinde karmaşık
+    Bir framework'un kullanılmasının her şeyin aynı betik üzerinde karmaşık
     bir şekilde kullanılmasından daha iyi olduğunun kanıtını görmek istiyorsanız,
     kitabın     ":doc:`/book/from_flat_php_to_symfony2`" bölümünü okuyun.
 
@@ -161,7 +161,7 @@ Sonraki bölümde bunun ne manaya geldiğini daha ayrıntılı olarak göreceksi
     fakat Symfony2 aynı zamanda XML, PHP ve doğal alıntılarıda kullanabilir. 
     Bu farklı formatlar uygulamada bir birlerinin yerine kullanılabilir. 
     Fakat bu farklı formatların kullanılması uygulamanızın performansına bir
-    etki etmez. Çünki herşey daha ilk istekte ön belleğe zaten alınmaktadır.
+    etki etmez. Çünki her şey daha ilk istekte ön belleğe zaten alınmaktadır.
 
 Controller'lar
 ~~~~~~~~~~~~~~
@@ -243,7 +243,7 @@ oluşturabilir iken aynı zamanda bir yeniden yönlendirme (redirect) işleminid
    ``Controller`` ana sınıgını genişletme işi tercihandır. Aslında bir controller,
    basit bir PHP fonksiyonuda olabilir bir PHP kapatma fonksiyonuda olabilir (closure).
    ":doc:`The Controller</book/controller>`" bölümü Symfony2 Controller'ları hakkındaki
-   herşeyi anlatmaktadır.
+   her şeyi anlatmaktadır.
 
 ``AcmeDemoBundle:Welcome:index.html.twig`` isimli şablon adı 
 ``AcmeDemoBundle`` (``src/Acme/DemoBundle`` da bulunan)
