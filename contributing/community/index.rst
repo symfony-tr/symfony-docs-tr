@@ -5,4 +5,4 @@ Topluluk
     :maxdepth: 2
 
     irc
-    diğer
+    other
