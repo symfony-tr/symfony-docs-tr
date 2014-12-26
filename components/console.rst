@@ -1,30 +1,28 @@
 .. index::
     single: Console; CLI
 
-The Console Component
+Console Bileşeni
 =====================
 
-    The Console component eases the creation of beautiful and testable command
-    line interfaces.
+    Console bileşeni güzel ve test edilebilir komut satırı arayüzü oluşturmayı kolaylaştırır.
 
-The Console component allows you to create command-line commands. Your console
-commands can be used for any recurring task, such as cronjobs, imports, or
-other batch jobs.
+Console bileşeni komut satırı komutları oluşturmanıza izin verir. Konsol komutlarınız yinelenen 
+görevler için kullanılabilir, örnek olarak cronjobs, imports veya diğer batch işlemleri.
 
-Installation
+Kurulum
 ------------
 
-You can install the component in many different ways:
+Bileşen bir çok farklı yolla yüklenebilir:
 
-* Use the official Git repository (https://github.com/symfony/Console);
-* Install it via PEAR ( `pear.symfony.com/Console`);
-* Install it via Composer (`symfony/console` on Packagist).
+* Resmi Git reposunu kullanarak (https://github.com/symfony/Console);
+* PEAR ile yükleme ( `pear.symfony.com/Console`);
+* Composer ile yükleme Composer (Packagist 'deki `symfony/console`).
 
-Creating a basic Command
+Kullanım
 ------------------------
 
-To make a console command to greet us from the command line, create ``GreetCommand.php``
-and add the following to it::
+Bize komut satırından selam veren konsol komutu yazmak için, ``GreetCommand.php``
+dosyası oluşturun ve aşağıdakileri ekleyin ::
 
     namespace Acme\DemoBundle\Command;
 
@@ -41,7 +39,7 @@ and add the following to it::
             $this
                 ->setName('demo:greet')
                 ->setDescription('Greet someone')
-                ->addArgument('name', InputArgument::OPTIONAL, 'Who do you want to greet?')
+                ->addArgument('name', InputArgument::OPTIONAL, 'Kimi selamlamak istersin?')
                 ->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters')
             ;
         }
@@ -50,9 +48,9 @@ and add the following to it::
         {
             $name = $input->getArgument('name');
             if ($name) {
-                $text = 'Hello '.$name;
+                $text = 'Merhaba '.$name;
             } else {
-                $text = 'Hello';
+                $text = 'Merhaba';
             }
 
             if ($input->getOption('yell')) {
@@ -63,8 +61,9 @@ and add the following to it::
         }
     }
 
-You also need to create the file to run at the command line which creates
-an ``Application`` and adds commands to it::
+Ayrıca komut satırında komut çalıştırabilen bir ``Application`` oluşturmak için dosyayı 
+oluşturmaya ihtiyacınız var. Komutlar bu dosyaya eklenir::
+
 
     #!/usr/bin/env php
     # app/console
@@ -77,66 +76,66 @@ an ``Application`` and adds commands to it::
     $application->add(new GreetCommand);
     $application->run();
 
-Test the new console command by running the following
+Aşağıdaki komutu çalıştırarak yeni konsol komutunuzu test edebilirsiniz
 
 .. code-block:: bash
 
     app/console demo:greet Fabien
 
-This will print the following to the command line:
+Takip eden yazı komut satırında yazacaktır:
 
 .. code-block:: text
 
-    Hello Fabien
+    Merhaba Fabien
 
-You can also use the ``--yell`` option to make everything uppercase:
+``--yell`` opsiyonu ile herşeyi büyük harflerle yazdırabilirsiniz:
 
 .. code-block:: bash
 
     app/console demo:greet Fabien --yell
 
-This prints::
+Çıktı::
 
-    HELLO FABIEN
+    MERHABA FABIEN
 
-Coloring the Output
+Çıktıyı Renklendirme
 ~~~~~~~~~~~~~~~~~~~
 
-Whenever you output text, you can surround the text with tags to color its
-output. For example::
+İstediğiniz zaman çıktı yazısını renklendirmek için etiketleri 
+kullanabilirsin. Örneğin::
 
-    // green text
+
+    // yeşil çıktı
     $output->writeln('<info>foo</info>');
 
-    // yellow text
+    // sarı çıktı
     $output->writeln('<comment>foo</comment>');
 
-    // black text on a cyan background
+    // mavi arkaplanda siyah yazı
     $output->writeln('<question>foo</question>');
 
-    // white text on a red background
+    // kırmızı arkaplanda beyaz yazı
     $output->writeln('<error>foo</error>');
 
-It is possible to define your own styles using the class
+Class 'ları kullanarak kendi stilinizi tanımlamanız mümkün
 :class:`Symfony\\Component\\Console\\Formatter\\OutputFormatterStyle`::
 
     $style = new OutputFormatterStyle('red', 'yellow', array('bold', 'blink'));
     $output->getFormatter()->setStyle('fire', $style);
     $output->writeln('<fire>foo</fire>');
 
-Available foreground and background colors are: ``black``, ``red``, ``green``,
-``yellow``, ``blue``, ``magenta``, ``cyan`` and ``white``.
+Mevcut ön ve arkaplan renkleri: ``black``, ``red``, ``green``,
+``yellow``, ``blue``, ``magenta``, ``cyan`` ve ``white``.
 
-And available options are: ``bold``, ``underscore``, ``blink``, ``reverse`` and ``conceal``.
+Ve mevcut seçenekler: ``bold``, ``underscore``, ``blink``, ``reverse`` ve ``conceal``.
 
-Using Command Arguments
+Komut Argümanları Kullanımı
 -----------------------
 
-The most interesting part of the commands are the arguments and options that
-you can make available. Arguments are the strings - separated by spaces - that
-come after the command name itself. They are ordered, and can be optional
-or required. For example, add an optional ``last_name`` argument to the command
-and make the ``name`` argument required::
+Komutların en ilgi çekici parçası kullanabileceğiniz argüman ve seçeneklerdir.
+Argümanlar komutun kendisinden sonra gelen yazılardır - boşluklarla ayrılır -.
+Sıralıdırlar ve isteğe bağlı veya gerekli olabilir. Örnek olarak, komutumuza isteğe bağlı 
+``last_name`` argümanı ve gerekli ``name`` argümanı ekleyelim::
 
     $this
         // ...
@@ -144,43 +143,43 @@ and make the ``name`` argument required::
         ->addArgument('last_name', InputArgument::OPTIONAL, 'Your last name?')
         // ...
 
-You now have access to a ``last_name`` argument in your command::
+Şimdi ``last_name`` argümanına komutunuzda erişebileceksiniz::
 
     if ($lastName = $input->getArgument('last_name')) {
         $text .= ' '.$lastName;
     }
 
-The command can now be used in either of the following ways:
+Şimdi komut takip eden iki yöntemlede kullanılabilir:
 
 .. code-block:: bash
 
     app/console demo:greet Fabien
     app/console demo:greet Fabien Potencier
 
-Using Command Options
+Komut Seçeneklerini Kullanma
 ---------------------
 
-Unlike arguments, options are not ordered (meaning you can specify them in any
-order) and are specified with two dashes (e.g. ``--yell`` - you can also
-declare a one-letter shortcut that you can call with a single dash like
-``-y``). Options are *always* optional, and can be setup to accept a value
-(e.g. ``dir=src``) or simply as a boolean flag without a value (e.g.
-``yell``).
+Argümanların aksine, seçenekler sıralı değildir (yani istediğiniz sıraya 
+göre tanımlayabilirsiniz) ve çift çizgi ile tanımlanabilir (Örn. ``--yell`` - 
+ayrıca tek çizgi ile de kısayolunu oluşturabilirsiniz Örn. ``-y``).
+Seçenekler *herzaman* isteğe bağlıdır, ve belirli bir değer almak için 
+ayarlanabilir(Örn. ``dir=src``) veya basitçe boolen işareti ile değer kullanmadan
+(Örn. ``yell``).
 
 .. tip::
+    
+    Bir seçeneği *isteğe bağlı* bir değer alması mümkündür (buna göre 
+    ``--yell`` veya ``yell=loud`` ikiside çalışır). Seçenekler bir 
+    diziyi kabul edecek şekilde de düzenlenebilir.
 
-    It is also possible to make an option *optionally* accept a value (so that
-    ``--yell`` or ``yell=loud`` work). Options can also be configured to
-    accept an array of values.
-
-For example, add a new option to the command that can be used to specify
-how many times in a row the message should be printed::
+Örnek olarak, komutumuza mesajı kaç defa yazdırılacağını tanımlayan 
+yeni bir seçenek ekleyelim::
 
     $this
         // ...
-        ->addOption('iterations', null, InputOption::VALUE_REQUIRED, 'How many times should the message be printed?', 1)
+        ->addOption('iterations', null, InputOption::VALUE_REQUIRED, 'Mesaj kaç defa yazılacak?', 1)
 
-Next, use this in the command to print the message multiple times:
+Sonra, mesajı birden fazla yazdırmak için bunu kullanın:
 
 .. code-block:: php
 
@@ -188,7 +187,7 @@ Next, use this in the command to print the message multiple times:
         $output->writeln($text);
     }
 
-Now, when you run the task, you can optionally specify a ``--iterations``
+Şimdi, görevi çalıştırdığınız zaman, isteğe bağlı ``--iterations`` seçeneğini tanımlayabilirsiniz
 flag:
 
 .. code-block:: bash
@@ -197,30 +196,30 @@ flag:
 
     app/console demo:greet Fabien --iterations=5
 
-The first example will only print once, since ``iterations`` is empty and
-defaults to ``1`` (the last argument of ``addOption``). The second example
-will print five times.
+İlk örnek sadece bir defa yazdıracaktır, ``iterations`` tanımlanmadığı ve 
+varsayılan olarak ``1`` ayarlandığı için (``addOption`` ın son argümanı).
+İkinci örnek beş defa yazacaktır.
 
-Recall that options don't care about their order. So, either of the following
-will work:
+Seçeneklerin sıralamasını önemsemeden geri çağırın. Sonuç olarak, iki türlü 
+de komutlar çalışacaktır:
 
 .. code-block:: bash
 
     app/console demo:greet Fabien --iterations=5 --yell
     app/console demo:greet Fabien --yell --iterations=5
 
-There are 4 option variants you can use:
+Kullanabileceğiniz 4 seçenek varyasyonu mevcut:
 
 ===========================  =====================================================================================
-Option                       Value
+Seçenek                      Değer
 ===========================  =====================================================================================
-InputOption::VALUE_IS_ARRAY  This option accepts multiple values (e.g. ``--dir=/foo --dir=/bar``)
-InputOption::VALUE_NONE      Do not accept input for this option (e.g. ``--yell``)
-InputOption::VALUE_REQUIRED  This value is required (e.g. ``--iterations=5``), the option itself is still optional
-InputOption::VALUE_OPTIONAL  This option may or may not have a value (e.g. ``yell`` or ``yell=loud``)
+InputOption::VALUE_IS_ARRAY  Bu seçenek çoklu değeri kabul eder. (Örn. ``--dir=/foo --dir=/bar``)
+InputOption::VALUE_NONE      Girdiyi bu seçenek için kabul etme (Örn. ``--yell``)
+InputOption::VALUE_REQUIRED  Bu değer gerekli (Örn. ``--iterations=5``), seçeneğin kendisi halen isteği bağlı
+InputOption::VALUE_OPTIONAL  BUu seçeneğin bir değeri olabilir veya olmayabilir (Örn. ``yell`` or ``yell=loud``)
 ===========================  =====================================================================================
 
-You can combine VALUE_IS_ARRAY with VALUE_REQUIRED or VALUE_OPTIONAL like this:
+Ayrıca VALUE_IS_ARRAY ile VALUE_REQUIRED veya VALUE_OPTIONAL gibi kombine edebilirsiniz:
 
 .. code-block:: php
 
@@ -228,37 +227,35 @@ You can combine VALUE_IS_ARRAY with VALUE_REQUIRED or VALUE_OPTIONAL like this:
         // ...
         ->addOption('iterations', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'How many times should the message be printed?', 1)
 
-Asking the User for Information
--------------------------------
 
-When creating commands, you have the ability to collect more information
-from the user by asking him/her questions. For example, suppose you want
-to confirm an action before actually executing it. Add the following to your
-command::
+Kullanıcıdan Bilgi İsteme
+-------------------------------
+Komut oluştururken, kullanıcıya sorular sorarak daha fazla bilgi toplanabilir.
+Örneğin, komutu çalıştırırken gerçekten emin olduğunu onaylamasını önerebilirsiniz.
+Takip eden satırları komutunuza ekleyin::
 
     $dialog = $this->getHelperSet()->get('dialog');
-    if (!$dialog->askConfirmation($output, '<question>Continue with this action?</question>', false)) {
+    if (!$dialog->askConfirmation($output, '<question>Bu işleme devam edilsin mi?</question>', false)) {
         return;
     }
 
-In this case, the user will be asked "Continue with this action", and unless
-they answer with ``y``, the task will stop running. The third argument to
-``askConfirmation`` is the default value to return if the user doesn't enter
-any input.
+Bu durumda, kullanıcıya "Bu işleme devam edilsin mi?" sorusu sorulacak, ve 
+``y`` olarak cevap verimezse, işlem sonlandırılacak. Üçüncü argüman 
+``askConfirmation`` için varsayılan cevap yani eğer kullanıcı hiçbir girdi 
+yapmazsa ``false`` dönecek.
 
-You can also ask questions with more than a simple yes/no answer. For example,
-if you needed to know the name of something, you might do the following::
+Ayrıca basit yes/no sorusundan daha kapsamlı bir soru da sorabilirsiniz.Örneğin 
+eğer ki birşeyin ismini öğrenmek istiyorsanız, takip edeni yapabilirsiniz::
 
     $dialog = $this->getHelperSet()->get('dialog');
     $name = $dialog->ask($output, 'Please enter the name of the widget', 'foo');
 
-Testing Commands
+Test Komutları
 ----------------
 
-Symfony2 provides several tools to help you test your commands. The most
-useful one is the :class:`Symfony\\Component\\Console\\Tester\\CommandTester`
-class. It uses special input and output classes to ease testing without a real
-console::
+Symfony2 komutunuzu test etmeniz için birkaç araç sağlar. En yararlı olanı 
+:class:`Symfony\\Component\\Console\\Tester\\CommandTester` class 'ı. Bu 
+gerçek konsol yerine özel girdi ve çıktı class ları kullanarak test eder:: 
 
     use Symfony\Component\Console\Application;
     use Symfony\Component\Console\Tester\CommandTester;
@@ -280,12 +277,12 @@ console::
         }
     }
 
-The :method:`Symfony\\Component\\Console\\Tester\\CommandTester::getDisplay`
-method returns what would have been displayed during a normal call from the
-console.
+Konsoldan normal bir çağrılma süresince ne gösterileceğini 
+:method:`Symfony\\Component\\Console\\Tester\\CommandTester::getDisplay` class ı döner.
 
-You can test sending arguments and options to the command by passing them
-as an array to the :method:`Symfony\\Component\\Console\\Tester\\CommandTester::getDisplay`
+Bir dizi halinde argüman ve seçenek göndererek komutunuzu test edebilirsiniz. 
+:method:`Symfony\\Component\\Console\\Tester\\CommandTester::getDisplay`
+
 method::
 
     use Symfony\Component\Console\Tester\CommandTester;
@@ -313,21 +310,20 @@ method::
     }
 
 .. tip::
+    
+    Ayrıca tüm konsol uygulamanızı :class:`Symfony\\Component\\Console\\Tester\\ApplicationTester` 
+    sınıfını kullanarak test edebilirsiniz.
 
-    You can also test a whole console application by using
-    :class:`Symfony\\Component\\Console\\Tester\\ApplicationTester`.
-
-Calling an existing Command
+Varolan Komutu Çağırmak
 ---------------------------
 
-If a command depends on another one being run before it, instead of asking the
-user to remember the order of execution, you can call it directly yourself.
-This is also useful if you want to create a "meta" command that just runs a
-bunch of other commands (for instance, all commands that need to be run when
-the project's code has changed on the production servers: clearing the cache,
-generating Doctrine2 proxies, dumping Assetic assets, ...).
+Eğer ki bir komut öncesinde çalışan bir komuta dayanıyorsa, kullanıcıya çalıştırma
+sırasını hatırlatmak yerine, direk olarak kendi kendine çağırabilirsin. Eğer ki bir 
+grup komut ile oluşan "meta" komutları (Örnek olarak proje kodları değiştiği zaman 
+çalıştırılması gereken komutlar: cache i temizleme, Doctrine2 proxies üretimi,dumping  
+Assetic assets, ...) için kullanımı oldukça yararlıdır.
 
-Calling a command from another one is straightforward::
+Komutu başka basit bir komut ile çağırma::
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -345,23 +341,20 @@ Calling a command from another one is straightforward::
         // ...
     }
 
-First, you :method:`Symfony\\Component\\Console\\Application::find` the
-command you want to execute by passing the command name.
+İlk olarak, :method:`Symfony\\Component\\Console\\Application::find` 
+metodu ile komutu bir komut ismi ile çağıracağız.
 
-Then, you need to create a new
-:class:`Symfony\\Component\\Console\\Input\\ArrayInput` with the arguments and
-options you want to pass to the command.
+Sonrasında, yenisini oluşturmaya ihtiyacınız var 
+:class:`Symfony\\Component\\Console\\Input\\ArrayInput` class ı ile 
+argümanlar ve seçenekler gönderebilirsiniz. 
 
-Eventually, calling the ``run()`` method actually executes the command and
-returns the returned code from the command (return value from command's
-``execute()`` method).
+Son olarak, ``run()`` metodu komutu çalıştırır ve komutun çalıştırılmasının 
+çıktısını döner (``execute()`` methodunun çıktısını döner).
 
 .. note::
-
-    Most of the time, calling a command from code that is not executed on the
-    command line is not a good idea for several reasons. First, the command's
-    output is optimized for the console. But more important, you can think of
-    a command as being like a controller; it should use the model to do
-    something and display feedback to the user. So, instead of calling a
-    command from the Web, refactor your code and move the logic to a new
-    class.
+    Çoğu zaman, komutu komut satırı yerine kod üzerinden çalıştırmak iyi bir 
+    fikir olmayabilir.İlk olarak, komutların çıktıları komut satırı için 
+    optimize edilmiştir. Ama daha önemlisi, komutu bir controller olarak 
+    düşünebilirsiniz; kullanıcıya bilgi göstermek için veya birşeyler yapmak 
+    için bir model kullanılmalıdır. Bu yüzden ,komutu webden çağırmak yerine,
+    kodunuzu yeniden düzenleyin ve yeni bir sınıfa taşıyın.
