@@ -1,92 +1,89 @@
 .. index::
    single: CSS Selector
 
-The CssSelector Component
+CssSelector Bileşeni
 =========================
 
-    The CssSelector Component converts CSS selectors to XPath expressions.
+    CssSelector bileşeni CSS seçicilerini  XPath ifadelerine çevirir.
 
-Installation
-------------
+Kurulum
+--------
 
-You can install the component in several different ways:
+Bu bileşeni üç farklı şekilde kurabilirsiniz:
 
-* Use the official Git repository (https://github.com/symfony/CssSelector);
-* Install it via PEAR ( `pear.symfony.com/CssSelector`);
-* Install it via Composer (`symfony/css-selector` on Packagist).
+* Resmi Git reposunu kullanarak (https://github.com/symfony/CssSelector);
+* PEAR ile yükleme (`pear.symfony.com/CssSelector`);
+* Composer ile yükleme (Packagist 'deki `symfony/css-selector`).
 
-Usage
------
+Kullanımı
+----------
 
-Why use CSS selectors?
+Neden CSS seçicileri kullanılır?
 ~~~~~~~~~~~~~~~~~~~~~~
 
-When you're parsing an HTML or an XML document, by far the most powerful
-method is XPath.
+HTML veya bir XML dökümanını ayrıştırma işlemi yaparken, en etkili yöntem 
+XPath 'dır.
 
-XPath expressions are incredibly flexible, so there is almost always an
-XPath expression that will find the element you need. Unfortunately, they
-can also become very complicated, and the learning curve is steep. Even common
-operations (such as finding an element with a particular class) can require
-long and unwieldy expressions.
+XPath ifadeleri inanılmaz şekilde esnektir, neredeyse herzaman ihtiyacınız olan 
+elementi bulacak bir XPath ifadesi vardır. Ne yazık ki, çok karmaşık olabiliyor, 
+ve öğrenme eğrisi çok diktir. Hatta genel işlemler (örneğin belirli bir class 
+ile bir elementi bulmak) uzun ve kullanışsız ifadelere ihtiyaç duyabilir.
 
-Many developers -- particularly web developers -- are more comfortable
-using CSS selectors to find elements. As well as working in stylesheets,
-CSS selectors are used in Javascript with the ``querySelectorAll`` function
-and in popular Javascript libraries such as jQuery, Prototype and MooTools.
+Birçok geliştirici -- özellikle web geliştiriciler -- elementleri ararken CSS 
+seçicilerini kullanmaları daha rahatdır. Hem de stil dosyaları ile, CSS seçicileri 
+Javascript 'te ``querySelectorAll`` fonksiyonu ile de kullanılır popüler kütüphaneler 
+JQuery, Prototype ve MooTools 'dur.
 
-CSS selectors are less powerful than XPath, but far easier to write, read
-and understand. Since they are less powerful, almost all CSS selectors can
-be converted to an XPath equivalent. This XPath expression can then be used
-with other functions and classes that use XPath to find elements in a
-document.
+CSS seçicileri XPath 'a göre daha az güçlüdür, ama yazma, okuma ve anlama yönüyle 
+daha kolaydır. Daha az güçlü olduğundan, neredeyse tüm CSS 
+seçicileri XPath denkliklerine çevrilebilir. Bu XPath ifadeleri sonrasında diğer 
+fonksiyonlar ve sınıflarca bir dökümandan elementleri bulan XPath ifadeleri ile 
+kullanılabilir.
 
-The ``CssSelector`` component
+``CssSelector`` bileşeni
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The component's only goal is to convert CSS selectors to their XPath
-equivalents::
+Bileşenin tek amacı CSS seçicilerini XPath eşdeğerlerine çevirmektir::
 
     use Symfony\Component\CssSelector\CssSelector;
 
     print CssSelector::toXPath('div.item > h4 > a');
 
-This gives the following output:
+Bu takip eden çıktıyı verir:
 
 .. code-block:: text
 
     descendant-or-self::div[contains(concat(' ',normalize-space(@class), ' '), ' item ')]/h4/a
 
-You can use this expression with, for instance, :phpclass:`DOMXPath` or
-:phpclass:`SimpleXMLElement` to find elements in a document.
+Bu ifadeyi şu şekildede kullanabilirsiniz, örneğin, :phpclass:`DOMXPath` 
+veya :phpclass:`SimpleXMLElement` gibi dökümandaki elementleri bulmak için.
 
 .. tip::
+    
+    :method:`Crawler::filter()<Symfony\\Component\\DomCrawler\\Crawler::filter>` methodu 
+    CSS seçicilerine bağlı elementleri bulmak için ``CssSelector`` bileşenini kullanır. 
+    Daha detaylı bilgi için :doc:`/components/dom_crawler` linkine bakın.
 
-    The :method:`Crawler::filter()<Symfony\\Component\\DomCrawler\\Crawler::filter>` method
-    uses the ``CssSelector`` component to find elements based on a CSS selector
-    string. See the :doc:`/components/dom_crawler` for more details.
+CssSelector Bileşeninin Sınırları
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Limitations of the CssSelector component
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tüm CSS seçicileri XPath karşılığına çevrilemez.
 
-Not all CSS selectors can be converted to XPath equivalents.
+Sadece web-browser içeriğinde etkili olan birkaç CSS seçicisi vardır.
 
-There are several CSS selectors that only make sense in the context of a
-web-browser.
+* link seçicileri: ``:link``, ``:visited``, ``:target``
+* kullanıcının hareketlerine bağlı olan seçiciler: ``:hover``, ``:focus``, ``:active``
+* Arayüz seçicileri: ``:enabled``, ``:disabled``, ``:indeterminate``
+  (ayrıca, ``:checked`` ve ``:unchecked`` vardır)
 
-* link-state selectors: ``:link``, ``:visited``, ``:target``
-* selectors based on user action: ``:hover``, ``:focus``, ``:active``
-* UI-state selectors: ``:enabled``, ``:disabled``, ``:indeterminate``
-  (however, ``:checked`` and ``:unchecked`` are available)
+Pseudo elementleri (``:before``, ``:after``, ``:first-line``,
+``:first-letter``) desteklenmemektedir çünkü elementler yerine bir yazının belirli 
+bir bölümünü seçer.
 
-Pseudo-elements (``:before``, ``:after``, ``:first-line``,
-``:first-letter``) are not supported because they select portions of text
-rather than elements.
-
-Several pseudo-classes are not yet supported:
+Birkaç pseudo sınıfı daha desteklenmemektedir:
 
 * ``:lang(language)``
 * ``root``
 * ``*:first-of-type``, ``*:last-of-type``, ``*:nth-of-type``,
-  ``*:nth-last-of-type``, ``*:only-of-type``. (These work with an element
-  name (e.g. ``li:first-of-type``) but not with ``*``.
+  ``*:nth-last-of-type``, ``*:only-of-type``. (Bunlar bir element 
+  ismi ile çalışır (Örn. ``li:first-of-type``) ama ``*`` ile çalışmaz.
